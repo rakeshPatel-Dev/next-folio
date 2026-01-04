@@ -1,36 +1,171 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Next.js Portfolio v2
+
+A performance-focused, SEO-first developer portfolio built with **Next.js App Router**.
+This project emphasizes **clear architecture, content-driven pages, and deliberate technical decisions** over visual gimmicks.
+
+---
+
+## Overview
+
+This portfolio is designed to showcase projects as **case studies**, not thumbnails.
+
+Key goals:
+- Strong SEO through server-rendered pages
+- Minimal client-side JavaScript
+- Clean separation of content, layout, and motion
+- Scalable structure for projects and blogs
+
+This is not a template or tutorial project.
+
+---
+
+## Tech Stack
+
+- **Next.js (App Router)**
+- **TypeScript**
+- **Tailwind CSS**
+- **Framer Motion** (client-only, isolated usage)
+- **MDX** for project case studies and blogs
+- **next/font** for optimized font loading (Geist)
+
+---
+
+## Architecture Principles
+
+### Server Components by Default
+All pages and components are server-rendered unless browser-only behavior is required.
+
+Client components are limited to:
+- animations
+- forms
+- interactive UI logic
+
+This keeps the JavaScript payload small and avoids hydration issues.
+
+---
+
+### Content-Driven Routing
+Projects and blog posts are generated from MDX content and mapped to dynamic routes:
+
+```
+/projects/[slug]
+/blog/[slug]
+```
+
+This enables:
+- scalable content addition
+- dynamic metadata generation
+- strong SEO without duplication
+
+---
+
+### Motion Is Isolated
+Animations:
+- wrap content instead of owning it
+- live in dedicated motion components
+- are always client-only
+
+No animation logic leaks into core layout or content.
+
+---
+
+## Project Structure
+
+```txt
+app/
+ ├─ layout.tsx
+ ├─ page.tsx
+ ├─ about/
+ ├─ projects/
+ │   ├─ page.tsx
+ │   └─ [slug]/page.tsx
+ ├─ blog/
+ │   ├─ page.tsx
+ │   └─ [slug]/page.tsx
+ └─ contact/
+
+components/
+ ├─ ui/
+ ├─ layout/
+ ├─ motion/
+ └─ mdx/
+
+content/
+ ├─ projects/
+ └─ blog/
+
+lib/
+ ├─ mdx.ts
+ ├─ seo.ts
+ └─ utils.ts
+```
+
+This structure is intentionally strict to maintain long-term clarity.
+
+---
 
 ## Getting Started
 
-First, run the development server:
+Install dependencies and start the development server:
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+The main landing page lives at:
 
-## Learn More
+```
+app/page.tsx
+```
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Fonts & Optimization
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+This project uses `next/font` to load the **Geist** font family with:
+- zero layout shift
+- no external font requests
+- optimized performance by default
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Deployment
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The recommended deployment platform is **Vercel**, which provides native support for:
+- Server Components
+- App Router features
+- automatic performance optimizations
+
+Deployment guide:
+https://nextjs.org/docs/app/building-your-application/deploying
+
+---
+
+## What This Project Is Not
+
+- ❌ UI playground
+- ❌ SaaS demo
+- ❌ Dashboard clone
+- ❌ Framework showcase
+
+This portfolio exists to answer one question:
+
+**Can this developer design, structure, and ship responsibly?**
+
+---
+
+## Final Note
+
+This repository values:
+- clarity over cleverness
+- decisions over decoration
+- depth over trends
+
+If you change those priorities, you defeat the purpose of the project.
