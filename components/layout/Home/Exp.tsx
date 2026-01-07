@@ -17,9 +17,9 @@ import {
 const Experience = () => {
   return (
     <section className="mt-12  max-w-4xl mx-auto mb-20">
-      <h2 className="text-2xl font-sans font-semibold mb-8 tracking-tight">
+      <h1 className="text-2xl font-sans font-semibold mb-8 tracking-tight">
         Experience
-      </h2>
+      </h1>
 
       <div className="relative border-l border-neutral-300 dark:border-neutral-700 pl-6 space-y-12">
         {experiences.map((exp, idx) => (
