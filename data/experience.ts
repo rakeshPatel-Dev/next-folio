@@ -6,7 +6,7 @@ export const experiences = [
     role: "Frontend Developer Intern",
     location: "Rautahat, Nepal",
     period: "May 2025 – November 2025",
-    website: "#",
+    website: "https://ghardailodairy.vercel.app/",
     facebook: "https://www.facebook.com/ghardailodairy",
     tech: [
       { name: "HTML5", icon: FaHtml5, color: "#E34F26" },

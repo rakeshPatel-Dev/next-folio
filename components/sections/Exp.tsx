@@ -14,7 +14,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
-const Experience = () => {
+const Exp = () => {
   return (
     <section className="mt-12  max-w-4xl mx-auto mb-20">
       <h1 className="text-2xl font-sans font-semibold mb-8 tracking-tight">
@@ -40,7 +40,11 @@ const Experience = () => {
                         <TooltipTrigger asChild>
                           <a
                             title="Website link"
-                            href={exp.website}>
+                            href={exp.website}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+
                             <Globe className="w-4 h-4 opacity-70 hover:opacity-100" />
                           </a>
                         </TooltipTrigger>
@@ -116,4 +120,4 @@ const Experience = () => {
   );
 };
 
-export default Experience;
+export default Exp;
