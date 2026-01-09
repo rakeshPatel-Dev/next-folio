@@ -4,6 +4,27 @@ import { AnimatedThemeToggler } from "../ui/animated-theme-toggler"
 import Image from "next/image"
 
 const Header = () => {
+
+
+  const headerData = [
+    {
+      label: "Projects",
+      href: "/projects"
+    },
+    {
+      label: "Blog",
+      href: "/blog"
+    },
+    {
+      label: "Contact",
+      href: "/contact"
+    },
+    {
+      label: "Dashboard",
+      href: "/dashboard"
+    },
+  ]
+
   return (
     <header className="font-sans  w-full backdrop-blur-xl shadow-sm py-3 px-6 sticky top-0 z-1">
       <div className="flex items-center flow-row justify-between  max-w-4xl mx-auto">
@@ -18,13 +39,10 @@ const Header = () => {
         </Link>
         {/* Navigation */}
         <nav className="flex items-center space-x-4">
-          <Link href='/projects' className="hover:underline hover:underline-offset-8 transition-all">Projects</Link>
+          {headerData.map((data, idx) => (
+            <Link key={idx} href={data.href} className="hover:underline hover:underline-offset-8 transition-all">{data.label}</Link>
 
-          <Link href='/blog' className="hover:underline hover:underline-offset-8 transition-all">Blogs</Link>
-
-          {/* <Link href="/experience">EXP</Link> */}
-
-          <Link href="/contact" className="hover:underline hover:underline-offset-8 transition-all">Contact</Link>
+          ))}
 
         </nav>
         <AnimatedThemeToggler />
