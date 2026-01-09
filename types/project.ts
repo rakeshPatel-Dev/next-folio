@@ -17,3 +17,15 @@ export interface Project {
   }[];
   onClick?: () => void;
 }
+
+
+export interface BlogPost {
+  id: string;
+  title: string;
+  subtitle: string;
+  image: string;
+  category: string;
+  readingTime: string;
+  date: string;
+  link: string;
+}

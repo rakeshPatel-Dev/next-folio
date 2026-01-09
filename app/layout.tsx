@@ -3,6 +3,8 @@ import { Space_Grotesk, Fira_Code } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/Header";
 import { ThemeProvider } from "next-themes";
+import Footer from "@/components/layout/Footer";
+import { AppDock } from "@/components/sections/GlobalDock";
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -76,7 +78,8 @@ export default function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <Header />
           {children}
-
+          <AppDock />
+          <Footer />
         </ThemeProvider>
       </body>
     </html>

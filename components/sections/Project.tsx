@@ -4,6 +4,7 @@ import { ProjectCard } from '@/components/project-card'
 import { Button } from '@/components/ui/button'
 import { projectData } from '@/data/projectData'
 import { ArrowRight } from 'lucide-react'
+import Link from 'next/link'
 import React from 'react'
 
 const HomeProjects = () => {
@@ -18,13 +19,13 @@ const HomeProjects = () => {
           <ProjectCard key={project.id} project={project} />
         ))}
       </div>
-      <div className=' mt-4 flex w-full justify-end'>
-
-        <Button variant="outline">
-
-          View More
-          <ArrowRight />
-        </Button>
+      <div className=' mt-10 flex w-full justify-center'>
+        <Link href="/projects" className=''>
+          <Button variant="outline" className='hover:bg-muted-foreground transition-all active:scale-95 hover:scale-105 border-2  border-dashed' >
+            View More
+            <ArrowRight />
+          </Button>
+        </Link>
       </div>
     </div>
   )
