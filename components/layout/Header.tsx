@@ -2,28 +2,10 @@
 import Link from "next/link"
 import { AnimatedThemeToggler } from "../ui/animated-theme-toggler"
 import Image from "next/image"
+import { headerData } from "@/config/headerData"
 
 const Header = () => {
 
-
-  const headerData = [
-    {
-      label: "Projects",
-      href: "/projects"
-    },
-    {
-      label: "Blog",
-      href: "/blog"
-    },
-    {
-      label: "Contact",
-      href: "/contact"
-    },
-    {
-      label: "Dashboard",
-      href: "/dashboard"
-    },
-  ]
 
   return (
     <header className="font-sans  w-full backdrop-blur-xl shadow-sm py-3 px-6 sticky top-0 z-1">
