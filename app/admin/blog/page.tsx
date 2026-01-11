@@ -8,6 +8,8 @@ import {
   Search,
   Pencil,
   Trash2,
+  Filter,
+  ArrowUpDown,
 } from "lucide-react"
 
 import {
@@ -17,15 +19,11 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 
-import {
-  Tabs,
-  TabsList,
-  TabsTrigger,
-} from "@/components/ui/tabs"
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
+import Link from "next/link"
 
 export default function AdminBlogPage() {
   return (
@@ -43,10 +41,18 @@ export default function AdminBlogPage() {
             </p>
           </div>
 
-          <Button className="gap-2">
-            <Plus className="h-4 w-4" />
-            New Post
-          </Button>
+          <div className="flex gap-3 w-full md:w-auto">
+            <div className="relative flex-1 md:w-64">
+              <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+              <Input placeholder="Search blogs..." className="pl-9" />
+            </div>
+            <Link href="/admin/blog/add-blog">
+              <Button className="gap-2">
+                <Plus className="h-4 w-4" />
+                New Post
+              </Button>
+            </Link>
+          </div>
         </div>
 
         {/* Stats */}
@@ -68,34 +74,18 @@ export default function AdminBlogPage() {
           />
         </div>
 
-        {/* Filters */}
-        <Card>
-          <CardContent className="p-4 flex flex-col md:flex-row gap-4 md:items-center md:justify-between">
-            {/* Tabs */}
-            <Tabs defaultValue="all" className="w-full md:w-auto">
-              <TabsList>
-                <TabsTrigger value="all">All</TabsTrigger>
-                <TabsTrigger value="published">Published</TabsTrigger>
-                <TabsTrigger value="drafts">Drafts</TabsTrigger>
-              </TabsList>
-            </Tabs>
-
-            {/* Search */}
-            <div className="relative w-full md:w-72">
-              <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input
-                placeholder="Search posts..."
-                className="pl-9"
-              />
-            </div>
-          </CardContent>
-        </Card>
-
-
         {/* Blog Table */}
         <Card>
-          <CardHeader>
-            <CardTitle>Posts</CardTitle>
+          <CardHeader className="flex flex-row items-center justify-between">
+            <CardTitle>Blogs</CardTitle>
+            <div className="flex gap-1">
+              <Button size="icon" variant="ghost">
+                <Filter className="h-4 w-4" />
+              </Button>
+              <Button size="icon" variant="ghost">
+                <ArrowUpDown className="h-4 w-4" />
+              </Button>
+            </div>
           </CardHeader>
 
           <CardContent className="p-0 overflow-x-auto">

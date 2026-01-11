@@ -2,10 +2,11 @@
 
 import * as React from "react";
 import Image from "next/image";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Star } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Button } from "./ui/button";
+import { Badge } from "./ui/badge";
 
 export interface BlogCardProps extends React.HTMLAttributes<HTMLDivElement> {
   title: string;
@@ -73,10 +74,18 @@ const BlogCard = React.forwardRef<HTMLDivElement, BlogCardProps>(
         {/* Content */}
         <div className={contentClasses}>
           <div>
-            {/* Category */}
-            <span className="inline-block mb-2 px-3 py-1 text-xs font-medium rounded-full bg-primary/20 text-primary">
-              {category}
-            </span>
+            <div className="flex items-center justify-between">
+
+              {/* Category */}
+              <span className="inline-block mb-2 px-3 py-1 text-xs font-medium rounded-full bg-primary/20 text-primary">
+                {category}
+              </span>
+              {/* Variant Badge */}
+              {variant === "featured" && (
+
+                <Badge variant="default" className="bg-yellow-600"><Star />{variant}</Badge>
+              )}
+            </div>
 
             {/* Title */}
             <h3 className="text-xl md:text-2xl font-semibold transition-colors duration-300 group-hover:text-primary">
