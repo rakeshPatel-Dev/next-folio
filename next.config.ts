@@ -10,9 +10,9 @@ const nextConfig = {
       },
       {
         protocol: "https",
-        hostname: "cdn.example.com",
+        hostname: "api.slingacademy.com",
         port: "",
-        pathname: "/images/**",
+        pathname: "/**",
       },
     ],
   },

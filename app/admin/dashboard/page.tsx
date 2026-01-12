@@ -2,9 +2,17 @@
 
 import { Card, CardHeader, CardContent, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowUpRight, Edit, Eye, Link, Link2, Trash } from "lucide-react";
+import { Edit, Eye, Link2, Plus, Trash } from "lucide-react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import Link from "next/link";
 
+interface StatsCardProps {
+  title: string;
+  value: string | number;
+  buttonText: string;
+  buttonIcon: React.ReactNode;
+  link?: string;
+}
 interface ProjectData {
   id: number;
   title: string;
@@ -20,6 +28,14 @@ interface BlogData {
 }
 
 // Demo Data
+
+const cardStats: StatsCardProps[] = [
+  { title: "Total Visitors", value: 100000, buttonText: "View Site", buttonIcon: <Eye />, link: "/" },
+  { title: "Total Projects", value: 10, buttonText: "Add Project", buttonIcon: <Plus />, link: "/admin/projects/add-project" },
+  { title: "Total Blog", value: 5, buttonText: "Add Blog", buttonIcon: <Plus />, link: "/admin/blog/add-blog" },
+  { title: "Total Inquiries", value: 2, buttonText: "View Email", buttonIcon: <Link2 />, link: "/" },
+]
+
 const projects: ProjectData[] = [
   { id: 1, title: "Portfolio Website", status: "Completed", date: "2026-01-01" },
   { id: 2, title: "E-commerce App", status: "Pending", date: "2026-01-05" },
@@ -36,7 +52,7 @@ export default function AdminDashboardPage() {
     <div className="p-6 space-y-6">
       <div className=" space-y-2 mb-4">
 
-        <h1 className="text-3xl font-bold">Admin Dashboard</h1>
+        <h1 className="text-3xl font-bold">Welcom, Rakesh</h1>
         <p className="text-muted-foreground mb-8">
           Quick overview of your projects and blogs. Upload, edit, or delete content.
         </p>
@@ -44,72 +60,28 @@ export default function AdminDashboardPage() {
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Total Visitors</CardTitle>
-
-          </CardHeader>
-          <CardContent className="flex flex-col gap-2">
-            <p className="text-2xl font-bold">100,000</p>
-            <Button
-              variant="outline"
-              size="sm"
-              className="inline-flex items-center gap-1 mt-2"
-            >
-              <Eye /> View Site
-            </Button>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Total Projects</CardTitle>
-
-          </CardHeader>
-          <CardContent className="flex flex-col gap-2">
-            <p className="text-2xl font-bold">{projects.length}</p>
-            <Button
-              variant="outline"
-              size="sm"
-              className="inline-flex items-center gap-1 mt-2"
-            >
-              + Add Project <ArrowUpRight className="h-4 w-4" />
-            </Button>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Total Blogs</CardTitle>
-          </CardHeader>
-          <CardContent className="flex flex-col gap-2">
-            <p className="text-2xl font-bold">{blogs.length}</p>
-            <Button
-              variant="outline"
-              size="sm"
-              className="inline-flex items-center gap-1 mt-2"
-            >
-              + Add Blog <ArrowUpRight className="h-4 w-4" />
-            </Button>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Total Application</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-2xl font-bold">12</p>
-            <Button
-              variant="outline"
-              size="sm"
-              className="inline-flex items-center gap-1 mt-2"
-            >
-              <Link2 /> check Email
-            </Button>
-          </CardContent>
-        </Card>
+        {cardStats.map((stat) => (
+          <Card key={stat.title}>
+            <CardHeader>
+              <CardTitle>{stat.title}</CardTitle>
+            </CardHeader>
+            <CardContent className="flex flex-col gap-2">
+              <p className="text-2xl font-bold">{stat.value}</p>
+              <Button
+                variant="outline"
+                size="sm"
+                className="mt-2 cursor-pointer "
+              >
+                {stat.link && (
+                  <Link href={stat.link} className=" flex items-center flex-row gap-1">
+                    {stat.buttonIcon}
+                    {stat.buttonText}
+                  </Link>
+                )}
+              </Button>
+            </CardContent>
+          </Card>
+        ))}
       </div>
 
       {/* Projects Table */}
