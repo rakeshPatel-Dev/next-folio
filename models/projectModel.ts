@@ -70,15 +70,5 @@ const projectSchema = new mongoose.Schema(
   { timestamps: true }
 )
 
-projectSchema.pre("validate", function (next) {
-  if (this.title && !this.slug) {
-    this.slug = this.title
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, "-")
-      .replace(/(^-|-$)+/g, "")
-  }
-  next()
-})
-
 export default mongoose.models.Project ||
   mongoose.model("Project", projectSchema)
