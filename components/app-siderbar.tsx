@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import { signOut } from "next-auth/react"
 
 import {
   useSidebar,
@@ -22,13 +23,14 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 
 import { adminNav } from "@/config/adminNav"
 import { headerData } from "@/config/headerData"
-import { Home, Settings, LogOut, ShieldUser } from "lucide-react"
+import { Home, Settings, LogOut, ShieldUser, User } from "lucide-react"
 import { AnimatedThemeToggler } from "./ui/animated-theme-toggler"
 
 export function AppSidebar() {
   const pathname = usePathname()
   const isActive = (href: string) => pathname?.startsWith(href) ?? false
   const { state } = useSidebar()
+
 
   return (
     <Sidebar collapsible="icon" variant="floating">
@@ -97,9 +99,31 @@ export function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
 
-      {/* SETTINGS DROPDOWN */}
+      {/* PROFILE + SETTINGS */}
       <SidebarFooter>
         <SidebarSeparator />
+
+        {/* PROFILE */}
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild>
+              <Link href="/admin/profile">
+                <User />
+                {state === "expanded" && (
+                  <div className="flex flex-col text-left leading-tight">
+                    <span className="text-sm font-medium truncate">
+                      Admin
+                    </span>
+                  </div>
+                )}
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
+
+        <SidebarSeparator />
+
+        {/* SETTINGS */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton>
@@ -107,6 +131,7 @@ export function AppSidebar() {
               <span>Settings</span>
             </SidebarMenuButton>
           </DropdownMenuTrigger>
+
           <DropdownMenuContent align="end" side="top">
             <DropdownMenuItem asChild>
               <div className="flex items-center gap-2">
@@ -114,7 +139,15 @@ export function AppSidebar() {
                 <span>Theme</span>
               </div>
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => console.log("logout")} className="cursor-pointer">
+
+            <DropdownMenuItem
+              onClick={() =>
+                signOut({
+                  callbackUrl: "/admin/login",
+                })
+              }
+              className="cursor-pointer"
+            >
               <LogOut className="mr-2 h-4 w-4" />
               <span>Logout</span>
             </DropdownMenuItem>
