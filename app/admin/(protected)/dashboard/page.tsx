@@ -1,10 +1,11 @@
-"use client";
-
 import { Card, CardHeader, CardContent, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Edit, Eye, Link2, Plus, Trash } from "lucide-react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import Link from "next/link";
+import { DASHBOARD_METADATA } from "@/lib/metadata";
+
+export const metadata = DASHBOARD_METADATA;
 
 interface StatsCardProps {
   title: string;

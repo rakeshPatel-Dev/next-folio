@@ -1,4 +1,3 @@
-"use client"
 
 import {
   Plus,
@@ -24,6 +23,9 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import Link from "next/link"
+import { BLOGS_METADATA } from "@/lib/metadata"
+
+export const metadata = BLOGS_METADATA;
 
 export default function AdminBlogPage() {
   return (

@@ -63,6 +63,7 @@ const ProjectForm = ({ path }: { path: string }) => {
 
   const [techLabel, setTechLabel] = useState("")
   const [techIcon, setTechIcon] = useState("")
+  const [data, setData] = useState([]);
 
   const { register, handleSubmit, control, setValue, watch, formState } = useForm<ProjectFormValues>({
     resolver: zodResolver(projectSchema),

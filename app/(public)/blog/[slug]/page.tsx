@@ -16,6 +16,36 @@ import {
 
 import { ArrowLeft, Calendar, User } from "lucide-react"
 
+// import type { Metadata } from "next"
+// import { getBlogBySlug } from "@/lib/data/blogs"
+
+// type Props = {
+//   params: { slug: string }
+// }
+
+// export async function generateMetadata(
+//   { params }: Props
+// ): Promise<Metadata> {
+//   const blog = await getBlogBySlug(params.slug)
+
+//   if (!blog) {
+//     return {
+//       title: "Blog Not Found",
+//       description: "The requested blog post does not exist.",
+//     }
+//   }
+
+//   return {
+//     title: blog.title,
+//     description: blog.excerpt,
+//     openGraph: {
+//       title: blog.title,
+//       description: blog.excerpt,
+//       images: [blog.coverImage],
+//     },
+//   }
+// }
+
 interface Blog {
   id: number
   title: string

@@ -6,7 +6,15 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import { signOut } from "next-auth/react";
 
-const AdminProfile = ({ user }) => {
+interface AdminProfileProps {
+  user: {
+    name?: string | null;
+    email?: string | null;
+    image?: string | null;
+  }
+}
+
+const AdminProfile = ({ user }: AdminProfileProps) => {
   return (
     <div className="p-6 max-w-3xl mx-auto">
       <h1 className="text-3xl font-bold mb-6">Admin Profile</h1>
@@ -18,7 +26,7 @@ const AdminProfile = ({ user }) => {
               <AvatarImage src={user.image} alt={user.name || "Admin"} />
             ) : (
               <AvatarFallback>
-                {user?.name ? user.name.charAt(0) : "A"}
+                {user?.name ? user.name.charAt(0) : "R"}
               </AvatarFallback>
             )}
           </Avatar>

@@ -1,6 +1,9 @@
 import { AppBreadcrumb } from '@/components/BreadCrumb'
 import ProjectForm from '@/components/ProjectForm'
 import React from 'react'
+import { ADDPROJECTS_METADATA } from '@/lib/metadata'
+
+export const metadata = ADDPROJECTS_METADATA;
 
 const page = () => {
   return (

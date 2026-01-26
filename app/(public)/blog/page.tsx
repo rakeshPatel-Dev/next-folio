@@ -14,7 +14,7 @@ export default function BlogSection({
   return (
     <section className="grid max-w-4xl p-6 sm:p-10 mx-auto gap-8">
       <h1 className="text-2xl mt-20 font-sans font-semibold tracking-tight">
-        Projects
+        Blogs
       </h1>
       {/* Featured card(s) */}
       {blogData.slice(0, featuredCount).map((blog, idx) => (

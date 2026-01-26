@@ -4,7 +4,38 @@ import { ProjectCard } from '@/components/project-card'
 import { projectData } from '@/data/projectData'
 import React from 'react'
 
-const page = () => {
+
+// import type { Metadata } from "next"
+// import { getProjectById } from "@/lib/data/projects"
+
+// type Props = {
+//   params: { id: string }
+// }
+
+// export async function generateMetadata(
+//   { params }: Props
+// ): Promise<Metadata> {
+//   const project = await getProjectById(params.id)
+
+//   if (!project) {
+//     return {
+//       title: "Project Not Found",
+//       description: "The requested project does not exist.",
+//     }
+//   }
+
+//   return {
+//     title: project.name,
+//     description: project.shortDescription,
+//     openGraph: {
+//       title: project.name,
+//       description: project.shortDescription,
+//       images: [project.thumbnail],
+//     },
+//   }
+// }
+
+const ProjectPage = () => {
   return (
     <div className=' max-w-4xl mx-auto'>
       <div className='text-center mt-5 '>
@@ -23,4 +54,4 @@ const page = () => {
   )
 }
 
-export default page
+export default ProjectPage

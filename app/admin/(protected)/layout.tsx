@@ -5,6 +5,18 @@ import { Toaster } from "@/components/ui/sonner"
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth-options"
 import { redirect } from "next/navigation"
+import type { Metadata } from "next"
+import { ADMIN_TITLE } from "@/lib/constants";
+
+export const metadata: Metadata = {
+  title: {
+    default: ADMIN_TITLE,
+    template: ` %s | ${ADMIN_TITLE}`,
+  },
+  description: "Admin panel to manage portfolio content",
+};
+
+
 
 export default async function AdminProtectedLayout({
   children,
@@ -13,9 +25,12 @@ export default async function AdminProtectedLayout({
 }) {
   const session = await getServerSession(authOptions)
 
-  if (!session || session.user?.email !== process.env.ADMIN_EMAILS) {
-    redirect("/admin/login")
+  const adminEmails = process.env.ADMIN_EMAILS?.split(",") ?? [];
+
+  if (!session || !adminEmails.includes(session.user?.email ?? "")) {
+    redirect("/admin/login");
   }
+
 
   return (
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>

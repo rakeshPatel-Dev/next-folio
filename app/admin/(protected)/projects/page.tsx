@@ -1,5 +1,3 @@
-"use client"
-
 import {
   Plus,
   Search,
@@ -21,23 +19,13 @@ import {
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
-import ProjectForm from "@/components/ProjectForm"
-import { useState } from "react"
 import Link from "next/link"
+import { PROJECTS_METADATA } from "@/lib/metadata"
+
+export const metadata = PROJECTS_METADATA;
 
 export default function AdminProjectsPage() {
 
-  const [openForm, setOpenForm] = useState(false);
-
-
-  const handleAddProject = () => {
-    setOpenForm(true)
-    return (
-      <div>
-        Add project
-      </div>
-    )
-  }
 
   return (
     <main className="flex-1 overflow-y-auto p-6 lg:p-10">
@@ -60,7 +48,9 @@ export default function AdminProjectsPage() {
               <Input placeholder="Search projects..." className="pl-9" />
             </div>
             <Link href="/admin/projects/add-project">
-              <Button onClick={() => setOpenForm(true)} className="gap-2">
+              <Button
+                //  onClick={() => setOpenForm(true)}
+                className="gap-2">
                 <Plus className="h-4 w-4" />
                 Add Project
               </Button>

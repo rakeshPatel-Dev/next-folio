@@ -1,6 +1,9 @@
 import AdminBlogForm from '@/components/BlogForm'
 import { AppBreadcrumb } from '@/components/BreadCrumb'
 import React from 'react'
+import { ADDBLOGS_METADATA } from '@/lib/metadata'
+
+export const metadata = ADDBLOGS_METADATA;
 
 const page = () => {
   return (

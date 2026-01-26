@@ -5,6 +5,7 @@ import Header from "@/components/layout/Header";
 import { ThemeProvider } from "next-themes";
 import Footer from "@/components/layout/Footer";
 import { AppDock } from "@/components/sections/GlobalDock";
+import { APP_NAME, PUBLIC_TITLE } from "@/lib/constants";
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -17,7 +18,10 @@ const firaCode = Fira_Code({
 });
 
 export const metadata: Metadata = {
-  title: "Rakesh Patel | Full-Stack Developer Portfolio",
+  title: {
+    default: `${PUBLIC_TITLE}`,
+    template: `%s | ${APP_NAME}`
+  },
   description: "Portfolio of Rakesh Patel, a full-stack developer based in Kathmandu, Nepal. Showcasing projects, case studies, and expertise in React, Next.js, TypeScript, Tailwind CSS, and software development best practices. Performance-focused, SEO-optimized, and production-ready.",
   keywords: [
     "Rakesh Patel",
