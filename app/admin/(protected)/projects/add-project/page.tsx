@@ -1,13 +1,12 @@
 import { AppBreadcrumb } from '@/components/BreadCrumb'
-import ProjectForm from '@/components/ProjectForm'
-import React from 'react'
+import ProjectForm from '@/components/forms/ProjectForm'
 import { ADDPROJECTS_METADATA } from '@/lib/metadata'
 
 export const metadata = ADDPROJECTS_METADATA;
 
 const page = () => {
   return (
-    <div className=' p-6'>
+    <div className='sm:p-6 '>
       <div className='flex flex-col gap-2 mb-6'>
         <h1 className="text-3xl font-bold">Add New Project</h1>
         <p className=" text-muted-foreground">Use the form below to add a new project to your portfolio.</p>

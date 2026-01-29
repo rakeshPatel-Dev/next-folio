@@ -7,7 +7,7 @@ export const metadata = ADDBLOGS_METADATA;
 
 const page = () => {
   return (
-    <div className=' p-6'>
+    <div className=' sm:p-6'>
       <div className='flex flex-col gap-2 mb-6'>
         <h1 className="text-3xl font-bold">Add New Blog</h1>
         <p className=" text-muted-foreground">Use the form below to add a new Blog to the portfolio.</p>

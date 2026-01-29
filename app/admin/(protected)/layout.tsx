@@ -1,17 +1,18 @@
 import { AppSidebar } from "@/components/app-siderbar"
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { ThemeProvider } from "next-themes"
-import { Toaster } from "@/components/ui/sonner"
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth-options"
 import { redirect } from "next/navigation"
 import type { Metadata } from "next"
-import { ADMIN_TITLE } from "@/lib/constants";
+import { ADMIN_TITLE, APP_NAME } from "@/lib/constants";
+import { ToastProvider } from "@/components/zenblocks/toast"
+import { Toaster } from "@/components/ui/sonner"
 
 export const metadata: Metadata = {
   title: {
     default: ADMIN_TITLE,
-    template: ` %s | ${ADMIN_TITLE}`,
+    template: ` %s | ${ADMIN_TITLE} | ${APP_NAME}`,
   },
   description: "Admin panel to manage portfolio content",
 };
@@ -41,12 +42,14 @@ export default async function AdminProtectedLayout({
           <div className="p-2">
             <SidebarTrigger />
           </div>
+          <ToastProvider>
 
-          <main className="flex-1 p-6 overflow-auto">
-            {children}
-          </main>
+            <main className="flex-1 p-6 overflow-auto">
+              {children}
+            </main>
+          </ToastProvider>
 
-          <Toaster position="top-right" />
+          <Toaster />
         </div>
       </SidebarProvider>
     </ThemeProvider>

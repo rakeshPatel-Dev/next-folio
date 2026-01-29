@@ -40,9 +40,16 @@ const projectSchema = new mongoose.Schema(
     },
 
     technologies: {
-      type: [String],
+      type: [
+        {
+          label: { type: String, required: true },
+          value: { type: String, required: true },
+          icon: { type: String }, // store icon name or path as string
+        },
+      ],
       default: [],
     },
+
 
     liveUrl: String,
     repoUrl: String,

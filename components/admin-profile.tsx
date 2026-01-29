@@ -16,11 +16,11 @@ interface AdminProfileProps {
 
 const AdminProfile = ({ user }: AdminProfileProps) => {
   return (
-    <div className="p-6 max-w-3xl mx-auto">
-      <h1 className="text-3xl font-bold mb-6">Admin Profile</h1>
+    <div className=" sm:p-6 max-w-3xl mx-auto">
+      <h1 className="text-3xl text-center sm:text-left font-bold mb-6">Admin Profile</h1>
 
       <Card className="shadow-lg border border-gray-200 dark:border-neutral-700">
-        <CardHeader className="flex items-center gap-4">
+        <CardHeader className="flex items-center flex-col sm:flex-row gap-4">
           <Avatar className="w-20 h-20">
             {user?.image ? (
               <AvatarImage src={user.image} alt={user.name || "Admin"} />
@@ -30,7 +30,7 @@ const AdminProfile = ({ user }: AdminProfileProps) => {
               </AvatarFallback>
             )}
           </Avatar>
-          <div>
+          <div className=" flex items-center sm:items-start flex-col">
             <CardTitle className="text-xl">{user?.name}</CardTitle>
             <p className="text-muted-foreground">{user?.email}</p>
           </div>
@@ -38,7 +38,7 @@ const AdminProfile = ({ user }: AdminProfileProps) => {
 
         <Separator className="my-4" />
 
-        <CardContent className="flex flex-col gap-4">
+        <CardContent className="flex text-center flex-col gap-4">
           <p>
             Welcome to your admin dashboard. Here you can manage projects, blogs,
             and website content.

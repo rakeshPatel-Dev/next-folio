@@ -29,7 +29,7 @@ export const metadata = BLOGS_METADATA;
 
 export default function AdminBlogPage() {
   return (
-    <main className="flex-1 overflow-y-auto p-6 lg:p-10">
+    <main className="flex-1 overflow-y-auto sm:p-6">
       <div className="max-w-7xl mx-auto space-y-8">
 
         {/* Header */}

@@ -50,7 +50,7 @@ const blogs: BlogData[] = [
 
 export default function AdminDashboardPage() {
   return (
-    <div className="p-6 space-y-6">
+    <div className=" sm:p-6 space-y-6">
       <div className=" space-y-2 mb-4">
 
         <h1 className="text-3xl font-bold">Welcom, Rakesh</h1>
@@ -68,18 +68,18 @@ export default function AdminDashboardPage() {
             </CardHeader>
             <CardContent className="flex flex-col gap-2">
               <p className="text-2xl font-bold">{stat.value}</p>
-              <Button
-                variant="outline"
-                size="sm"
-                className="mt-2 cursor-pointer "
-              >
-                {stat.link && (
-                  <Link href={stat.link} className=" flex items-center flex-row gap-1">
+              {stat.link && (
+                <Link href={stat.link} className=" flex items-center flex-row gap-1">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="mt-2 w-full cursor-pointer "
+                  >
                     {stat.buttonIcon}
                     {stat.buttonText}
-                  </Link>
-                )}
-              </Button>
+                  </Button>
+                </Link>
+              )}
             </CardContent>
           </Card>
         ))}
