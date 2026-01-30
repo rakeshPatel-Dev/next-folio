@@ -1,4 +1,4 @@
-import AdminBlogForm from '@/components/BlogForm'
+import AdminBlogForm from '@/components/forms/BlogForm'
 import { AppBreadcrumb } from '@/components/BreadCrumb'
 import React from 'react'
 import { ADDBLOGS_METADATA } from '@/lib/metadata'

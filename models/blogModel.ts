@@ -6,27 +6,25 @@ const blogSchema = new mongoose.Schema(
       type: String,
       required: true,
       trim: true,
+      maxlength: 150,
     },
 
     slug: {
       type: String,
       required: true,
       unique: true,
+      index: true,
+      trim: true,
       lowercase: true,
     },
 
     description: {
       type: String,
       required: true,
-      maxlength: 200,
+      maxlength: 200, // for cards + meta description
     },
 
-    content: {
-      type: String,
-      required: true,
-    },
-
-    image: {
+    coverImage: {
       type: String,
       required: true,
     },
@@ -34,22 +32,30 @@ const blogSchema = new mongoose.Schema(
     tags: {
       type: [String],
       default: [],
+      index: true,
     },
 
     author: {
-      type: String,
-      default: "Admin",
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
     },
 
     readingTime: {
+      type: Number, // minutes
+      default: 0, // calculate from content
+    },
+
+    views: {
       type: Number,
-      default: 5,
+      default: 0,
     },
 
     status: {
       type: String,
       enum: ["draft", "published", "archived"],
       default: "draft",
+      index: true,
     },
 
     isFeatured: {
@@ -57,15 +63,35 @@ const blogSchema = new mongoose.Schema(
       default: false,
     },
 
-    views: {
-      type: Number,
-      default: 0,
+    seo: {
+      metaTitle: {
+        type: String,
+        maxlength: 60,
+      },
+      metaDescription: {
+        type: String,
+        maxlength: 160,
+      },
+      ogImage: {
+        type: String,
+      },
+    },
+
+    publishedAt: {
+      type: Date,
     },
   },
   { timestamps: true }
 )
 
-const Blog =
-  mongoose.models.Blog || mongoose.model("Blog", blogSchema)
+// Auto-set published date
+blogSchema.pre("save", function (next) {
+  if (this.status === "published" && !this.publishedAt) {
+    this.publishedAt = new Date()
+  }
+  next()
+})
+
+const Blog = mongoose.models.Blog || mongoose.model("Blog", blogSchema)
 
 export default Blog
