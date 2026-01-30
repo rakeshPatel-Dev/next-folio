@@ -11,9 +11,18 @@ export default async function AdminProfilePage() {
   // Server-side session check
   const session = await getServerSession(authOptions);
 
-  if (!session || session.user?.email !== process.env.ADMIN_EMAILS) {
+
+
+  const admins =
+    process.env.ADMIN_EMAILS?.split(",").map(e => e.trim().toLowerCase()) ?? [];
+
+  if (
+    !session ||
+    !admins.includes(session.user?.email?.toLowerCase() ?? "")
+  ) {
     redirect("/admin/login");
   }
+
 
   const user = session.user;
 

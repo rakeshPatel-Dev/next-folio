@@ -1,10 +1,14 @@
 import type { NextAuthOptions } from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
+import { connectDB } from "@/lib/mongoose"
+import User from "@/models/userModel"
 
 const adminEmails =
   process.env.ADMIN_EMAILS?.split(",").map(e => e.trim().toLowerCase()) ?? []
 
 export const authOptions: NextAuthOptions = {
+  secret: process.env.NEXTAUTH_SECRET,
+
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
@@ -19,26 +23,29 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async signIn({ user }) {
       const email = user.email?.toLowerCase()
+      if (!email || !adminEmails.includes(email)) return false
 
-      if (!email) return false
+      await connectDB()
 
-      // ✅ Allow only admin emails
-      return adminEmails.includes(email)
+      const existingUser = await User.findOne({ email })
+      if (!existingUser) {
+        await User.create({
+          name: user.name,
+          email,
+          image: user.image,
+          role: "admin",
+        })
+      }
+
+      return true
     },
 
-    async jwt({ token, user }) {
-      if (user?.email) {
-        token.email = user.email
-        token.isAdmin = adminEmails.includes(user.email.toLowerCase())
-      }
+    async jwt({ token }) {
+      // ❗ DO NOT connect DB on every request
       return token
     },
 
-    async session({ session, token }) {
-      if (session.user) {
-        session.user.email = token.email as string
-        ;(session.user as any).isAdmin = token.isAdmin
-      }
+    async session({ session }) {
       return session
     },
   },
@@ -47,6 +54,4 @@ export const authOptions: NextAuthOptions = {
     signIn: "/admin/login",
     error: "/admin/login",
   },
-
-  secret: process.env.NEXTAUTH_SECRET,
 }

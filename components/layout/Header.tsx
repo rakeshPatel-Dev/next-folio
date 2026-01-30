@@ -14,7 +14,7 @@ const Header = () => {
           <Image
             width={16}
             height={16}
-            src="/images/logo.webp"
+            src="/images/logo.png"
             alt="Logo"
             className="h-16 w-16 object-contain"
           />

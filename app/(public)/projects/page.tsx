@@ -37,7 +37,7 @@ import React from 'react'
 
 const ProjectPage = () => {
   return (
-    <div className=' max-w-4xl mx-auto'>
+    <div className=' p-6 max-w-4xl mx-auto'>
       <div className='text-center mt-5 '>
         <h1 className="text-4xl md:text-5xl  text-center font-sans font-bold">
           Projects
