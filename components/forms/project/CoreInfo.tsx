@@ -38,10 +38,11 @@ const CoreInfo = ({ register, errors }: Props) => {
 
         {/* Description */}
         <div className="space-y-1">
-          <Label className="flex items-center gap-2">
+          <Label htmlFor="project-description" className="flex items-center gap-2">
             <ScrollText className="h-4 w-4" /> Description
           </Label>
           <Textarea
+            id="project-description"
             placeholder="Project description"
             rows={4}
             {...register("shortDescription")}
@@ -51,13 +52,12 @@ const CoreInfo = ({ register, errors }: Props) => {
 
         {/* Image */}
         <div className="space-y-1">
-          <Label className="flex items-center gap-2">
+          <Label htmlFor="project-image" className="flex items-center gap-2">
             <Wallpaper className="h-4 w-4" /> Cover Image
           </Label>
-          <Input type="file" {...register("image")} />
+          <Input type="file" id="project-image" accept="image/*" {...register("image")} />
           <FieldError message={errors?.image?.message} />
-        </div>
-      </CardContent>
+        </div>      </CardContent>
     </Card>
   )
 }

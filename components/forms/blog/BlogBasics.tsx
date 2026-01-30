@@ -52,20 +52,28 @@ export function BlogBasics({ control }: { control: Control<BlogFormValues> }) {
         <FormField
           control={control}
           name="coverImage"
-          render={({ field }) => (
+          render={({ field: { onChange, onBlur, name, ref } }) => (
             <FormItem>
               <FormLabel>
-                <Wallpaper className=" h-4 w-4 text-muted-foreground" />
-                Cover Image URL
+                <Wallpaper className="h-4 w-4 text-muted-foreground" />
+                Cover Image
               </FormLabel>
               <FormControl>
-                <Input type="file"  {...field} />
+                <Input
+                  type="file"
+                  accept="image/*"
+                  name={name}
+                  ref={ref}
+                  onBlur={onBlur}
+                  onChange={(e) => {
+                    const file = e.target.files?.[0]
+                    if (file) onChange(file)
+                  }} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
-        />
-      </CardContent>
+        />      </CardContent>
     </Card>
   )
-}
+}  

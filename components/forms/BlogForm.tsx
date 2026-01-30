@@ -38,12 +38,23 @@ export default function AdminBlogForm({
     },
   })
 
-  function onSubmit(values: BlogFormValues) {
-    console.log(values)
-    toast.success("Blog saved", {
-      description: "Your blog has been saved successfully.",
-    })
-    router.push(path)
+  const saveBlog = (values) => {
+    console.log(values);
+  }
+
+  async function onSubmit(values: BlogFormValues) {
+    try {
+      // TODO: Replace with actual API call or server action
+      await saveBlog(values)
+      toast.success("Blog saved", {
+        description: "Your blog has been saved successfully.",
+      })
+      router.push(path)
+    } catch {
+      toast.error("Failed to save blog", {
+        description: "Please try again.",
+      })
+    }
   }
 
   return (

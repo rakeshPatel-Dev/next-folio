@@ -69,9 +69,9 @@ const ProjectMeta = ({ control, errors }: Props) => {
                   <SelectValue placeholder="Select status" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="Building">Building</SelectItem>
-                  <SelectItem value="Completed">Completed</SelectItem>
-                  <SelectItem value="Paused">Paused</SelectItem>
+                  <SelectItem value="building">Building</SelectItem>
+                  <SelectItem value="completed">Completed</SelectItem>
+                  <SelectItem value="paused">Paused</SelectItem>
                 </SelectContent>
               </Select>
             )}

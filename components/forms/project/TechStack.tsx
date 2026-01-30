@@ -9,6 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import FieldError from "@/components/forms/FieldError"
 import IconRenderer from "./IconRenderer"
 import IconInput from "./IconInput"
+// import { UseFormWatch, UseFormSetValue, FieldErrors } from "react-hook-form"
 
 type TechItem = {
   label: string
@@ -18,7 +19,7 @@ type TechItem = {
 type Props = {
   watch: any
   setValue: any
-  errors: string
+  errors: any
 }
 
 export default function TechStack({ watch, setValue, errors }: Props) {
@@ -46,8 +47,8 @@ export default function TechStack({ watch, setValue, errors }: Props) {
     setNewTechIcon("")
   }
 
-  const removeTech = (index: number) => {
-    setValue("techStack", techStack.filter((_, i) => i !== index))
+  const removeTech = (label: string) => {
+    setValue("techStack", techStack.filter((t) => t.label !== label))
   }
 
   return (
@@ -93,9 +94,9 @@ export default function TechStack({ watch, setValue, errors }: Props) {
         {/* Selected tech list */}
         {techStack.length > 0 && (
           <div className="flex flex-wrap gap-2 pt-2">
-            {techStack.map((tech, index) => (
+            {techStack.map((tech) => (
               <span
-                key={index}
+                key={tech.label}
                 className="flex items-center gap-2 rounded-full border px-3 py-1 text-sm"
               >
                 <IconRenderer name={tech.icon} className="h-4 w-4" />
@@ -104,11 +105,10 @@ export default function TechStack({ watch, setValue, errors }: Props) {
                 <button
                   title="remove"
                   type="button"
-                  onClick={() => removeTech(index)}
+                  onClick={() => removeTech(tech.label)}
                   className="ml-1 hover:opacity-70"
                 >
-                  <X className="h-4 w-4 hover:bg-muted rounded-full p-0.2 transition-all" />
-                </button>
+                  <X className="h-4 w-4 hover:bg-muted rounded-full p-0.5 transition-all" />                </button>
               </span>
             ))}
 
