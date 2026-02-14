@@ -25,7 +25,7 @@ export async function POST(req: Request) {
       { error: error.message || "Failed to create project" },
       { status: 400 }
     )
-  }p
+  }
 }
 
 // GET /api/project - Get all projects 
