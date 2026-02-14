@@ -9,6 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import FieldError from "@/components/forms/FieldError"
 import IconRenderer from "./IconRenderer"
 import IconInput from "./IconInput"
+import { useToast } from "@/components/zenblocks/toast"
 
 type TechItem = {
   label: string
@@ -30,6 +31,9 @@ type Props = {
 }
 
 export default function TechStack({ watch, setValue, errors }: Props) {
+
+  const { toast } = useToast();
+
   const techStack: TechItem[] = watch("techStack") ?? []
 
   const [label, setLabel] = useState("")
@@ -37,7 +41,16 @@ export default function TechStack({ watch, setValue, errors }: Props) {
 
   const addTech = () => {
     const trimmedLabel = label.trim()
-    if (!trimmedLabel) return
+
+    if (!trimmedLabel) {
+      toast({
+        title: trimmedLabel,
+        description: "Please enter a tech label",
+        variant: "error",
+      })
+      return
+    }
+
 
     const exists = techStack.some(
       (t) => t.label.toLowerCase() === trimmedLabel.toLowerCase()
@@ -46,7 +59,7 @@ export default function TechStack({ watch, setValue, errors }: Props) {
 
     setValue(
       "techStack",
-      [...techStack, { label: trimmedLabel, icon }],
+      [...techStack, { label: trimmedLabel, icon: icon.trim() }],
       {
         shouldDirty: true,
         shouldTouch: true,

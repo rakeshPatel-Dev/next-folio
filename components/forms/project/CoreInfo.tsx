@@ -62,6 +62,7 @@ const CoreInfo = ({ register, errors, setValue }: Props) => {
 
           <Input
             type="file"
+            id="project-image"
             accept="image/*"
             onChange={(e) => setValue("image", e.target.files?.[0] ?? null)}
           />

@@ -12,10 +12,22 @@ async function saveProject(values: any) {
   try {
     await connectDB()
 
+
+    // Validate and sanitize input before saving
+    const { title, shortDescription, type, status, image } = values;
+
+    if (!title || !shortDescription || !type || !status || !image) {
+      throw new Error("Required fields are missing");
+    }
+
+
     // directly save the payload
     await Project.create(values)
 
-    console.log("Project saved successfully:", values)
+    return {
+      success: true,
+      message: "Project saved successfully",
+    }
   } catch (error) {
     console.error("Error while saving:", error)
     throw new Error("Failed to save project")
