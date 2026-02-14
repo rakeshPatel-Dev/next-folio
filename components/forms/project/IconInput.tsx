@@ -13,12 +13,16 @@ type Props = {
 export default function IconInput({ value, onChange }: Props) {
   const matches = useMemo(() => {
     if (!value) return []
-    return ALL_ICON_NAMES
-      .filter((name) =>
-        name.toLowerCase().includes(value.toLowerCase())
+
+    return Array.from(
+      new Set(
+        ALL_ICON_NAMES.filter((name) =>
+          name.toLowerCase().includes(value.toLowerCase())
+        )
       )
-      .slice(0, 8)
+    ).slice(0, 8)
   }, [value])
+
 
   const isValid = value && ALL_ICON_NAMES.includes(value)
 
@@ -46,7 +50,7 @@ export default function IconInput({ value, onChange }: Props) {
         <div className="border rounded p-2 grid grid-cols-4 gap-2 max-h-40 overflow-auto">
           {matches.map((name) => (
             <button
-              key={name}
+              key={`icon-${name}`}
               type="button"
               onClick={() => onChange(name)}
               className="flex items-center gap-2 text-xs hover:bg-muted p-1 rounded"

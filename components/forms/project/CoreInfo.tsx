@@ -4,14 +4,16 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Captions, ScrollText, Wallpaper } from "lucide-react"
 import { FaInfoCircle } from "react-icons/fa"
+import { UseFormRegister, FieldErrors } from "react-hook-form"
 import FieldError from "../FieldError"
 
 type Props = {
-  register: any
+  register: UseFormRegister<any>
   errors: any
+  setValue: any
 }
 
-const CoreInfo = ({ register, errors }: Props) => {
+const CoreInfo = ({ register, errors, setValue }: Props) => {
   return (
     <Card>
       <CardHeader>
@@ -26,26 +28,27 @@ const CoreInfo = ({ register, errors }: Props) => {
         <div className="space-y-1">
           <Label htmlFor="project-title" className="flex items-center gap-2">
             <Captions className="h-4 w-4" /> Project Title
+            <span className="text-red-500">*</span>
           </Label>
           <Input
             id="project-title"
             placeholder="Project title"
-            {...register("title")}
+            {...register("title", { required: "Project title is required" })}
           />
           <FieldError message={errors?.title?.message} />
-
         </div>
 
         {/* Description */}
         <div className="space-y-1">
           <Label htmlFor="project-description" className="flex items-center gap-2">
             <ScrollText className="h-4 w-4" /> Description
+            <span className="text-red-500">*</span>
           </Label>
           <Textarea
             id="project-description"
             placeholder="Project description"
             rows={4}
-            {...register("shortDescription")}
+            {...register("shortDescription", { required: "Description is required" })}
           />
           <FieldError message={errors?.shortDescription?.message} />
         </div>
@@ -53,11 +56,23 @@ const CoreInfo = ({ register, errors }: Props) => {
         {/* Image */}
         <div className="space-y-1">
           <Label htmlFor="project-image" className="flex items-center gap-2">
-            <Wallpaper className="h-4 w-4" /> Cover Image
+            <Wallpaper className="h-4 w-4" />
+            Cover Image <span className="text-red-500">*</span>
           </Label>
-          <Input type="file" id="project-image" accept="image/*" {...register("image")} />
+
+          <Input
+            type="file"
+            accept="image/*"
+            onChange={(e) => setValue("image", e.target.files?.[0] ?? null)}
+          />
+
+
+
+
           <FieldError message={errors?.image?.message} />
-        </div>      </CardContent>
+        </div>
+
+      </CardContent>
     </Card>
   )
 }

@@ -35,15 +35,14 @@ const projectSchema = new mongoose.Schema(
 
     status: {
       type: String,
-      enum: ["Building", "Completed", "Paused"],
-      default: "Building",
+      enum: ["building", "completed", "paused"],
+      default: "building",
     },
 
-    technologies: {
+    techStack: {
       type: [
         {
           label: { type: String, required: true },
-          value: { type: String, required: true },
           icon: { type: String }, // store icon name or path as string
         },
       ],

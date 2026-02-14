@@ -1,25 +1,45 @@
 "use client"
 
+import slugify from "slugify"
 import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation"
 
-import { ProjectFormValues, projectSchema } from "@/config/projectformschema"
+import { useCloudinaryUpload } from "@/hooks/useCloudinaryUpload"
+import { Button } from "@/components/ui/button"
+import { Spinner } from "@/components/ui/spinner"
+import { useToast } from "../zenblocks/toast"
 
 import CoreInfo from "./project/CoreInfo"
 import ProjectLinks from "./project/ProjectLinks"
 import ProjectMeta from "./project/ProjectMeta"
 import TechStack from "./project/TechStack"
-import { useToast } from "../zenblocks/toast"
+import FreelanceInfo from "./project/FreelanceInfo"
+
+export type ProjectFormValues = {
+  title: string
+  shortDescription: string
+  image: File | null
+  type: string
+  status: string
+  techStack: { label: string; icon?: string }[]
+  liveUrl?: string
+  repoUrl?: string
+  isFreelance: boolean
+  clientName?: string
+  clientLocation?: string
+  clientIndustry?: string
+  isClientPublic: boolean
+}
 
 type Props = {
   path: string
+  saveProject: (values: any) => Promise<void>
 }
 
-export default function ProjectForm({ path }: Props) {
+export default function ProjectForm({ path, saveProject }: Props) {
   const router = useRouter()
   const { toast } = useToast()
+  const { uploadImage } = useCloudinaryUpload()
 
   const {
     register,
@@ -27,34 +47,82 @@ export default function ProjectForm({ path }: Props) {
     control,
     setValue,
     watch,
-    formState,
+    formState: { isSubmitting },
   } = useForm<ProjectFormValues>({
-    resolver: zodResolver(projectSchema),
-    defaultValues: { techStack: [] },
+    defaultValues: {
+      techStack: [],
+      isFreelance: false,
+      isClientPublic: true,
+      image: null,
+    },
   })
 
-  const onSubmit = (data: ProjectFormValues) => {
-    // TODO: Replace with actual API call in production.
-    console.log("Form Data:", data)
-    toast({
-      title: "Project saved",
-      description: "Your project has been saved successfully.",
-      variant: "success"
-    })
+  const onSubmit = async (data: ProjectFormValues) => {
+    try {
+      if (!data.title?.trim()) {
+        throw new Error("Title is required")
+      }
 
-    router.push(path)
+      const file = data.image
+      if (!file) {
+        throw new Error("No image selected")
+      }
+
+      // 1️⃣ Upload image
+      const upload = await uploadImage(file)
+
+      // 2️⃣ Slug
+      const slug = slugify(data.title, {
+        lower: true,
+        strict: true,
+        trim: true,
+      })
+
+      // 3️⃣ Final payload - exclude the File object, include the URL
+      const { image: _, ...restData } = data  // Remove File object from data
+      const payload = {
+        ...restData,
+        slug,
+        image: upload.url,              // ✅ Add URL
+        imagePublicId: upload.publicId,
+      }
+
+      // 4️⃣ Save
+      await saveProject(payload)
+
+      toast({
+        title: "Project saved",
+        description: "Your project has been saved successfully.",
+        variant: "success",
+      })
+      router.push(path)
+    } catch (err: any) {
+      console.error("Error while saving:", err)
+      toast({
+        title: "Error",
+        description: err.message || "Something went wrong",
+        variant: "error",
+      })
+    }
   }
+
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
-      <CoreInfo register={register} errors={formState.errors} />
+      <CoreInfo register={register} errors={Error} setValue={setValue} />
 
+      <ProjectMeta errors={Error} control={control} />
 
-      <ProjectMeta control={control} errors={formState.errors} />
+      <ProjectLinks errors={Error} register={register} />
 
-      <ProjectLinks register={register} errors={formState.errors} />
+      <TechStack errors={Error} watch={watch} setValue={setValue} />
 
-      <TechStack watch={watch} setValue={setValue} errors={formState.errors} />
+      <FreelanceInfo
+        errors={Error}
+        control={control}
+        register={register}
+        watch={watch}
+      />
 
       {/* Actions */}
       <div className="flex justify-end gap-3">
@@ -65,7 +133,7 @@ export default function ProjectForm({ path }: Props) {
             toast({
               title: "Cancelled",
               description: "No changes were saved.",
-              variant: "warning"
+              variant: "warning",
             })
             router.push(path)
           }}
@@ -73,7 +141,16 @@ export default function ProjectForm({ path }: Props) {
           Cancel
         </Button>
 
-        <Button type="submit">Save Project</Button>
+        <Button type="submit" disabled={isSubmitting} aria-busy={isSubmitting}>
+          {isSubmitting ? (
+            <>
+              <Spinner className="mr-2 h-4 w-4 animate-spin" />
+              Saving...
+            </>
+          ) : (
+            "Save Project"
+          )}
+        </Button>
       </div>
     </form>
   )

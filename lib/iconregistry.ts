@@ -43,6 +43,10 @@ export const ICON_PACKS = {
 }
 
 // flat list for search/autocomplete
-export const ALL_ICON_NAMES: string[] = Object.values(ICON_PACKS).flatMap(
-  (pack) => Object.keys(pack)
-)
+export const ALL_ICON_NAMES = Array.from(
+  new Set(
+    Object.values(ICON_PACKS).flatMap((pack) =>
+      Object.keys(pack)
+    )
+  )
+).sort()

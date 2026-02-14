@@ -1,5 +1,5 @@
 type Props = {
-  message?: string
+  message?: string | undefined
 }
 
 export default function FieldError({ message }: Props) {

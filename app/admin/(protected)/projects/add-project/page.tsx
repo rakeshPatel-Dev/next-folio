@@ -1,16 +1,37 @@
-import { AppBreadcrumb } from '@/components/BreadCrumb'
-import ProjectForm from '@/components/forms/ProjectForm'
-import { ADDPROJECTS_METADATA } from '@/lib/metadata'
+import { AppBreadcrumb } from "@/components/BreadCrumb"
+import ProjectForm from "@/components/forms/ProjectForm"
+import { ADDPROJECTS_METADATA } from "@/lib/metadata"
+import { connectDB } from "@/lib/mongoose"
+import Project from "@/models/projectModel"
 
-export const metadata = ADDPROJECTS_METADATA;
+export const metadata = ADDPROJECTS_METADATA
 
-const page = () => {
+// ✅ Server action to save a project
+async function saveProject(values: any) {
+  "use server"
+  try {
+    await connectDB()
+
+    // directly save the payload
+    await Project.create(values)
+
+    console.log("Project saved successfully:", values)
+  } catch (error) {
+    console.error("Error while saving:", error)
+    throw new Error("Failed to save project")
+  }
+}
+
+const Page = async () => {
   return (
-    <div className='sm:p-6 '>
-      <div className='flex flex-col gap-2 mb-6'>
+    <div className="sm:p-6">
+      <div className="flex flex-col gap-2 mb-6">
         <h1 className="text-3xl font-bold">Add New Project</h1>
-        <p className=" text-muted-foreground">Use the form below to add a new project to your portfolio.</p>
-        <span className='mt-4 '>
+        <p className="text-muted-foreground">
+          Use the form below to add a new project to your portfolio.
+        </p>
+
+        <span className="mt-4">
           <AppBreadcrumb
             items={[
               { label: "dashboard", href: "/admin/dashboard" },
@@ -20,9 +41,13 @@ const page = () => {
           />
         </span>
       </div>
-      <ProjectForm path="/admin/projects" />
+
+      <ProjectForm
+        path="/admin/projects"
+        saveProject={saveProject} // 🚀 this will now handle direct save
+      />
     </div>
   )
 }
 
-export default page
+export default Page
