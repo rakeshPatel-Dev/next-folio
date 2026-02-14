@@ -14,6 +14,7 @@ import ProjectLinks from "./project/ProjectLinks"
 import ProjectMeta from "./project/ProjectMeta"
 import TechStack from "./project/TechStack"
 import FreelanceInfo from "./project/FreelanceInfo"
+import { Project } from "@/utils/getProjects"
 
 export type ProjectFormValues = {
   title: string
@@ -34,9 +35,10 @@ export type ProjectFormValues = {
 type Props = {
   path: string
   saveProject: (values: any) => Promise<void>
+  initialData?: Project | null // Add this
 }
 
-export default function ProjectForm({ path, saveProject }: Props) {
+export default function ProjectForm({ path, saveProject, initialData }: Props) {
   const router = useRouter()
   const { toast } = useToast()
   const { uploadImage } = useCloudinaryUpload()
@@ -49,12 +51,28 @@ export default function ProjectForm({ path, saveProject }: Props) {
     watch,
     formState: { isSubmitting },
   } = useForm<ProjectFormValues>({
-    defaultValues: {
-      techStack: [],
-      isFreelance: false,
-      isClientPublic: true,
-      image: null,
-    },
+    defaultValues: initialData
+      ? {
+        title: initialData.title,
+        shortDescription: initialData.shortDescription,
+        type: initialData.type,
+        status: initialData.status,
+        techStack: initialData.techStack,
+        liveUrl: initialData.liveUrl,
+        repoUrl: initialData.repoUrl,
+        isFreelance: initialData.isFreelance,
+        clientName: initialData.clientName,
+        clientLocation: initialData.clientLocation,
+        clientIndustry: initialData.clientIndustry,
+        isClientPublic: initialData.isClientPublic,
+        image: null, // Will be set if user uploads new image
+      }
+      : {
+        techStack: [],
+        isFreelance: false,
+        isClientPublic: true,
+        image: null,
+      },
   })
 
   const onSubmit = async (data: ProjectFormValues) => {
@@ -63,36 +81,43 @@ export default function ProjectForm({ path, saveProject }: Props) {
         throw new Error("Title is required")
       }
 
-      const file = data.image
-      if (!file) {
-        throw new Error("No image selected")
+      let imageUrl = initialData?.image // Keep existing image by default
+      let imagePublicId = initialData?.imagePublicId
+
+      // Only upload if new image selected
+      if (data.image) {
+        const upload = await uploadImage(data.image)
+        imageUrl = upload.url
+        imagePublicId = upload.publicId
+      } else if (!initialData) {
+        // New project must have image
+        throw new Error("Image is required")
       }
+      if (!imageUrl) {
+        throw new Error("Image is required")
+      };
 
-      // 1️⃣ Upload image
-      const upload = await uploadImage(file)
-
-      // 2️⃣ Slug
-      const slug = slugify(data.title, {
+      const slug = initialData?.slug ?? slugify(data.title, {
         lower: true,
         strict: true,
         trim: true,
       })
 
-      // 3️⃣ Final payload - exclude the File object, include the URL
-      const { image: _, ...restData } = data  // Remove File object from data
+      const { image: _, ...restData } = data
       const payload = {
         ...restData,
         slug,
-        image: upload.url,              // ✅ Add URL
-        imagePublicId: upload.publicId,
+        image: imageUrl,
+        imagePublicId,
       }
 
-      // 4️⃣ Save
       await saveProject(payload)
 
       toast({
-        title: "Project saved",
-        description: "Your project has been saved successfully.",
+        title: initialData ? "Project updated" : "Project saved",
+        description: initialData
+          ? "Your project has been updated successfully."
+          : "Your project has been saved successfully.",
         variant: "success",
       })
       router.push(path)

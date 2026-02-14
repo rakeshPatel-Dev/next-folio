@@ -2,6 +2,9 @@
   "name": "next-folio",
   "version": "0.1.0",
   "private": true,
+  "browser": {
+    "async_hooks": false
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -37,6 +40,7 @@
     "next-auth": "^4.24.13",
     "next-cloudinary": "^6.17.5",
     "next-themes": "^0.4.6",
+    "radix-ui": "^1.4.3",
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "react-hook-form": "^7.71.0",
