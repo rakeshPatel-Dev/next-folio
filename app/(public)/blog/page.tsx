@@ -53,7 +53,7 @@ export default async function BlogSection({
           title={blog.title}
           subtitle={blog.description}
           image={blog.coverImage}
-          category={blog.tags[0] || "General"}
+          category={blog.tags?.[0] || "General"}
           readingTime={calculateReadingTime(blog.description)}
           date={formatDate(blog.publishedAt || blog.createdAt)}
           link={`/blog/${blog.slug}`}

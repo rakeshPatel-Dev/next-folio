@@ -61,7 +61,7 @@ export default async function BlogSection({
           title={blog.title}
           subtitle={blog.description}
           image={blog.coverImage}
-          category={blog.tags[0] || "General"}
+          category={blog.tags?.[0] || "General"}
           readingTime={calculateReadingTime(blog.description)}
           date={formatDate(blog.publishedAt || blog.createdAt)}
           link={`/blog/${blog.slug}`}
@@ -79,7 +79,7 @@ export default async function BlogSection({
               title={blog.title}
               subtitle={blog.description}
               image={blog.coverImage}
-              category={blog.tags[0] || "General"}
+              category={blog.tags?.[0] || "General"}
               readingTime={calculateReadingTime(blog.description)}
               date={formatDate(blog.publishedAt || blog.createdAt)}
               link={`/blog/${blog.slug}`}
@@ -102,7 +102,9 @@ function calculateReadingTime(text: string): string {
 
 // Helper function to format date
 function formatDate(dateString: string): string {
+  if (!dateString) return ""
   const date = new Date(dateString)
+  if (isNaN(date.getTime())) return ""
   return date.toLocaleDateString("en-US", {
     month: "short",
     day: "numeric",
