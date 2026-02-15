@@ -39,8 +39,8 @@ const ProjectPage = () => {
         <h1 className="text-4xl md:text-5xl text-center font-sans font-bold">
           Projects
         </h1>
-        <p className="text-muted-foreground mt-2">
-          The projects I have built and currently working on.
+        <p className="text-muted-foreground max-w-2xl mx-auto mt-2">
+          Discover a collection of my past and ongoing projects, showcasing my expertise in software development, design, and problem-solving.
         </p>
       </div>
 

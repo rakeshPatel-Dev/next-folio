@@ -1,167 +1,171 @@
-"use client"
-
-import React, { useEffect, useState } from "react"
-import axios from "axios"
+import { getBlogByIdOrSlug, getRelatedBlogs } from "@/utils/getBlogs"
+import { notFound } from "next/navigation"
 import Image from "next/image"
-import Link from "next/link"
-
-import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
+import { Calendar, Clock, User, ArrowLeft } from "lucide-react"
+import Link from "next/link"
+import { BlogCard } from "@/components/blog/Blog-card"
 
-import { ArrowLeft, Calendar, User } from "lucide-react"
-
-// import type { Metadata } from "next"
-// import { getBlogBySlug } from "@/lib/data/blogs"
-
-// type Props = {
-//   params: { slug: string }
-// }
-
-// export async function generateMetadata(
-//   { params }: Props
-// ): Promise<Metadata> {
-//   const blog = await getBlogBySlug(params.slug)
-
-//   if (!blog) {
-//     return {
-//       title: "Blog Not Found",
-//       description: "The requested blog post does not exist.",
-//     }
-//   }
-
-//   return {
-//     title: blog.title,
-//     description: blog.excerpt,
-//     openGraph: {
-//       title: blog.title,
-//       description: blog.excerpt,
-//       images: [blog.coverImage],
-//     },
-//   }
-// }
-
-interface Blog {
-  id: number
-  title: string
-  description: string
-  content_text: string
-  photo_url: string
-  category: string
-  created_at: string
+interface BlogDetailPageProps {
+  params: Promise<{
+    slug: string
+  }>
 }
 
-const BlogDetailsPage = () => {
-  const [blog, setBlog] = useState<Blog | null>(null)
-  const [loading, setLoading] = useState(true)
+export async function generateMetadata({ params }: BlogDetailPageProps) {
+  const { slug } = await params
+  const blog = await getBlogByIdOrSlug(slug)
 
-  const url =
-    "https://api.slingacademy.com/v1/sample-data/blog-posts?limit=1&offset=0"
-
-  const fetchBlog = async () => {
-    try {
-      const res = await axios.get(url)
-      setBlog(res.data.blogs[0])
-    } finally {
-      setLoading(false)
+  if (!blog) {
+    return {
+      title: "Blog Not Found",
     }
   }
 
-
-  useEffect(() => {
-    fetchBlog()
-  }, [])
-
-  if (loading) {
-    return <p className="text-center mt-20">Loading article...</p>
+  return {
+    title: blog.title,
+    description: blog.description,
+    openGraph: {
+      title: blog.title,
+      description: blog.description,
+      images: [blog.coverImage],
+      type: "article",
+      publishedTime: blog.publishedAt || blog.createdAt,
+      authors: [blog.author.name],
+    },
   }
+}
+
+export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
+  const { slug } = await params
+  const blog = await getBlogByIdOrSlug(slug)
 
   if (!blog) {
-    return <p className="text-center mt-20">Blog not found</p>
+    notFound()
   }
 
+  // Get related blogs
+  const relatedBlogs = await getRelatedBlogs(blog._id, 3)
+
+  // Calculate reading time
+  const readingTime = Math.ceil(blog.description.split(/\s+/).length / 200)
+
   return (
-    <article className="max-w-3xl mx-auto px-4 py-12">
-      {/* Back */}
-      <Link href="/blog">
-        <Button variant="outline" className="mb-6 gap-2">
-          <ArrowLeft size={16} /> Back to Blogs
-        </Button>
-      </Link>
+    <article className="min-h-screen">
+      {/* Back Button */}
+      <div className="max-w-4xl mx-auto px-6 pt-24 pb-8">
+        <Link
+          href="/blog"
+          className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          Back to Blogs
+        </Link>
+      </div>
 
-      {/* Category */}
-      <Badge variant="secondary" className="mb-3">
-        {blog.category}
-      </Badge>
+      {/* Header */}
+      <header className="max-w-4xl mx-auto px-6 pb-8">
+        {/* Tags */}
+        <div className="flex flex-wrap gap-2 mb-4">
+          {blog.tags.map((tag) => (
+            <Badge key={tag} variant="secondary">
+              {tag}
+            </Badge>
+          ))}
+          {blog.isFeatured && (
+            <Badge variant="default" className="bg-yellow-600">
+              Featured
+            </Badge>
+          )}
+        </div>
 
-      {/* Title */}
-      <h1 className="text-4xl font-bold leading-tight">
-        {blog.title}
-      </h1>
+        {/* Title */}
+        <h1 className="text-4xl md:text-5xl font-bold mb-4">
+          {blog.title}
+        </h1>
 
-      {/* Description */}
-      <p className="text-lg text-muted-foreground mt-4">
-        {blog.description}
-      </p>
+        {/* Description */}
+        <p className="text-xl text-muted-foreground mb-6">
+          {blog.description}
+        </p>
 
-      {/* Meta Card */}
-      <Card className="mt-6">
-        <CardContent className="flex flex-wrap gap-6 py-4 text-sm text-muted-foreground">
+        {/* Meta Info */}
+        <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
           <div className="flex items-center gap-2">
-            <User size={16} />
-            <span>Admin</span>
+            <User className="h-4 w-4" />
+            <span>{blog.author.name}</span>
           </div>
           <div className="flex items-center gap-2">
-            <Calendar size={16} />
-            <span>{new Date(blog.created_at).toDateString()}</span>
+            <Calendar className="h-4 w-4" />
+            <time dateTime={blog.publishedAt || blog.createdAt}>
+              {new Date(blog.publishedAt || blog.createdAt).toLocaleDateString(
+                "en-US",
+                {
+                  month: "long",
+                  day: "numeric",
+                  year: "numeric",
+                }
+              )}
+            </time>
           </div>
-          <span>• 5 min read</span>
-        </CardContent>
-      </Card>
+          <div className="flex items-center gap-2">
+            <Clock className="h-4 w-4" />
+            <span>{readingTime} min read</span>
+          </div>
+        </div>
+      </header>
 
       {/* Cover Image */}
-      <div className="relative w-full h-[420px] mt-10 rounded-2xl overflow-hidden">
-        <Image
-          src={blog.photo_url}
-          alt={blog.title}
-          fill
-          className="object-cover"
-          priority
-        />
+      <div className="max-w-4xl mx-auto px-6 mb-12">
+        <div className="relative aspect-video w-full overflow-hidden rounded-2xl">
+          <Image
+            src={blog.coverImage}
+            alt={blog.title}
+            fill
+            className="object-cover"
+            priority
+          />
+        </div>
       </div>
 
       {/* Content */}
-      <div className="prose prose-lg max-w-none mt-10">
-        <p>{blog.content_text}</p>
+      <div className="max-w-4xl mx-auto px-6 pb-12">
+        <div className="prose prose-lg dark:prose-invert max-w-none">
+          {/* TODO: Add rich text content here when you implement it */}
+          <p className="text-muted-foreground italic">
+            Full blog content will be displayed here.
+            You can add a rich text editor in the admin panel to create full blog posts.
+          </p>
+        </div>
       </div>
 
-      {/* Insight Card (in-between card) */}
-      <Card className="my-12 border-dashed">
-        <CardHeader>
-          <CardTitle>Key Insight</CardTitle>
-        </CardHeader>
-        <CardContent className="text-muted-foreground">
-          This article highlights practical, real-world lessons that can
-          directly improve how developers approach problem-solving and system
-          design in modern applications.
-        </CardContent>
-      </Card>
-
-      {/* Closing Section */}
-      <div className="prose prose-lg max-w-none">
-        <p>
-          Building systems like this requires clarity, consistency, and a
-          willingness to think beyond tutorials. Focus on fundamentals, and the
-          complexity becomes manageable.
-        </p>
-      </div>
+      {/* Related Blogs */}
+      {relatedBlogs.length > 0 && (
+        <section className="max-w-4xl mx-auto px-6 py-12 border-t">
+          <h2 className="text-2xl font-bold mb-8">Related Posts</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {relatedBlogs.map((relatedBlog) => (
+              <BlogCard
+                key={relatedBlog._id}
+                title={relatedBlog.title}
+                subtitle={relatedBlog.description}
+                image={relatedBlog.coverImage}
+                category={relatedBlog.tags[0] || "General"}
+                readingTime={`${Math.ceil(relatedBlog.description.split(/\s+/).length / 200)} min read`}
+                date={new Date(
+                  relatedBlog.publishedAt || relatedBlog.createdAt
+                ).toLocaleDateString("en-US", {
+                  month: "short",
+                  day: "numeric",
+                  year: "numeric",
+                })}
+                link={`/blog/${relatedBlog.slug}`}
+                variant="default"
+              />
+            ))}
+          </div>
+        </section>
+      )}
     </article>
   )
 }
-
-export default BlogDetailsPage

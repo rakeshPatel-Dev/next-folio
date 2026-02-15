@@ -16,7 +16,7 @@ export interface BlogCardProps extends React.HTMLAttributes<HTMLDivElement> {
   readingTime: string;
   date: string;
   link: string;
-  variant?: "featured" | "default"; // New variant prop
+  variant?: "featured" | "default";
 }
 
 const BlogCard = React.forwardRef<HTMLDivElement, BlogCardProps>(
@@ -75,25 +75,28 @@ const BlogCard = React.forwardRef<HTMLDivElement, BlogCardProps>(
         <div className={contentClasses}>
           <div>
             <div className="flex items-center justify-between">
-
               {/* Category */}
               <span className="inline-block mb-2 px-3 py-1 text-xs font-medium rounded-full bg-primary/20 text-primary">
                 {category}
               </span>
               {/* Variant Badge */}
               {variant === "featured" && (
-
-                <Badge variant="default" className="bg-yellow-600"><Star />{variant}</Badge>
+                <Badge variant="default" className="bg-yellow-600 gap-1">
+                  <Star className="h-3 w-3" />
+                  Featured
+                </Badge>
               )}
             </div>
 
             {/* Title */}
-            <h3 className="text-xl md:text-2xl font-semibold transition-colors duration-300 group-hover:text-primary">
+            <h3 className="text-xl md:text-2xl font-semibold transition-colors duration-300 group-hover:text-primary line-clamp-2">
               {title}
             </h3>
 
             {/* Subtitle */}
-            <p className="mt-2 md:mt-3 text-muted-foreground">{subtitle}</p>
+            <p className="mt-2 md:mt-3 text-muted-foreground line-clamp-3">
+              {subtitle}
+            </p>
           </div>
 
           {/* Footer */}
