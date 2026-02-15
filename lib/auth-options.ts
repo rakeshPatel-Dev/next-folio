@@ -41,11 +41,26 @@ export const authOptions: NextAuthOptions = {
     },
 
     async jwt({ token }) {
-      // ❗ DO NOT connect DB on every request
+      if (!token.email) return token
+
+      await connectDB()
+
+      const dbUser = await User.findOne({ email: token.email })
+
+      if (dbUser) {
+        token.id = dbUser._id.toString()
+        token.role = dbUser.role
+      }
+
       return token
     },
 
-    async session({ session }) {
+    async session({ session, token }) {
+      if (session.user) {
+        session.user.id = token.id as string
+        session.user.role = token.role as string
+      }
+
       return session
     },
   },

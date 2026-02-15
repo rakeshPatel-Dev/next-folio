@@ -14,7 +14,7 @@ import ProjectLinks from "./project/ProjectLinks"
 import ProjectMeta from "./project/ProjectMeta"
 import TechStack from "./project/TechStack"
 import FreelanceInfo from "./project/FreelanceInfo"
-import { Project } from "@/utils/getProjects"
+import { Project } from "@/utils/getProjects.server"
 
 export type ProjectFormValues = {
   title: string
