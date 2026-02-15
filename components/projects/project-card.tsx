@@ -1,24 +1,68 @@
-"use client";
+"use client"
 
-import * as React from "react";
-import { ArrowUpRight, Github, Globe } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { Project } from "@/types/project";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
+import * as React from "react"
+import { ArrowUpRight, Github, Globe, Code } from "lucide-react"
+import { cn } from "@/lib/utils"
+import type { Project } from "@/utils/getProjects.client"
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
+import Image from "next/image"
+import { useRouter } from "next/navigation"
+import { Badge } from "@/components/ui/badge"
+import { useTechIcon } from "@/hooks/useTechIcon"
 
 interface ProjectCardProps {
-  project: Project;
+  project: Project
+}
+
+// Tech Icon Component
+function TechIcon({ tech }: { tech: { label: string; icon?: string } }) {
+  const Icon = useTechIcon(tech.icon)
+
+  if (!Icon) {
+    // Fallback to badge if icon not found
+    return (
+      <Badge variant="secondary" className="text-xs">
+        {tech.label}
+      </Badge>
+    )
+  }
+
+  return (
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <div className="cursor-pointer transition-transform hover:scale-110">
+          <Icon className="h-6 w-6 text-muted-foreground hover:text-foreground" />
+        </div>
+      </TooltipTrigger>
+      <TooltipContent>{tech.label}</TooltipContent>
+    </Tooltip>
+  )
 }
 
 const ProjectCard = React.forwardRef<HTMLDivElement, ProjectCardProps>(
   ({ project }, ref) => {
-    const router = useRouter();
+    const router = useRouter()
 
     const goToDetails = () => {
-      router.push(`/projects/${project.id}`);
-    };
+      router.push(`/projects/${project.slug}`)
+    }
+
+    const statusDisplay = {
+      "completed": "Completed",
+      "in-progress": "In Progress",
+      "planning": "Planning"
+    }[project.status] || project.status
+
+    const typeColors = {
+      "web": "#3b82f6",
+      "mobile": "#10b981",
+      "desktop": "#8b5cf6",
+      "fullstack": "#f59e0b",
+      "frontend": "#06b6d4",
+      "backend": "#ef4444",
+    }
+
+    const typeColor = typeColors[project.type.toLowerCase() as keyof typeof typeColors] || "#6b7280"
 
     return (
       <div
@@ -28,8 +72,8 @@ const ProjectCard = React.forwardRef<HTMLDivElement, ProjectCardProps>(
         onClick={goToDetails}
         onKeyDown={(e) => {
           if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            goToDetails();
+            e.preventDefault()
+            goToDetails()
           }
         }}
         className={cn(
@@ -41,18 +85,25 @@ const ProjectCard = React.forwardRef<HTMLDivElement, ProjectCardProps>(
         {/* Type Badge */}
         <span
           className="absolute right-3 top-3 z-10 rounded-full px-3 py-1 text-xs font-medium text-white backdrop-blur-md"
-          style={{ backgroundColor: project.typeColor + "CC" }}
+          style={{ backgroundColor: typeColor + "CC" }}
         >
           {project.type.toUpperCase()}
         </span>
 
+        {/* Freelance Badge */}
+        {project.isFreelance && (
+          <span className="absolute left-3 top-3 z-10 rounded-full bg-purple-600/90 px-3 py-1 text-xs font-medium text-white backdrop-blur-md">
+            FREELANCE
+          </span>
+        )}
+
         {/* Image */}
-        <div className="relative aspect-video p-2 overflow-hidden">
+        <div className="relative aspect-video overflow-hidden p-2">
           <Image
             src={project.image}
             alt={project.title}
             fill
-            className="object-cover transition-transform duration-700 hover:scale-110"
+            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
           />
         </div>
 
@@ -60,15 +111,15 @@ const ProjectCard = React.forwardRef<HTMLDivElement, ProjectCardProps>(
         <div className="flex flex-1 flex-col p-6">
           {/* Title + Icons */}
           <div className="flex items-start justify-between gap-3">
-            <h3 className="text-xl font-sans font-semibold">{project.title}</h3>
+            <h3 className="font-sans text-xl font-semibold">{project.title}</h3>
 
             <div className="flex gap-3">
-              {project.liveLink && (
+              {project.liveUrl && (
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <a
                       title="Live link"
-                      href={project.liveLink}
+                      href={project.liveUrl}
                       target="_blank"
                       rel="noopener noreferrer"
                       onClick={(e) => e.stopPropagation()}
@@ -81,12 +132,12 @@ const ProjectCard = React.forwardRef<HTMLDivElement, ProjectCardProps>(
                 </Tooltip>
               )}
 
-              {project.sourceLink && (
+              {project.repoUrl && (
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <a
                       title="Source code"
-                      href={project.sourceLink}
+                      href={project.repoUrl}
                       target="_blank"
                       rel="noopener noreferrer"
                       onClick={(e) => e.stopPropagation()}
@@ -102,37 +153,37 @@ const ProjectCard = React.forwardRef<HTMLDivElement, ProjectCardProps>(
           </div>
 
           {/* Description */}
-          <p className="mt-3 flex-1 text-muted-foreground">
-            {project.description}
+          <p className="mt-3 flex-1 text-muted-foreground line-clamp-2">
+            {project.shortDescription}
           </p>
 
-          {/* Tech Icons */}
-          <div className="mt-4 flex flex-col gap-2">
-            <h4 className="font-sans">Technologies</h4>
-            <div className="flex gap-4 items-center">
-              {project.icons.map((icon, idx) => {
-                const Icon = icon.icon;
-                return (
-                  <Tooltip key={idx}>
-                    <TooltipTrigger asChild>
-                      <button
-                        type="button"
-                        className=" inline-flex"
-                        onClick={(e) => e.stopPropagation()}
-                        onKeyDown={(e) => e.stopPropagation()}
-                      >
-                        <Icon
-                          className="h-6 w-6 transition-transform hover:scale-110"
-                          style={{ color: icon.color }}
-                        />
-                      </button>
-                    </TooltipTrigger>
-                    <TooltipContent>{icon.tooltip}</TooltipContent>
-                  </Tooltip>
-                );
-              })}
+          {/* Client Info */}
+          {project.isFreelance && project.isClientPublic && project.clientName && (
+            <div className="mt-3 rounded-lg bg-muted/50 p-3">
+              <p className="text-xs font-medium text-muted-foreground">Client</p>
+              <p className="text-sm font-semibold">{project.clientName}</p>
+              {project.clientLocation && (
+                <p className="text-xs text-muted-foreground">{project.clientLocation}</p>
+              )}
             </div>
-          </div>
+          )}
+
+          {/* Tech Stack with Dynamic Icons */}
+          {project.techStack && project.techStack.length > 0 && (
+            <div className="mt-4 flex flex-col gap-2">
+              <h4 className="font-sans text-sm font-medium">Technologies</h4>
+              <div className="flex flex-wrap gap-3 items-center">
+                {project.techStack.slice(0, 8).map((tech, idx) => (
+                  <TechIcon key={idx} tech={tech} />
+                ))}
+                {project.techStack.length > 8 && (
+                  <Badge variant="outline" className="text-xs">
+                    +{project.techStack.length - 8}
+                  </Badge>
+                )}
+              </div>
+            </div>
+          )}
 
           {/* Footer */}
           <div className="mt-6 flex items-center justify-between">
@@ -140,33 +191,39 @@ const ProjectCard = React.forwardRef<HTMLDivElement, ProjectCardProps>(
             <div
               className={cn(
                 "flex items-center gap-2 rounded-full border px-3 py-1 text-sm font-medium",
-                project.status === "Completed"
+                project.status === "completed"
                   ? "border-green-500 text-green-500"
-                  : "border-orange-500 text-orange-500"
+                  : project.status === "in-progress"
+                    ? "border-orange-500 text-orange-500"
+                    : "border-blue-500 text-blue-500"
               )}
             >
               <span className="relative flex h-3 w-3">
                 <span
                   className={cn(
                     "absolute inline-flex h-full w-full animate-ping rounded-full opacity-75",
-                    project.status === "Completed"
+                    project.status === "completed"
                       ? "bg-green-400"
-                      : "bg-orange-400"
+                      : project.status === "in-progress"
+                        ? "bg-orange-400"
+                        : "bg-blue-400"
                   )}
                 />
                 <span
                   className={cn(
                     "relative inline-flex h-3 w-3 rounded-full",
-                    project.status === "Completed"
+                    project.status === "completed"
                       ? "bg-green-500"
-                      : "bg-orange-500"
+                      : project.status === "in-progress"
+                        ? "bg-orange-500"
+                        : "bg-blue-500"
                   )}
                 />
               </span>
-              {project.status}
+              {statusDisplay}
             </div>
 
-            {/* Visual CTA (no navigation logic here) */}
+            {/* Visual CTA */}
             <span className="inline-flex items-center gap-1 text-sm font-medium text-muted-foreground group-hover:text-primary">
               View details
               <ArrowUpRight className="h-4 w-4" />
@@ -174,9 +231,9 @@ const ProjectCard = React.forwardRef<HTMLDivElement, ProjectCardProps>(
           </div>
         </div>
       </div>
-    );
+    )
   }
-);
+)
 
-ProjectCard.displayName = "ProjectCard";
-export { ProjectCard };
+ProjectCard.displayName = "ProjectCard"
+export { ProjectCard }

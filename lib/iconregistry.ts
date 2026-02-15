@@ -41,6 +41,7 @@ export const ICON_PACKS = {
   Wi: WiIcons,
   Lucide: LucideIcons,
 }
+export type ICON_TYPES = "fa6" | "fa" | "si" | "tb" | "ai" | "bi" | "md" | "ri" | "io" | "hi" | "bs" | "cg" | "fi" | "gi" | "go" | "gr" | "im" | "vsc" | "wi" | "lucide"
 
 // flat list for search/autocomplete
 export const ALL_ICON_NAMES = Array.from(

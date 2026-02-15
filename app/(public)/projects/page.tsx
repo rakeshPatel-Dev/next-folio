@@ -1,55 +1,59 @@
 "use client"
 
 import { ProjectCard } from '@/components/projects/project-card'
-import { projectData } from '@/data/projectData'
-import React from 'react'
-
-
-// import type { Metadata } from "next"
-// import { getProjectById } from "@/lib/data/projects"
-
-// type Props = {
-//   params: { id: string }
-// }
-
-// export async function generateMetadata(
-//   { params }: Props
-// ): Promise<Metadata> {
-//   const project = await getProjectById(params.id)
-
-//   if (!project) {
-//     return {
-//       title: "Project Not Found",
-//       description: "The requested project does not exist.",
-//     }
-//   }
-
-//   return {
-//     title: project.name,
-//     description: project.shortDescription,
-//     openGraph: {
-//       title: project.name,
-//       description: project.shortDescription,
-//       images: [project.thumbnail],
-//     },
-//   }
-// }
+import React, { useEffect, useState } from 'react'
+import { getProjectsClient, type Project } from '@/utils/getProjects.client'
+import { Loader2 } from 'lucide-react'
 
 const ProjectPage = () => {
+  const [projects, setProjects] = useState<Project[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    getProjectData()
+  }, [])
+
+  const getProjectData = async () => {
+    try {
+      const data = await getProjectsClient()
+      setProjects(data)
+    } catch (error) {
+      console.error('Failed to fetch projects:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+      </div>
+    )
+  }
+
   return (
-    <div className=' p-6 max-w-4xl mx-auto'>
-      <div className='text-center mt-5 '>
-        <h1 className="text-4xl md:text-5xl  text-center font-sans font-bold">
+    <div className="p-6 max-w-6xl mx-auto">
+      <div className="text-center mt-5">
+        <h1 className="text-4xl md:text-5xl text-center font-sans font-bold">
           Projects
         </h1>
-        <p className=' text-muted-foreground'>The projects all i have build till now and working on.</p>
+        <p className="text-muted-foreground mt-2">
+          The projects I have built and currently working on.
+        </p>
       </div>
 
-      <div className='mt-10 grid grid-cols-1 sm:grid-cols-2 gap-10'>
-        {projectData.map((project) => (
-          <ProjectCard key={project.id} project={project} />
-        ))}
-      </div>
+      {projects.length === 0 ? (
+        <div className="text-center py-20">
+          <p className="text-muted-foreground text-lg">No projects available yet.</p>
+        </div>
+      ) : (
+        <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {projects.map((project) => (
+            <ProjectCard key={project._id} project={project} />
+          ))}
+        </div>
+      )}
     </div>
   )
 }

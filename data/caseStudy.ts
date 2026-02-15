@@ -134,7 +134,7 @@ export const caseStudies: CaseStudy[] = [
     ],
   },
   {
-  id: "ishirable",
+  id: "ishirablecom",
   problem:
     "Users struggled to monitor their GitHub activity, contributions, and project growth efficiently. Manual profile checks lacked insights into hiring potential and skills visibility.",
   solution:
