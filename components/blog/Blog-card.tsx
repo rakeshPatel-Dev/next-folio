@@ -5,13 +5,13 @@ import Image from "next/image";
 import { ArrowUpRight, Star } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { Button } from "../ui/button";
 import { Badge } from "../ui/badge";
 
 export interface BlogCardProps extends React.HTMLAttributes<HTMLDivElement> {
   title: string;
   subtitle: string;
   image: string;
+  blurDataURL?: string;
   category: string;
   readingTime: string;
   date: string;
@@ -24,6 +24,7 @@ const BlogCard = React.forwardRef<HTMLDivElement, BlogCardProps>(
     title,
     subtitle,
     image,
+    blurDataURL,
     category,
     readingTime,
     date,
@@ -66,8 +67,7 @@ const BlogCard = React.forwardRef<HTMLDivElement, BlogCardProps>(
             alt={title}
             fill
             className="object-cover transition-transform duration-700 ease-in-out group-hover:scale-105"
-            placeholder="blur"
-            blurDataURL={image}
+            {...(blurDataURL && { placeholder: "blur", blurDataURL })}
           />
         </div>
 
@@ -104,13 +104,13 @@ const BlogCard = React.forwardRef<HTMLDivElement, BlogCardProps>(
 
           {/* CTA */}
           <div className="w-full flex justify-end mt-4">
-            <Button
-              variant="outline"
-              className="flex items-center gap-2 text-muted-foreground transition-all duration-300 hover:scale-105 active:scale-95"
+            <span
+              className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md border border-input bg-background text-muted-foreground transition-all duration-300 group-hover:scale-105"
+              aria-hidden="true"
             >
               Read More
               <ArrowUpRight className="h-5 w-5" />
-            </Button>
+            </span>
           </div>
         </div>
       </Link>

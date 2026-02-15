@@ -89,6 +89,25 @@ export default async function AdminBlogPage({ searchParams }: PageProps) {
   // Check if any filters are active
   const hasActiveFilters = !!(searchQuery || statusFilter || featuredFilter || tagFilter)
 
+  // Helper to build filter URLs while excluding specific keys and skipping empty values
+  const buildFilterUrl = (excludeKeys: string[] = []): string => {
+    const entries: Record<string, string> = {}
+
+    if (searchQuery && !excludeKeys.includes('search')) entries.search = searchQuery
+    if (statusFilter && !excludeKeys.includes('status')) entries.status = statusFilter
+    if (featuredFilter && !excludeKeys.includes('featured')) entries.featured = featuredFilter
+    if (tagFilter && !excludeKeys.includes('tag')) entries.tag = tagFilter
+    if (sortBy && !excludeKeys.includes('sortBy')) entries.sortBy = sortBy
+    if (sortOrder && !excludeKeys.includes('sortOrder')) entries.sortOrder = sortOrder
+
+    const params = new URLSearchParams()
+    Object.entries(entries).forEach(([k, v]) => {
+      if (v !== undefined && v !== "") params.append(k, v)
+    })
+
+    return `/admin/blog${params.toString() ? `?${params.toString()}` : ''}`
+  }
+
   return (
     <main className="flex-1 overflow-y-auto sm:p-6">
       <div className="max-w-7xl mx-auto space-y-8">
@@ -170,7 +189,7 @@ export default async function AdminBlogPage({ searchParams }: PageProps) {
               </Link>
             )}
             {statusFilter && (
-              <Link href={`/admin/blog?${new URLSearchParams({ search: searchQuery }).toString()}`}>
+              <Link href={buildFilterUrl(['status'])}>
                 <Button variant="secondary" size="sm" className="gap-2">
                   Status: {statusFilter}
                   <X className="h-3 w-3" />
@@ -178,7 +197,7 @@ export default async function AdminBlogPage({ searchParams }: PageProps) {
               </Link>
             )}
             {featuredFilter && (
-              <Link href={`/admin/blog?${new URLSearchParams({ search: searchQuery, status: statusFilter }).toString()}`}>
+              <Link href={buildFilterUrl(['featured'])}>
                 <Button variant="secondary" size="sm" className="gap-2">
                   Featured: {featuredFilter === 'true' ? 'Yes' : 'No'}
                   <X className="h-3 w-3" />
@@ -186,7 +205,7 @@ export default async function AdminBlogPage({ searchParams }: PageProps) {
               </Link>
             )}
             {tagFilter && (
-              <Link href={`/admin/blog?${new URLSearchParams({ search: searchQuery, status: statusFilter, featured: featuredFilter }).toString()}`}>
+              <Link href={buildFilterUrl(['tag'])}>
                 <Button variant="secondary" size="sm" className="gap-2">
                   Tag: {tagFilter}
                   <X className="h-3 w-3" />

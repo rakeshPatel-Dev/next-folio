@@ -3,7 +3,7 @@ import { connectDB } from "@/lib/mongoose"
 import Blog from "@/models/blogModel"
 import mongoose from "mongoose"
 
-// GET /api/blog/tags - Get all unique tags for a user's blogs
+// GET app/api/blog/tag/route.ts - Get all unique tags for a user's blogs
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url)
@@ -40,7 +40,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json(
       {
         success: false,
-        error: error.message || "Failed to fetch tags",
+        error: "Failed to fetch tags",
       },
       { status: 500 }
     )

@@ -27,7 +27,10 @@ const ProjectCard = React.forwardRef<HTMLDivElement, ProjectCardProps>(
         tabIndex={0}
         onClick={goToDetails}
         onKeyDown={(e) => {
-          if (e.key === "Enter") goToDetails();
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            goToDetails();
+          }
         }}
         className={cn(
           "group relative flex cursor-pointer flex-col overflow-hidden rounded-2xl border bg-card shadow-sm transition-all duration-300",
@@ -106,17 +109,23 @@ const ProjectCard = React.forwardRef<HTMLDivElement, ProjectCardProps>(
           {/* Tech Icons */}
           <div className="mt-4 flex flex-col gap-2">
             <h4 className="font-sans">Technologies</h4>
-            <div className="flex gap-4 items-center flow-row">
+            <div className="flex gap-4 items-center">
               {project.icons.map((icon, idx) => {
                 const Icon = icon.icon;
                 return (
                   <Tooltip key={idx}>
                     <TooltipTrigger asChild>
-                      <Icon
-                        className="h-6 w-6 transition-transform hover:scale-110"
-                        style={{ color: icon.color }}
+                      <button
+                        type="button"
+                        className=" inline-flex"
                         onClick={(e) => e.stopPropagation()}
-                      />
+                        onKeyDown={(e) => e.stopPropagation()}
+                      >
+                        <Icon
+                          className="h-6 w-6 transition-transform hover:scale-110"
+                          style={{ color: icon.color }}
+                        />
+                      </button>
                     </TooltipTrigger>
                     <TooltipContent>{icon.tooltip}</TooltipContent>
                   </Tooltip>

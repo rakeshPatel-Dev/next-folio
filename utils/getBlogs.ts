@@ -39,6 +39,9 @@ export type BlogDocument = {
  * Serialize MongoDB document to plain object
  */
 function serializeBlog(blog: any): BlogDocument {
+
+    const author = blog.author || {};
+
   return {
     _id: blog._id.toString(),
     title: blog.title,
@@ -47,10 +50,10 @@ function serializeBlog(blog: any): BlogDocument {
     coverImage: blog.coverImage,
     tags: blog.tags || [],
     author: {
-      _id: blog.author._id.toString(),
-      name: blog.author.name,
-      email: blog.author.email,
-      image: blog.author.image,
+      _id: author._id.toString() || '',
+      name: author.name || 'Admin User',
+      email: author.email || '',
+      image: author.image,
     },
     status: blog.status,
     isFeatured: blog.isFeatured || false,
@@ -102,10 +105,17 @@ export async function getBlogs(query: BlogQuery = {}): Promise<BlogDocument[]> {
     filter.author = author
   }
 
+  function escapeRegex(str: string) : string {
+    return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  }
+
   if (search) {
+
+    const escapedSearch = escapeRegex(search)
+
     filter.$or = [
-      { title: { $regex: search, $options: 'i' } },
-      { description: { $regex: search, $options: 'i' } },
+      { title: { $regex: escapedSearch, $options: 'i' } },
+      { description: { $regex: escapedSearch, $options: 'i' } },
     ]
   }
 

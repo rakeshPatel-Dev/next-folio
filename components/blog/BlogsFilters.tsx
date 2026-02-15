@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { Search, Filter } from "lucide-react"
 import { Input } from "@/components/ui/input"
@@ -44,6 +44,7 @@ export function BlogFilters({
     async function fetchTags() {
       try {
         const response = await fetch(`/api/blog/tags?userId=${currentUserId}`)
+        if (!response.ok) throw new Error(`Failed to fetch tags ${response.status}`)
         const data = await response.json()
         if (data.success) {
           setTags(data.tags)
@@ -70,30 +71,60 @@ export function BlogFilters({
     router.push(`/admin/blog?${params.toString()}`)
   }
 
+  const filtersRef = useRef({
+    status,
+    featured,
+    tag
+  })
+
+  // Update filters when search, status, featured, or tag changes
+  useEffect(() => {
+    filtersRef.current = {
+      status,
+      featured,
+      tag
+    }
+  }, [status, featured, tag])
+
   // Handle search with debounce
   useEffect(() => {
+
     const timer = setTimeout(() => {
-      updateFilters({ search, status, featured, tag })
+      // updateFilters({ search, status, featured, tag })
+      const { status, featured, tag } = filtersRef.current
+      const params = new URLSearchParams(searchParams?.toString())
+      const newFilters = { search, status, featured, tag }
+      Object.entries(newFilters).forEach(([key, value]) => {
+        if (value) {
+          params.set(key, value)
+        } else {
+          params.delete(key)
+        }
+      })
+      router.push(`/admin/blog?${params.toString()}`)
     }, 500)
 
     return () => clearTimeout(timer)
-  }, [search])
+  }, [search, searchParams, router])
 
   const handleStatusChange = (newStatus: string) => {
     const updatedStatus = status === newStatus ? '' : newStatus
     setStatus(updatedStatus)
+    filtersRef.current.status = updatedStatus
     updateFilters({ search, status: updatedStatus, featured, tag })
   }
 
   const handleFeaturedChange = (newFeatured: string) => {
     const updatedFeatured = featured === newFeatured ? '' : newFeatured
     setFeatured(updatedFeatured)
+    filtersRef.current.featured = updatedFeatured
     updateFilters({ search, status, featured: updatedFeatured, tag })
   }
 
   const handleTagChange = (newTag: string) => {
     const updatedTag = tag === newTag ? '' : newTag
     setTag(updatedTag)
+    filtersRef.current.tag = updatedTag
     updateFilters({ search, status, featured, tag: updatedTag })
   }
 

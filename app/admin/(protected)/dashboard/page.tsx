@@ -247,7 +247,7 @@ export default async function AdminDashboardPage() {
                         <Image
                           width={40}
                           height={40}
-                          src={blog.coverImage}
+                          src={blog.coverImage || '/images/logo.png'}
                           alt={blog.title}
                           className="w-10 h-10 rounded object-cover"
                         />
