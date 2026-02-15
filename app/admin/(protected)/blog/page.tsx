@@ -3,9 +3,10 @@ import {
   FileText,
   Eye,
   Users,
-  Search,
-  Filter,
-  ArrowUpDown,
+  // Search,
+  // Filter,
+  // ArrowUpDown,
+  X,
 } from "lucide-react"
 
 import {
@@ -16,19 +17,30 @@ import {
 } from "@/components/ui/card"
 
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
+// import { Input } from "@/components/ui/input"
 import Link from "next/link"
 import { BLOGS_METADATA } from "@/lib/metadata"
-import { connectDB } from '@/lib/mongoose'
-import Blog from '@/models/blogModel'
 import { requireAdmin } from '@/lib/auth'
 import { redirect } from 'next/navigation'
-import { BlogTable } from '@/components/BlogTable'
+import { BlogTable } from '@/components/blog/BlogTable'
 import { AppBreadcrumb } from '@/components/BreadCrumb'
+import { getBlogsByUser, getBlogStats } from '@/utils/getBlogs'
+import { BlogFilters } from '@/components/blog/BlogsFilters'
 
 export const metadata = BLOGS_METADATA
 
-export default async function AdminBlogPage() {
+interface PageProps {
+  searchParams: Promise<{
+    search?: string
+    status?: string
+    featured?: string
+    tag?: string
+    sortBy?: string
+    sortOrder?: string
+  }>
+}
+
+export default async function AdminBlogPage({ searchParams }: PageProps) {
   const session = await requireAdmin()
 
   if (!session?.user) {
@@ -37,39 +49,45 @@ export default async function AdminBlogPage() {
 
   const currentUserId = session.user.id
 
-  // Fetch all blogs by the current user
-  await connectDB()
-  const blogs = await Blog.find({ author: currentUserId })
-    .sort({ createdAt: -1 })
-    .populate('author', 'name email image')
-    .lean()
+  // Await searchParams
+  const params = await searchParams
+  const searchQuery = params.search || ''
+  const statusFilter = params.status || ''
+  const featuredFilter = params.featured || ''
+  const tagFilter = params.tag || ''
+  const sortBy = params.sortBy || 'createdAt'
+  const sortOrder = (params.sortOrder || 'desc') as 'asc' | 'desc'
 
-  // Convert MongoDB documents to plain objects
-  const blogsData = blogs.map((blog) => ({
-    _id: blog._id.toString(),
-    title: blog.title,
-    slug: blog.slug,
-    description: blog.description,
-    coverImage: blog.coverImage,
-    tags: blog.tags || [],
-    author: {
-      _id: blog.author._id.toString(),
-      name: blog.author.name,
-      email: blog.author.email,
-      image: blog.author.image,
-    },
-    status: blog.status,
-    isFeatured: blog.isFeatured || false,
-    publishedAt: blog.publishedAt ? blog.publishedAt.toISOString() : null,
-    createdAt: blog.createdAt.toISOString(),
-    updatedAt: blog.updatedAt.toISOString(),
-  }))
+  // Build query for getBlogsByUser
+  const query: any = {
+    sortBy,
+    sortOrder,
+  }
 
-  // Calculate stats
-  const totalPosts = blogsData.length
-  const publishedPosts = blogsData.filter(blog => blog.status === 'published').length
-  const draftPosts = blogsData.filter(blog => blog.status === 'draft').length
-  const featuredPosts = blogsData.filter(blog => blog.isFeatured).length
+  if (searchQuery) {
+    query.search = searchQuery
+  }
+
+  if (statusFilter) {
+    query.status = statusFilter as 'draft' | 'published'
+  }
+
+  if (featuredFilter) {
+    query.isFeatured = featuredFilter === 'true'
+  }
+
+  if (tagFilter) {
+    query.tag = tagFilter
+  }
+
+  // Fetch blogs and stats
+  const [blogs, stats] = await Promise.all([
+    getBlogsByUser(currentUserId, query),
+    getBlogStats(currentUserId)
+  ])
+
+  // Check if any filters are active
+  const hasActiveFilters = !!(searchQuery || statusFilter || featuredFilter || tagFilter)
 
   return (
     <main className="flex-1 overflow-y-auto sm:p-6">
@@ -95,10 +113,13 @@ export default async function AdminBlogPage() {
           </div>
 
           <div className="flex gap-3 w-full md:w-auto">
-            <div className="relative flex-1 md:w-64">
-              <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input placeholder="Search blogs..." className="pl-9" />
-            </div>
+            <BlogFilters
+              currentUserId={currentUserId}
+              initialSearch={searchQuery}
+              initialStatus={statusFilter}
+              initialFeatured={featuredFilter}
+              initialTag={tagFilter}
+            />
             <Link href="/admin/blog/add-blog">
               <Button className="gap-2">
                 <Plus className="h-4 w-4" />
@@ -112,46 +133,89 @@ export default async function AdminBlogPage() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <StatCard
             title="Total Posts"
-            value={totalPosts.toString()}
+            value={stats.total.toString()}
             icon={<FileText />}
-            description={`${publishedPosts} published, ${draftPosts} draft`}
+            description={`${stats.published} published, ${stats.draft} draft`}
           />
           <StatCard
             title="Published"
-            value={publishedPosts.toString()}
+            value={stats.published.toString()}
             icon={<Eye />}
             description="Live on your site"
           />
           <StatCard
             title="Drafts"
-            value={draftPosts.toString()}
+            value={stats.draft.toString()}
             icon={<FileText />}
             description="Not yet published"
           />
           <StatCard
             title="Featured"
-            value={featuredPosts.toString()}
+            value={stats.featured.toString()}
             icon={<Users />}
             description="Highlighted posts"
           />
         </div>
 
+        {/* Active Filters Display */}
+        {hasActiveFilters && (
+          <div className="flex flex-wrap gap-2 items-center">
+            <span className="text-sm text-muted-foreground">Active filters:</span>
+            {searchQuery && (
+              <Link href="/admin/blog">
+                <Button variant="secondary" size="sm" className="gap-2">
+                  Search: {searchQuery}
+                  <X className="h-3 w-3" />
+                </Button>
+              </Link>
+            )}
+            {statusFilter && (
+              <Link href={`/admin/blog?${new URLSearchParams({ search: searchQuery }).toString()}`}>
+                <Button variant="secondary" size="sm" className="gap-2">
+                  Status: {statusFilter}
+                  <X className="h-3 w-3" />
+                </Button>
+              </Link>
+            )}
+            {featuredFilter && (
+              <Link href={`/admin/blog?${new URLSearchParams({ search: searchQuery, status: statusFilter }).toString()}`}>
+                <Button variant="secondary" size="sm" className="gap-2">
+                  Featured: {featuredFilter === 'true' ? 'Yes' : 'No'}
+                  <X className="h-3 w-3" />
+                </Button>
+              </Link>
+            )}
+            {tagFilter && (
+              <Link href={`/admin/blog?${new URLSearchParams({ search: searchQuery, status: statusFilter, featured: featuredFilter }).toString()}`}>
+                <Button variant="secondary" size="sm" className="gap-2">
+                  Tag: {tagFilter}
+                  <X className="h-3 w-3" />
+                </Button>
+              </Link>
+            )}
+            <Link href="/admin/blog">
+              <Button variant="ghost" size="sm">
+                Clear all
+              </Button>
+            </Link>
+          </div>
+        )}
+
         {/* Blog Table */}
         <Card>
           <CardHeader className="flex flex-row items-center justify-between">
-            <CardTitle>All Blog Posts</CardTitle>
-            <div className="flex gap-1">
-              <Button size="icon" variant="ghost" disabled>
-                <Filter className="h-4 w-4" />
-              </Button>
-              <Button size="icon" variant="ghost" disabled>
-                <ArrowUpDown className="h-4 w-4" />
-              </Button>
-            </div>
+            <CardTitle>
+              All Blog Posts
+              {blogs.length > 0 && (
+                <span className="text-sm font-normal text-muted-foreground ml-2">
+                  ({blogs.length} {blogs.length === 1 ? 'post' : 'posts'})
+                </span>
+              )}
+            </CardTitle>
           </CardHeader>
 
           <CardContent className="p-0">
-            <BlogTable blogs={blogsData} />
+            <BlogTable blogs={blogs} />
           </CardContent>
         </Card>
       </div>

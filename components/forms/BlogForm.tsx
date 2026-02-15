@@ -11,6 +11,7 @@ import { BlogClassification } from "./blog/BlogClassification"
 import { Button } from "../ui/button"
 import { useToast } from "../zenblocks/toast"
 import { useCloudinaryUpload } from "@/hooks/useCloudinaryUpload"
+import { Spinner } from "../ui/spinner"
 
 export type BlogFormValues = {
   title: string
@@ -109,11 +110,9 @@ export default function AdminBlogForm({
         author: currentUserId,
       }
 
-      console.log("Submitting blog data:", payload)
 
       const result = await saveBlog(payload)
 
-      console.log("Save result:", result)
 
       if (result.success) {
         toast({
@@ -126,9 +125,7 @@ export default function AdminBlogForm({
         form.reset()
 
         // Force router refresh and redirect
-        console.log("Redirecting to:", path)
         router.push(path)
-        router.refresh()
       } else {
         throw new Error(result.message || "Failed to save blog")
       }
@@ -152,8 +149,6 @@ export default function AdminBlogForm({
       const confirmCancel = confirm("You have unsaved changes. Are you sure you want to cancel?")
       if (!confirmCancel) return
     }
-
-    console.log("Cancelling, redirecting to:", path)
     router.push(path)
   }
 
@@ -179,14 +174,15 @@ export default function AdminBlogForm({
           >
             Cancel
           </Button>
-          <Button
-            type="submit"
-            disabled={isSubmitting}
-          >
-            {isSubmitting
-              ? (isEditMode ? "Updating..." : "Creating...")
-              : (isEditMode ? "Update Blog" : "Create Blog")
-            }
+          <Button type="submit" disabled={isSubmitting}>
+            {isSubmitting ? (
+              <>
+                <Spinner data-icon="inline-start" className="size-4" />
+                {isEditMode ? "Updating..." : "Creating..."}
+              </>
+            ) : (
+              isEditMode ? "Update Blog" : "Create Blog"
+            )}
           </Button>
         </div>
       </form>

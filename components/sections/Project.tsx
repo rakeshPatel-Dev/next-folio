@@ -1,6 +1,6 @@
 "use client"
 
-import { ProjectCard } from '@/components/project-card'
+import { ProjectCard } from '@/components/projects/project-card'
 import { Button } from '@/components/ui/button'
 import { projectData } from '@/data/projectData'
 import { ArrowRight } from 'lucide-react'

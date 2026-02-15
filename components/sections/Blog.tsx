@@ -1,7 +1,7 @@
 "use client";
 
 import { blogData } from "@/data/blogData";
-import { BlogCard } from "@/components/Blog-card";
+import { BlogCard } from "@/components/blog/Blog-card";
 
 interface BlogSectionProps {
   featuredCount?: number; // how many featured cards

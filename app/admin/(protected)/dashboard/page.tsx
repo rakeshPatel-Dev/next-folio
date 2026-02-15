@@ -5,8 +5,11 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import Link from "next/link"
 import { DASHBOARD_METADATA } from "@/lib/metadata"
 import { getProjects } from "@/utils/getProjects.server"
+import { getBlogsByUser, getBlogStats } from "@/utils/getBlogs"
 import { Badge } from "@/components/ui/badge"
 import Image from "next/image"
+import { requireAdmin } from "@/lib/auth"
+import { redirect } from "next/navigation"
 
 export const metadata = DASHBOARD_METADATA
 
@@ -18,21 +21,26 @@ interface StatsCardProps {
   link?: string
 }
 
-interface BlogData {
-  id: number
-  title: string
-  category: string
-  date: string
-}
-
-const blogs: BlogData[] = [
-  { id: 1, title: "React Tips", category: "Web", date: "2026-01-02" },
-  { id: 2, title: "Next.js Best Practices", category: "Web", date: "2026-01-06" },
-]
-
 export default async function AdminDashboardPage() {
-  // ✅ Fetch real projects using direct DB access (auth handled by route group)
-  const projects = await getProjects();
+  // ✅ Get current user session
+  const session = await requireAdmin()
+
+  if (!session?.user) {
+    redirect('/login')
+  }
+
+  const currentUserId = session.user.id
+
+  // ✅ Fetch real projects and blogs using direct DB access
+  const [projects, blogs, blogStats] = await Promise.all([
+    getProjects(),
+    getBlogsByUser(currentUserId, {
+      sortBy: 'createdAt',
+      sortOrder: 'desc',
+      limit: 3
+    }),
+    getBlogStats(currentUserId)
+  ])
 
   // ✅ Calculate real stats
   const stats = {
@@ -59,7 +67,7 @@ export default async function AdminDashboardPage() {
     },
     {
       title: "Total Blogs",
-      value: blogs.length,
+      value: blogStats.total,
       buttonText: "Add Blog",
       buttonIcon: <Plus className="h-4 w-4" />,
       link: "/admin/blog/add-blog",
@@ -76,7 +84,7 @@ export default async function AdminDashboardPage() {
   return (
     <div className="sm:p-6 space-y-6">
       <div className="space-y-2 mb-4">
-        <h1 className="text-3xl font-bold">Welcome, Rakesh</h1>
+        <h1 className="text-3xl font-bold">Welcome, {session.user.name || 'User'}</h1>
         <p className="text-muted-foreground mb-8">
           Quick overview of your projects and blogs. Upload, edit, or delete content.
         </p>
@@ -210,26 +218,105 @@ export default async function AdminDashboardPage() {
           </Link>
         </CardHeader>
         <CardContent className="overflow-x-auto">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>ID</TableHead>
-                <TableHead>Title</TableHead>
-                <TableHead>Category</TableHead>
-                <TableHead>Date</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {blogs.map((blog) => (
-                <TableRow key={blog.id}>
-                  <TableCell>{blog.id}</TableCell>
-                  <TableCell>{blog.title}</TableCell>
-                  <TableCell>{blog.category}</TableCell>
-                  <TableCell>{blog.date}</TableCell>
+          {blogs.length === 0 ? (
+            <div className="text-center py-12">
+              <p className="text-muted-foreground mb-4">No blogs yet</p>
+              <Link href="/admin/blog/add-blog">
+                <Button>
+                  <Plus className="h-4 w-4 mr-2" />
+                  Write Your First Blog
+                </Button>
+              </Link>
+            </div>
+          ) : (
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Blog</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead>Tags</TableHead>
+                  <TableHead>Date</TableHead>
+                  <TableHead>Actions</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+              <TableBody>
+                {blogs.map((blog) => (
+                  <TableRow key={blog._id}>
+                    <TableCell>
+                      <div className="flex items-center gap-3">
+                        <Image
+                          width={40}
+                          height={40}
+                          src={blog.coverImage}
+                          alt={blog.title}
+                          className="w-10 h-10 rounded object-cover"
+                        />
+                        <div>
+                          <p className="font-medium">{blog.title}</p>
+                          <p className="text-xs truncate w-50 text-muted-foreground line-clamp-1">
+                            {blog.description}
+                          </p>
+                        </div>
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <Badge
+                        variant={blog.status === "published" ? "default" : "secondary"}
+                        className="capitalize"
+                      >
+                        {blog.status}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex flex-wrap gap-1">
+                        {blog.tags.length > 0 ? (
+                          <>
+                            {blog.tags.slice(0, 2).map((tag) => (
+                              <Badge key={tag} variant="outline" className="text-xs">
+                                {tag}
+                              </Badge>
+                            ))}
+                            {blog.tags.length > 2 && (
+                              <Badge variant="outline" className="text-xs">
+                                +{blog.tags.length - 2}
+                              </Badge>
+                            )}
+                          </>
+                        ) : (
+                          <span className="text-xs text-muted-foreground">-</span>
+                        )}
+                      </div>
+                    </TableCell>
+                    <TableCell className="text-sm text-muted-foreground">
+                      {blog.publishedAt
+                        ? new Date(blog.publishedAt).toLocaleDateString("en-US", {
+                          month: "short",
+                          day: "numeric",
+                          year: "numeric",
+                        })
+                        : new Date(blog.createdAt).toLocaleDateString("en-US", {
+                          month: "short",
+                          day: "numeric",
+                          year: "numeric",
+                        })}
+                    </TableCell>
+                    <TableCell className="flex gap-2">
+                      <Link href={`/admin/blog/edit/${blog._id}`}>
+                        <Button variant="ghost" size="icon" title="Edit blog">
+                          <Edit className="h-4 w-4" />
+                        </Button>
+                      </Link>
+                      <Link href={`/blog/${blog.slug}`} target="_blank">
+                        <Button variant="ghost" size="icon" title="View blog">
+                          <Eye className="h-4 w-4" />
+                        </Button>
+                      </Link>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          )}
         </CardContent>
       </Card>
     </div>

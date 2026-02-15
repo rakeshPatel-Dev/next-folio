@@ -127,7 +127,7 @@ const Page = async () => {
         </span>
       </div>
       <AdminBlogForm
-        path="/admin/blog"
+        path="admin/blog"
         saveBlog={saveBlog}
         currentUserId={currentUserId}
       />

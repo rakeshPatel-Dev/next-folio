@@ -1,6 +1,6 @@
 "use client"
 
-import { ProjectCard } from '@/components/project-card'
+import { ProjectCard } from '@/components/projects/project-card'
 import { projectData } from '@/data/projectData'
 import React from 'react'
 

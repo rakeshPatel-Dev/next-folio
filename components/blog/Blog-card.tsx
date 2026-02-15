@@ -5,8 +5,8 @@ import Image from "next/image";
 import { ArrowUpRight, Star } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { Button } from "./ui/button";
-import { Badge } from "./ui/badge";
+import { Button } from "../ui/button";
+import { Badge } from "../ui/badge";
 
 export interface BlogCardProps extends React.HTMLAttributes<HTMLDivElement> {
   title: string;
