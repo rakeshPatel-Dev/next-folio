@@ -25,6 +25,9 @@
     "paths": {
       "@/*": [
         "./*"
+      ],
+      "fumadocs-mdx:collections/*": [
+        ".source/*"
       ]
     }
   },
@@ -35,7 +38,9 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "**/*.mts",
-    "utils/getProjects.ts"
+    "utils/getProjects.ts",
+    "next.config.mjs",
+    "content/docs/index.mjx"
   ],
   "exclude": [
     "node_modules"

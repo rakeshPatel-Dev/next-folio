@@ -1,4 +1,5 @@
 import mongoose from "mongoose"
+import User from "./userModel"
 
 const blogSchema = new mongoose.Schema(
   {
@@ -32,7 +33,7 @@ const blogSchema = new mongoose.Schema(
     },
     author: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: User,
       required: true,
     },
     status: {

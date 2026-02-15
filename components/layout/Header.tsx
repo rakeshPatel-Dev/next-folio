@@ -8,7 +8,7 @@ const Header = () => {
 
 
   return (
-    <header className="font-sans  w-full backdrop-blur-xl shadow-sm py-3 px-6 sticky top-0 z-1">
+    <header className="font-sans  w-full backdrop-blur-xl shadow-sm py-3 px-6 sticky top-0 z-100">
       <div className="flex items-center flow-row justify-between  max-w-4xl mx-auto">
         <Link href='/' className="flex items-center gap-3 bg-black rounded-tl-lg rounded-tr-sm rounded-br-lg rounded-bl-sm">
           <Image

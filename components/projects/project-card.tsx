@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { ArrowUpRight, Github, Globe, Code } from "lucide-react"
+import { ArrowUpRight, Github, Globe } from "lucide-react"
 import { cn } from "@/lib/utils"
 import type { Project } from "@/utils/getProjects.client"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"

@@ -6,6 +6,7 @@ import { ThemeProvider } from "next-themes";
 import Footer from "@/components/layout/Footer";
 import { AppDock } from "@/components/sections/GlobalDock";
 import { APP_NAME, PUBLIC_TITLE } from "@/lib/constants";
+import { RootProvider } from "fumadocs-ui/provider/next"
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -81,7 +82,9 @@ export default function RootLayout({
       >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <Header />
-          {children}
+          <RootProvider>
+            {children}
+          </RootProvider>
           <AppDock />
           <Footer />
         </ThemeProvider>
