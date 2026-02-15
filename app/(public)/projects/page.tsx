@@ -8,21 +8,22 @@ import { Loader2 } from 'lucide-react'
 const ProjectPage = () => {
   const [projects, setProjects] = useState<Project[]>([])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    getProjectData()
-  }, [])
-
-  const getProjectData = async () => {
-    try {
-      const data = await getProjectsClient()
-      setProjects(data)
-    } catch (error) {
-      console.error('Failed to fetch projects:', error)
-    } finally {
-      setLoading(false)
+    const getProjectData = async () => {
+      try {
+        const data = await getProjectsClient();
+        setProjects(data)
+      } catch (err) {
+        console.log("Failed to fetch projects:", err);
+        setError("Failed to load projects. Please try again later.");
+      } finally {
+        setLoading(false);
+      }
     }
-  }
+    getProjectData();
+  }, [])
 
   if (loading) {
     return (
@@ -43,7 +44,11 @@ const ProjectPage = () => {
         </p>
       </div>
 
-      {projects.length === 0 ? (
+      {error ? (
+        <div className="text-center py-20">
+          <p className="text-destructive text-lg">{error}</p>
+        </div>
+      ) : projects.length === 0 ? (
         <div className="text-center py-20">
           <p className="text-muted-foreground text-lg">No projects available yet.</p>
         </div>

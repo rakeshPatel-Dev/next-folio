@@ -6,7 +6,6 @@ import * as BiIcons from 'react-icons/bi'
 import * as AiIcons from 'react-icons/ai'
 import * as DiIcons from 'react-icons/di'
 import * as TbIcons from 'react-icons/tb'
-import * as Fa6Icons from 'react-icons/fa6'
 import * as MdIcons from 'react-icons/md'
 import * as RiIcons from 'react-icons/ri'
 import * as IoIcons from 'react-icons/io5'
@@ -18,11 +17,9 @@ import * as GiIcons from 'react-icons/gi'
 import * as GoIcons from 'react-icons/go'
 import * as GrIcons from 'react-icons/gr'
 import * as ImIcons from 'react-icons/im'
-import * as VscIcons from 'react-icons/vsc'
 import * as WiIcons from 'react-icons/wi'
-import * as LucideIcons from 'lucide-react'
 
-type IconLibrary = 'si' | 'fa' | 'bi' | 'ai' | 'di' | 'tb' | 'fa6' | 'md' | 'ri' | 'io' | 'hi' | 'bs' | 'cg' | 'fi' | 'gi' | 'go' | 'gr' | 'im' | 'vsc' | 'wi' | 'lucide'
+type IconLibrary = 'si' | 'fa' | 'bi' | 'ai' | 'di' | 'tb' | 'md' | 'ri' | 'io' | 'hi' | 'bs' | 'cg' | 'fi' | 'gi' | 'go' | 'gr' | 'im'  | 'wi' 
 
 const iconLibraries = {
   si: SiIcons,
@@ -31,7 +28,6 @@ const iconLibraries = {
   ai: AiIcons,
   di: DiIcons,
   tb: TbIcons,
-  fa6: Fa6Icons,
   md: MdIcons,
   ri: RiIcons,
   io: IoIcons,
@@ -43,9 +39,7 @@ const iconLibraries = {
   go: GoIcons,
   gr: GrIcons,
   im: ImIcons,
-  vsc: VscIcons,
   wi: WiIcons,
-  lucide: LucideIcons,
 }
 
 export function useTechIcon(iconName?: string): IconType | null {
@@ -76,10 +70,23 @@ export function useTechIcon(iconName?: string): IconType | null {
 export function getTechIcon(iconName?: string): IconType | null {
   if (!iconName) return null
 
-  const prefix = iconName.substring(0, 2).toLowerCase() as IconLibrary
+  // Extract leading alphabetic prefix (e.g., "SiReact" -> "Si" -> "si")
+  const prefixMatch = iconName.match(/^[A-Z][a-z]*/)
+  if (!prefixMatch) return null
+
+  const prefix = prefixMatch[0].toLowerCase() as IconLibrary
   const library = iconLibraries[prefix]
 
-  if (!library) return null
+  if (!library) {
+    console.warn(`Icon library "${prefix}" not found for icon "${iconName}"`)
+    return null
+  }
 
-  return (library[iconName as keyof typeof library] as IconType) || null
+  const Icon = (library[iconName as keyof typeof library] as IconType) || null
+
+  if (!Icon) {
+    console.warn(`Icon "${iconName}" not found in library "${prefix}"`)
+  }
+
+  return Icon
 }
