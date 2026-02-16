@@ -8,6 +8,7 @@ import { redirect } from 'next/navigation'
 import mongoose from 'mongoose'
 import slugify from 'slugify'
 import { requireAdmin } from '@/lib/auth'
+import { createMDXFile } from '@/lib/mdxSync'
 
 export const metadata = ADDBLOGS_METADATA
 
@@ -19,25 +20,37 @@ async function saveBlog(values: any) {
     await connectDB()
 
     // Validate required fields
-    const { title, slug, description, coverImage, author, status, tags, isFeatured } = values
+    const { title, slug, description, coverImage, author, status, tags, isFeatured, content } = values
 
     if (!title || !slug || !description || !coverImage || !author) {
-      throw new Error("Required fields are missing")
+      return {
+        success: false,
+        message: "Required fields are missing"
+      }
     }
 
     // Validate description length
     if (description.length > 200) {
-      throw new Error("Description must be 200 characters or less")
+      return {
+        success: false,
+        message: "Description must be 200 characters or less"
+      }
     }
 
     // Validate title length
     if (title.length > 150) {
-      throw new Error("Title must be 150 characters or less")
+      return {
+        success: false,
+        message: "Title must be 150 characters or less"
+      }
     }
 
     // Validate author is a valid ObjectId
     if (!mongoose.Types.ObjectId.isValid(author)) {
-      throw new Error("Invalid author ID")
+      return {
+        success: false,
+        message: "Invalid author ID"
+      }
     }
 
     // Generate slug from title if not provided or sanitize provided slug
@@ -50,7 +63,10 @@ async function saveBlog(values: any) {
     // Check if slug already exists
     const existingBlog = await Blog.findOne({ slug: finalSlug })
     if (existingBlog) {
-      throw new Error("A blog with this slug already exists. Please use a different title or slug.")
+      return {
+        success: false,
+        message: "A blog with this slug already exists. Please use a different title or slug."
+      }
     }
 
     // Prepare blog data
@@ -70,26 +86,50 @@ async function saveBlog(values: any) {
       blogData.publishedAt = new Date()
     }
 
-    // Create the blog
-    await Blog.create(blogData)
+    // Create the blog in MongoDB
+    const createdBlog = await Blog.create(blogData)
+
+    const session = await requireAdmin()
+
+    if (!session?.user) {
+      redirect('/login')
+    }
+
+    // ✅ Create MDX file
+    try {
+      await createMDXFile({
+        slug: finalSlug,
+        title: title.trim(),
+        description: description.trim(),
+        tags: tags || [],
+        author: session?.user?.name || 'Author',
+        date: blogData.publishedAt || new Date().toISOString(),
+        content: content || '', // MDX content from form
+      })
+    } catch (mdxError) {
+      console.error('Failed to create MDX file:', mdxError)
+      // Continue anyway - MDX file can be created manually
+    }
 
     return {
       success: true,
-      message: "Blog saved successfully",
+      message: "Blog created successfully! MDX file generated at content/blogs/" + finalSlug + ".mdx",
     }
   } catch (error: any) {
     console.error("Error while saving blog:", error)
 
     // Handle duplicate key error
     if (error.code === 11000) {
-      throw new Error("A blog with this slug already exists. Please use a different title or slug.")
+      return {
+        success: false,
+        message: "A blog with this slug already exists. Please use a different title or slug."
+      }
     }
+
     return {
       success: false,
       message: error.message || "Failed to save blog"
     }
-
-    // throw new Error(error.message || "Failed to save blog")
   }
 }
 
@@ -114,7 +154,7 @@ const Page = async () => {
       <div className='flex flex-col gap-2 mb-6'>
         <h1 className="text-3xl font-bold">Add New Blog</h1>
         <p className="text-muted-foreground">
-          Use the form below to add a new blog to your portfolio.
+          Use the form below to add a new blog to your portfolio. An MDX file will be automatically created.
         </p>
         <span className='mt-4'>
           <AppBreadcrumb
@@ -127,7 +167,7 @@ const Page = async () => {
         </span>
       </div>
       <AdminBlogForm
-        path="admin/blog"
+        path="/admin/blog"
         saveBlog={saveBlog}
         currentUserId={currentUserId}
       />

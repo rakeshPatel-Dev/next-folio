@@ -1,0 +1,147 @@
+---
+title: Getting Started with Next.js 15
+description: Learn the fundamentals of Next.js 15 and build your first modern web application
+slug: getting-started-with-nextjs-15
+tags: [nextjs, react, typescript, web-development]
+author: Rakesh Patel
+date: 2026-02-16
+---
+
+# Getting Started with Next.js 15
+
+Next.js 15 is the latest version of the popular React framework. In this comprehensive guide, we will explore its new features and build a simple application from scratch.
+
+## Why Next.js 15?
+
+Next.js 15 brings several game-changing improvements:
+
+- Improved Performance: Faster page loads and better optimization
+- React 19 Support: Latest React features built-in
+- Better Developer Experience: Enhanced error messages and debugging
+- Turbopack: Lightning-fast builds and hot module replacement
+- Partial Prerendering: Mix static and dynamic content seamlessly
+
+## Installation
+
+Let us start by creating a new Next.js 15 project:
+
+```bash
+npx create-next-app@latest my-app
+cd my-app
+npm run dev
+```
+
+When prompted, select these options:
+- TypeScript
+- ESLint
+- Tailwind CSS
+- App Router
+- Turbopack
+
+Your app will be running at http://localhost:3000
+
+## Project Structure
+
+Next.js 15 uses the App Router with this structure:
+
+```
+my-app/
+├── app/
+│   ├── page.tsx          → Homepage
+│   ├── layout.tsx        → Root layout
+│   └── globals.css       → Global styles
+├── public/               → Static assets
+└── next.config.js        → Configuration
+```
+
+## Your First Component
+
+Create a simple homepage in app/page.tsx:
+
+```tsx
+export default function Home() {
+  return (
+    <main className="flex min-h-screen flex-col items-center justify-center p-24">
+      <h1 className="text-4xl font-bold mb-4">
+        Welcome to Next.js 15
+      </h1>
+      <p className="text-xl text-gray-600">
+        The React Framework for Production
+      </p>
+    </main>
+  )
+}
+```
+
+## Key Features
+
+### 1. Server Components by Default
+
+All components in the App Router are Server Components by default. This means they run on the server, reducing client-side JavaScript:
+
+```tsx
+async function getData() {
+  const res = await fetch('https://api.example.com/data')
+  return res.json()
+}
+
+export default async function Page() {
+  const data = await getData()
+  return <div>{data.title}</div>
+}
+```
+
+### 2. File-based Routing
+
+The App Router uses your file system for routing:
+
+```
+app/
+├── page.tsx              → /
+├── about/
+│   └── page.tsx          → /about
+└── blog/
+    └── [slug]/
+        └── page.tsx      → /blog/my-post
+```
+
+### 3. Data Fetching
+
+Next.js 15 makes data fetching simple and powerful:
+
+```tsx
+async function BlogPost({ params }) {
+  const post = await fetch(`https://api.example.com/posts/${params.id}`, {
+    next: { revalidate: 3600 }
+  })
+  
+  return <article>{post.content}</article>
+}
+```
+
+## Best Practices
+
+Here are essential tips for building with Next.js 15:
+
+1. Use Server Components When Possible
+2. Optimize Images with the Image component
+3. Implement Proper SEO with metadata
+4. Use Streaming for Better Performance
+5. Leverage Caching strategies
+
+## Deployment
+
+Deploy your Next.js 15 app easily on Vercel:
+
+```bash
+npm i -g vercel
+vercel
+```
+
+## Conclusion
+
+Next.js 15 represents a major leap forward in React development. With features like Server Components, improved routing, and better performance, it is easier than ever to build fast, modern web applications.
+
+Ready to dive deeper? Check out the official documentation at nextjs.org/docs
+
+Happy coding

@@ -4,14 +4,15 @@ import { useForm } from "react-hook-form"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 import slugify from "slugify"
+import dynamic from 'next/dynamic'
 
 import { Form } from "@/components/ui/form"
 import { BlogBasics } from "./blog/BlogBasics"
 import { BlogClassification } from "./blog/BlogClassification"
+import { BlogContent } from "./blog/BlogContent"
 import { Button } from "../ui/button"
 import { useToast } from "../zenblocks/toast"
 import { useCloudinaryUpload } from "@/hooks/useCloudinaryUpload"
-import { Spinner } from "../ui/spinner"
 
 export type BlogFormValues = {
   title: string
@@ -22,6 +23,7 @@ export type BlogFormValues = {
   author: string
   status: "draft" | "published"
   isFeatured: boolean
+  content: string // ✅ Add MDX content field
 }
 
 export default function AdminBlogForm({
@@ -52,6 +54,7 @@ export default function AdminBlogForm({
       author: currentUserId,
       status: "draft",
       isFeatured: false,
+      content: "", // ✅ Default empty content
       ...defaultValues,
     },
   })
@@ -110,9 +113,11 @@ export default function AdminBlogForm({
         author: currentUserId,
       }
 
+      console.log("Submitting blog data:", payload)
 
       const result = await saveBlog(payload)
 
+      console.log("Save result:", result)
 
       if (result.success) {
         toast({
@@ -125,7 +130,9 @@ export default function AdminBlogForm({
         form.reset()
 
         // Force router refresh and redirect
+        console.log("Redirecting to:", path)
         router.push(path)
+        router.refresh()
       } else {
         throw new Error(result.message || "Failed to save blog")
       }
@@ -149,6 +156,8 @@ export default function AdminBlogForm({
       const confirmCancel = confirm("You have unsaved changes. Are you sure you want to cancel?")
       if (!confirmCancel) return
     }
+
+    console.log("Cancelling, redirecting to:", path)
     router.push(path)
   }
 
@@ -163,6 +172,10 @@ export default function AdminBlogForm({
           onTitleChange={handleTitleChange}
           isEditMode={isEditMode}
         />
+
+        {/* ✅ Add MDX Content Editor */}
+        <BlogContent control={form.control} />
+
         <BlogClassification control={form.control} />
 
         <div className="flex justify-end gap-3">
@@ -174,15 +187,14 @@ export default function AdminBlogForm({
           >
             Cancel
           </Button>
-          <Button type="submit" disabled={isSubmitting}>
-            {isSubmitting ? (
-              <>
-                <Spinner data-icon="inline-start" className="size-4" />
-                {isEditMode ? "Updating..." : "Creating..."}
-              </>
-            ) : (
-              isEditMode ? "Update Blog" : "Create Blog"
-            )}
+          <Button
+            type="submit"
+            disabled={isSubmitting}
+          >
+            {isSubmitting
+              ? (isEditMode ? "Updating..." : "Creating...")
+              : (isEditMode ? "Update Blog" : "Create Blog")
+            }
           </Button>
         </div>
       </form>

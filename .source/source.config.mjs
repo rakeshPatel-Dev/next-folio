@@ -1,10 +1,16 @@
 // source.config.ts
-import { defineDocs, defineConfig } from "fumadocs-mdx/config";
-var docs = defineDocs({
-  dir: "content/docs"
+import { defineConfig, defineDocs } from "fumadocs-mdx/config";
+var { docs, meta } = defineDocs({
+  dir: "content/blogs"
 });
-var source_config_default = defineConfig();
+var source_config_default = defineConfig({
+  mdxOptions: {
+    remarkPlugins: [],
+    rehypePlugins: []
+  }
+});
 export {
   source_config_default as default,
-  docs
+  docs,
+  meta
 };

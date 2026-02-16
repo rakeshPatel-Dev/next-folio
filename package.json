@@ -5,10 +5,11 @@
   "browser": {
     "async_hooks": false
   },
-  "type":"module",
+  "type": "module",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
+    "dev": "fumadocs-mdx && next dev",
+    "build": "fumadocs-mdx && next build",
+    "postinstall": "fumadocs-mdx",
     "start": "next start",
     "lint": "eslint"
   },
@@ -29,6 +30,7 @@
     "@radix-ui/react-toggle-group": "^1.1.11",
     "@radix-ui/react-tooltip": "^1.2.8",
     "@types/mdx": "^2.0.13",
+    "@uiw/react-md-editor": "^4.0.11",
     "axios": "^1.13.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",

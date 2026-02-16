@@ -1,5 +1,6 @@
-import { getBlogByIdOrSlug, getRelatedBlogs } from "@/utils/getBlogs"
-import { notFound } from "next/navigation"
+import { notFound } from 'next/navigation'
+import { getBlogPage, getBlogSlugs } from '@/lib/blogSource'
+import { getBlogByIdOrSlug, getRelatedBlogs } from '@/utils/getBlogs'
 import Image from "next/image"
 import { Badge } from "@/components/ui/badge"
 import { Calendar, Clock, User, ArrowLeft } from "lucide-react"
@@ -12,43 +13,59 @@ interface BlogDetailPageProps {
   }>
 }
 
+export async function generateStaticParams() {
+  const slugs = getBlogSlugs()
+  return slugs.map((slug) => ({
+    slug: slug,
+  }))
+}
+
 export async function generateMetadata({ params }: BlogDetailPageProps) {
   const { slug } = await params
-  const blog = await getBlogByIdOrSlug(slug)
+  const blogMeta = await getBlogByIdOrSlug(slug)
 
-  if (!blog) {
+  if (!blogMeta) {
     return {
       title: "Blog Not Found",
     }
   }
 
   return {
-    title: blog.title,
-    description: blog.description,
+    title: blogMeta.title,
+    description: blogMeta.description,
     openGraph: {
-      title: blog.title,
-      description: blog.description,
-      images: [blog.coverImage],
+      title: blogMeta.title,
+      description: blogMeta.description,
+      images: [blogMeta.coverImage],
       type: "article",
-      publishedTime: blog.publishedAt || blog.createdAt,
-      authors: [blog.author.name],
+      publishedTime: blogMeta.publishedAt || blogMeta.createdAt,
+      authors: [blogMeta.author.name],
     },
   }
 }
 
 export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
   const { slug } = await params
-  const blog = await getBlogByIdOrSlug(slug)
 
-  if (!blog) {
+  // Get MDX content from Fumadocs (matched by filename or frontmatter slug)
+  const mdxPage = getBlogPage(slug)
+  // Get metadata from MongoDB
+  const blogMeta = await getBlogByIdOrSlug(slug)
+
+  if (!mdxPage || !blogMeta) {
     notFound()
   }
 
   // Get related blogs
-  const relatedBlogs = await getRelatedBlogs(blog._id, 3)
+  const relatedBlogs = await getRelatedBlogs(blogMeta._id, 3)
+
+  // Get MDX content - it's in mdxPage.body (not .data.body)
+  const MDXContent = mdxPage.body
 
   // Calculate reading time
-  const readingTime = Math.ceil(blog.description.split(/\s+/).length / 200)
+  const readingTime = Math.ceil(
+    blogMeta.description.split(/\s+/).length / 200
+  )
 
   return (
     <article className="min-h-screen">
@@ -67,12 +84,12 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
       <header className="max-w-4xl mx-auto px-6 pb-8">
         {/* Tags */}
         <div className="flex flex-wrap gap-2 mb-4">
-          {blog.tags.map((tag) => (
+          {blogMeta.tags.map((tag) => (
             <Badge key={tag} variant="secondary">
               {tag}
             </Badge>
           ))}
-          {blog.isFeatured && (
+          {blogMeta.isFeatured && (
             <Badge variant="default" className="bg-yellow-600">
               Featured
             </Badge>
@@ -81,31 +98,30 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
 
         {/* Title */}
         <h1 className="text-4xl md:text-5xl font-bold mb-4">
-          {blog.title}
+          {blogMeta.title}
         </h1>
 
         {/* Description */}
         <p className="text-xl text-muted-foreground mb-6">
-          {blog.description}
+          {blogMeta.description}
         </p>
 
         {/* Meta Info */}
         <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
           <div className="flex items-center gap-2">
             <User className="h-4 w-4" />
-            <span>{blog.author.name}</span>
+            <span>{blogMeta.author.name}</span>
           </div>
           <div className="flex items-center gap-2">
             <Calendar className="h-4 w-4" />
-            <time dateTime={blog.publishedAt || blog.createdAt}>
-              {new Date(blog.publishedAt || blog.createdAt).toLocaleDateString(
-                "en-US",
-                {
-                  month: "long",
-                  day: "numeric",
-                  year: "numeric",
-                }
-              )}
+            <time dateTime={blogMeta.publishedAt || blogMeta.createdAt}>
+              {new Date(
+                blogMeta.publishedAt || blogMeta.createdAt
+              ).toLocaleDateString("en-US", {
+                month: "long",
+                day: "numeric",
+                year: "numeric",
+              })}
             </time>
           </div>
           <div className="flex items-center gap-2">
@@ -119,8 +135,8 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
       <div className="max-w-4xl mx-auto px-6 mb-12">
         <div className="relative aspect-video w-full overflow-hidden rounded-2xl">
           <Image
-            src={blog.coverImage}
-            alt={blog.title}
+            src={blogMeta.coverImage}
+            alt={blogMeta.title}
             fill
             className="object-cover"
             priority
@@ -128,14 +144,10 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
         </div>
       </div>
 
-      {/* Content */}
+      {/* MDX Content */}
       <div className="max-w-4xl mx-auto px-6 pb-12">
         <div className="prose prose-lg dark:prose-invert max-w-none">
-          {/* TODO: Add rich text content here when you implement it */}
-          <p className="text-muted-foreground italic">
-            Full blog content will be displayed here.
-            You can add a rich text editor in the admin panel to create full blog posts.
-          </p>
+          <MDXContent />
         </div>
       </div>
 
@@ -151,7 +163,9 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
                 subtitle={relatedBlog.description}
                 image={relatedBlog.coverImage}
                 category={relatedBlog.tags[0] || "General"}
-                readingTime={`${Math.ceil(relatedBlog.description.split(/\s+/).length / 200)} min read`}
+                readingTime={`${Math.ceil(
+                  relatedBlog.description.split(/\s+/).length / 200
+                )} min read`}
                 date={new Date(
                   relatedBlog.publishedAt || relatedBlog.createdAt
                 ).toLocaleDateString("en-US", {

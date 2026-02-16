@@ -1,51 +1,87 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+"use client"
+
+import { Control } from "react-hook-form"
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { ExternalLink, FolderSymlink, Github } from "lucide-react"
-import FieldError from "../FieldError"
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
+import { ProjectFormValues } from "../ProjectForm"
+import { Link2 } from "lucide-react"
 
-type Props = {
-  register: any
-  errors: any
-}
-
-const ProjectLinks = ({ register, errors }: Props) => {
+export function ProjectLinks({
+  control,
+}: {
+  control: Control<ProjectFormValues>
+}) {
   return (
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <FolderSymlink className="h-5 w-5 text-muted-foreground" />
-          Project Links
+          <Link2 className="h-5 w-5 text-muted-foreground" />
+          Links
         </CardTitle>
       </CardHeader>
-
-      <CardContent className="space-y-4">
-        {/* Live URL */}
-        <div className="space-y-1">
-          <Label className="flex items-center gap-2">
-            <ExternalLink className="h-4 w-4" /> Live URL
-          </Label>
-          <Input
-            placeholder="https://example.com"
-            {...register("liveUrl")}
-          />
-          <FieldError message={errors?.liveUrl?.message} />
-        </div>
-
-        {/* Repo URL */}
-        <div className="space-y-1">
-          <Label className="flex items-center gap-2">
-            <Github className="h-4 w-4" /> Source Code (optional)
-          </Label>
-          <Input
-            placeholder="https://github.com/username/repo"
-            {...register("repoUrl")}
-          />
-          <FieldError message={errors?.repoUrl?.message} />
-        </div>
+      <CardContent className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <FormField
+          control={control}
+          name="links.liveUrl"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Live URL</FormLabel>
+              <FormControl>
+                <Input
+                  type="url"
+                  placeholder="https://..."
+                  {...field}
+                  value={field.value ?? ""}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={control}
+          name="links.githubUrl"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>GitHub URL</FormLabel>
+              <FormControl>
+                <Input
+                  type="url"
+                  placeholder="https://github.com/..."
+                  {...field}
+                  value={field.value ?? ""}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={control}
+          name="links.demoUrl"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Demo URL</FormLabel>
+              <FormControl>
+                <Input
+                  type="url"
+                  placeholder="https://..."
+                  {...field}
+                  value={field.value ?? ""}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
       </CardContent>
     </Card>
   )
 }
-
-export default ProjectLinks

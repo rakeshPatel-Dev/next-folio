@@ -22,12 +22,14 @@
         "name": "next"
       }
     ],
+    "ignoreDeprecations": "6.0",
+    "baseUrl": ".",
     "paths": {
       "@/*": [
         "./*"
       ],
       "fumadocs-mdx:collections/*": [
-        ".source/*"
+        "./source/*"
       ]
     }
   },
@@ -40,7 +42,7 @@
     "**/*.mts",
     "utils/getProjects.ts",
     "next.config.mjs",
-    "content/docs/index.mjx"
+    "content/docs/index.mdx"
   ],
   "exclude": [
     "node_modules"
