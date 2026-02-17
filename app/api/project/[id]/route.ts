@@ -10,7 +10,6 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   try {
-    await requireAdmin()
     await connectDB()
 
     const project = await Project.findById(params.id)

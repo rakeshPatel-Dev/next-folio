@@ -19,6 +19,7 @@ export type Project = {
   updatedAt: string
 }
 
+// ✅ Public - No auth required (GET is public)
 export async function getProjectsClient(): Promise<Project[]> {
   try {
     const response = await fetch("/api/project", { cache: "no-store" })
@@ -33,6 +34,7 @@ export async function getProjectsClient(): Promise<Project[]> {
   }
 }
 
+// ✅ Public - Get single project by ID
 export async function getProjectByIdClient(id: string): Promise<Project | null> {
   try {
     const projects = await getProjectsClient()
@@ -43,38 +45,40 @@ export async function getProjectByIdClient(id: string): Promise<Project | null> 
   }
 }
 
+// 🔒 Admin only
 export async function deleteProject(id: string): Promise<void> {
-  const response = await fetch(`/api/project?id=${encodeURIComponent(id)}`, { method: "DELETE" })
+  const response = await fetch(`/api/project?id=${encodeURIComponent(id)}`, {
+    method: "DELETE",
+  })
   if (!response.ok) {
     let errorMessage = "Failed to delete project"
     try {
       const error = await response.json()
       errorMessage = error.error || errorMessage
     } catch {
-      // Response wasn't JSON, use status text
       errorMessage = `Failed to delete project: ${response.status} ${response.statusText}`
     }
     throw new Error(errorMessage)
   }
 }
 
-export async function updateProject(data: Partial<Project> & { _id: string }): Promise<Project> {
+// 🔒 Admin only
+export async function updateProject(
+  data: Partial<Project> & { _id: string }
+): Promise<Project> {
   const response = await fetch("/api/project", {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
   })
   if (!response.ok) {
-
     let errorMessage = "Failed to update project"
     try {
       const error = await response.json()
       errorMessage = error.error || errorMessage
     } catch {
-      // Response wasn't JSON, use status text
       errorMessage = `Failed to update project: ${response.status} ${response.statusText}`
     }
-
     throw new Error(errorMessage)
   }
   return await response.json()

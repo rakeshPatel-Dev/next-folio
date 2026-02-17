@@ -31,7 +31,6 @@ export async function POST(req: Request) {
 // GET /api/project - Get all projects 
 export async function GET() {
   try {
-    await requireAdmin()
     await connectDB()
 
     const projects = await Project.find().sort({ createdAt: -1 })
