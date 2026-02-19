@@ -5,6 +5,9 @@
 
 @custom-variant dark (&:is(.dark *));
 
+:root            { --transition-fill: #f0ede8; }  /* light: warm off-white */
+.dark            { --transition-fill: #080808; }  /* dark: near black      */
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);

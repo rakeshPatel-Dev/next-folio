@@ -7,6 +7,8 @@ import Footer from "@/components/layout/Footer";
 import { AppDock } from "@/components/sections/GlobalDock";
 import { APP_NAME, PUBLIC_TITLE } from "@/lib/constants";
 import { RootProvider } from "fumadocs-ui/provider/next"
+import { PageTransition } from "@/components/motion/PageTransition";
+
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -70,6 +72,7 @@ export const metadata: Metadata = {
   },
 };
 
+
 export default function RootLayout({
   children,
 }: {
@@ -82,9 +85,17 @@ export default function RootLayout({
       >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <Header />
-          <RootProvider>
-            {children}
-          </RootProvider>
+          <PageTransition
+            routeLabels={{
+              "/projects": "Work",
+              "/blog": "Blog",
+              "/contact": "Contact",
+            }}
+          >
+            <RootProvider>
+              {children}
+            </RootProvider>
+          </PageTransition>
           <AppDock />
           <Footer />
         </ThemeProvider>

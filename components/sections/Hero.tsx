@@ -1,67 +1,105 @@
-import { LocationTag } from '@/components/location-tag'
-import { Button } from '@/components/ui/button'
-import { Highlighter } from '@/components/ui/highlighter'
-import { Ripple } from '@/components/ui/ripple'
-import { ArrowUpRight } from 'lucide-react'
-import Link from 'next/link'
-import React from 'react'
+"use client"
+
+import { LocationTag } from "@/components/location-tag"
+import { Button } from "@/components/ui/button"
+import { Highlighter } from "@/components/ui/highlighter"
+import { Ripple } from "@/components/ui/ripple"
+import { ArrowUpRight } from "lucide-react"
+import Link from "next/link"
+import { MagneticHover, Reveal } from "../motion/Reveal"
+import { motion } from "framer-motion"
 
 const HeroData = () => {
   return (
-    <div>
-      <section
-        className="mb-2 relative h-170 w-full flex flex-col items-center justify-center text-center rounded-md overflow-hidden"
-      >
-        {/* Main Content */}
-        <div className=" flex flex-col items-center gap-4 px-6 animate-fade-in-up">
-          {/* Floating Badge */}
+    <section className="relative mb-2 flex h-[90svh] max-h-195 min-h-145 w-full flex-col items-center justify-center overflow-hidden rounded-2xl text-center">
+
+      {/* Subtle radial glow behind content — theme-aware */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 -z-10"
+        style={{
+          background:
+            "radial-gradient(ellipse 70% 50% at 50% 60%, color-mix(in srgb, var(--primary) 6%, transparent), transparent)",
+        }}
+      />
+
+      {/* Content stack */}
+      <div className="relative z-10 flex flex-col items-center gap-5 px-6">
+
+        {/* Location badge */}
+        <Reveal variant="fadeIn" delay={0.05}>
           <LocationTag city="Kathmandu" country="Nepal" timezone="NPT" />
-          {/* Name */}
-          <h1 className="font-sans  text-5xl sm:text-5xl md:text-6xl lg:text-8xl font-black tracking-tight text-primary drop-shadow-lg translate-z-20 text-center">
+        </Reveal>
+
+        {/* Name */}
+        <Reveal variant="fadeUp" delay={0.15}>
+          <h1 className="font-sans text-5xl font-black tracking-tight text-primary drop-shadow-sm sm:text-6xl md:text-7xl lg:text-8xl">
             Rakesh Patel
           </h1>
-          <p className="leading-loose text-black/70 dark:text-gray-200 font-body sm:text-lg md:text-xl lg:text-2xl max-w-3xl">
+        </Reveal>
+
+        {/* Tagline */}
+        <Reveal variant="fadeUp" delay={0.25}>
+          <p className="max-w-2xl text-base leading-relaxed text-foreground/60 sm:text-lg md:text-xl lg:text-2xl">
             A{" "}
             <Highlighter action="underline" color="#FF9800">
-              <span className="font-bold font-sans">
+              <span className="font-bold font-sans text-foreground/90">
                 Frontend Developer
               </span>
             </Highlighter>{" "}
             focused on clean interfaces, motion, and usability.
-
           </p>
-          {/* Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 mt-6 translate-z-10">
-            <Link href="/projects"
-              rel="prefetch"
-            >
-              <Button size="lg">
-                View My Work
+        </Reveal>
 
-              </Button>
-            </Link>
-            <a
-              href="/docs/Rakesh Patel CV.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Button variant="outline" size="lg" className="cursor-pointer">
-                View Resume
-                <ArrowUpRight />
-              </Button>
-            </a>
+        {/* CTA buttons */}
+        <Reveal variant="fadeUp" delay={0.35}>
+          <div className="mt-4 flex flex-col items-center gap-3 sm:flex-row">
+            <MagneticHover strength={0.3}>
+              <Link href="/projects" prefetch>
+                <Button size="lg" className="min-w-[148px] rounded-xl font-semibold">
+                  View My Work
+                </Button>
+              </Link>
+            </MagneticHover>
 
+            <MagneticHover strength={0.4}>
+              <a href="#" target="_blank" rel="noopener noreferrer">
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="min-w-[148px] rounded-xl font-semibold"
+                >
+                  Resume
+                  <ArrowUpRight className="ml-1 h-4 w-4" />
+                </Button>
+              </a>
+            </MagneticHover>
           </div>
-        </div>
-        <div
-          id="toastContainer"
-          className="fixed top-5 right-5 flex flex-col gap-2 z-50"
-        />
-        <div>
-          <Ripple />
-        </div>
-      </section>
-    </div>
+        </Reveal>
+
+        {/* Scroll hint */}
+        <Reveal variant="fadeIn" delay={0.6}>
+          <motion.div
+            animate={{ y: [0, 5, 0] }}
+            transition={{ repeat: Infinity, duration: 2.2, ease: "easeInOut" }}
+            className="mt-6 flex flex-col items-center gap-1.5"
+          >
+            <div className="h-8 w-px rounded-full bg-gradient-to-b from-transparent via-border to-transparent" />
+            <span className="font-mono text-[10px] tracking-[0.2em] text-muted-foreground/50 uppercase">
+              scroll
+            </span>
+          </motion.div>
+        </Reveal>
+      </div>
+
+      {/* Ripple stays behind content */}
+      <div className="absolute inset-0 -z-10 flex items-end justify-center">
+        <Ripple />
+      </div>
+
+      {/* Toast portal anchor — kept for compat */}
+      <div id="toastContainer" className="fixed right-5 top-5 z-50 flex flex-col gap-2" />
+    </section>
   )
 }
 
