@@ -3,7 +3,7 @@ import { getBlogPage, getBlogSlugs, getAllBlogPages } from '@/lib/blogSource'
 import { getBlogByIdOrSlug, getRelatedBlogs } from '@/utils/getBlogs'
 import Image from "next/image"
 import { Badge } from "@/components/ui/badge"
-import { Calendar, Clock, User, ArrowLeft, ChevronLeft, ChevronRight } from "lucide-react"
+import { Calendar, Clock, User, ArrowLeft, Redo2, Undo2, Star } from "lucide-react"
 import Link from "next/link"
 import { BlogCard } from "@/components/blog/Blog-card"
 
@@ -120,6 +120,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
           ))}
           {blogMeta.isFeatured && (
             <Badge variant="default" className="bg-yellow-600">
+              <Star />
               Featured
             </Badge>
           )}
@@ -191,7 +192,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
             >
               <div className="flex items-start gap-4 p-4 rounded-lg border bg-card hover:bg-accent transition-colors">
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md border bg-background">
-                  <ChevronLeft className="h-5 w-5" />
+                  <Undo2 className="h-5 w-5" />
                 </div>
                 <div className="flex-1 space-y-1">
                   <p className="text-sm font-medium text-muted-foreground">
@@ -230,7 +231,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
                   </p>
                 </div>
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md border bg-background">
-                  <ChevronRight className="h-5 w-5" />
+                  <Redo2 className="h-5 w-5" />
                 </div>
               </div>
             </Link>

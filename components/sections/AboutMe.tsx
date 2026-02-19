@@ -69,15 +69,22 @@ function SkillPill({ name, Icon, color, index }: Skill & { index: number }) {
 export function AboutMe() {
 
   const { toast } = useToast();
-  const copyToClipboard = (text: string) => {
-    navigator.clipboard.writeText(text);
-    toast({
-      variant: "success",
-      title: "Copied to clipboard",
-      description: "Email copied to clipboard",
-    })
+  const copyToClipboard = async (text: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      toast({
+        variant: "success",
+        title: "Copied to clipboard",
+        description: "Email copied to clipboard",
+      });
+    } catch {
+      toast({
+        variant: "error",
+        title: "Failed to copy",
+        description: "Could not copy to clipboard",
+      });
+    }
   };
-
   return (
     <div className="min-h-screen text-neutral-100 font-sans antialiased selection:bg-neutral-800">
       {/* subtle grid texture */}
@@ -163,11 +170,10 @@ export function AboutMe() {
             >
               <div className="h-20 w-20 rounded-2xl overflow-hidden border border-neutral-800 ring-1 ring-neutral-700/50">
                 <img
-                  src="https://api.dicebear.com/8.x/notionists/svg?seed=alex&backgroundColor=1a1a1a"
-                  alt="Alex Morgan"
+                  src="https://api.dicebear.com/8.x/notionists/svg?seed=rakesh&backgroundColor=1a1a1a"
+                  alt="Rakesh Patel"
                   className="h-full w-full object-cover"
-                />
-              </div>
+                />              </div>
             </motion.div>
           </motion.div>
 

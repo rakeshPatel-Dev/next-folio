@@ -105,9 +105,14 @@ const ProjectCard = React.forwardRef<HTMLDivElement, ProjectCardProps>(
           {/* Title + Icons */}
           <div className="flex items-start justify-between gap-3">
             <h3
-              onClick={goToDetails}
-              title="view details"
-              className="font-sans cursor-pointer text-xl font-semibold">{project.title}</h3>
+              className="font-sans cursor-pointer text-xl font-semibold">
+              <a href={`/projects/${project.slug}`}
+                className=" hover:underline"
+              >
+
+                {project.title}
+              </a>
+            </h3>
 
             <div className="flex gap-3">
               {project.liveUrl && (
@@ -220,12 +225,12 @@ const ProjectCard = React.forwardRef<HTMLDivElement, ProjectCardProps>(
             </div>
 
             {/* Visual CTA */}
-            <span
-              onClick={goToDetails}
-              className="inline-flex cursor-pointer items-center gap-1 text-sm font-medium text-muted-foreground  transition-all hover:text-primary group">
+            <a
+              href={`/projects/${project.slug}`}
+              className="group inline-flex items-center gap-1 text-sm font-medium text-muted-foreground transition-all hover:text-primary">
               View details
               <ArrowUpRight className="h-4 w-4 group-hover:rotate-45 transition-all group-hover:translate-x-1 duration-100" />
-            </span>
+            </a>
           </div>
         </div>
       </div>

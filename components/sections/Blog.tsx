@@ -3,6 +3,7 @@ import { getFeaturedBlogs, getLatestBlogs } from "@/utils/getBlogs"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { ArrowRight } from "lucide-react"
+import { MagneticHover } from "../motion/Reveal"
 
 interface BlogSectionProps {
   featuredCount?: number
@@ -42,17 +43,9 @@ export default async function BlogSection({
 
   return (
     <section className="grid gap-8">
-      <div className="flex items-center justify-between">
-        <h2 className="text-2xl mt-20 font-sans font-semibold tracking-tight">
-          Latest Blogs
-        </h2>
-        <Link href="/blog">
-          <Button variant="ghost" className="gap-2">
-            View All
-            <ArrowRight className="h-4 w-4" />
-          </Button>
-        </Link>
-      </div>
+      <h2 className="text-2xl font-sans font-semibold tracking-tight">
+        Latest Blogs
+      </h2>
 
       {/* Featured card(s) */}
       {displayFeatured.map((blog) => (
@@ -88,13 +81,26 @@ export default async function BlogSection({
           ))}
         </div>
       )}
+
+      <div className="w-full flex items-center justify-center">
+        <MagneticHover strength={0.4}>
+
+          <Link href="/blog">
+            <Button variant="outline" className="hover:bg-muted-foreground transition-all active:scale-95 cursor-pointer border-2 border-dashed"
+            >
+              View All
+              <ArrowRight className="h-4 w-4" />
+            </Button>
+          </Link>
+        </MagneticHover>
+      </div>
     </section>
   )
 }
 
 // Helper function to calculate reading time
 function calculateReadingTime(text: string): string {
-  const wordsPerMinute = 200
+  const wordsPerMinute = 5
   const wordCount = text.split(/\s+/).length
   const minutes = Math.ceil(wordCount / wordsPerMinute)
   return `${minutes} min read`
