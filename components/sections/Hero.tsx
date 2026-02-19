@@ -56,7 +56,7 @@ const HeroData = () => {
           <div className="mt-4 flex flex-col items-center gap-3 sm:flex-row">
             <MagneticHover strength={0.3}>
               <Link href="/projects" prefetch>
-                <Button size="lg" className="min-w-[148px] rounded-xl font-semibold">
+                <Button size="lg" className="min-w-37 border-dashed border-3 cursor-pointer rounded-xl font-semibold">
                   View My Work
                 </Button>
               </Link>
@@ -67,7 +67,7 @@ const HeroData = () => {
                 <Button
                   variant="outline"
                   size="lg"
-                  className="min-w-[148px] rounded-xl font-semibold"
+                  className="min-w-37 border-dashed border-3 rounded-xl font-bold"
                 >
                   Resume
                   <ArrowUpRight className="ml-1 h-4 w-4" />
@@ -84,7 +84,7 @@ const HeroData = () => {
             transition={{ repeat: Infinity, duration: 2.2, ease: "easeInOut" }}
             className="mt-6 flex flex-col items-center gap-1.5"
           >
-            <div className="h-8 w-px rounded-full bg-gradient-to-b from-transparent via-border to-transparent" />
+            <div className="h-8 w-px rounded-full bg-linear-to-b from-transparent via-border to-transparent" />
             <span className="font-mono text-[10px] tracking-[0.2em] text-muted-foreground/50 uppercase">
               scroll
             </span>

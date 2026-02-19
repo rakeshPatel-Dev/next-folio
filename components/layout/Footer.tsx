@@ -10,8 +10,7 @@ const Footer = () => {
         viewport={{ once: true }}
         className="font-sans text-sm text-muted-foreground text-center pt-4"
       >
-        &copy;{" "} {new Date().getFullYear()} Rakesh Patel · Built with Next.js & Tailwind
-      </motion.p>
+        &copy; {new Date().getFullYear()} Rakesh Patel · Built with Next.js & Tailwind      </motion.p>
     </footer>
 
   )

@@ -1,9 +1,9 @@
 import { notFound } from 'next/navigation'
-import { getBlogPage, getBlogSlugs } from '@/lib/blogSource'
+import { getBlogPage, getBlogSlugs, getAllBlogPages } from '@/lib/blogSource'
 import { getBlogByIdOrSlug, getRelatedBlogs } from '@/utils/getBlogs'
 import Image from "next/image"
 import { Badge } from "@/components/ui/badge"
-import { Calendar, Clock, User, ArrowLeft } from "lucide-react"
+import { Calendar, Clock, User, ArrowLeft, ChevronLeft, ChevronRight } from "lucide-react"
 import Link from "next/link"
 import { BlogCard } from "@/components/blog/Blog-card"
 
@@ -47,8 +47,9 @@ export async function generateMetadata({ params }: BlogDetailPageProps) {
 export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
   const { slug } = await params
 
-  // Get MDX content from Fumadocs (matched by filename or frontmatter slug)
+  // Get MDX content from Fumadocs
   const mdxPage = getBlogPage(slug)
+
   // Get metadata from MongoDB
   const blogMeta = await getBlogByIdOrSlug(slug)
 
@@ -56,10 +57,38 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
     notFound()
   }
 
+  // Get all blogs for prev/next navigation
+  const allBlogs = getAllBlogPages()
+  const allMongoBlogs = await Promise.all(
+    allBlogs.map(async (page: any) => {
+      const pageSlug = page.title
+        ?.toLowerCase()
+        .replace(/\s+/g, '-')
+        .replace(/[^a-z0-9-]/g, '')
+      return await getBlogByIdOrSlug(pageSlug)
+    })
+  )
+
+  // Filter out null values and sort by published date
+  const publishedBlogs = allMongoBlogs
+    .filter(blog => blog !== null)
+    .sort((a, b) => {
+      const dateA = new Date(a.publishedAt || a.createdAt).getTime()
+      const dateB = new Date(b.publishedAt || b.createdAt).getTime()
+      return dateB - dateA // Newest first
+    })
+
+  // Find current blog index
+  const currentIndex = publishedBlogs.findIndex(blog => blog._id === blogMeta._id)
+
+  // Get prev and next blogs
+  const prevBlog = currentIndex > 0 ? publishedBlogs[currentIndex - 1] : null
+  const nextBlog = currentIndex < publishedBlogs.length - 1 ? publishedBlogs[currentIndex + 1] : null
+
   // Get related blogs
   const relatedBlogs = await getRelatedBlogs(blogMeta._id, 3)
 
-  // Get MDX content - it's in mdxPage.body (not .data.body)
+  // Get MDX content
   const MDXContent = mdxPage.body
 
   // Calculate reading time
@@ -148,6 +177,64 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
       <div className="max-w-4xl mx-auto px-6 pb-12">
         <div className="prose prose-lg dark:prose-invert max-w-none">
           <MDXContent />
+        </div>
+      </div>
+
+      {/* Prev/Next Navigation - shadcn style */}
+      <div className="max-w-4xl mx-auto px-6 pb-12">
+        <div className="flex flex-col sm:flex-row gap-4 border-t pt-12">
+          {/* Previous Blog */}
+          {prevBlog && (
+            <Link
+              href={`/blog/${prevBlog.slug}`}
+              className="flex-1 group"
+            >
+              <div className="flex items-start gap-4 p-4 rounded-lg border bg-card hover:bg-accent transition-colors">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md border bg-background">
+                  <ChevronLeft className="h-5 w-5" />
+                </div>
+                <div className="flex-1 space-y-1">
+                  <p className="text-sm font-medium text-muted-foreground">
+                    Previous
+                  </p>
+                  <p className="text-sm font-semibold group-hover:underline">
+                    {prevBlog.title}
+                  </p>
+                  <p className="text-xs text-muted-foreground line-clamp-2">
+                    {prevBlog.description}
+                  </p>
+                </div>
+              </div>
+            </Link>
+          )}
+
+          {/* Spacer if no prev blog */}
+          {!prevBlog && <div className="flex-1" />}
+
+          {/* Next Blog */}
+          {nextBlog && (
+            <Link
+              href={`/blog/${nextBlog.slug}`}
+              className="flex-1 group"
+            >
+              <div className="flex items-start gap-4 p-4 rounded-lg border bg-card hover:bg-accent transition-colors">
+                <div className="flex-1 space-y-1 text-right">
+                  <p className="text-sm font-medium text-muted-foreground">
+                    Next
+                  </p>
+                  <p className="text-sm font-semibold group-hover:underline">
+                    {nextBlog.title}
+                  </p>
+                  <p className="text-xs text-muted-foreground line-clamp-2">
+                    {nextBlog.description}
+                  </p>
+                </div>
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md border bg-background">
+                  <ChevronRight className="h-5 w-5" />
+                </div>
+              </div>
+            </Link>
+          )}
         </div>
       </div>
 

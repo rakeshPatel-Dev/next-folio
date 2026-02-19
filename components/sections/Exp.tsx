@@ -43,7 +43,7 @@ const Exp = () => {
       {/* Timeline */}
       <div className="relative">
         {/* Vertical line */}
-        <div className="absolute left-0 top-2 bottom-2 w-px bg-gradient-to-b from-transparent via-border to-transparent" />
+        <div className="absolute left-0 top-2 bottom-2 w-px bg-linear-to-b from-transparent via-border to-transparent" />
 
         <div className="pl-8 space-y-14">
           {experiences.map((exp, idx) => (
@@ -81,6 +81,7 @@ const Exp = () => {
                           <Tooltip>
                             <TooltipTrigger asChild>
                               <a
+                                title="Website"
                                 href={exp.website}
                                 target="_blank"
                                 rel="noopener noreferrer"
@@ -96,6 +97,7 @@ const Exp = () => {
                           <Tooltip>
                             <TooltipTrigger asChild>
                               <a
+                                title="Facebook"
                                 href={exp.facebook}
                                 target="_blank"
                                 rel="noopener noreferrer"
@@ -158,18 +160,14 @@ const Exp = () => {
                     <AccordionContent>
                       <ul className="space-y-2 pt-1">
                         {exp.objectives.map((obj, i) => (
-                          <motion.li
+                          <li
                             key={i}
-                            initial={{ opacity: 0, x: -8 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ delay: i * 0.05, duration: 0.3, ease: "easeOut" }}
                             className="flex gap-2.5 text-sm text-muted-foreground leading-relaxed"
                           >
                             <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-muted-foreground/50" />
                             {obj}
-                          </motion.li>
-                        ))}
-                      </ul>
+                          </li>
+                        ))}                      </ul>
                     </AccordionContent>
                   </AccordionItem>
                 </Accordion>

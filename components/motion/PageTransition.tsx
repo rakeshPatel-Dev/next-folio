@@ -6,9 +6,7 @@ import Link, { type LinkProps } from "next/link"
 
 interface PageTransitionProps {
   children: React.ReactNode
-  routeLabels?: Record<string, string>
 }
-
 export function PageTransition({ children }: PageTransitionProps) {
   const pathname = usePathname()
   const prefersReduced = useReducedMotion()

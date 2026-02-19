@@ -8,6 +8,8 @@ import { AppDock } from "@/components/sections/GlobalDock";
 import { APP_NAME, PUBLIC_TITLE } from "@/lib/constants";
 import { RootProvider } from "fumadocs-ui/provider/next"
 import { PageTransition } from "@/components/motion/PageTransition";
+import { ToastProvider } from "@/components/zenblocks/toast";
+import { Toaster } from "sonner";
 
 
 const spaceGrotesk = Space_Grotesk({
@@ -85,17 +87,14 @@ export default function RootLayout({
       >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <Header />
-          <PageTransition
-            routeLabels={{
-              "/projects": "Work",
-              "/blog": "Blog",
-              "/contact": "Contact",
-            }}
-          >
-            <RootProvider>
-              {children}
-            </RootProvider>
-          </PageTransition>
+          <ToastProvider>
+            <PageTransition>
+              <RootProvider>
+                {children}
+                <Toaster />
+              </RootProvider>
+            </PageTransition>
+          </ToastProvider>
           <AppDock />
           <Footer />
         </ThemeProvider>

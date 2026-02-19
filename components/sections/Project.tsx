@@ -6,6 +6,7 @@ import { ArrowRight, Loader2 } from 'lucide-react'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import { getProjectsClient, type Project } from '@/utils/getProjects.client'
+import { MagneticHover } from '../motion/Reveal'
 
 const HomeProjects = () => {
   const [projects, setProjects] = useState<Project[]>([])
@@ -56,13 +57,15 @@ const HomeProjects = () => {
       {projects.length > 4 && (
         <div className="mt-10 flex w-full justify-center">
           <Link href="/projects">
-            <Button
-              variant="outline"
-              className="hover:bg-muted-foreground transition-all active:scale-95 hover:scale-105 border-2 border-dashed"
-            >
-              View More
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
+            <MagneticHover strength={0.4}>
+              <Button
+                variant="outline"
+                className="hover:bg-muted-foreground transition-all active:scale-95 cursor-pointer border-2 border-dashed"
+              >
+                View More
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </MagneticHover>
           </Link>
         </div>
       )}

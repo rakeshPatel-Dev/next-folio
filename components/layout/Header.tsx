@@ -41,7 +41,7 @@ const Header = () => {
               const isActive =
                 data.href === "/"
                   ? pathname === "/"
-                  : pathname.startsWith(data.href)
+                  : pathname?.startsWith(data.href)
 
               return (
                 <Link

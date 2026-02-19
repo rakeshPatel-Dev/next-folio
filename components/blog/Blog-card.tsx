@@ -50,10 +50,9 @@ const BlogCard = React.forwardRef<HTMLDivElement, BlogCardProps>(
         : "flex flex-1 flex-col p-6";
 
     return (
-      <Link
-        href={link}
+      <div
         className={cn(
-          "group relative cursor-pointer overflow-hidden rounded-2xl border bg-card text-card-foreground shadow-sm transition-all duration-500 ease-in-out hover:-translate-y-2 hover:shadow-xl",
+          " relative overflow-hidden rounded-2xl border bg-card text-card-foreground shadow-sm transition-all duration-500 ease-in-out hover:-translate-y-2 hover:shadow-xl",
           layoutClasses,
           className
         )}
@@ -89,9 +88,11 @@ const BlogCard = React.forwardRef<HTMLDivElement, BlogCardProps>(
             </div>
 
             {/* Title */}
-            <h3 className="text-xl md:text-2xl font-semibold transition-colors duration-300 group-hover:text-primary line-clamp-2">
-              {title}
-            </h3>
+            <Link href={link}>
+              <h3 className="text-xl cursor-pointer md:text-2xl font-semibold transition-colors duration-300 group-hover:text-primary line-clamp-2">
+                {title}
+              </h3>
+            </Link>
 
             {/* Subtitle */}
             <p className="mt-2 md:mt-3 text-muted-foreground line-clamp-3">
@@ -107,16 +108,18 @@ const BlogCard = React.forwardRef<HTMLDivElement, BlogCardProps>(
 
           {/* CTA */}
           <div className="w-full flex justify-end mt-4">
-            <span
-              className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md border border-input bg-background text-muted-foreground transition-all duration-300 group-hover:scale-105"
-              aria-hidden="true"
-            >
-              Read More
-              <ArrowUpRight className="h-5 w-5" />
-            </span>
+            <Link href={link}>
+              <span
+                className="inline-flex group items-center gap-2 px-4 py-2 text-sm font-medium rounded-md border border-input bg-background text-muted-foreground transition-all duration-300 hover:scale-105"
+                aria-hidden="true"
+              >
+                Read More
+                <ArrowUpRight className="h-5 w-5 group-hover:translate-x-1 group-hover:rotate-45 duration-100 transition-all" />
+              </span>
+            </Link>
           </div>
         </div>
-      </Link>
+      </div>
     );
   }
 );

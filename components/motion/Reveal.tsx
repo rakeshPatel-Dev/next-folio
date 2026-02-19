@@ -258,7 +258,7 @@ export function Tilt({ children, maxAngle = 8, className, glare = true }: TiltPr
       ref={ref}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
+      style={{ rotateX, rotateY, transformStyle: "preserve-3d", perspective: 1000 }}
       className={cn("relative", className)}
     >
       {children}
@@ -293,7 +293,7 @@ export function useReveal(options?: IntersectionObserverInit) {
     )
     observer.observe(el)
     return () => observer.disconnect()
-  }, [])
+  }, [options])
 
   return { ref, isVisible }
 }

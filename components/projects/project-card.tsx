@@ -30,7 +30,7 @@ function TechIcon({ tech }: { tech: { label: string; icon?: string } }) {
   return (
     <Tooltip>
       <TooltipTrigger asChild>
-        <div className="cursor-pointer transition-transform hover:scale-110">
+        <div className=" transition-transform hover:scale-110">
           <Icon className="h-6 w-6 text-muted-foreground hover:text-foreground" />
         </div>
       </TooltipTrigger>
@@ -69,15 +69,8 @@ const ProjectCard = React.forwardRef<HTMLDivElement, ProjectCardProps>(
         ref={ref}
         role="button"
         tabIndex={0}
-        onClick={goToDetails}
-        onKeyDown={(e) => {
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault()
-            goToDetails()
-          }
-        }}
         className={cn(
-          "group relative flex cursor-pointer flex-col overflow-hidden rounded-2xl border bg-card shadow-sm transition-all duration-300",
+          " relative flex flex-col overflow-hidden rounded-2xl border bg-card shadow-sm transition-all duration-300",
           "hover:-translate-y-2 hover:shadow-xl",
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
         )}
@@ -111,7 +104,10 @@ const ProjectCard = React.forwardRef<HTMLDivElement, ProjectCardProps>(
         <div className="flex flex-1 flex-col p-6">
           {/* Title + Icons */}
           <div className="flex items-start justify-between gap-3">
-            <h3 className="font-sans text-xl font-semibold">{project.title}</h3>
+            <h3
+              onClick={goToDetails}
+              title="view details"
+              className="font-sans cursor-pointer text-xl font-semibold">{project.title}</h3>
 
             <div className="flex gap-3">
               {project.liveUrl && (
@@ -224,9 +220,11 @@ const ProjectCard = React.forwardRef<HTMLDivElement, ProjectCardProps>(
             </div>
 
             {/* Visual CTA */}
-            <span className="inline-flex items-center gap-1 text-sm font-medium text-muted-foreground group-hover:text-primary">
+            <span
+              onClick={goToDetails}
+              className="inline-flex cursor-pointer items-center gap-1 text-sm font-medium text-muted-foreground  transition-all hover:text-primary group">
               View details
-              <ArrowUpRight className="h-4 w-4" />
+              <ArrowUpRight className="h-4 w-4 group-hover:rotate-45 transition-all group-hover:translate-x-1 duration-100" />
             </span>
           </div>
         </div>

@@ -5,7 +5,6 @@ import BlogSection from '@/components/sections/Blog'
 import Exp from '@/components/sections/Exp'
 import HeroData from '@/components/sections/Hero'
 import HomeProjects from '@/components/sections/Project'
-
 const page = () => {
   return (
     <>

@@ -58,7 +58,7 @@ export function BlogFilters({
 
   // Update URL with filters
   const updateFilters = (newFilters: Record<string, string>) => {
-    const params = new URLSearchParams(searchParams.toString())
+    const params = new URLSearchParams(searchParams?.toString())
 
     Object.entries(newFilters).forEach(([key, value]) => {
       if (value) {

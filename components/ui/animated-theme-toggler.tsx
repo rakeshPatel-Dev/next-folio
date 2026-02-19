@@ -76,11 +76,9 @@ export const AnimatedThemeToggler = ({
       role="button"
       tabIndex={0}
       aria-label="Toggle theme"
-      className={cn("cursor-pointer", className)}
-      {...props}
+      className={cn(className)}
     >
       {isDark ? <Sun /> : <Moon />}
-      <span className="sr-only">Toggle theme</span>
     </div>
   )
 }
