@@ -1,221 +1,134 @@
-// import { notFound } from "next/navigation"
-// import { getProjectPage, getProjectSlugs } from "@/lib/projectSource"
-// import {
-//   getProjectByIdOrSlug,
-//   getRelatedProjects,
-// } from "@/utils/getProjects.client"
-// import Image from "next/image"
-// import { Badge } from "@/components/ui/badge"
-// import {
-//   Calendar,
-//   ArrowLeft,
-//   ExternalLink,
-//   Github,
-//   Layers,
-//   User,
-//   Briefcase,
-// } from "lucide-react"
-// import Link from "next/link"
-// import { ProjectCard } from "@/components/project/Project-card"
+import { getProjectBySlug, getRelatedProjects } from '@/utils/getProjects.server'
+import { notFound } from 'next/navigation'
+import Image from 'next/image'
+import Link from 'next/link'
+import { ArrowLeft, ExternalLink, Github } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 
-// interface ProjectDetailPageProps {
-//   params: Promise<{ slug: string }>
-// }
+interface ProjectPageProps {
+  params: Promise<{ slug: string }>
+}
 
-// export async function generateStaticParams() {
-//   const slugs = getProjectSlugs()
-//   return slugs.map((slug) => ({ slug }))
-// }
+export default async function ProjectPage({ params }: ProjectPageProps) {
+  const { slug } = await params
 
-// export async function generateMetadata({ params }: ProjectDetailPageProps) {
-//   const { slug } = await params
-//   const project = await getProjectByIdOrSlug(slug)
-//   if (!project) return { title: "Project not found" }
-//   return {
-//     title: project.title,
-//     description: project.description,
-//     openGraph: {
-//       title: project.title,
-//       description: project.description,
-//       images: [project.coverImage],
-//       type: "article",
-//       publishedTime: project.publishedAt || project.createdAt,
-//     },
-//   }
-// }
+  console.log('🔍 Looking for project with slug:', slug)
 
-// export default async function ProjectDetailPage({
-//   params,
-// }: ProjectDetailPageProps) {
-//   const { slug } = await params
+  // Get project directly from database
+  const project = await getProjectBySlug(slug)
 
-//   const mdxPage = getProjectPage(slug)
-//   const projectMeta = await getProjectByIdOrSlug(slug)
+  console.log('📦 Project found:', project ? project.title : 'NOT FOUND')
 
-//   if (!mdxPage || !projectMeta) notFound()
+  if (!project) {
+    notFound()
+  }
 
-//   const relatedProjects = await getRelatedProjects(projectMeta._id, 3)
-//   const MDXContent = mdxPage.body
+  // Get related projects
+  const relatedProjects = await getRelatedProjects(project._id, 3)
 
-//   const links = projectMeta.links || {}
-//   const hasLinks =
-//     links.liveUrl || links.githubUrl || links.demoUrl
+  return (
+    <article className="min-h-screen">
+      {/* Back Button */}
+      <div className="max-w-3xl mx-auto px-6 pt-24 pb-8">
+        <Link
+          href="/projects"
+          className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          Back to Projects
+        </Link>
+      </div>
 
-//   return (
-//     <article className="min-h-screen">
-//       <div className="max-w-4xl mx-auto px-6 pt-24 pb-8">
-//         <Link
-//           href="/projects"
-//           className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
-//         >
-//           <ArrowLeft className="h-4 w-4" />
-//           Back to projects
-//         </Link>
-//       </div>
+      {/* Hero */}
+      <section className="relative w-full h-[60vh] min-h-[500px] mb-16">
+        <Image
+          src={project.image}
+          alt={project.title}
+          fill
+          className="object-cover"
+          priority
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent" />
 
-//       <header className="max-w-4xl mx-auto px-6 pb-8">
-//         <div className="flex flex-wrap gap-2 mb-4">
-//           {projectMeta.category && (
-//             <Badge variant="secondary">{projectMeta.category}</Badge>
-//           )}
-//           {projectMeta.techStack?.map((tech) => (
-//             <Badge key={tech} variant="outline">
-//               {tech}
-//             </Badge>
-//           ))}
-//           {projectMeta.isFeatured && (
-//             <Badge variant="default" className="bg-yellow-600">
-//               Featured
-//             </Badge>
-//           )}
-//         </div>
+        <div className="absolute bottom-0 left-0 right-0">
+          <div className="max-w-7xl mx-auto px-6 pb-12">
+            <div className="max-w-3xl">
+              <h1 className="text-4xl md:text-6xl font-bold mb-4">
+                {project.title}
+              </h1>
+              <p className="text-xl text-muted-foreground mb-6">
+                {project.shortDescription}
+              </p>
+              <div className="flex gap-4">
+                {project.liveUrl && (
+                  <Button asChild size="lg">
+                    <Link href={project.liveUrl} target="_blank">
+                      <ExternalLink className="mr-2 h-5 w-5" />
+                      View Live
+                    </Link>
+                  </Button>
+                )}
+                {(project.repoUrl || project.githubUrl) && (
+                  <Button asChild variant="outline" size="lg">
+                    <Link href={project.repoUrl || project.githubUrl || '#'} target="_blank">
+                      <Github className="mr-2 h-5 w-5" />
+                      Source Code
+                    </Link>
+                  </Button>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-//         <h1 className="text-4xl md:text-5xl font-bold mb-4">
-//           {projectMeta.title}
-//         </h1>
+      {/* Content */}
+      <div className="max-w-7xl mx-auto px-6 pb-16">
+        <div className="prose prose-lg dark:prose-invert max-w-none">
+          <h2>Overview</h2>
+          <p>{project.longDescription || project.shortDescription}</p>
 
-//         <p className="text-xl text-muted-foreground mb-6">
-//           {projectMeta.description}
-//         </p>
+          <h2>Tech Stack</h2>
+          <div className="flex flex-wrap gap-2 not-prose">
+            {project.techStack?.map((tech) => (
+              <span key={tech.label} className="px-3 py-1 bg-primary/10 rounded-md text-sm">
+                {tech.label}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
 
-//         <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
-//           {projectMeta.client && (
-//             <div className="flex items-center gap-2">
-//               <Briefcase className="h-4 w-4" />
-//               <span>{projectMeta.client}</span>
-//             </div>
-//           )}
-//           {projectMeta.role && (
-//             <div className="flex items-center gap-2">
-//               <User className="h-4 w-4" />
-//               <span>{projectMeta.role}</span>
-//             </div>
-//           )}
-//           <div className="flex items-center gap-2">
-//             <Calendar className="h-4 w-4" />
-//             <time
-//               dateTime={
-//                 projectMeta.publishedAt || projectMeta.createdAt
-//               }
-//             >
-//               {new Date(
-//                 projectMeta.publishedAt || projectMeta.createdAt
-//               ).toLocaleDateString("en-US", {
-//                 month: "long",
-//                 day: "numeric",
-//                 year: "numeric",
-//               })}
-//             </time>
-//           </div>
-//         </div>
-
-//         {hasLinks && (
-//           <div className="flex flex-wrap gap-3 mt-6">
-//             {links.liveUrl && (
-//               <a
-//                 href={links.liveUrl}
-//                 target="_blank"
-//                 rel="noopener noreferrer"
-//                 className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border bg-background hover:bg-muted transition-colors text-sm"
-//               >
-//                 <ExternalLink className="h-4 w-4" />
-//                 Live site
-//               </a>
-//             )}
-//             {links.githubUrl && (
-//               <a
-//                 href={links.githubUrl}
-//                 target="_blank"
-//                 rel="noopener noreferrer"
-//                 className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border bg-background hover:bg-muted transition-colors text-sm"
-//               >
-//                 <Github className="h-4 w-4" />
-//                 GitHub
-//               </a>
-//             )}
-//             {links.demoUrl && (
-//               <a
-//                 href={links.demoUrl}
-//                 target="_blank"
-//                 rel="noopener noreferrer"
-//                 className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border bg-background hover:bg-muted transition-colors text-sm"
-//               >
-//                 <ExternalLink className="h-4 w-4" />
-//                 Demo
-//               </a>
-//             )}
-//           </div>
-//         )}
-//       </header>
-
-//       <div className="max-w-4xl mx-auto px-6 mb-12">
-//         <div className="relative aspect-video w-full overflow-hidden rounded-2xl">
-//           <Image
-//             src={projectMeta.coverImage}
-//             alt={projectMeta.title}
-//             fill
-//             className="object-cover"
-//             priority
-//           />
-//         </div>
-//       </div>
-
-//       <section className="max-w-4xl mx-auto px-6 pb-12">
-//         <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
-//           <Layers className="h-6 w-6 text-muted-foreground" />
-//           Case study
-//         </h2>
-//         <div className="prose prose-lg dark:prose-invert max-w-none">
-//           <MDXContent />
-//         </div>
-//       </section>
-
-//       {relatedProjects.length > 0 && (
-//         <section className="max-w-4xl mx-auto px-6 py-12 border-t">
-//           <h2 className="text-2xl font-bold mb-8">Related projects</h2>
-//           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-//             {relatedProjects.map((related) => (
-//               <ProjectCard
-//                 key={related._id}
-//                 title={related.title}
-//                 subtitle={related.description}
-//                 image={related.coverImage}
-//                 category={related.category || "Project"}
-//                 techStack={related.techStack}
-//                 date={new Date(
-//                   related.publishedAt || related.createdAt
-//                 ).toLocaleDateString("en-US", {
-//                   month: "short",
-//                   day: "numeric",
-//                   year: "numeric",
-//                 })}
-//                 link={`/projects/${related.slug}`}
-//                 variant="default"
-//               />
-//             ))}
-//           </div>
-//         </section>
-//       )}
-//     </article>
-//   )
-// }
+      {/* Related Projects */}
+      {relatedProjects.length > 0 && (
+        <section className="max-w-7xl mx-auto px-6 pb-16 border-t pt-16">
+          <h2 className="text-3xl font-bold mb-8">Related Projects</h2>
+          <div className="grid md:grid-cols-3 gap-6">
+            {relatedProjects.map((related) => (
+              <Link
+                key={related._id}
+                href={`/projects/${related.slug}`}
+                className="group"
+              >
+                <div className="relative aspect-video rounded-lg overflow-hidden mb-4">
+                  <Image
+                    src={related.image}
+                    alt={related.title}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform"
+                  />
+                </div>
+                <h3 className="font-semibold group-hover:text-primary">
+                  {related.title}
+                </h3>
+                <p className="text-sm text-muted-foreground line-clamp-2">
+                  {related.shortDescription}
+                </p>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
+    </article>
+  )
+}

@@ -9,6 +9,7 @@ import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { Badge } from "@/components/ui/badge"
 import { useTechIcon } from "@/hooks/useTechIcon"
+import { motion } from 'framer-motion'
 
 interface ProjectCardProps {
   project: Project
@@ -41,15 +42,10 @@ function TechIcon({ tech }: { tech: { label: string; icon?: string } }) {
 
 const ProjectCard = React.forwardRef<HTMLDivElement, ProjectCardProps>(
   ({ project }, ref) => {
-    const router = useRouter()
-
-    const goToDetails = () => {
-      router.push(`/projects/${project.slug}`)
-    }
 
     const statusDisplay = {
       "completed": "Completed",
-      "in-progress": "In Progress",
+      "building": "In Progress",
       "planning": "Planning"
     }[project.status] || project.status
 
@@ -65,7 +61,10 @@ const ProjectCard = React.forwardRef<HTMLDivElement, ProjectCardProps>(
     const typeColor = typeColors[project.type.toLowerCase() as keyof typeof typeColors] || "#6b7280"
 
     return (
-      <div
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9, translateX: -5, translateY: -5 }}
+        animate={{ opacity: 1, scale: 1, translateX: 0, translateY: 0 }}
+        transition={{ duration: 0.3 }}
         ref={ref}
         role="button"
         tabIndex={0}
@@ -233,7 +232,7 @@ const ProjectCard = React.forwardRef<HTMLDivElement, ProjectCardProps>(
             </a>
           </div>
         </div>
-      </div>
+      </motion.div>
     )
   }
 )
