@@ -72,6 +72,9 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://your-portfolio-url.com",
   },
+  appleWebApp: {
+    title: "Rakesh",
+  },
 };
 
 
