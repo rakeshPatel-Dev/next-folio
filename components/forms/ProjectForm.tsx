@@ -49,7 +49,7 @@ export default function ProjectForm({ path, saveProject, initialData }: Props) {
     control,
     setValue,
     watch,
-    formState: { isSubmitting },
+    formState: { isSubmitting, errors },
   } = useForm<ProjectFormValues>({
     defaultValues: initialData
       ? {
@@ -134,16 +134,16 @@ export default function ProjectForm({ path, saveProject, initialData }: Props) {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
-      <CoreInfo register={register} errors={Error} setValue={setValue} />
+      <CoreInfo register={register} errors={errors} setValue={setValue} />
 
-      <ProjectMeta errors={Error} control={control} />
+      <ProjectMeta errors={errors} control={control} />
 
-      <ProjectLinks errors={Error} register={register} />
+      <ProjectLinks control={control} register={register} />
 
-      <TechStack errors={Error} watch={watch} setValue={setValue} />
+      <TechStack errors={errors} watch={watch} setValue={setValue} />
 
       <FreelanceInfo
-        errors={Error}
+        errors={errors}
         control={control}
         register={register}
         watch={watch}
