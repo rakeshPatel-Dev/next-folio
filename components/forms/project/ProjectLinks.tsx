@@ -1,17 +1,16 @@
 "use client"
 
-import { Control, UseFormRegister } from "react-hook-form"
+import { UseFormRegister } from "react-hook-form"
 import { Input } from "@/components/ui/input"
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
 import { ProjectFormValues } from "../ProjectForm"
 import { Link2 } from "lucide-react"
 
 type ProjectLinksProps = {
-  control: Control<ProjectFormValues>
   register: UseFormRegister<ProjectFormValues>
 }
 
-export function ProjectLinks({ control, register }: ProjectLinksProps) {
+export function ProjectLinks({ register }: ProjectLinksProps) {
   return (
     <Card>
       <CardHeader>
