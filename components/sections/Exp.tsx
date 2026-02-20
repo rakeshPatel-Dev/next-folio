@@ -1,6 +1,6 @@
 "use client"
 
-import { MapPin, Globe, Facebook, Briefcase } from "lucide-react"
+import { MapPin, Briefcase } from "lucide-react"
 import { experiences } from "@/data/experience"
 import { motion } from "framer-motion"
 import { Reveal } from "@/components/motion/Reveal"
@@ -17,6 +17,8 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
+import FacebookIcon from "../ui/facebook-icon"
+import WorldIcon from "../ui/world-icon"
 
 const fadeUp = {
   hidden: { opacity: 0, y: 16 },
@@ -87,7 +89,7 @@ const Exp = () => {
                                 rel="noopener noreferrer"
                                 className="text-muted-foreground hover:text-foreground transition-colors duration-150"
                               >
-                                <Globe className="w-3.5 h-3.5" />
+                                <WorldIcon size={20} />
                               </a>
                             </TooltipTrigger>
                             <TooltipContent>Website</TooltipContent>
@@ -103,7 +105,7 @@ const Exp = () => {
                                 rel="noopener noreferrer"
                                 className="text-muted-foreground hover:text-foreground transition-colors duration-150"
                               >
-                                <Facebook className="w-3.5 h-3.5" />
+                                <FacebookIcon size={20} />
                               </a>
                             </TooltipTrigger>
                             <TooltipContent>Facebook</TooltipContent>

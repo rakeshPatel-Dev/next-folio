@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { ArrowUpRight, Github, Globe } from "lucide-react"
+import { ArrowUpRight } from "lucide-react"
 import { cn } from "@/lib/utils"
 import type { Project } from "@/utils/getProjects.client"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
@@ -11,6 +11,8 @@ import { Badge } from "@/components/ui/badge"
 import { useTechIcon } from "@/hooks/useTechIcon"
 import { motion } from 'framer-motion'
 import Link from "next/link"
+import WorldIcon from "../ui/world-icon"
+import GithubIcon from "../ui/github-icon"
 
 interface ProjectCardProps {
   project: Project
@@ -126,7 +128,7 @@ const ProjectCard = React.forwardRef<HTMLDivElement, ProjectCardProps>(
                       onClick={(e) => e.stopPropagation()}
                       aria-label="Live website"
                     >
-                      <Globe className="h-5 w-5 text-muted-foreground hover:text-primary" />
+                      <WorldIcon className="h-5 w-5 text-muted-foreground hover:text-primary" />
                     </a>
                   </TooltipTrigger>
                   <TooltipContent>Live Website</TooltipContent>
@@ -144,7 +146,7 @@ const ProjectCard = React.forwardRef<HTMLDivElement, ProjectCardProps>(
                       onClick={(e) => e.stopPropagation()}
                       aria-label="Source code"
                     >
-                      <Github className="h-5 w-5 text-muted-foreground hover:text-primary" />
+                      <GithubIcon className="h-5 w-5 text-muted-foreground hover:text-primary" />
                     </a>
                   </TooltipTrigger>
                   <TooltipContent>Source Code</TooltipContent>

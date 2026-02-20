@@ -12,6 +12,7 @@ import { useToast } from "../zenblocks/toast"
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip"
 import { skills } from "@/data/skills"
 import type { Skill } from "@/data/skills"
+import { MagneticHover } from "../motion/Reveal"
 
 
 const fadeUp = {
@@ -208,16 +209,15 @@ export function AboutMe() {
             className="mt-4 flex flex-wrap gap-3"
           >
             <Button
-              size="sm"
-              className="bg-neutral-100 text-neutral-950 hover:bg-white rounded-lg text-xs font-semibold tracking-wide gap-1.5 h-9"
-            >
+              size="lg"
+              variant="default"            >
               <Download size={13} />
               Resume
             </Button>
             <Button
-              size="sm"
+              size="lg"
               variant="outline"
-              className="border-neutral-800 bg-transparent text-neutral-300 hover:bg-neutral-900 hover:text-white rounded-lg text-xs font-semibold tracking-wide gap-1.5 h-9"
+              className=" text-primary"
             >
               View Projects
               <ArrowUpRight size={13} />
@@ -244,10 +244,10 @@ export function AboutMe() {
                 whileInView="visible"
                 viewport={{ once: true }}
                 variants={fadeUp}
-                className="group p-5 rounded-xl border border-neutral-800 bg-neutral-900/40 hover:border-neutral-700 hover:bg-neutral-900/80 transition-all duration-200"
+                className="group p-5 rounded-xl border border-neutral-800 bg-background hover:border-neutral-700 hover:bg-background/80 transition-all duration-200"
               >
-                <p className="text-neutral-200 text-sm font-semibold mb-1.5">{item.title}</p>
-                <p className="text-neutral-500 text-xs leading-relaxed">{item.desc}</p>
+                <p className="text-primary text-sm font-semibold mb-1.5">{item.title}</p>
+                <p className="text-muted-foreground text-xs leading-relaxed">{item.desc}</p>
               </motion.div>
             ))}
           </div>
@@ -265,22 +265,23 @@ export function AboutMe() {
               { label: "LinkedIn", href: "https://linkedin.com/in/rakeshpatel-developer", icon: Linkedin },
               { label: "Facebook", href: "https://facebook.com/rakeshthedev", icon: Facebook },
             ].map((link, i) => (
-              <motion.a
-                key={link.label}
-                href={link.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                custom={i}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                variants={fadeUp}
-                className="group inline-flex items-center gap-1.5 px-4 py-2 rounded-lg border border-neutral-800 bg-transparent hover:border-neutral-600 hover:bg-neutral-900 text-neutral-400 hover:text-neutral-200 text-xs font-medium transition-all duration-150"
-              >
-                <link.icon size={16} className="opacity-70 group-hover:opacity-100 transition-all duration-150" />
-                {link.label}
-                <ArrowUpRight size={11} className="opacity-0 group-hover:opacity-100 transition-opacity duration-150" />
-              </motion.a>
+              <MagneticHover key={link.label} strength={0.4}>
+                <motion.a
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  custom={i}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                  variants={fadeUp}
+                  className="group inline-flex items-center gap-1.5 px-4 py-2 rounded-lg border border-neutral-800 bg-transparent hover:border-neutral-600 hover:bg-neutral-900 text-muted-foreground hover:text-neutral-200 text-xs font-medium transition-all duration-150"
+                >
+                  <link.icon size={16} className="opacity-70 group-hover:opacity-100 transition-all duration-150" />
+                  {link.label}
+                  <ArrowUpRight size={11} className="opacity-0 group-hover:opacity-100 transition-opacity duration-150" />
+                </motion.a>
+              </MagneticHover>
             ))}
           </div>
         </section>

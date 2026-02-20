@@ -75,7 +75,7 @@ const BlogCard = React.forwardRef<HTMLDivElement, BlogCardProps>(
           <div>
             <div className="flex items-center justify-between">
               {/* Category */}
-              <span className="inline-block mb-2 px-3 py-1 text-xs font-medium rounded-full bg-primary/20 text-primary">
+              <span className="inline-block mb-2 px-3 py-1 text-xs font-medium rounded-full bg-background border-primary/20 uppercase border text-primary">
                 {category}
               </span>
               {/* Variant Badge */}
@@ -89,7 +89,7 @@ const BlogCard = React.forwardRef<HTMLDivElement, BlogCardProps>(
 
             {/* Title */}
             <Link href={link}>
-              <h3 className="text-xl cursor-pointer md:text-2xl font-semibold transition-colors duration-300 group-hover:text-primary line-clamp-2">
+              <h3 className="text-xl hover:underline cursor-pointer md:text-2xl font-semibold transition-all  group-hover:text-primary line-clamp-2">
                 {title}
               </h3>
             </Link>
@@ -110,7 +110,7 @@ const BlogCard = React.forwardRef<HTMLDivElement, BlogCardProps>(
           <div className="w-full flex justify-end mt-4">
             <Link href={link}>
               <span
-                className="inline-flex group items-center gap-2 px-4 py-2 text-sm font-medium rounded-md border border-input bg-background text-muted-foreground transition-all duration-300 hover:scale-105"
+                className="inline-flex group items-center gap-2 px-4 py-2 text-sm font-medium rounded-md border border-input bg-background/5 text-muted-foreground transition-all duration-300 hover:scale-105"
               >
                 Read More
                 <ArrowUpRight className="h-5 w-5 group-hover:translate-x-1 group-hover:rotate-45 duration-100 transition-all" />

@@ -6,6 +6,8 @@ import { Badge } from "@/components/ui/badge"
 import { Calendar, Clock, User, ArrowLeft, Redo2, Undo2, Star } from "lucide-react"
 import Link from "next/link"
 import { BlogCard } from "@/components/blog/Blog-card"
+import { Button } from '@/components/ui/button'
+import { Separator } from '@/components/ui/separator'
 
 interface BlogDetailPageProps {
   params: Promise<{
@@ -93,7 +95,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
 
   // Calculate reading time
   const readingTime = Math.ceil(
-    blogMeta.description.split(/\s+/).length / 200
+    blogMeta.description.split(/\s+/).length / 5
   )
 
   return (
@@ -102,10 +104,11 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
       <div className="max-w-4xl mx-auto px-6 pt-24 pb-8">
         <Link
           href="/blog"
-          className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
         >
-          <ArrowLeft className="h-4 w-4" />
-          Back to Blogs
+          <Button variant="ghost" className=' group cursor-pointer'>
+            <ArrowLeft className="h-4 w-4 group-hover:opacity-100 opacity-50 transition-all group-hover:-translate-x-1 translate-x-1 group-hover:scale-110" />
+            Back to Blogs
+          </Button>
         </Link>
       </div>
 
@@ -136,8 +139,10 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
           {blogMeta.description}
         </p>
 
+        <Separator />
+
         {/* Meta Info */}
-        <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
+        <div className="flex mt-2 flex-wrap items-center gap-4 text-sm text-muted-foreground">
           <div className="flex items-center gap-2">
             <User className="h-4 w-4" />
             <span>{blogMeta.author.name}</span>
@@ -191,8 +196,8 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
               className="flex-1 group"
             >
               <div className="flex items-start gap-4 p-4 rounded-lg border bg-card hover:bg-accent transition-colors">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md border bg-background">
-                  <Undo2 className="h-5 w-5" />
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md border-l group-hover:border  bg-background/5 ">
+                  <Undo2 className="h-5 w-5 translate-x-2 group-hover:translate-x-0 transition-all" />
                 </div>
                 <div className="flex-1 space-y-1">
                   <p className="text-sm font-medium text-muted-foreground">
@@ -230,8 +235,8 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
                     {nextBlog.description}
                   </p>
                 </div>
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md border bg-background">
-                  <Redo2 className="h-5 w-5" />
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md border-r group-hover:border  bg-background/5 ">
+                  <Redo2 className="h-5 w-5 -translate-x-2 group-hover:translate-x-0 transition-all" />
                 </div>
               </div>
             </Link>
