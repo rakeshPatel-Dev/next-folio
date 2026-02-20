@@ -86,14 +86,15 @@ export function BlogFilters({
     }
   }, [status, featured, tag])
 
-  // Handle search with debounce
-  useEffect(() => {
+  // Handle search with debounce - prevent infinite loop by tracking URL changes
+  const prevUrlRef = useRef<string>('')
 
+  useEffect(() => {
     const timer = setTimeout(() => {
-      // updateFilters({ search, status, featured, tag })
       const { status, featured, tag } = filtersRef.current
-      const params = new URLSearchParams(searchParams?.toString())
+      const params = new URLSearchParams(searchParams?.toString() || '')
       const newFilters = { search, status, featured, tag }
+
       Object.entries(newFilters).forEach(([key, value]) => {
         if (value) {
           params.set(key, value)
@@ -101,11 +102,18 @@ export function BlogFilters({
           params.delete(key)
         }
       })
-      router.push(`/admin/blog?${params.toString()}`)
+
+      const newUrl = `/admin/blog?${params.toString()}`
+
+      // Only push if URL is different from previous
+      if (newUrl !== prevUrlRef.current) {
+        prevUrlRef.current = newUrl
+        router.push(newUrl)
+      }
     }, 500)
 
     return () => clearTimeout(timer)
-  }, [search, searchParams, router])
+  }, [search, router])
 
   const handleStatusChange = (newStatus: string) => {
     const updatedStatus = status === newStatus ? '' : newStatus

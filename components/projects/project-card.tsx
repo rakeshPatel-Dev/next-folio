@@ -6,10 +6,11 @@ import { cn } from "@/lib/utils"
 import type { Project } from "@/utils/getProjects.client"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 import Image from "next/image"
-import { useRouter } from "next/navigation"
+// import { useRouter } from "next/navigation"
 import { Badge } from "@/components/ui/badge"
 import { useTechIcon } from "@/hooks/useTechIcon"
 import { motion } from 'framer-motion'
+import Link from "next/link"
 
 interface ProjectCardProps {
   project: Project
@@ -105,12 +106,12 @@ const ProjectCard = React.forwardRef<HTMLDivElement, ProjectCardProps>(
           <div className="flex items-start justify-between gap-3">
             <h3
               className="font-sans cursor-pointer text-xl font-semibold">
-              <a href={`/projects/${project.slug}`}
+              <Link href={`/projects/${project.slug}`}
                 className=" hover:underline"
               >
 
                 {project.title}
-              </a>
+              </Link>
             </h3>
 
             <div className="flex gap-3">
@@ -224,12 +225,12 @@ const ProjectCard = React.forwardRef<HTMLDivElement, ProjectCardProps>(
             </div>
 
             {/* Visual CTA */}
-            <a
+            <Link
               href={`/projects/${project.slug}`}
               className="group inline-flex items-center gap-1 text-sm font-medium text-muted-foreground transition-all hover:text-primary">
               View details
               <ArrowUpRight className="h-4 w-4 group-hover:rotate-45 transition-all group-hover:translate-x-1 duration-100" />
-            </a>
+            </Link>
           </div>
         </div>
       </motion.div>
