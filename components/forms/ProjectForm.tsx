@@ -10,11 +10,11 @@ import { Spinner } from "@/components/ui/spinner"
 import { useToast } from "../zenblocks/toast"
 
 import CoreInfo from "./project/CoreInfo"
-import ProjectLinks from "./project/ProjectLinks"
+import { ProjectLinks } from "./project/ProjectLinks"
 import ProjectMeta from "./project/ProjectMeta"
 import TechStack from "./project/TechStack"
 import FreelanceInfo from "./project/FreelanceInfo"
-import { Project } from "@/utils/getProjects.server"
+import { Project } from "@/utils/getProjects.client"
 
 export type ProjectFormValues = {
   title: string
