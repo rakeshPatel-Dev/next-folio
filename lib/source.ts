@@ -1,5 +1,5 @@
 // lib/source.ts
-import { docs, meta } from '@/.source/source.config.mjs'
+import { docs } from '@/.source/source.config.mjs'
 
 // Helper to generate slug from title
 function titleToSlug(title: string): string {

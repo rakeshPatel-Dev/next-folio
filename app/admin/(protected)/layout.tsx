@@ -1,7 +1,7 @@
 import { AppSidebar } from "@/components/app-siderbar"
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { ThemeProvider } from "next-themes"
-import { getServerSession } from "next-auth"
+import { getServerSession } from "next-auth/next"
 import { authOptions } from "@/lib/auth-options"
 import { redirect } from "next/navigation"
 import type { Metadata } from "next"

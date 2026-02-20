@@ -7,12 +7,13 @@ import slugify from "slugify"
 // GET /api/project/:id — get single project
 export async function GET(
   _: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     await connectDB()
+    const { id } = await params
 
-    const project = await Project.findById(params.id)
+    const project = await Project.findById(id)
 
     if (!project) {
       return NextResponse.json(
@@ -33,11 +34,12 @@ export async function GET(
 // PUT /api/project/:id — update project
 export async function PUT(
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     await requireAdmin()
     await connectDB()
+    const { id } = await params
 
     const body = await req.json()
 
@@ -47,7 +49,7 @@ export async function PUT(
     }
 
     const updatedProject = await Project.findByIdAndUpdate(
-      params.id,
+      id,
       body,
       { new: true, runValidators: true }
     )
@@ -71,13 +73,14 @@ export async function PUT(
 // DELETE /api/project/:id — delete project
 export async function DELETE(
   _: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     await requireAdmin()
     await connectDB()
+    const { id } = await params
 
-    const deleted = await Project.findByIdAndDelete(params.id)
+    const deleted = await Project.findByIdAndDelete(id)
 
     if (!deleted) {
       return NextResponse.json(
