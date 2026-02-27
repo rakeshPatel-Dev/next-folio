@@ -98,7 +98,7 @@ const ProjectCard = React.forwardRef<HTMLDivElement, ProjectCardProps>(
             src={project.image}
             alt={project.title}
             fill
-            sizes="video"
+            sizes="(min-width: 768px) 50vw, 100vw"
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
           />
         </div>

@@ -14,14 +14,17 @@ const RandomQuote = () => {
   const URL = "https://api.quotable.io/random?tags=technology";
   const [quotes, setQuotes] = useState<Props | null>(null)
   const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
   const getRandomQuote = async () => {
     setIsLoading(true)
     try {
       const res = await axios.get(URL);
       setQuotes(res.data);
+      setError(null)
     } catch (error) {
       console.log("Failed to fetch quote", error);
+      setError("Failed to load quote. Please try again.")
     } finally {
       setIsLoading(false)
     }
@@ -41,11 +44,12 @@ const RandomQuote = () => {
           <div className="space-y-6">
             {/* Quote Text */}
             <div className="relative">
-              {/* <div className="absolute -top-2 -left-4 text-5xl text-slate-300 dark:text-slate-600 font-serif">"</div> */}
               <Quote className=' rotate-y-180 text-muted' size={50} />
               <p className="text-xl md:text-2xl font-black font-sans text-center leading-relaxed pl-4">
-                {isLoading ? (
-                  <span className="">Loading quote...</span>
+                {error ? (
+                  <span className="text-red-500">{error}</span>
+                ) : isLoading ? (
+                  <span>Loading quote...</span>
                 ) : (
                   quotes?.content
                 )}
@@ -81,7 +85,7 @@ const RandomQuote = () => {
         </div>
 
         {/* Footer Text */}
-        <p className="text-center flex items-center justify-center font-mono text-muted-foreground text-sm mt-8">Programming-Quote API <Dot /> Random</p>
+        <p className="text-center flex items-center justify-center font-mono text-muted-foreground text-sm mt-8">Quotable API <Dot /> Random</p>
       </div>
     </div>
   )

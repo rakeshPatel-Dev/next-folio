@@ -65,7 +65,7 @@ const BlogCard = React.forwardRef<HTMLDivElement, BlogCardProps>(
             src={image}
             alt={title}
             fill
-            sizes="video"
+            sizes="(min-width: 768px) 50vw, 100vw"
             className="object-cover transition-transform duration-700 ease-in-out group-hover:scale-105"
             {...(blurDataURL && { placeholder: "blur", blurDataURL })}
           />
