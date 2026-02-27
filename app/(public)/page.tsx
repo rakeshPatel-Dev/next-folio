@@ -5,6 +5,7 @@ import BlogSection from '@/components/sections/Blog'
 import Exp from '@/components/sections/Exp'
 import HeroData from '@/components/sections/Hero'
 import HomeProjects from '@/components/sections/Project'
+import RandomQuote from '@/components/sections/RandomQuote'
 const page = () => {
   return (
     <>
@@ -14,6 +15,7 @@ const page = () => {
         <HomeProjects />
         <AboutMe />
         <BlogSection />
+        <RandomQuote />
 
       </div >
     </>

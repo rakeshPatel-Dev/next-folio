@@ -98,6 +98,7 @@ const ProjectCard = React.forwardRef<HTMLDivElement, ProjectCardProps>(
             src={project.image}
             alt={project.title}
             fill
+            sizes="video"
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
           />
         </div>
@@ -116,7 +117,7 @@ const ProjectCard = React.forwardRef<HTMLDivElement, ProjectCardProps>(
               </Link>
             </h3>
 
-            <div className="flex gap-3">
+            <div className="flex gap-3 items-center">
               {project.liveUrl && (
                 <Tooltip>
                   <TooltipTrigger asChild>
