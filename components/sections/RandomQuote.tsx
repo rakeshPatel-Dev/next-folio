@@ -11,7 +11,7 @@ type Props = {
 }
 
 const RandomQuote = () => {
-  const URL = "https://api.quotable.io/random?tags=technology";
+  const URL = "/api/quotes";
   const [quotes, setQuotes] = useState<Props | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -85,7 +85,7 @@ const RandomQuote = () => {
         </div>
 
         {/* Footer Text */}
-        <p className="text-center flex items-center justify-center font-mono text-muted-foreground text-sm mt-8">Quotable API <Dot /> Random</p>
+        <p className="text-center flex items-center justify-center font-mono text-muted-foreground text-sm mt-8">Tech Quotes <Dot /> Random</p>
       </div>
     </div>
   )
