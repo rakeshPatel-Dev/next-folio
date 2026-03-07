@@ -70,7 +70,7 @@ const ProjectPage = () => {
       filtered = filtered.filter(
         p =>
           p.title.toLowerCase().includes(query) ||
-          p.shortDescription.toLowerCase().includes(query) ||
+          p.shortDescription?.toLowerCase().includes(query) ||
           p.techStack?.some(t => t.label.toLowerCase().includes(query))
       )
     }
@@ -268,10 +268,14 @@ const ProjectPage = () => {
             {selectedTech.map((tech) => (
               <Badge key={tech} variant="secondary" className="gap-1">
                 {tech}
-                <X
-                  className="h-3 w-3 cursor-pointer"
-                  onClick={() => toggleTech(tech)}
-                />
+                <button
+                  type="button"
+                  onClick={() => setSearchQuery('')}
+                  className="ml-1 rounded-full hover:bg-muted"
+                  aria-label="Remove search filter"
+                >
+                  <X className="h-3 w-3" />
+                </button>
               </Badge>
             ))}
           </div>

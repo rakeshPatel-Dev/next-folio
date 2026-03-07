@@ -103,7 +103,7 @@ export default function BlogPageClient({ initialBlogs }: BlogPageClientProps) {
   }
 
   // Separate featured and regular blogs
-  const featuredBlog = filteredBlogs.find((b) => b.isFeatured) || filteredBlogs[0]
+  const featuredBlog = filteredBlogs.find((b) => b.isFeatured)
   const regularBlogs = featuredBlog
     ? filteredBlogs.filter((b) => b._id !== featuredBlog._id)
     : filteredBlogs
@@ -202,12 +202,16 @@ export default function BlogPageClient({ initialBlogs }: BlogPageClientProps) {
         {activeFiltersCount > 0 && (
           <div className="flex flex-wrap gap-2">
             {searchQuery && (
-              <Badge variant="secondary" className="gap-1">
+              <Badge variant="secondary" className="gap-1 pr-1">
                 Search: {searchQuery}
-                <X
-                  className="h-3 w-3 cursor-pointer"
+                <button
+                  type="button"
                   onClick={() => setSearchQuery("")}
-                />
+                  className="ml-1 rounded-full hover:bg-muted"
+                  aria-label="Remove search filter"
+                >
+                  <X className="h-3 w-3" />
+                </button>
               </Badge>
             )}
             {showFeaturedOnly && (

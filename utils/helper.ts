@@ -6,7 +6,7 @@
  */
 export function calculateReadingTime(text: string): string {
   const wordsPerMinute = 200
-  const wordCount = text.split(/\s+/).length
+  const wordCount = text.trim() ? text.trim().split(/\s+/).length:0
   const minutes = Math.ceil(wordCount / wordsPerMinute)
   return `${minutes} min read`
 }
@@ -49,10 +49,13 @@ export function formatRelativeTime(dateString: string | Date): string {
 
   if (diffInDays === 0) return "Today"
   if (diffInDays === 1) return "Yesterday"
-  if (diffInDays < 7) return `${diffInDays} days ago`
-  if (diffInDays < 30) return `${Math.floor(diffInDays / 7)} weeks ago`
-  if (diffInDays < 365) return `${Math.floor(diffInDays / 30)} months ago`
-  return `${Math.floor(diffInDays / 365)} years ago`
+ if (diffInDays < 7) return `${diffInDays} day${diffInDays === 1 ? '' : 's'} ago`
+  const weeks = Math.floor(diffInDays / 7)
+  if (diffInDays < 30) return `${weeks} week${weeks === 1 ? '' : 's'} ago`
+  const months = Math.floor(diffInDays / 30)
+  if (diffInDays < 365) return `${months} month${months === 1 ? '' : 's'} ago`
+  const years = Math.floor(diffInDays / 365)
+  return `${years} year${years === 1 ? '' : 's'} ago`
 }
 
 /**
@@ -171,6 +174,7 @@ export function isValidUrl(url: string): boolean {
 export function getInitials(name: string): string {
   return name
     .split(' ')
+    .filter(word=> word.length>0)
     .map(word => word[0])
     .join('')
     .toUpperCase()
