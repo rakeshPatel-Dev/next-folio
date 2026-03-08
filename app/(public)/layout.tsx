@@ -11,6 +11,7 @@ import { PageTransition } from "@/components/motion/PageTransition";
 import { ToastProvider } from "@/components/zenblocks/toast";
 import { Toaster } from "sonner";
 import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 
 const spaceGrotesk = Space_Grotesk({
@@ -103,6 +104,7 @@ export default function RootLayout({
           <Footer />
         </ThemeProvider>
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
