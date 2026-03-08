@@ -30,6 +30,7 @@ export type ProjectFormValues = {
   clientLocation?: string
   clientIndustry?: string
   isClientPublic: boolean
+  content?: string
 }
 
 type Props = {
@@ -138,7 +139,7 @@ export default function ProjectForm({ path, saveProject, initialData }: Props) {
 
       <ProjectMeta errors={errors} control={control} />
 
-      <ProjectLinks control={control} register={register} />
+      <ProjectLinks register={register} />
 
       <TechStack errors={errors} watch={watch} setValue={setValue} />
 

@@ -1,8 +1,7 @@
 import { AppSidebar } from "@/components/app-siderbar"
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { ThemeProvider } from "next-themes"
-import { getServerSession } from "next-auth/next"
-import { authOptions } from "@/lib/auth-options"
+import { getSession } from "@/lib/auth"
 import { redirect } from "next/navigation"
 import type { Metadata } from "next"
 import { ADMIN_TITLE, APP_NAME } from "@/lib/constants";
@@ -24,7 +23,7 @@ export default async function AdminProtectedLayout({
 }: {
   children: React.ReactNode
 }) {
-  const session = await getServerSession(authOptions)
+  const session = await getSession()
 
   const adminEmails = process.env.ADMIN_EMAILS?.split(",") ?? [];
 

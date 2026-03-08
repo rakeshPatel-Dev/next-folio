@@ -7,7 +7,7 @@ import Project from "@/models/projectModel"
 export const metadata = ADDPROJECTS_METADATA
 
 // ✅ Server action to save a project
-async function saveProject(values: any) {
+async function saveProject(values: any): Promise<void> {
   "use server"
   try {
     await connectDB()
@@ -23,11 +23,6 @@ async function saveProject(values: any) {
 
     // directly save the payload
     await Project.create(values)
-
-    return {
-      success: true,
-      message: "Project saved successfully",
-    }
   } catch (error) {
     console.error("Error while saving:", error)
     throw new Error("Failed to save project")

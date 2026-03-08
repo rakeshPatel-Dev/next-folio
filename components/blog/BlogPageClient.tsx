@@ -26,7 +26,7 @@ type Blog = {
   author: { name: string }
   status: string
   isFeatured: boolean
-  publishedAt: string
+  publishedAt: string | null
   createdAt: string
 }
 

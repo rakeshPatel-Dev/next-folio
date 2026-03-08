@@ -1,4 +1,3 @@
-import type { NextAuthOptions } from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
 import { connectDB } from "@/lib/mongoose"
 import User from "@/models/userModel"
@@ -6,7 +5,8 @@ import User from "@/models/userModel"
 const adminEmails =
   process.env.ADMIN_EMAILS?.split(",").map(e => e.trim().toLowerCase()) ?? []
 
-export const authOptions: NextAuthOptions = {
+// Use type assertion for next-auth options (package types can conflict with our Session augmentation)
+export const authOptions = {
   secret: process.env.NEXTAUTH_SECRET,
 
   providers: [
@@ -17,11 +17,11 @@ export const authOptions: NextAuthOptions = {
   ],
 
   session: {
-    strategy: "jwt",
+    strategy: "jwt" as const,
   },
 
   callbacks: {
-    async signIn({ user }) {
+    async signIn({ user }: { user: { email?: string | null; name?: string | null; image?: string | null } }) {
       const email = user.email?.toLowerCase()
       if (!email || !adminEmails.includes(email)) return false
 
@@ -40,7 +40,7 @@ export const authOptions: NextAuthOptions = {
       return true
     },
 
-    async jwt({ token }) {
+    async jwt({ token }: { token: { email?: string | null; id?: string; role?: string } }) {
       if (!token.email) return token
 
       await connectDB()
@@ -55,7 +55,7 @@ export const authOptions: NextAuthOptions = {
       return token
     },
 
-    async session({ session, token }) {
+    async session({ session, token }: { session: { user: { id?: string; role?: string } }; token: { id?: string; role?: string } }) {
       if (session.user) {
         session.user.id = token.id as string
         session.user.role = token.role as string

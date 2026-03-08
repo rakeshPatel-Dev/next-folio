@@ -55,7 +55,7 @@ export function ProjectContent({
               <FormControl>
                 <Suspense fallback={<div className="h-96 border rounded-md bg-muted" />}>
                   <MDXEditor
-                    value={field.value}
+                    value={field.value ?? ""}
                     onChange={field.onChange}
                     height={500}
                     preview="edit"

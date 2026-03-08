@@ -1,6 +1,5 @@
 
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/lib/auth-options";
+import { getSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import AdminProfile from "@/components/admin-profile";
 import { ADMINPROFILE_METADATA } from "@/lib/metadata";
@@ -9,7 +8,7 @@ export const metadata = ADMINPROFILE_METADATA;
 
 export default async function AdminProfilePage() {
   // Server-side session check
-  const session = await getServerSession(authOptions);
+  const session = await getSession();
 
 
 

@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { UseFormSetValue, UseFormWatch } from "react-hook-form"
 import { Cpu, Tag, Component, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -10,23 +11,16 @@ import FieldError from "@/components/forms/FieldError"
 import IconRenderer from "./IconRenderer"
 import IconInput from "./IconInput"
 import { useToast } from "@/components/zenblocks/toast"
+import type { ProjectFormValues } from "../ProjectForm"
 
 type TechItem = {
   label: string
-  icon: string
+  icon?: string
 }
 
 type Props = {
-  watch: (name: string) => any
-  setValue: (
-    name: string,
-    value: any,
-    options?: {
-      shouldDirty?: boolean
-      shouldTouch?: boolean
-      shouldValidate?: boolean
-    }
-  ) => void
+  watch: UseFormWatch<ProjectFormValues>
+  setValue: UseFormSetValue<ProjectFormValues>
   errors: any
 }
 
