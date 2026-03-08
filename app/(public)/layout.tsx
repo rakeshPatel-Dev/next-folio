@@ -10,6 +10,7 @@ import { RootProvider } from "fumadocs-ui/provider/next"
 import { PageTransition } from "@/components/motion/PageTransition";
 import { ToastProvider } from "@/components/zenblocks/toast";
 import { Toaster } from "sonner";
+import { Analytics } from "@vercel/analytics/next";
 
 
 const spaceGrotesk = Space_Grotesk({
@@ -101,6 +102,7 @@ export default function RootLayout({
           <AppDock />
           <Footer />
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );
