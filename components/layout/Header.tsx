@@ -5,7 +5,6 @@ import Image from "next/image"
 import { usePathname } from "next/navigation"
 import { AnimatedThemeToggler } from "../ui/animated-theme-toggler"
 import { headerData } from "@/config/headerData"
-import { Stagger } from "../motion/Reveal"
 import { cn } from "@/lib/utils"
 
 const Header = () => {
@@ -30,13 +29,9 @@ const Header = () => {
           />
         </Link>
 
-        {/* Navigation */}
+        {/* Navigation - using CSS animations instead of framer-motion */}
         <nav>
-          <Stagger
-            staggerDelay={0.06}
-            variant="fadeIn"
-            className="flex items-center gap-1"
-          >
+          <div className="flex items-center gap-1">
             {headerData.map((data, idx) => {
               const isActive =
                 data.href === "/"
@@ -53,6 +48,11 @@ const Header = () => {
                       ? "text-foreground"
                       : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
                   )}
+                  style={{
+                    animation: 'fadeIn 0.3s ease forwards',
+                    animationDelay: `${idx * 0.05}s`,
+                    opacity: 0
+                  }}
                 >
                   {data.label}
                   {/* Active underline dot */}
@@ -62,7 +62,7 @@ const Header = () => {
                 </Link>
               )
             })}
-          </Stagger>
+          </div>
         </nav>
 
         {/* Theme toggle */}

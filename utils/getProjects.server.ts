@@ -1,4 +1,4 @@
-// utils/projectUtils.server.ts
+// utils/getProjects.server.ts
 import { connectDB } from '@/lib/mongoose'
 import Project from '@/models/projectModel'
 
@@ -35,9 +35,30 @@ export type ProjectType = {
 
 // Serialize MongoDB document
 function serializeProject(project: any): ProjectType {
+  // Strip any nested ObjectIds from arrays
+  const cleanTechStack = project.techStack?.map((t: any) => ({
+    label: t.label,
+    icon: t.icon,
+  })) || []
+
+  const cleanFeatures = Array.isArray(project.features)
+    ? project.features.map((f: any) => typeof f === 'string' ? f : {
+        title: f.title,
+        description: f.description,
+      })
+    : []
+
+  const cleanResults = project.results?.map((r: any) => ({
+    metric: r.metric,
+    description: r.description,
+  })) || []
+
   return {
     ...project,
     _id: project._id.toString(),
+    techStack: cleanTechStack,
+    features: cleanFeatures,
+    results: cleanResults,
     createdAt: project.createdAt.toISOString(),
     updatedAt: project.updatedAt.toISOString(),
   }

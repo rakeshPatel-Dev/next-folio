@@ -2,41 +2,17 @@
 
 import { ProjectCard } from '@/components/projects/project-card'
 import { Button } from '@/components/ui/button'
-import { ArrowRight, Loader2 } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import Link from 'next/link'
-import React, { useEffect, useState } from 'react'
-import { getProjectsClient, type Project } from '@/utils/getProjects.client'
 import { MagneticHover } from '../motion/Reveal'
+import type { Project } from '@/utils/getProjects.client'
 
-const HomeProjects = () => {
-  const [projects, setProjects] = useState<Project[]>([])
-  const [loading, setLoading] = useState(true)
+interface HomeProjectsProps {
+  initialProjects: Project[]
+}
 
-  useEffect(() => {
-    loadProjects()
-  }, [])
-
-  const loadProjects = async () => {
-    try {
-      const data = await getProjectsClient()
-      // Filter to show only completed projects on homepage
-      const completedProjects = data.filter(p => p.status === 'completed')
-      setProjects(completedProjects)
-    } catch (error) {
-      console.error('Failed to fetch projects:', error)
-      setProjects([])
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center py-20">
-        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
-      </div>
-    )
-  }
+const HomeProjects = ({ initialProjects }: HomeProjectsProps) => {
+  const projects = initialProjects
 
   if (projects.length === 0) {
     return null // Don't show section if no projects

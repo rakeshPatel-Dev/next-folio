@@ -77,17 +77,32 @@ export function Reveal({
   once = true,
   amount = 0.15,
 }: RevealProps) {
+  const { ref, isVisible } = useReveal(amount, once)
+
+  const variantClasses = {
+    fadeUp: "translate-y-7 blur-[4px] opacity-0",
+    fadeIn: "opacity-0",
+    slideLeft: "translate-x-8 blur-[4px] opacity-0",
+    slideRight: "-translate-x-8 blur-[4px] opacity-0",
+    scale: "scale-[0.94] blur-[4px] opacity-0",
+    blur: "blur-md opacity-0",
+  }
+
+  const hiddenClass = variantClasses[variant]
+  const visibleClass = "translate-y-0 translate-x-0 scale-100 blur-[0px] opacity-100"
+
   return (
-    <motion.div
-      className={cn(className)}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once, amount }}
-      variants={variants[variant]}
-      transition={{ duration, delay, ease }}
+    <div
+      ref={ref as any}
+      className={cn("transition-all duration-700", className, isVisible ? visibleClass : hiddenClass)}
+      style={{
+        transitionDuration: `${duration}s`,
+        transitionDelay: `${delay}s`,
+        transitionTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1)"
+      }}
     >
       {children}
-    </motion.div>
+    </div>
   )
 }
 
@@ -126,29 +141,50 @@ export function Stagger({
   className,
   once = true,
 }: StaggerProps) {
+  const { ref, isVisible } = useReveal(0.1, once)
+
+  const variantClasses = {
+    fadeUp: "translate-y-7 blur-[4px] opacity-0",
+    fadeIn: "opacity-0",
+    slideLeft: "translate-x-8 blur-[4px] opacity-0",
+    slideRight: "-translate-x-8 blur-[4px] opacity-0",
+    scale: "scale-[0.94] blur-[4px] opacity-0",
+    blur: "blur-md opacity-0",
+  }
+
+  const hiddenClass = variantClasses[variant]
+  const visibleClass = "translate-y-0 translate-x-0 scale-100 blur-[0px] opacity-100"
+
   return (
-    <motion.div
+    <div
+      ref={ref as any}
       className={cn(className)}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once, amount: 0.1 }}
-      variants={staggerContainer(staggerDelay)}
     >
       {Array.isArray(children)
         ? children.map((child, i) => (
-          <motion.div
+          <div
             key={i}
-            variants={variants[variant]}
-            transition={{ duration, ease }}
+            className={cn("transition-all duration-700 inline-block", isVisible ? visibleClass : hiddenClass)}
+            style={{
+              transitionDuration: `${duration}s`,
+              transitionDelay: `${i * staggerDelay}s`,
+              transitionTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1)"
+            }}
           >
             {child}
-          </motion.div>
+          </div>
         ))
-        : <motion.div variants={variants[variant]} transition={{ duration, ease }}>
+        : <div
+          className={cn("transition-all duration-700", isVisible ? visibleClass : hiddenClass)}
+          style={{
+            transitionDuration: `${duration}s`,
+            transitionTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1)"
+          }}
+        >
           {children}
-        </motion.div>
+        </div>
       }
-    </motion.div>
+    </div>
   )
 }
 
@@ -280,7 +316,10 @@ export function Tilt({ children, maxAngle = 8, className, glare = true }: TiltPr
      <section ref={ref} className={isVisible ? "animate-in" : "opacity-0"}>
 ───────────────────────────────────────────────────────────────────────────── */
 
-export function useReveal(options?: IntersectionObserverInit) {
+export function useReveal<T extends HTMLElement = HTMLElement>(
+  threshold: number = 0.15,
+  once = true
+) {
   const ref = useRef<HTMLElement>(null)
   const [isVisible, setIsVisible] = useState(false)
 
@@ -288,12 +327,19 @@ export function useReveal(options?: IntersectionObserverInit) {
     const el = ref.current
     if (!el) return
     const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) setIsVisible(true) },
-      { threshold: 0.15, ...options }
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true)
+          if (once) observer.disconnect()
+        } else if (!once) {
+          setIsVisible(false)
+        }
+      },
+      { threshold }
     )
     observer.observe(el)
     return () => observer.disconnect()
-  }, [options])
+  }, [threshold, once])
 
   return { ref, isVisible }
 }

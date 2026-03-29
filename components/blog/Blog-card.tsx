@@ -113,7 +113,7 @@ const BlogCard = React.forwardRef<HTMLDivElement, BlogCardProps>(
               <span
                 className="inline-flex group items-center gap-2 px-4 py-2 text-sm font-medium rounded-md border border-input bg-background/5 text-muted-foreground transition-all duration-300 hover:scale-105"
               >
-                Read More
+                Read full article
                 <ArrowUpRight className="h-5 w-5 group-hover:translate-x-1 group-hover:rotate-45 duration-100 transition-all" />
               </span>
             </Link>          </div>

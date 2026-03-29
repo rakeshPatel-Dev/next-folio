@@ -4,6 +4,7 @@ import { motion } from "framer-motion"
 
 import { ArrowUpRight, MapPin, Mail, Download, Github, Instagram, Linkedin, Facebook } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import Image from "next/image"
 import { Separator } from "@/components/ui/separator"
 
 /* ─── Data ──────────────────────────────────────────────────────────── */
@@ -170,10 +171,13 @@ export function AboutMe() {
               className="relative shrink-0"
             >
               <div className="h-20 w-20 rounded-2xl overflow-hidden border border-neutral-800 ring-1 ring-neutral-700/50">
-                <img
+                <Image
                   src="https://api.dicebear.com/8.x/notionists/svg?seed=rakesh&backgroundColor=1a1a1a"
                   alt="Rakesh Patel"
+                  width={80}
+                  height={80}
                   className="h-full w-full object-cover"
+                  priority
                 />              </div>
             </motion.div>
           </motion.div>

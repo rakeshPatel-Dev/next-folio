@@ -18,6 +18,26 @@ interface ProjectCardProps {
   project: Project
 }
 
+const shimmer = (w: number, h: number) => `
+<svg width="${w}" height="${h}" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    <linearGradient id="g">
+      <stop stop-color="#333" offset="20%" />
+      <stop stop-color="#222" offset="50%" />
+      <stop stop-color="#333" offset="70%" />
+    </linearGradient>
+  </defs>
+  <rect width="${w}" height="${h}" fill="#333" />
+  <rect id="r" width="${w}" height="${h}" fill="url(#g)">
+    <animate attributeName="x" from="-${w}" to="${w}" dur="1s" repeatCount="indefinite" />
+  </rect>
+</svg>`
+
+const toBase64 = (str: string) =>
+  typeof window === 'undefined'
+    ? Buffer.from(str).toString('base64')
+    : window.btoa(str)
+
 // Tech Icon Component
 function TechIcon({ tech }: { tech: { label: string; icon?: string } }) {
   const Icon = useTechIcon(tech.icon)
@@ -92,6 +112,7 @@ const ProjectCard = React.forwardRef<HTMLDivElement, ProjectCardProps>(
           </span>
         )}
 
+
         {/* Image */}
         <div className="relative aspect-video overflow-hidden p-2">
           <Image
@@ -99,6 +120,8 @@ const ProjectCard = React.forwardRef<HTMLDivElement, ProjectCardProps>(
             alt={project.title}
             fill
             sizes="(min-width: 768px) 50vw, 100vw"
+            placeholder="blur"
+            blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(700, 475))}`}
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
           />
         </div>
@@ -107,7 +130,7 @@ const ProjectCard = React.forwardRef<HTMLDivElement, ProjectCardProps>(
         <div className="flex flex-1 flex-col p-6">
           {/* Title + Icons */}
           <div className="flex items-start justify-between gap-3">
-            <h3
+            <h4
               className="font-sans cursor-pointer text-xl font-semibold">
               <Link href={`/projects/${project.slug}`}
                 className=" hover:underline"
@@ -115,9 +138,9 @@ const ProjectCard = React.forwardRef<HTMLDivElement, ProjectCardProps>(
 
                 {project.title}
               </Link>
-            </h3>
+            </h4>
 
-            <div className="flex gap-3 items-center">
+            <div className="flex gap-4 items-center">
               {project.liveUrl && (
                 <Tooltip>
                   <TooltipTrigger asChild>
@@ -129,7 +152,7 @@ const ProjectCard = React.forwardRef<HTMLDivElement, ProjectCardProps>(
                       onClick={(e) => e.stopPropagation()}
                       aria-label="Live website"
                     >
-                      <WorldIcon className="h-5 w-5 text-muted-foreground hover:text-primary" />
+                      <WorldIcon className="h-6 w-6 text-muted-foreground hover:text-primary" />
                     </a>
                   </TooltipTrigger>
                   <TooltipContent>Live Website</TooltipContent>
@@ -147,7 +170,7 @@ const ProjectCard = React.forwardRef<HTMLDivElement, ProjectCardProps>(
                       onClick={(e) => e.stopPropagation()}
                       aria-label="Source code"
                     >
-                      <GithubIcon className="h-5 w-5 text-muted-foreground hover:text-primary" />
+                      <GithubIcon className="h-6 w-6 text-muted-foreground hover:text-primary" />
                     </a>
                   </TooltipTrigger>
                   <TooltipContent>Source Code</TooltipContent>
@@ -175,7 +198,7 @@ const ProjectCard = React.forwardRef<HTMLDivElement, ProjectCardProps>(
           {/* Tech Stack with Dynamic Icons */}
           {project.techStack && project.techStack.length > 0 && (
             <div className="mt-4 flex flex-col gap-2">
-              <h4 className="font-sans text-sm font-medium">Technologies</h4>
+              <h3 className="font-sans text-sm font-medium">Technologies</h3>
               <div className="flex flex-wrap gap-3 items-center">
                 {project.techStack.slice(0, 8).map((tech, idx) => (
                   <TechIcon key={idx} tech={tech} />
@@ -232,7 +255,7 @@ const ProjectCard = React.forwardRef<HTMLDivElement, ProjectCardProps>(
               href={`/projects/${project.slug}`}
               className="group inline-flex items-center gap-1 text-sm font-medium text-muted-foreground transition-all hover:text-primary">
               View details
-              <ArrowUpRight className="h-4 w-4 group-hover:rotate-45 transition-all group-hover:translate-x-1 duration-100" />
+              <ArrowUpRight className="h-6 w-6 group-hover:rotate-45 transition-all group-hover:translate-x-1 duration-100" />
             </Link>
           </div>
         </div>

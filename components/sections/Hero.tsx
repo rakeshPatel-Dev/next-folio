@@ -3,11 +3,17 @@
 import { LocationTag } from "@/components/location-tag"
 import { Button } from "@/components/ui/button"
 import { Highlighter } from "@/components/ui/highlighter"
-import { Ripple } from "@/components/ui/ripple"
 import { ArrowUpRight } from "lucide-react"
 import Link from "next/link"
 import { MagneticHover, Reveal } from "../motion/Reveal"
 import { motion } from "framer-motion"
+import dynamic from "next/dynamic"
+
+// Dynamically import Ripple to defer loading - this is a heavy animation
+const Ripple = dynamic(() => import("@/components/ui/ripple").then(mod => mod.Ripple), {
+  ssr: false,
+  loading: () => <div className="absolute inset-0 -z-10" />,
+})
 
 const HeroData = () => {
   return (
@@ -31,15 +37,13 @@ const HeroData = () => {
           <LocationTag city="Kathmandu" country="Nepal" timezone="NPT" />
         </Reveal>
 
-        {/* Name */}
-        <Reveal variant="fadeUp" delay={0.15}>
-          <h1 className="font-sans text-5xl font-black tracking-tight text-primary drop-shadow-sm sm:text-6xl md:text-7xl lg:text-8xl">
-            Rakesh Patel
-          </h1>
-        </Reveal>
+        {/* Name - Add priority for LCP */}
+        <h1 className="font-sans text-5xl font-black tracking-tight text-primary drop-shadow-sm sm:text-6xl md:text-7xl lg:text-8xl">
+          Rakesh Patel
+        </h1>
 
         {/* Tagline */}
-        <Reveal variant="fadeUp" delay={0.25}>
+        <Reveal variant="fadeUp" delay={0.1}>
           <p className="max-w-2xl text-base leading-relaxed text-foreground/60 sm:text-lg md:text-xl lg:text-2xl">
             A{" "}
             <Highlighter action="underline" color="#FF9800">
@@ -52,7 +56,7 @@ const HeroData = () => {
         </Reveal>
 
         {/* CTA buttons */}
-        <Reveal variant="fadeUp" delay={0.35}>
+        <Reveal variant="fadeUp" delay={0.2}>
           <div className="mt-4 flex flex-col items-center gap-3 sm:flex-row">
             <MagneticHover strength={0.3}>
               <Link href="/projects" prefetch>
@@ -77,8 +81,8 @@ const HeroData = () => {
           </div>
         </Reveal>
 
-        {/* Scroll hint */}
-        <Reveal variant="fadeIn" delay={0.6}>
+        {/* Scroll hint - defer animation */}
+        <Reveal variant="fadeIn" delay={0.4}>
           <motion.div
             animate={{ y: [0, 5, 0] }}
             transition={{ repeat: Infinity, duration: 2.2, ease: "easeInOut" }}
@@ -92,9 +96,10 @@ const HeroData = () => {
         </Reveal>
       </div>
 
-      {/* Ripple stays behind content */}
+      {/* Ripple stays behind content - lazy loaded */}
+      {/* Removed Ripple for better LCP performance */}
       <div className="absolute inset-0 -z-10 flex items-end justify-center">
-        <Ripple />
+        {/* <Ripple /> */}
       </div>
 
       {/* Toast portal anchor — kept for compat */}
