@@ -15,11 +15,13 @@ import { Toaster } from "sonner";
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
   variable: "--font-space-grotesk",
+  display: 'swap',
 });
 
 const firaCode = Fira_Code({
   subsets: ["latin"],
   variable: "--font-fira-code",
+  display: 'swap',
 });
 
 export const metadata: Metadata = {
