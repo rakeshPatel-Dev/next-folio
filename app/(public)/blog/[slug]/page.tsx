@@ -22,7 +22,10 @@ export async function generateStaticParams() {
   }))
 }
 
-export async function generateMetadata({ params }: BlogDetailPageProps) {
+import { Metadata } from 'next'
+import { siteConfig } from '@/lib/site-config'
+
+export async function generateMetadata({ params }: BlogDetailPageProps): Promise<Metadata> {
   const { slug } = await params
   const blogMeta = await getBlogByIdOrSlug(slug)
 
@@ -32,16 +35,28 @@ export async function generateMetadata({ params }: BlogDetailPageProps) {
     }
   }
 
+  const url = `${siteConfig.url}/blog/${blogMeta.slug}`
+
   return {
     title: blogMeta.title,
     description: blogMeta.description,
+    alternates: {
+      canonical: url,
+    },
     openGraph: {
       title: blogMeta.title,
       description: blogMeta.description,
+      url: url,
       images: [blogMeta.coverImage],
       type: "article",
       publishedTime: blogMeta.publishedAt || blogMeta.createdAt,
       authors: [blogMeta.author.name],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: blogMeta.title,
+      description: blogMeta.description,
+      images: [blogMeta.coverImage],
     },
   }
 }

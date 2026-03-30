@@ -5,14 +5,14 @@ import Header from "@/components/layout/Header";
 import { ThemeProvider } from "next-themes";
 import Footer from "@/components/layout/Footer";
 import { AppDock } from "@/components/sections/GlobalDock";
-import { APP_NAME, PUBLIC_TITLE } from "@/lib/constants";
+import { siteConfig } from "@/lib/site-config";
 import { RootProvider } from "fumadocs-ui/provider/next"
 import { PageTransition } from "@/components/motion/PageTransition";
 import { ToastProvider } from "@/components/zenblocks/toast";
 import { Toaster } from "sonner";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-
+import { JsonLd } from "@/components/sections/JsonLd";
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -27,57 +27,57 @@ const firaCode = Fira_Code({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteConfig.url),
   title: {
-    default: `${PUBLIC_TITLE}`,
-    template: `%s | ${APP_NAME}`
+    default: siteConfig.name,
+    template: `%s | ${siteConfig.name}`,
   },
-  description: "Portfolio of Rakesh Patel, a full-stack developer based in Kathmandu, Nepal. Showcasing projects, case studies, and expertise in React, Next.js, TypeScript, Tailwind CSS, and software development best practices. Performance-focused, SEO-optimized, and production-ready.",
-  keywords: [
-    "Rakesh Patel",
-    "portfolio",
-    "Kathmandu",
-    "Nepal",
-    "full-stack developer",
-    "React",
-    "Next.js",
-    "TypeScript",
-    "Tailwind CSS",
-    "web development",
-    "projects",
-    "case studies",
-    "software engineer"
-  ],
-  authors: [{ name: "Rakesh Patel" }],
-  creator: "Rakesh Patel",
+  description: siteConfig.description,
+  keywords: siteConfig.keywords,
+  authors: [{ name: siteConfig.name }],
+  creator: siteConfig.name,
   openGraph: {
-    title: "Rakesh Patel | Full-Stack Developer Portfolio",
-    description: "Explore the professional projects, technical skills, and case studies of Rakesh Patel, a full-stack developer based in Kathmandu, Nepal. Built with Next.js, TypeScript, and Tailwind CSS for performance and SEO optimization.",
-    url: "https://your-portfolio-url.com", // replace with live URL
-    siteName: "Rakesh Patel Portfolio",
     type: "website",
     locale: "en_NP",
+    url: siteConfig.url,
+    title: siteConfig.name,
+    description: siteConfig.description,
+    siteName: siteConfig.name,
     images: [
       {
-        url: "https://your-portfolio-url.com/og-image.png", // optional OG image
+        url: siteConfig.ogImage,
         width: 1200,
         height: 630,
-        alt: "Rakesh Patel Full-Stack Developer Portfolio Open Graph Image",
+        alt: siteConfig.name,
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Rakesh Patel | Full-Stack Developer Portfolio",
-    description: "Portfolio of Rakesh Patel, showcasing projects, case studies, and expertise in React, Next.js, TypeScript, and Tailwind CSS. Based in Kathmandu, Nepal.",
-    images: ["https://your-portfolio-url.com/og-image.png"], // optional
-    creator: "@RakeshPatelDev", // optional Twitter handle
+    title: siteConfig.name,
+    description: siteConfig.description,
+    images: [siteConfig.ogImage],
+    creator: siteConfig.links.twitter.split("/").pop(),
   },
-  metadataBase: new URL("https://your-portfolio-url.com"), // base URL for relative paths
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
   alternates: {
-    canonical: "https://your-portfolio-url.com",
+    canonical: siteConfig.url,
   },
   appleWebApp: {
-    title: "Rakesh",
+    title: siteConfig.name,
+  },
+  verification: {
+    google: siteConfig.googleVerification,
   },
 };
 
@@ -97,6 +97,7 @@ export default function RootLayout({
           <ToastProvider>
             <PageTransition>
               <RootProvider>
+                <JsonLd />
                 {children}
                 <Toaster />
               </RootProvider>
