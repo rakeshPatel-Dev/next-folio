@@ -14,6 +14,7 @@ import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { JsonLd } from "@/components/sections/JsonLd";
 import { Noise } from "@/components/ui/noise";
+import { GridPattern } from "@/components/ui/grid-pattern";
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -95,6 +96,7 @@ export default function RootLayout({
       >
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false} forcedTheme="dark">
           <Noise />
+          <GridPattern />
           <Header />
           <ToastProvider>
             <PageTransition>

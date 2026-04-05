@@ -22,7 +22,7 @@ const Header = () => {
   return (
     <header
       className={cn(
-        "font-sans fixed z-50 w-full transition-all duration-300 px-4 sm:px-6",
+        "font-sans fixed  z-50 w-full transition-all duration-300 px-4 sm:px-6",
         isScrolled ? "top-2" : "top-4"
       )}
     >

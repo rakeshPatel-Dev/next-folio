@@ -4,7 +4,7 @@ import Image from "next/image"
 
 export default function HeroData() {
   return (
-    <section className="hero-root relative mx-auto flex min-h-[92svh] w-full max-w-6xl flex-col overflow-hidden rounded-2xl px-5 sm:px-10">
+    <section className="hero-root mt-16 sm:mt-0 relative mx-auto flex min-h-[92svh] w-full max-w-6xl flex-col overflow-hidden rounded-2xl px-5 sm:px-10">
 
 
       {/* ═══════════════ CENTERED PHOTO ═══════════════ */}

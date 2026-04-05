@@ -1,37 +1,88 @@
 "use client"
 
-import { motion } from "framer-motion"
-
-import { ArrowUpRight, MapPin, Mail, Download, Github, Instagram, Linkedin, Facebook } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import Image from "next/image"
-import { Separator } from "@/components/ui/separator"
-
-/* ─── Data ──────────────────────────────────────────────────────────── */
-
+import { useEffect, useRef } from "react"
+import { motion, useInView } from "framer-motion"
+import {
+  ArrowUpRight, MapPin, Mail,
+  Github, Instagram, Linkedin, Facebook,
+} from "lucide-react"
 import { useToast } from "../zenblocks/toast"
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip"
 import { skills } from "@/data/skills"
 import type { Skill } from "@/data/skills"
 import { MagneticHover } from "../motion/Reveal"
 
+/* ─── GSAP lazy loader ───────────────────────────────────────────────────── */
+
+async function getGSAP() {
+  const { gsap } = await import("gsap")
+  const { ScrollTrigger } = await import("gsap/ScrollTrigger")
+  const { SplitText } = await import("gsap/SplitText")
+  gsap.registerPlugin(ScrollTrigger, SplitText)
+  return { gsap, ScrollTrigger, SplitText }
+}
+
+/* ─── Animation variants ─────────────────────────────────────────────────── */
+
+const lineReveal = {
+  hidden: { scaleX: 0 },
+  visible: {
+    scaleX: 1,
+    transition: { duration: 1.1, ease: [0.16, 1, 0.3, 1] },
+  },
+}
 
 const fadeUp = {
-  hidden: { opacity: 0, y: 24 },
-  visible: (i: number) => ({
+  hidden: { opacity: 0, y: 28 },
+  visible: (i = 0) => ({
     opacity: 1,
     y: 0,
-    transition: { delay: i * 0.07, duration: 0.55, ease: [0.22, 1, 0.36, 1] as const },
+    transition: { delay: i * 0.07, duration: 0.8, ease: [0.16, 1, 0.3, 1] },
   }),
 }
 
-/* ─── Sub-components ─────────────────────────────────────────────────── */
+const fadeIn = {
+  hidden: { opacity: 0 },
+  visible: (i = 0) => ({
+    opacity: 1,
+    transition: { delay: i * 0.06, duration: 0.9, ease: "easeOut" },
+  }),
+}
 
-function SectionLabel({ children }: { children: React.ReactNode }) {
+/* ─── Sub-components ─────────────────────────────────────────────────────── */
+
+function SectionLabel({ number, title }: { number: string; title: string }) {
+  const ref = useRef<HTMLDivElement>(null)
+  const inView = useInView(ref, { once: true, margin: "-80px" })
+
   return (
-    <p className="font-mono text-[11px] tracking-[0.2em] uppercase text-muted-foreground mb-6">
-      {children}
-    </p>
+    <div ref={ref} className="mb-10 flex items-center gap-4 overflow-hidden">
+      <motion.span
+        initial={{ opacity: 0, x: -8 }}
+        animate={inView ? { opacity: 1, x: 0 } : {}}
+        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+        className="font-mono text-[10px] tracking-[0.25em] text-white/20"
+      >
+        {number}
+      </motion.span>
+
+      <motion.div
+        initial={{ scaleX: 0 }}
+        animate={inView ? { scaleX: 1 } : {}}
+        transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+        style={{ transformOrigin: "left" }}
+        className="h-px w-6 bg-white/15"
+      />
+
+      <motion.span
+        initial={{ opacity: 0, y: 6 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.6, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+        className="font-sans text-[10px] uppercase tracking-[0.28em] text-white/35"
+      >
+        {title}
+      </motion.span>
+    </div>
   )
 }
 
@@ -43,253 +94,328 @@ function SkillPill({ name, Icon, color, index }: Skill & { index: number }) {
           custom={index}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true }}
+          viewport={{ once: true, margin: "-40px" }}
           variants={fadeUp}
-          whileHover={{ y: -3, scale: 1.04 }}
-          transition={{ type: "spring", stiffness: 400, damping: 20 }}
-          className="group flex items-center justify-center p-2.5 rounded-xl
-                     border border-neutral-800 bg-neutral-900/60 backdrop-blur-sm
-                     hover:border-neutral-600 hover:bg-neutral-800/80
-                     cursor-default transition-colors duration-200"
+          whileHover={{ y: -2, transition: { duration: 0.2 } }}
+          className="group relative flex h-13 w-13 items-center justify-center rounded-xl border border-white/[0.06] bg-white/[0.02] transition-colors duration-300 hover:border-white/15 hover:bg-white/[0.05] cursor-default"
         >
           <Icon
             size={20}
             style={{ color }}
-            className="opacity-70 group-hover:opacity-100 transition-all duration-200"
+            className="opacity-35 transition-all duration-300 group-hover:opacity-95"
           />
         </motion.div>
       </TooltipTrigger>
-      <TooltipContent>
-        <p>{name}</p>
+      <TooltipContent className="border-white/[0.08] bg-[#111] text-white/60 text-[11px] tracking-wide">
+        {name}
       </TooltipContent>
     </Tooltip>
   )
 }
 
-/* ─── Main Component ─────────────────────────────────────────────────── */
+/* ─── Expertise card ─────────────────────────────────────────────────────── */
 
-export function AboutMe() {
+const expertiseItems = [
+  {
+    title: "Interface Architecture",
+    desc: "Component systems, design tokens, and scalable front-end structures built to last.",
+  },
+  {
+    title: "Motion & Interaction",
+    desc: "GSAP, Framer Motion, and CSS — animations that feel inevitable, never ornamental.",
+  },
+  {
+    title: "Performance Engineering",
+    desc: "Core Web Vitals, bundle analysis, lazy loading and precise rendering strategy.",
+  },
+  {
+    title: "Design Collaboration",
+    desc: "Figma-fluent. I close the gap between pixel-perfect specs and production code.",
+  },
+]
 
-  const { toast } = useToast();
-  const copyToClipboard = async (text: string) => {
-    try {
-      await navigator.clipboard.writeText(text);
-      toast({
-        variant: "success",
-        title: "Copied to clipboard",
-        description: "Email copied to clipboard",
-      });
-    } catch {
-      toast({
-        variant: "error",
-        title: "Failed to copy",
-        description: "Could not copy to clipboard",
-      });
-    }
-  };
+function ExpertiseCard({
+  title,
+  desc,
+  index,
+}: {
+  title: string
+  desc: string
+  index: number
+}) {
+  const ref = useRef<HTMLDivElement>(null)
+  const inView = useInView(ref, { once: true, margin: "-60px" })
+
   return (
-    <div className="min-h-screen text-neutral-100 font-sans antialiased selection:bg-neutral-800">
-      {/* subtle grid texture */}
-
-      <div
-        className="pointer-events-none -z-50 fixed inset-0 opacity-[0.03]"
-        style={{
-          backgroundImage:
-            "linear-gradient(to right, var(--foreground) 1px, transparent 1px), linear-gradient(to bottom, var(--foreground) 1px, transparent 1px)",
-          backgroundSize: "48px 48px",
-        }}
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 24 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.75, delay: index * 0.09, ease: [0.16, 1, 0.3, 1] }}
+      className="group relative flex flex-col justify-between border-t border-white/[0.06] bg-transparent px-0 py-10 transition-colors duration-500 hover:border-white/[0.14]"
+    >
+      {/* Hover fill */}
+      <motion.div
+        className="pointer-events-none absolute inset-0 bg-white/[0.015]"
+        initial={{ opacity: 0 }}
+        whileHover={{ opacity: 1 }}
+        transition={{ duration: 0.35 }}
       />
 
-      <main className="relative max-w-3xl mx-auto px-6 py-24 space-y-15">
-        {/* ── Hero ─────────────────────────────────────────────── */}
-        <section>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-            className="flex items-start flex-col-reverse sm:flex-row justify-between gap-4"
-          >
-            <div className="flex-1">
-              {/* availability badge */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.1, duration: 0.4 }}
-                className="inline-flex items-center gap-2 mb-5"
-              >
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
-                </span>
-                <span className="text-xs font-mono text-neutral-500 tracking-wider">
-                  Open to opportunities
-                </span>
-              </motion.div>
+      <p className="mb-6 font-mono text-[9px] tracking-[0.25em] text-white/18">
+        0{index + 1}
+      </p>
+      <h3 className="mb-5 font-sans text-base font-light tracking-[-0.01em] text-white/85">
+        {title}
+      </h3>
+      <p className="font-sans text-[13px] font-light leading-[1.75] text-white/30 transition-colors duration-500 group-hover:text-white/45">
+        {desc}
+      </p>
+    </motion.div>
+  )
+}
 
-              <motion.h1
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.15, duration: 0.55 }}
-                className="text-4xl font-bold tracking-tight text-foreground mb-1"
-              >
-                Rakesh Patel
-              </motion.h1>
+/* ─── Social link ────────────────────────────────────────────────────────── */
 
-              <motion.p
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.22, duration: 0.5 }}
-                className="text-muted-foreground text-base mb-4"
-              >
-                Frontend Developer · UI Architect
-              </motion.p>
+const socialLinks = [
+  { label: "GitHub", href: "https://github.com/rakeshpatel-dev", Icon: Github },
+  { label: "Instagram", href: "https://instagram.com/rikesh_112", Icon: Instagram },
+  { label: "LinkedIn", href: "https://linkedin.com/in/rakeshpatel-developer", Icon: Linkedin },
+  { label: "Facebook", href: "https://facebook.com/rakeshthedev", Icon: Facebook },
+]
 
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.3 }}
-                className="flex items-center gap-4 text-muted-foreground text-sm"
-              >
-                <span className="flex items-center gap-1.5">
-                  <MapPin size={12} />
-                  Tinkune, Kathmandu
-                </span>
-                <span
-                  onClick={() => copyToClipboard("devrakesh.tech@gmail.com")}
-                  className="flex items-center cursor-pointer active:scale-98 hover:text-primary transition-all duration-100 select-none gap-1.5">
-                  <Mail size={12} />
-                  devrakesh.tech@gmail.com
-                </span>
-              </motion.div>
-            </div>
+function SocialLink({
+  label,
+  href,
+  Icon,
+  index,
+}: {
+  label: string
+  href: string
+  Icon: React.ElementType
+  index: number
+}) {
+  return (
+    <MagneticHover strength={0.15}>
+      <motion.a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        custom={index}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-40px" }}
+        variants={fadeUp}
+        className="group flex w-full items-center justify-between border-b border-white/[0.06] py-4 transition-colors duration-300 hover:border-white/[0.14]"
+      >
+        <div className="flex items-center gap-4">
+          <Icon
+            size={14}
+            className="text-white/20 transition-colors duration-300 group-hover:text-white/65"
+          />
+          <span className="font-sans text-sm font-light tracking-[0.04em] text-white/40 transition-colors duration-300 group-hover:text-white/80">
+            {label}
+          </span>
+        </div>
+        <ArrowUpRight
+          size={13}
+          className="text-white/15 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-white/50"
+        />
+      </motion.a>
+    </MagneticHover>
+  )
+}
 
-            {/* avatar */}
+/* ─── Main Component ─────────────────────────────────────────────────────── */
+
+export function AboutMe() {
+  const { toast } = useToast()
+  const sectionRef = useRef<HTMLElement>(null)
+  const philosophyRef = useRef<HTMLParagraphElement>(null)
+  const numberRef = useRef<HTMLDivElement>(null)
+
+  /* ── GSAP parallax cards & text effects ─────────────────────────── */
+  useEffect(() => {
+    let ctx: any
+
+    getGSAP().then(({ gsap, ScrollTrigger, SplitText }) => {
+      ctx = gsap.context(() => {
+        
+        /* 1. Stacked Cards Parallax */
+        const cards = gsap.utils.toArray<HTMLElement>(".stacked-card")
+        
+        cards.forEach((card, index) => {
+          // The last card doesn't need to scale down since nothing covers it
+          if (index === cards.length - 1) return 
+
+          gsap.to(card, {
+            scale: 0.94,
+            opacity: 0.3,
+            ease: "none",
+            scrollTrigger: {
+              trigger: cards[index + 1],
+              start: "top bottom",
+              end: "top top",
+              scrub: true,
+            }
+          })
+        })
+
+        /* 2. Philosophy paragraph — word-by-word reveal via SplitText */
+        if (philosophyRef.current) {
+          const split = new SplitText(philosophyRef.current, { type: "words" })
+          gsap.fromTo(
+            split.words,
+            { opacity: 0.08, y: 10 },
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.6,
+              stagger: 0.03,
+              ease: "power2.out",
+              scrollTrigger: {
+                trigger: philosophyRef.current,
+                start: "top 82%",
+                end: "bottom 60%",
+                scrub: false,
+                toggleActions: "play none none reverse",
+              },
+            }
+          )
+        }
+
+        /* 3. Expertise grid rows — subtle horizontal slide in */
+        gsap.utils.toArray<HTMLElement>(".expertise-row").forEach((row, i) => {
+          gsap.fromTo(
+            row,
+            { x: i % 2 === 0 ? -16 : 16, opacity: 0 },
+            {
+              x: 0,
+              opacity: 1,
+              duration: 0.8,
+              ease: [0.16, 1, 0.3, 1] as any,
+              scrollTrigger: {
+                trigger: row,
+                start: "top 88%",
+                toggleActions: "play none none reverse",
+              },
+            }
+          )
+        })
+
+      }, sectionRef)
+    })
+
+    return () => ctx?.revert()
+  }, [])
+
+  const copyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText("devrakesh.tech@gmail.com")
+      toast({ variant: "success", title: "Copied", description: "Email copied to clipboard" })
+    } catch {
+      toast({ variant: "error", title: "Failed", description: "Could not copy" })
+    }
+  }
+
+  return (
+    <section ref={sectionRef} className="relative mx-auto w-full max-w-5xl px-4 sm:px-6 py-24 md:py-36">
+      
+      {/* Cards Wrapper ensures we have enough scroll space */}
+      <div className="cards-wrapper relative flex flex-col gap-[10vh] pb-[10vh]">
+
+        {/* ── CARD 1: Philosophy ──────────────────────────────────────── */}
+        <div className="stacked-card sticky top-[10vh] transform-gpu origin-top flex flex-col justify-center rounded-[2.5rem] bg-[#050505] p-8 sm:p-12 md:p-16 border border-white/[0.08] shadow-[0_-10px_40px_-20px_rgba(0,0,0,0.5)] overflow-hidden min-h-[75vh]">
+          {/* Decorative number */}
+          <div aria-hidden className="pointer-events-none absolute -right-4 md:-right-6 top-8 select-none font-sans text-[clamp(120px,20vw,240px)] font-extralight leading-none tracking-[-0.04em] text-white/[0.015]">
+            01
+          </div>
+
+          <SectionLabel number="01" title="Philosophy" />
+
+          <p ref={philosophyRef} className="relative max-w-4xl font-sans text-[clamp(22px,3.6vw,40px)] font-extralight leading-[1.35] tracking-[-0.015em] text-white/75 mt-8 md:mt-12">
+            I craft precise, performant user interfaces at the intersection of
+            design and engineering. I care deeply about the details —{" "}
+            <span className="text-white/95">animation curves, layout rhythm,</span>{" "}
+            and the kind of polish that makes a digital product feel inevitable.
+          </p>
+
+          <div className="relative mt-auto pt-16 flex flex-col gap-5 sm:flex-row sm:items-center sm:gap-12">
             <motion.div
-              initial={{ opacity: 0, scale: 0.85 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.1, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-              className="relative shrink-0"
+              initial={{ opacity: 0, x: -12 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+              className="flex items-center gap-3 font-sans text-[13px] font-light text-white/30"
             >
-              <div className="h-20 w-20 rounded-2xl overflow-hidden border border-neutral-800 ring-1 ring-neutral-700/50">
-                <Image
-                  src="https://api.dicebear.com/8.x/notionists/svg?seed=rakesh&backgroundColor=1a1a1a"
-                  alt="Rakesh Patel"
-                  width={80}
-                  height={80}
-                  className="h-full w-full object-cover"
-                  priority
-                />              </div>
+              <MapPin size={13} className="shrink-0 opacity-60" />
+              Kathmandu, Nepal
             </motion.div>
-          </motion.div>
 
-          {/* bio */}
-          <motion.p
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.35, duration: 0.55 }}
-            className="mt-8 text-muted-foreground text-sm leading-[1.8] border-l-2 border-neutral-800 pl-5"
-          >
-            I craft precise, performant user interfaces at the intersection of design
-            and engineering. With 6+ years of production experience, I care deeply
-            about the details — animation curves, layout rhythm, and the kind of
-            polish that makes a product feel inevitable. I&apos;ve shipped at scale for
-            companies that value craft.
-          </motion.p>
+            <motion.button
+              initial={{ opacity: 0, x: -12 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+              onClick={copyEmail}
+              className="group flex items-center gap-3 font-sans text-[13px] font-light text-white/30 transition-colors duration-300 hover:text-white/70"
+            >
+              <Mail size={13} className="shrink-0 opacity-60 transition-transform duration-300 group-hover:scale-110" />
+              devrakesh.tech@gmail.com
+            </motion.button>
+          </div>
+        </div>
 
-          <div className="py-6">
-            <SectionLabel>Technologies I work with</SectionLabel>
-            <div className="flex flex-wrap gap-2.5">
-              {skills.map((skill, i) => (
-                <SkillPill key={skill.name} {...skill} index={i} />
-              ))}
+        {/* ── CARD 2: Expertise ─────────────────────────────────────── */}
+        <div className="stacked-card sticky top-[13vh] transform-gpu origin-top flex flex-col justify-center rounded-[2.5rem] bg-[#050505] p-8 sm:p-12 md:p-16 border border-white/[0.08] shadow-[0_-10px_40px_-20px_rgba(0,0,0,0.5)] overflow-hidden min-h-[75vh]">
+          {/* Decorative number */}
+          <div aria-hidden className="pointer-events-none absolute -right-4 md:-right-6 top-8 select-none font-sans text-[clamp(120px,20vw,240px)] font-extralight leading-none tracking-[-0.04em] text-white/[0.015]">
+            02
+          </div>
+
+          <SectionLabel number="02" title="Expertise" />
+
+          <div className="relative grid grid-cols-1 gap-0 sm:grid-cols-2 lg:grid-cols-4 mt-8 md:mt-12">
+            {expertiseItems.map((item, i) => (
+              <div key={item.title} className="expertise-row px-0 sm:px-4 first:pl-0 last:pr-0">
+                <ExpertiseCard {...item} index={i} />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* ── CARD 3: Stack + Connect ──────────────────────────────────── */}
+        <div className="stacked-card sticky top-[16vh] transform-gpu origin-top flex flex-col justify-center rounded-[2.5rem] bg-[#050505] p-8 sm:p-12 md:p-16 border border-white/[0.08] shadow-[0_-10px_40px_-20px_rgba(0,0,0,0.5)] overflow-hidden min-h-[75vh]">
+          {/* Decorative number */}
+          <div aria-hidden className="pointer-events-none absolute -right-4 md:-right-6 top-8 select-none font-sans text-[clamp(120px,20vw,240px)] font-extralight leading-none tracking-[-0.04em] text-white/[0.015]">
+            03
+          </div>
+
+          <div className="relative grid grid-cols-1 gap-20 lg:grid-cols-[1fr_auto] lg:gap-32 w-full mt-8 md:mt-12">
+            {/* Tech Stack */}
+            <div>
+              <SectionLabel number="03" title="Tech Stack" />
+              <div className="skills-wrap flex flex-wrap gap-2.5 mt-8 md:mt-12">
+                {skills.map((skill, i) => (
+                  <SkillPill key={skill.name} {...skill} index={i} />
+                ))}
+              </div>
+            </div>
+
+            {/* Connect */}
+            <div className="min-w-[260px]">
+              <SectionLabel number="04" title="Connect" />
+              <div className="flex flex-col mt-8 md:mt-12">
+                {socialLinks.map((link, i) => (
+                  <SocialLink key={link.label} {...link} index={i} />
+                ))}
+              </div>
             </div>
           </div>
+        </div>
 
-          {/* CTA buttons */}
-          <motion.div
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.42, duration: 0.5 }}
-            className="mt-4 flex flex-wrap gap-3"
-          >
-            <Button
-              size="lg"
-              variant="default"            >
-              <Download size={13} />
-              Resume
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              className=" text-primary"
-            >
-              View Projects
-              <ArrowUpRight size={13} />
-            </Button>
-          </motion.div>
-        </section>
+      </div>
 
-        <Separator className="bg-neutral-800/60" />
-
-        {/* ── Focus areas ──────────────────────────────────────── */}
-        <section>
-          <SectionLabel>What I do best</SectionLabel>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            {[
-              { title: "Interface Architecture", desc: "Component systems, design tokens, and scalable front-end structures." },
-              { title: "Motion & Interaction", desc: "Framer Motion, GSAP, and CSS animations that delight without distracting." },
-              { title: "Performance", desc: "Core Web Vitals, bundle analysis, lazy loading, and rendering strategy." },
-              { title: "Design Collaboration", desc: "Fluent in Figma. I bridge the gap between pixel-perfect specs and code." },
-            ].map((item, i) => (
-              <motion.div
-                key={item.title}
-                custom={i}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                variants={fadeUp}
-                className="group p-5 rounded-xl border border-neutral-800 bg-background hover:border-neutral-700 hover:bg-background/80 transition-all duration-200"
-              >
-                <p className="text-primary text-sm font-semibold mb-1.5">{item.title}</p>
-                <p className="text-muted-foreground text-xs leading-relaxed">{item.desc}</p>
-              </motion.div>
-            ))}
-          </div>
-        </section>
-
-        <Separator className="bg-neutral-800/60" />
-
-        {/* ── Connect ──────────────────────────────────────────── */}
-        <section>
-          <SectionLabel>Links</SectionLabel>
-          <div className="flex flex-wrap gap-2">
-            {[
-              { label: "GitHub", href: "https://github.com/rakeshpatel-dev", icon: Github },
-              { label: "Instagram", href: "https://instagram.com/rikesh_112", icon: Instagram },
-              { label: "LinkedIn", href: "https://linkedin.com/in/rakeshpatel-developer", icon: Linkedin },
-              { label: "Facebook", href: "https://facebook.com/rakeshthedev", icon: Facebook },
-            ].map((link, i) => (
-              <MagneticHover key={link.label} strength={0.4}>
-                <motion.a
-                  href={link.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  custom={i}
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true }}
-                  variants={fadeUp}
-                  className="group inline-flex items-center gap-1.5 px-4 py-2 rounded-lg border border-neutral-800 bg-transparent hover:border-neutral-600 hover:bg-neutral-900 text-muted-foreground hover:text-neutral-200 text-xs font-medium transition-all duration-150"
-                >
-                  <link.icon size={16} className="opacity-70 group-hover:opacity-100 transition-all duration-150" />
-                  {link.label}
-                  <ArrowUpRight size={11} className="opacity-0 group-hover:opacity-100 transition-opacity duration-150" />
-                </motion.a>
-              </MagneticHover>
-            ))}
-          </div>
-        </section>
-      </main>
-    </div>
+    </section>
   )
 }
