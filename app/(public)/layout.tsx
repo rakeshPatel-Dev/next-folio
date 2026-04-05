@@ -13,6 +13,7 @@ import { Toaster } from "sonner";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { JsonLd } from "@/components/sections/JsonLd";
+import { Noise } from "@/components/ui/noise";
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -92,7 +93,8 @@ export default function RootLayout({
       <body
         className={`${spaceGrotesk.variable} ${firaCode.variable} antialiased`}
       >
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false} forcedTheme="dark">
+          <Noise />
           <Header />
           <ToastProvider>
             <PageTransition>
