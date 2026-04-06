@@ -90,8 +90,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        {/* LCP Preload */}
+        <link
+          rel="preload"
+          as="image"
+          href="/images/the-hero.webp"
+          type="image/webp"
+        />
+      </head>
       <body
+        suppressHydrationWarning
         className={`${spaceGrotesk.variable} ${firaCode.variable} antialiased`}
       >
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false} forcedTheme="dark">

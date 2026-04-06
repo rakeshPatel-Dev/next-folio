@@ -1,14 +1,11 @@
 
 import HeroData from '@/components/sections/Hero'
 import { getProjects } from '@/utils/getProjects.server'
-import dynamic from 'next/dynamic'
-
-// Dynamically import below-the-fold heavy components
-const Exp = dynamic(() => import('@/components/sections/Exp'))
-const HomeProjects = dynamic(() => import('@/components/sections/Project'))
-const AboutMe = dynamic(() => import('@/components/sections/AboutMe').then(m => m.AboutMe))
-const BlogSection = dynamic(() => import('@/components/sections/Blog'))
-const RandomQuote = dynamic(() => import('@/components/sections/RandomQuote'))
+import Exp from '@/components/sections/Exp'
+import HomeProjects from '@/components/sections/Project'
+import { AboutMe } from '@/components/sections/AboutMe'
+import BlogSection from '@/components/sections/Blog'
+import RandomQuote from '@/components/sections/RandomQuote'
 
 export const revalidate = 3600; // Cache pages for 1 hour to reduce TTFB
 

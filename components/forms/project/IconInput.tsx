@@ -3,7 +3,7 @@
 import { useMemo } from "react"
 import { Input } from "@/components/ui/input"
 import IconRenderer from "@/components/forms/project/IconRenderer"
-import { ALL_ICON_NAMES } from "@/lib/iconregistry"
+import { ALL_ICON_NAMES } from "@/lib/all-icons"
 
 type Props = {
   value: string

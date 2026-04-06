@@ -1,7 +1,8 @@
 "use client"
 
-import { useEffect, useRef } from "react"
-import { motion, useInView } from "framer-motion"
+import { useEffect, useRef, useState } from "react"
+import { motion, useInView, useSpring, useMotionValue, useTransform } from "framer-motion"
+import Image from "next/image"
 import {
   ArrowUpRight, MapPin, Mail,
   Github, Instagram, Linkedin, Facebook,
@@ -52,36 +53,15 @@ const fadeIn = {
 /* ─── Sub-components ─────────────────────────────────────────────────────── */
 
 function SectionLabel({ number, title }: { number: string; title: string }) {
-  const ref = useRef<HTMLDivElement>(null)
-  const inView = useInView(ref, { once: true, margin: "-80px" })
-
   return (
-    <div ref={ref} className="mb-10 flex items-center gap-4 overflow-hidden">
-      <motion.span
-        initial={{ opacity: 0, x: -8 }}
-        animate={inView ? { opacity: 1, x: 0 } : {}}
-        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        className="font-mono text-[10px] tracking-[0.25em] text-white/20"
-      >
+    <div className="section-label mb-10 flex items-center gap-4 overflow-hidden">
+      <span className="font-mono text-[10px] tracking-[0.25em] text-white/20">
         {number}
-      </motion.span>
-
-      <motion.div
-        initial={{ scaleX: 0 }}
-        animate={inView ? { scaleX: 1 } : {}}
-        transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-        style={{ transformOrigin: "left" }}
-        className="h-px w-6 bg-white/15"
-      />
-
-      <motion.span
-        initial={{ opacity: 0, y: 6 }}
-        animate={inView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.6, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-        className="font-sans text-[10px] uppercase tracking-[0.28em] text-white/35"
-      >
+      </span>
+      <div className="h-px w-6 bg-white/15" />
+      <span className="font-sans text-[10px] uppercase tracking-[0.28em] text-white/35">
         {title}
-      </motion.span>
+      </span>
     </div>
   )
 }
@@ -90,21 +70,13 @@ function SkillPill({ name, Icon, color, index }: Skill & { index: number }) {
   return (
     <Tooltip>
       <TooltipTrigger asChild>
-        <motion.div
-          custom={index}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-40px" }}
-          variants={fadeUp}
-          whileHover={{ y: -2, transition: { duration: 0.2 } }}
-          className="group relative flex h-13 w-13 items-center justify-center rounded-xl border border-white/[0.06] bg-white/[0.02] transition-colors duration-300 hover:border-white/15 hover:bg-white/[0.05] cursor-default"
-        >
+        <div className="skill-pill group relative flex h-13 w-13 items-center justify-center rounded-xl border border-white/[0.06] bg-white/[0.02] transition-all duration-300 hover:-translate-y-0.5 hover:border-white/15 hover:bg-white/[0.05] cursor-default">
           <Icon
             size={20}
             style={{ color }}
             className="opacity-35 transition-all duration-300 group-hover:opacity-95"
           />
-        </motion.div>
+        </div>
       </TooltipTrigger>
       <TooltipContent className="border-white/[0.08] bg-[#111] text-white/60 text-[11px] tracking-wide">
         {name}
@@ -143,24 +115,10 @@ function ExpertiseCard({
   desc: string
   index: number
 }) {
-  const ref = useRef<HTMLDivElement>(null)
-  const inView = useInView(ref, { once: true, margin: "-60px" })
-
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 24 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.75, delay: index * 0.09, ease: [0.16, 1, 0.3, 1] }}
-      className="group relative flex flex-col justify-between border-t border-white/[0.06] bg-transparent px-0 py-10 transition-colors duration-500 hover:border-white/[0.14]"
-    >
-      {/* Hover fill */}
-      <motion.div
-        className="pointer-events-none absolute inset-0 bg-white/[0.015]"
-        initial={{ opacity: 0 }}
-        whileHover={{ opacity: 1 }}
-        transition={{ duration: 0.35 }}
-      />
+    <div className="group relative flex flex-col justify-between border-t border-white/[0.06] bg-transparent px-0 py-10 transition-colors duration-500 hover:border-white/[0.14]">
+      {/* Hover fill using CSS */}
+      <div className="pointer-events-none absolute inset-0 bg-white/[0.015] opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
 
       <p className="mb-6 font-mono text-[9px] tracking-[0.25em] text-white/18">
         0{index + 1}
@@ -171,17 +129,17 @@ function ExpertiseCard({
       <p className="font-sans text-[13px] font-light leading-[1.75] text-white/30 transition-colors duration-500 group-hover:text-white/45">
         {desc}
       </p>
-    </motion.div>
+    </div>
   )
 }
 
 /* ─── Social link ────────────────────────────────────────────────────────── */
 
 const socialLinks = [
-  { label: "GitHub", href: "https://github.com/rakeshpatel-dev", Icon: Github },
-  { label: "Instagram", href: "https://instagram.com/rikesh_112", Icon: Instagram },
-  { label: "LinkedIn", href: "https://linkedin.com/in/rakeshpatel-developer", Icon: Linkedin },
-  { label: "Facebook", href: "https://facebook.com/rakeshthedev", Icon: Facebook },
+  { label: "GitHub", href: "https://github.com/rakeshpatel-dev", Icon: Github, image: "/brands/github.png" },
+  { label: "Instagram", href: "https://instagram.com/rikesh_112", Icon: Instagram, image: "/brands/insta.png" },
+  { label: "LinkedIn", href: "https://linkedin.com/in/rakeshpatel-developer", Icon: Linkedin, image: "/brands/linkedin.png" },
+  { label: "Facebook", href: "https://facebook.com/rakeshthedev", Icon: Facebook, image: "/brands/facebook.png" },
 ]
 
 function SocialLink({
@@ -189,40 +147,89 @@ function SocialLink({
   href,
   Icon,
   index,
+  image,
 }: {
   label: string
   href: string
   Icon: React.ElementType
   index: number
+  image: string
 }) {
+  const [isHovered, setIsHovered] = useState(false)
+  const x = useMotionValue(0)
+  const y = useMotionValue(0)
+
+  // Smooth mouse follow physics
+  const mouseXSpring = useSpring(x, { stiffness: 150, damping: 15, mass: 0.1 })
+  const mouseYSpring = useSpring(y, { stiffness: 150, damping: 15, mass: 0.1 })
+
+  // Parallax rotation tied to X-axis tracking velocity
+  const rotateSpring = useTransform(mouseXSpring, () => {
+    const velocity = x.getVelocity()
+    return velocity * 0.004
+  })
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    x.set(e.clientX)
+    y.set(e.clientY)
+  }
+
   return (
-    <MagneticHover strength={0.15}>
-      <motion.a
-        href={href}
-        target="_blank"
-        rel="noopener noreferrer"
-        custom={index}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: "-40px" }}
-        variants={fadeUp}
-        className="group flex w-full items-center justify-between border-b border-white/[0.06] py-4 transition-colors duration-300 hover:border-white/[0.14]"
+    <>
+      {/* ── Desktop Hover Image Portal ── */}
+      <motion.div
+        className="pointer-events-none fixed left-0 top-0 z-[9999] hidden md:block overflow-hidden rounded-2xl h-[220px] w-[300px] shadow-2xl border border-white/[0.04]"
+        style={{
+          x: mouseXSpring,
+          y: mouseYSpring,
+          rotate: rotateSpring,
+          translateX: "-150%",
+          translateY: "-50%",
+        }}
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{
+          opacity: isHovered ? 1 : 0,
+          scale: isHovered ? 1 : 0.8
+        }}
+        transition={{
+          opacity: { duration: 0.2, ease: "easeOut" },
+          scale: { duration: 0.4, ease: [0.34, 1.56, 0.64, 1] }
+        }}
       >
-        <div className="flex items-center gap-4">
-          <Icon
-            size={14}
-            className="text-white/20 transition-colors duration-300 group-hover:text-white/65"
+        <Image src={image} fill alt={label} className="object-cover" />
+      </motion.div>
+
+      <MagneticHover strength={0.15}>
+        <motion.a
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          custom={index}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-40px" }}
+          variants={fadeUp}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+          onMouseMove={handleMouseMove}
+          className="group flex w-full items-center justify-between border-b border-white/[0.06] py-4 transition-colors duration-300 hover:border-white/[0.14]"
+        >
+          <div className="flex items-center gap-4">
+            <Icon
+              size={14}
+              className="text-white/20 transition-colors duration-300 group-hover:text-white/65"
+            />
+            <span className="font-sans text-sm font-light tracking-[0.04em] text-white/40 transition-colors duration-300 group-hover:text-white/80">
+              {label}
+            </span>
+          </div>
+          <ArrowUpRight
+            size={13}
+            className="text-white/15 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-white/50"
           />
-          <span className="font-sans text-sm font-light tracking-[0.04em] text-white/40 transition-colors duration-300 group-hover:text-white/80">
-            {label}
-          </span>
-        </div>
-        <ArrowUpRight
-          size={13}
-          className="text-white/15 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-white/50"
-        />
-      </motion.a>
-    </MagneticHover>
+        </motion.a>
+      </MagneticHover>
+    </>
   )
 }
 
@@ -240,13 +247,13 @@ export function AboutMe() {
 
     getGSAP().then(({ gsap, ScrollTrigger, SplitText }) => {
       ctx = gsap.context(() => {
-        
+
         /* 1. Stacked Cards Parallax */
         const cards = gsap.utils.toArray<HTMLElement>(".stacked-card")
-        
+
         cards.forEach((card, index) => {
           // The last card doesn't need to scale down since nothing covers it
-          if (index === cards.length - 1) return 
+          if (index === cards.length - 1) return
 
           gsap.to(card, {
             scale: 0.94,
@@ -320,7 +327,7 @@ export function AboutMe() {
 
   return (
     <section ref={sectionRef} className="relative mx-auto w-full max-w-5xl px-4 sm:px-6 py-24 md:py-36">
-      
+
       {/* Cards Wrapper ensures we have enough scroll space */}
       <div className="cards-wrapper relative flex flex-col gap-[10vh] pb-[10vh]">
 
@@ -333,7 +340,7 @@ export function AboutMe() {
 
           <SectionLabel number="01" title="Philosophy" />
 
-          <p ref={philosophyRef} className="relative max-w-4xl font-sans text-[clamp(22px,3.6vw,40px)] font-extralight leading-[1.35] tracking-[-0.015em] text-white/75 mt-8 md:mt-12">
+          <p ref={philosophyRef} className="relative max-w-4xl font-sans text-[clamp(16px,3vw,32px)] font-extralight leading-[1.35] tracking-[-0.015em] text-white/75 mt-8 md:mt-12">
             I craft precise, performant user interfaces at the intersection of
             design and engineering. I care deeply about the details —{" "}
             <span className="text-white/95">animation curves, layout rhythm,</span>{" "}
@@ -352,17 +359,24 @@ export function AboutMe() {
               Kathmandu, Nepal
             </motion.div>
 
-            <motion.button
-              initial={{ opacity: 0, x: -12 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-              onClick={copyEmail}
-              className="group flex items-center gap-3 font-sans text-[13px] font-light text-white/30 transition-colors duration-300 hover:text-white/70"
-            >
-              <Mail size={13} className="shrink-0 opacity-60 transition-transform duration-300 group-hover:scale-110" />
-              devrakesh.tech@gmail.com
-            </motion.button>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <motion.button
+                  initial={{ opacity: 0, x: -12 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.7, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                  onClick={copyEmail}
+                  className="group relative flex items-center gap-3 overflow-hidden rounded-full bg-white px-5 py-2.5 font-sans text-[13px] font-medium cursor-pointer text-black transition-all duration-300 hover:scale-[1.02]  hover:shadow-[0_0_20px_rgba(255,255,255,0.15)] active:scale-[0.96]"
+                >
+                  <Mail size={14} className="shrink-0 transition-transform duration-300 group-hover:scale-110" />
+                  <span>devrakesh.tech@gmail.com</span>
+                </motion.button>
+              </TooltipTrigger>
+              <TooltipContent className="border-white/[0.08] bg-[#fff] text-black text-[11px] tracking-wide">
+                Click to copy
+              </TooltipContent>
+            </Tooltip>
           </div>
         </div>
 

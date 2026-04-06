@@ -19,7 +19,7 @@ export default function HeroData() {
           }}
         >
           <Image
-            src="/images/realhero.png"
+            src="/images/the-hero.webp"
             alt="Rakesh Patel"
             fill
             priority

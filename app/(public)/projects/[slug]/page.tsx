@@ -55,12 +55,8 @@ export async function generateMetadata({ params }: ProjectPageProps): Promise<Me
 export default async function ProjectPage({ params }: ProjectPageProps) {
   const { slug } = await params
 
-  console.log('🔍 Looking for project with slug:', slug)
-
   // Get project directly from database
   const project = await getProjectBySlug(slug)
-
-  console.log('📦 Project found:', project ? project.title : 'NOT FOUND')
 
   if (!project) {
     notFound()

@@ -1,7 +1,7 @@
 "use client"
 
 import React from "react"
-import { ICON_PACKS } from "@/lib/iconregistry"
+import { ICON_PACKS } from "@/lib/all-icons"
 
 type Props = {
   name?: string
