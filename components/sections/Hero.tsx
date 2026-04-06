@@ -48,7 +48,7 @@ export default function HeroData() {
             <Link
               href="/contact"
               prefetch
-              className="inline-flex items-center gap-2 rounded-full border border-foreground/10 bg-foreground/[0.05] px-4 py-2 font-sans text-[10px] font-light uppercase tracking-[0.2em] text-foreground/60 backdrop-blur-sm transition-colors hover:bg-foreground/[0.1] sm:px-5 sm:py-2.5"
+              className="inline-flex items-center gap-2 rounded-full border border-foreground/10 bg-foreground/5 px-4 py-2 font-sans text-[10px] font-light uppercase tracking-[0.2em] text-foreground/60 backdrop-blur-sm transition-colors hover:bg-foreground/10 sm:px-5 sm:py-2.5"
             >
               Get in Touch
               <ArrowUpRight className="h-3 w-3" strokeWidth={1.2} />
@@ -62,7 +62,7 @@ export default function HeroData() {
           {/* Left: Intro + Title */}
           <div className="w-full sm:max-w-[55%]">
             <p
-              className="hero-rise mb-2 font-sans text-[12px] font-extralight tracking-[0.1em] text-foreground/25 sm:mb-3 sm:text-[13px]"
+              className="hero-rise mb-2 font-sans text-[12px] font-extralight tracking-widest text-foreground/50 sm:mb-3 sm:text-[13px]"
               style={{ animationDelay: "0.1s" }}
             >
               Hey, I&apos;m a
@@ -73,7 +73,7 @@ export default function HeroData() {
             >
               Frontend
               <br />
-              <span className="text-foreground/10">Developer</span>
+              <span className="text-foreground/20">Developer</span>
             </h1>
           </div>
 
@@ -85,7 +85,7 @@ export default function HeroData() {
             <p className="font-sans text-[14px] font-semibold leading-[1.4] tracking-[-0.01em] text-foreground/65 sm:text-[15px]">
               Clean code should feel invisible.
             </p>
-            <p className="mt-1.5 font-sans text-[11px] font-extralight leading-[1.7] text-foreground/25 sm:mt-2 sm:text-[12px]">
+            <p className="mt-1.5 font-sans text-[11px] font-extralight leading-[1.7] text-foreground/50 sm:mt-2 sm:text-[12px]">
               From architecture to animation, I build interfaces that connect and perform.
             </p>
           </div>
@@ -97,7 +97,7 @@ export default function HeroData() {
           style={{ animationDelay: "0.55s" }}
         >
           <Link href="/projects" prefetch>
-            <span className="inline-block cursor-pointer border border-foreground/15 bg-foreground px-5 py-3 font-sans text-[10px] font-medium uppercase tracking-[0.22em] text-background transition-opacity hover:opacity-85 sm:px-7 sm:py-[13px]">
+            <span className="inline-block cursor-pointer border border-foreground/15  bg-foreground px-5 py-3 font-sans text-[10px] font-bold uppercase tracking-[0.22em] text-background transition-opacity hover:opacity-85 sm:px-7 sm:py-[13px]">
               View Work
             </span>
           </Link>
@@ -106,7 +106,7 @@ export default function HeroData() {
             href="#"
             target="_blank"
             rel="noopener noreferrer"
-            className="group inline-flex items-center gap-2 font-sans text-[10px] font-extralight uppercase tracking-[0.22em] text-foreground/20 transition-colors hover:text-foreground/50"
+            className="group inline-flex items-center gap-2 font-sans text-[10px] font-extralight uppercase tracking-[0.22em] text-foreground/30 transition-colors hover:text-foreground/50"
           >
             Resume
             <ArrowUpRight
@@ -128,10 +128,10 @@ export default function HeroData() {
             ["#04", "Design Systems"],
           ].map(([num, label]) => (
             <div key={num} className="flex flex-col gap-[3px]">
-              <span className="font-mono text-[10px] font-medium tracking-[0.08em] text-foreground/20">
+              <span className="font-mono text-[10px] font-medium tracking-[0.08em] text-foreground/30">
                 {num}
               </span>
-              <span className="font-sans text-[11px] font-extralight tracking-[0.04em] text-foreground/35">
+              <span className="font-sans text-[11px] font-extralight tracking-[0.04em] text-foreground/50">
                 {label}
               </span>
             </div>

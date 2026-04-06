@@ -295,9 +295,9 @@ export function AboutMe() {
         gsap.utils.toArray<HTMLElement>(".expertise-row").forEach((row, i) => {
           gsap.fromTo(
             row,
-            { x: i % 2 === 0 ? -16 : 16, opacity: 0 },
+            { y: 20, opacity: 0 },
             {
-              x: 0,
+              y: 0,
               opacity: 1,
               duration: 0.8,
               ease: [0.16, 1, 0.3, 1] as any,
