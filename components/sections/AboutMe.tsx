@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import { motion, useInView, useSpring, useMotionValue, useTransform } from "framer-motion"
+import { motion, useInView, useSpring, useMotionValue, useTransform, Variants } from "framer-motion"
 import Image from "next/image"
 import {
   ArrowUpRight, MapPin, Mail,
@@ -25,24 +25,24 @@ async function getGSAP() {
 
 /* ─── Animation variants ─────────────────────────────────────────────────── */
 
-const lineReveal = {
+const lineReveal: Variants = {
   hidden: { scaleX: 0 },
   visible: {
     scaleX: 1,
-    transition: { duration: 1.1, ease: [0.16, 1, 0.3, 1] },
+    transition: { duration: 1.1, ease: [0.16, 1, 0.3, 1] as any },
   },
 }
 
-const fadeUp = {
+const fadeUp: Variants = {
   hidden: { opacity: 0, y: 28 },
   visible: (i = 0) => ({
     opacity: 1,
     y: 0,
-    transition: { delay: i * 0.07, duration: 0.8, ease: [0.16, 1, 0.3, 1] },
+    transition: { delay: i * 0.07, duration: 0.8, ease: [0.16, 1, 0.3, 1] as any },
   }),
 }
 
-const fadeIn = {
+const fadeIn: Variants = {
   hidden: { opacity: 0 },
   visible: (i = 0) => ({
     opacity: 1,
