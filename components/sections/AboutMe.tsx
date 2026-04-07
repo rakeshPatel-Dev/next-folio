@@ -6,6 +6,8 @@ import Image from "next/image"
 import {
   ArrowUpRight, MapPin, Mail,
   Github, Instagram, Linkedin, Facebook,
+  File,
+  FileScan,
 } from "lucide-react"
 import { useToast } from "../zenblocks/toast"
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip"
@@ -375,6 +377,25 @@ export function AboutMe() {
               </TooltipTrigger>
               <TooltipContent className="border-white/[0.08] bg-[#fff] text-black text-[11px] tracking-wide">
                 Click to copy
+              </TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <motion.a
+                  href="https://rakesh-patel-cv.tiiny.site"
+                  target="_blank"
+                  initial={{ opacity: 0, x: -12 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.7, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                  className="group relative flex items-center gap-3 overflow-hidden rounded-full bg-white px-5 py-2.5 font-sans text-[13px] font-medium cursor-pointer text-black transition-all duration-300 hover:scale-[1.02]  hover:shadow-[0_0_20px_rgba(255,255,255,0.15)] active:scale-[0.96]"
+                >
+                  <FileScan size={14} className="shrink-0 transition-transform duration-300 group-hover:scale-110" />
+                  <span>Resume</span>
+                </motion.a>
+              </TooltipTrigger>
+              <TooltipContent className="border-white/[0.08] bg-[#fff] text-black text-[11px] tracking-wide">
+                Click to view
               </TooltipContent>
             </Tooltip>
           </div>

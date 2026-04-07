@@ -103,7 +103,7 @@ export default function HeroData() {
           </Link>
 
           <a
-            href="#"
+            href="https://rakesh-patel-cv.tiiny.site"
             target="_blank"
             rel="noopener noreferrer"
             className="group inline-flex items-center gap-2 font-sans text-[10px] font-extralight uppercase tracking-[0.22em] text-foreground/30 transition-colors hover:text-foreground/50"
