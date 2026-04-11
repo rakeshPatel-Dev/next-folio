@@ -1,3 +1,4 @@
+import { Suspense } from "react"
 import { GoogleSignInButton } from "./components/GoogleSigninButton"
 import { LoginErrorMessage } from "./components/LoginErrorMessage"
 import { LOGINPAGE_METADATA } from "@/lib/metadata"
@@ -11,7 +12,9 @@ export default function AdminLoginPage() {
         <h1 className="text-2xl font-bold">Admin Access</h1>
         <p className="text-muted-foreground"> Verify your gmail to get the access of admin panel. </p>
 
-        <LoginErrorMessage />
+        <Suspense fallback={null}>
+          <LoginErrorMessage />
+        </Suspense>
 
         <GoogleSignInButton />
         <div className="bg-yellow-50 border border-yellow-200 rounded-md p-3 my-4">

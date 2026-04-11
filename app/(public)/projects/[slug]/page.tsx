@@ -1,4 +1,4 @@
-import { getProjectBySlug, getRelatedProjects } from '@/utils/getProjects.server'
+import { getProjectBySlug, getRelatedProjects, getProjects } from '@/utils/getProjects.server'
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -9,6 +9,13 @@ import { siteConfig } from '@/lib/site-config'
 
 interface ProjectPageProps {
   params: Promise<{ slug: string }>
+}
+
+export async function generateStaticParams() {
+  const projects = await getProjects()
+  return projects.map((project) => ({
+    slug: project.slug,
+  }))
 }
 
 export async function generateMetadata({ params }: ProjectPageProps): Promise<Metadata> {
@@ -26,6 +33,7 @@ export async function generateMetadata({ params }: ProjectPageProps): Promise<Me
   return {
     title: project.title,
     description: project.shortDescription,
+    keywords: project.techStack?.map((t) => t.label) ?? [],
     alternates: {
       canonical: url,
     },

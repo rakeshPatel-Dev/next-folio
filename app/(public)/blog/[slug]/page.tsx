@@ -8,6 +8,7 @@ import Link from "next/link"
 import { BlogCard } from "@/components/blog/Blog-card"
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
+import Script from 'next/script'
 
 interface BlogDetailPageProps {
   params: Promise<{
@@ -40,6 +41,7 @@ export async function generateMetadata({ params }: BlogDetailPageProps): Promise
   return {
     title: blogMeta.title,
     description: blogMeta.description,
+    keywords: blogMeta.tags,
     alternates: {
       canonical: url,
     },
@@ -47,7 +49,14 @@ export async function generateMetadata({ params }: BlogDetailPageProps): Promise
       title: blogMeta.title,
       description: blogMeta.description,
       url: url,
-      images: [blogMeta.coverImage],
+      images: [
+        {
+          url: blogMeta.coverImage,
+          width: 1200,
+          height: 630,
+          alt: blogMeta.title,
+        },
+      ],
       type: "article",
       publishedTime: blogMeta.publishedAt || blogMeta.createdAt,
       authors: [blogMeta.author.name],
@@ -113,8 +122,38 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
     blogMeta.description.split(/\s+/).length / 5
   )
 
+  const blogPostingSchema = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: blogMeta.title,
+    description: blogMeta.description,
+    image: blogMeta.coverImage,
+    url: `${process.env.NEXT_PUBLIC_APP_URL || "https://rakeshthedev.vercel.app"}/blog/${blogMeta.slug}`,
+    datePublished: blogMeta.publishedAt || blogMeta.createdAt,
+    dateModified: blogMeta.updatedAt || blogMeta.publishedAt || blogMeta.createdAt,
+    author: {
+      "@type": "Person",
+      name: blogMeta.author.name,
+    },
+    publisher: {
+      "@type": "Person",
+      name: "Rakesh Patel",
+      url: process.env.NEXT_PUBLIC_APP_URL || "https://rakeshthedev.vercel.app",
+    },
+    keywords: blogMeta.tags.join(", "),
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `${process.env.NEXT_PUBLIC_APP_URL || "https://rakeshthedev.vercel.app"}/blog/${blogMeta.slug}`,
+    },
+  }
+
   return (
     <article className="min-h-screen">
+      <Script
+        id="blog-posting-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(blogPostingSchema) }}
+      />
       {/* Back Button */}
       <div className="max-w-4xl mx-auto px-6 pt-24 pb-8">
         <Link

@@ -23,8 +23,33 @@ export const ADMINPROFILE_METADATA: Metadata = {
   title: "Profile"
 };
 
-export const PUBLIC_CONTACT_METADATA = {
+export const PUBLIC_CONTACT_METADATA: Metadata = {
   title: "Contact",
   description:
-    "Get in touch for collaboration, freelance work, or professional inquiries",
+    "Get in touch for collaboration, freelance work, or professional inquiries.",
+  alternates: {
+    canonical: `${process.env.NEXT_PUBLIC_APP_URL || "https://rakeshthedev.vercel.app"}/contact`,
+  },
+  openGraph: {
+    title: "Contact | Rakesh Patel",
+    description:
+      "Get in touch for collaboration, freelance work, or professional inquiries.",
+    url: `${process.env.NEXT_PUBLIC_APP_URL || "https://rakeshthedev.vercel.app"}/contact`,
+    type: "website",
+    images: [
+      {
+        url: "https://rakeshthedev.vercel.app/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Rakesh Patel — Contact",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Contact | Rakesh Patel",
+    description:
+      "Get in touch for collaboration, freelance work, or professional inquiries.",
+    images: ["https://rakeshthedev.vercel.app/og-image.png"],
+  },
 }
