@@ -28,7 +28,7 @@ export const siteConfig = {
   links: {
     twitter: "https://twitter.com/rakeshthedev",
     github: "https://github.com/rakeshthedev",
-    linkedin: "https://linkedin.com/in/rakeshpatel-dev", // add this if not already
+    linkedin: "https://linkedin.com/in/rakeshpatel-developer",
   },
 
   // SEO keywords (secondary signal only)

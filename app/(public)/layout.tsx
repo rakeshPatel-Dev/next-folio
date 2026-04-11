@@ -102,7 +102,7 @@ export default function RootLayout({
       </head>
       <body
         suppressHydrationWarning
-        className={`${spaceGrotesk.variable} ${firaCode.variable} antialiased`}
+        className={`${spaceGrotesk.variable} ${firaCode.variable} antialiased pt-15 sm:pt-16`}
       >
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false} forcedTheme="dark">
           <Noise />
