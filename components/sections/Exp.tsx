@@ -2,53 +2,45 @@
 
 import { MapPin, Briefcase } from "lucide-react"
 import { experiences } from "@/data/experience"
-import { motion } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
 import { Reveal } from "@/components/motion/Reveal"
-
-import {
-  Accordion,
-  AccordionItem,
-  AccordionTrigger,
-  AccordionContent,
-} from "@/components/ui/accordion"
-
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip"
-import FacebookIcon from "../ui/facebook-icon"
-import WorldIcon from "../ui/world-icon"
+import { useState } from "react"
+import { ChevronDown } from "lucide-react"
 
 const fadeUp = {
-  hidden: { opacity: 0, y: 16 },
+  hidden: { opacity: 0, y: 20 },
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
-    transition: { delay: i * 0.08, duration: 0.5, ease: [0.22, 1, 0.36, 1] as const },
+    transition: { delay: i * 0.1, duration: 0.6, ease: [0.22, 1, 0.36, 1] as const },
   }),
 }
 
 const Exp = () => {
+  const [openIdx, setOpenIdx] = useState<number | null>(null)
+
   return (
     <section className="mt-12 max-w-4xl mx-auto mb-20">
+
       {/* Section heading */}
       <Reveal variant="fadeUp">
-        <div className="flex items-center gap-3 mb-10">
-          <Briefcase className="w-5 h-5 text-muted-foreground" />
-          <h1 className="text-2xl font-sans font-semibold tracking-tight">
+        <div className="flex items-center gap-3 mb-12">
+          <div className="flex items-center justify-center w-9 h-9 rounded-lg border border-border/60 bg-muted/30">
+            <Briefcase className="w-4 h-4 text-muted-foreground" />
+          </div>
+          <span className="font-mono text-xs tracking-[0.14em] uppercase text-muted-foreground">
             Experience
-          </h1>
+          </span>
+          <div className="flex-1 h-px bg-border/50" />
         </div>
       </Reveal>
 
-      {/* Timeline */}
-      <div className="relative">
-        {/* Vertical line */}
-        <div className="absolute left-0 top-2 bottom-2 w-px bg-linear-to-b from-transparent via-border to-transparent" />
+      {/* Cards */}
+      <div className="space-y-3">
+        {experiences.map((exp, idx) => {
+          const isOpen = openIdx === idx
 
-        <div className="pl-8 space-y-14">
-          {experiences.map((exp, idx) => (
+          return (
             <motion.div
               key={idx}
               custom={idx}
@@ -56,127 +48,149 @@ const Exp = () => {
               whileInView="visible"
               viewport={{ once: true, amount: 0.15 }}
               variants={fadeUp}
-              className="relative group"
             >
-              {/* Timeline dot */}
-              <span className="absolute -left-[2.15rem] top-1.5 flex h-3 w-3 items-center justify-center">
-                <span className="absolute inline-flex h-full w-full rounded-full bg-border group-hover:bg-foreground/30 transition-colors duration-300" />
-                <span className="relative h-1.5 w-1.5 rounded-full bg-muted-foreground group-hover:bg-foreground transition-colors duration-300" />
-              </span>
+              <div
+                className={`
+                  rounded-2xl border bg-card/40 backdrop-blur-sm
+                  transition-all duration-300
+                  ${isOpen
+                    ? "border-border/80 bg-card/70"
+                    : "border-border/40 hover:border-border/70 hover:bg-card/60"
+                  }
+                `}
+              >
+                {/* Card top */}
+                <div className="p-6 sm:p-7">
 
-              {/* Card */}
-              <div className="rounded-2xl border border-border/60 bg-card/40 backdrop-blur-sm p-5 sm:p-6 space-y-4
-                              hover:border-border hover:bg-card/70 transition-all duration-300">
+                  {/* Header row */}
+                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-5">
 
-                {/* Header row */}
-                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2">
-                  {/* Company + links */}
-                  <div>
-                    <div className="flex items-center gap-2.5">
-                      <span className="font-sans text-lg font-semibold tracking-tight">
-                        {exp.company}
-                      </span>
+                    {/* Left: company + role */}
+                    <div>
+                      <div className="flex items-center gap-2.5 mb-1">
+                        <span className="font-sans text-[17px] font-bold tracking-tight text-foreground">
+                          {exp.company}
+                        </span>
 
-                      {/* Social icons */}
-                      <div className="flex items-center gap-1.5">
-                        {exp.website && (
-                          <Tooltip>
-                            <TooltipTrigger asChild>
-                              <a
-                                title="Website"
-                                href={exp.website}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-muted-foreground hover:text-foreground transition-colors duration-150"
-                              >
-                                <WorldIcon size={20} />
-                              </a>
-                            </TooltipTrigger>
-                            <TooltipContent>Website</TooltipContent>
-                          </Tooltip>
-                        )}
-                        {exp.facebook && (
-                          <Tooltip>
-                            <TooltipTrigger asChild>
-                              <a
-                                title="Facebook"
-                                href={exp.facebook}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-muted-foreground hover:text-foreground transition-colors duration-150"
-                              >
-                                <FacebookIcon size={20} />
-                              </a>
-                            </TooltipTrigger>
-                            <TooltipContent>Facebook</TooltipContent>
-                          </Tooltip>
+                        {exp.isWorking && (
+                          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full border border-emerald-500/30 bg-emerald-500/8 text-emerald-500 font-mono text-[10px] tracking-widest uppercase">
+                            <span className="relative flex h-1.5 w-1.5">
+                              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500/50" />
+                              <span className="relative h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                            </span>
+                            Working
+                          </span>
                         )}
                       </div>
+
+                      <p className="font-mono text-xs text-muted-foreground tracking-wide">
+                        {exp.role}
+                      </p>
                     </div>
 
-                    {/* Role */}
-                    <p className="mt-0.5 text-sm font-mono text-muted-foreground">
-                      {exp.role}
-                    </p>
+                    {/* Right: location + period */}
+                    <div className="flex sm:flex-col items-start sm:items-end gap-2 sm:gap-1 shrink-0">
+                      <span className="flex items-center gap-1 text-[11px] text-muted-foreground/70">
+                        <MapPin className="w-3 h-3 shrink-0" />
+                        {exp.location}
+                      </span>
+                      <span className="font-mono text-[11px] text-muted-foreground/50 tracking-wide">
+                        {exp.period}
+                      </span>
+                    </div>
                   </div>
 
-                  {/* Location + period */}
-                  <div className="flex flex-row sm:flex-col items-start sm:items-end gap-2 sm:gap-0.5 shrink-0">
-                    <span className="flex items-center gap-1 text-xs text-muted-foreground">
-                      <MapPin className="w-3 h-3" />
-                      {exp.location}
+                  {/* Accordion trigger */}
+                  <button
+                    onClick={() => setOpenIdx(isOpen ? null : idx)}
+                    className="flex items-center gap-3 w-full group cursor-pointer"
+                  >
+                    <span className="flex-1 h-px bg-linear-to-r from-border/80 to-transparent group-hover:bg-border transition-colors duration-200" />
+                    <span className="font-mono text-[10px] tracking-[0.12em] uppercase text-muted-foreground/60 group-hover:text-muted-foreground transition-colors duration-200">
+                      {isOpen ? "Close" : "Details"}
                     </span>
-                    <span className="font-mono text-xs text-muted-foreground/70">
-                      {exp.period}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Tech stack */}
-                <div className="flex flex-wrap gap-2">
-                  {exp.tech.map((t, i) => (
-                    <motion.span
-                      key={i}
-                      initial={{ opacity: 0, scale: 0.92 }}
-                      whileInView={{ opacity: 1, scale: 1 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: idx * 0.05 + i * 0.04, duration: 0.3, ease: "easeOut" }}
-                      whileHover={{ y: -2, scale: 1.04 }}
-                      className="flex select-none items-center gap-1.5 rounded-lg border border-dashed border-border
-                                 px-2.5 py-1 font-mono text-xs text-muted-foreground
-                                 hover:border-border/80 hover:text-foreground hover:bg-muted/40
-                                 transition-colors duration-150 cursor-default"
+                    <motion.div
+                      animate={{ rotate: isOpen ? 180 : 0 }}
+                      transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
                     >
-                      <t.icon style={{ color: t.color }} className="w-3 h-3 shrink-0" />
-                      {t.name}
-                    </motion.span>
-                  ))}
+                      <ChevronDown className="w-3.5 h-3.5 text-muted-foreground/50 group-hover:text-muted-foreground transition-colors duration-200" />
+                    </motion.div>
+                  </button>
                 </div>
 
-                {/* Responsibilities accordion */}
-                <Accordion type="single" collapsible>
-                  <AccordionItem value="objectives" className="border-0">
-                    <AccordionTrigger className="py-2 text-xs font-mono text-muted-foreground hover:text-foreground hover:no-underline">
-                      View Responsibilities
-                    </AccordionTrigger>
-                    <AccordionContent>
-                      <ul className="space-y-2 pt-1">
-                        {exp.objectives.map((obj, i) => (
-                          <li
-                            key={i}
-                            className="flex gap-2.5 text-sm text-muted-foreground leading-relaxed"
-                          >
-                            <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-muted-foreground/50" />
-                            {obj}
-                          </li>
-                        ))}                      </ul>
-                    </AccordionContent>
-                  </AccordionItem>
-                </Accordion>
+                {/* Accordion body */}
+                <AnimatePresence initial={false}>
+                  {isOpen && (
+                    <motion.div
+                      key="body"
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                      className="overflow-hidden"
+                    >
+                      <div className="px-6 sm:px-7 pb-6 sm:pb-7 space-y-5 border-t border-border/40">
+
+                        {/* Tech chips */}
+                        <div className="flex flex-wrap gap-2 pt-5">
+                          {exp.tech.map((t, i) => (
+                            <motion.span
+                              key={i}
+                              initial={{ opacity: 0, y: 6 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ delay: i * 0.04, duration: 0.3, ease: "easeOut" }}
+                              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md border border-dashed border-border/60 font-mono text-[11px] text-muted-foreground cursor-default select-none hover:border-border hover:text-foreground hover:bg-muted/30 transition-all duration-150"
+                            >
+                              <t.icon className="w-3 h-3 shrink-0" style={{ color: t.color }} />
+                              {t.name}
+                            </motion.span>
+                          ))}
+                        </div>
+
+                        {/* Divider */}
+                        <div className="h-px bg-border/30" />
+
+                        {/* Objectives */}
+                        <ul className="space-y-0 divide-y divide-border/30">
+                          {exp.objectives.map((obj, i) => (
+                            <motion.li
+                              key={i}
+                              initial={{ opacity: 0, x: -8 }}
+                              animate={{ opacity: 1, x: 0 }}
+                              transition={{ delay: 0.1 + i * 0.06, duration: 0.35, ease: "easeOut" }}
+                              className="flex gap-3 py-3 text-sm text-muted-foreground leading-relaxed"
+                            >
+                              <span className="font-mono text-[10px] text-muted-foreground/40 pt-0.5 shrink-0 w-5">
+                                {String(i + 1).padStart(2, "0")}
+                              </span>
+                              {obj}
+                            </motion.li>
+                          ))}
+                        </ul>
+
+                        {/* Stats row — optional, remove if not in your data */}
+                        {/* {exp.stats && (
+                          <div className="flex items-center gap-6 pt-1">
+                            {exp.stats.map((s: { val: string; label: string }, i: number) => (
+                              <div key={i} className="flex flex-col gap-0.5">
+                                <span className="text-xl font-bold tracking-tight text-foreground leading-none">
+                                  {s.val}
+                                </span>
+                                <span className="font-mono text-[10px] text-muted-foreground/50 uppercase tracking-widest">
+                                  {s.label}
+                                </span>
+                              </div>
+                            ))}
+                          </div>
+                        )} */}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             </motion.div>
-          ))}
-        </div>
+          )
+        })}
       </div>
     </section>
   )
