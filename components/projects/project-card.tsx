@@ -220,7 +220,7 @@ const ProjectCard = React.forwardRef<HTMLDivElement, ProjectCardProps>(
                 "flex items-center gap-2 rounded-full border px-3 py-1 text-sm font-medium",
                 project.status === "completed"
                   ? "border-green-500 text-green-500"
-                  : project.status === "in-progress"
+                  : project.status !== "in-progress"
                     ? "border-orange-500 text-orange-500"
                     : "border-blue-500 text-blue-500"
               )}
@@ -231,7 +231,7 @@ const ProjectCard = React.forwardRef<HTMLDivElement, ProjectCardProps>(
                     "absolute inline-flex h-full w-full animate-ping rounded-full opacity-75",
                     project.status === "completed"
                       ? "bg-green-400"
-                      : project.status === "in-progress"
+                      : project.status !== "in-progress"
                         ? "bg-orange-400"
                         : "bg-blue-400"
                   )}
@@ -241,7 +241,7 @@ const ProjectCard = React.forwardRef<HTMLDivElement, ProjectCardProps>(
                     "relative inline-flex h-3 w-3 rounded-full",
                     project.status === "completed"
                       ? "bg-green-500"
-                      : project.status === "in-progress"
+                      : project.status !== "in-progress"
                         ? "bg-orange-500"
                         : "bg-blue-500"
                   )}

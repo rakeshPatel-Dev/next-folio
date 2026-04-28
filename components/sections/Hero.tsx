@@ -1,177 +1,191 @@
 import { ArrowUpRight } from "lucide-react"
 import Link from "next/link"
-import Image from "next/image"
 
 export default function HeroData() {
+  const specs = [
+    ["01", "React / Next.js"],
+    ["02", "Node.js / Express"],
+    ["03", "Database Design"],
+    ["04", "Full Stack Architecture"],
+  ]
+
+  const tickerItems = [
+    "React", "Next.js", "Node.js", "TypeScript",
+    "MongoDB", "Firebase", "Express.js", "REST APIs",
+  ]
+
   return (
-    <section className="hero-root mt-16 sm:mt-0 relative mx-auto flex min-h-[92svh] w-full max-w-6xl flex-col overflow-hidden rounded-2xl px-5 sm:px-10">
+    <section className="hero-root relative flex min-h-svh w-full max-w-5xl mx-auto flex-col overflow-hidden font-sans">
 
+      {/* ── Grid lines ── */}
+      <div className="hero-grid pointer-events-none absolute inset-0 z-0" aria-hidden="true" />
 
-      {/* ═══════════════ CENTERED PHOTO ═══════════════ */}
-      <div className="hero-photo absolute inset-0 z-[3] flex items-start justify-center">
-        <div
-          className="relative top-[-10%] h-[110%] w-[70%] sm:w-[55%] md:w-[45%]"
-          style={{
-            maskImage: "linear-gradient(to bottom, black 30%, transparent 95%), linear-gradient(to right, transparent 0%, black 30%, black 70%, transparent 100%)",
-            maskComposite: "intersect",
-            WebkitMaskImage: "linear-gradient(to bottom, black 30%, transparent 95%), linear-gradient(to right, transparent 0%, black 30%, black 70%, transparent 100%)",
-            WebkitMaskComposite: "source-in"
-          }}
-        >
-          <Image
-            src="/images/the-hero.webp"
-            alt="Rakesh Patel"
-            fill
-            priority
-            sizes="(max-width: 640px) 70vw, (max-width: 768px) 55vw, 45vw"
-            className="hero-img object-cover object-top"
-          />
-        </div>
+      {/* ── Ghost BG lettermark ── */}
+      <div
+        className="pointer-events-none absolute right-[-0.02em] top-[-0.05em] z-0 select-none text-[clamp(180px,38vw,420px)] font-black leading-none tracking-[-0.05em] text-foreground opacity-[0.03]"
+        aria-hidden="true"
+      >
+        RP
       </div>
 
-      {/* ═══════════════ CONTENT LAYER ═══════════════ */}
-      <div className="relative z-[6] flex flex-1 flex-col justify-between px-2 py-8 sm:px-6 sm:py-10 md:px-8 md:py-12">
+      {/* ══════════ NAV ══════════ */}
+      <nav
+        className="hero-fade relative z-10 flex items-center justify-between border-b border-foreground/10 px-[clamp(20px,5vw,52px)] py-[clamp(20px,4vw,36px)]"
+        style={{ animationDelay: "0.05s" }}
+      >
+        <span className="font-mono text-[11px] font-normal uppercase tracking-[0.18em] text-foreground/40">
+          Rakesh Patel
+        </span>
 
-        {/* ── TOP ROW ── */}
-        <div className="flex items-center justify-end">
-          {/* <div
-            className="hero-fade font-sans text-[11px] font-light uppercase tracking-[0.25em] text-foreground/20"
-            style={{ animationDelay: "0s" }}
-          >
-            RP
-          </div> */}
+        <Link
+          href="/contact"
+          prefetch
+          className="inline-flex items-center gap-1.5 border border-foreground/20 px-[18px] py-[9px] font-sans text-[10px] font-medium uppercase tracking-[0.22em] text-foreground/50 transition-colors hover:bg-foreground hover:text-background"
+        >
+          Get in Touch
+          <ArrowUpRight className="h-[10px] w-[10px]" strokeWidth={1.2} />
+        </Link>
+      </nav>
 
+      {/* ══════════ MAIN ══════════ */}
+      <div className="relative z-10 flex flex-1 flex-col justify-between px-[clamp(20px,5vw,52px)] pb-[clamp(24px,4vw,48px)] pt-[clamp(32px,6vw,64px)]">
+        <div>
+
+          {/* ── Availability label ── */}
           <div
-            className="hero-fade flex items-center"
-            style={{ animationDelay: "0.05s" }}
+            className="hero-fade mb-[clamp(20px,4vw,36px)] flex items-center gap-3"
+            style={{ animationDelay: "0.15s" }}
           >
-            <Link
-              href="/contact"
-              prefetch
-              className="inline-flex items-center gap-2 rounded-full border border-foreground/10 bg-foreground/5 px-4 py-2 font-sans text-[10px] font-light uppercase tracking-[0.2em] text-foreground/60 backdrop-blur-sm transition-colors hover:bg-foreground/10 sm:px-5 sm:py-2.5"
-            >
-              Get in Touch
-              <ArrowUpRight className="h-3 w-3" strokeWidth={1.2} />
-            </Link>
+            <span className="hero-dot h-[6px] w-[6px] flex-shrink-0 rounded-full bg-foreground" aria-hidden="true" />
+            <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-foreground/35">
+              Available for work
+            </span>
           </div>
-        </div>
 
-        {/* ── MIDDLE: Title + Desc ── */}
-        <div className="flex flex-col items-start gap-6 sm:flex-row sm:items-end sm:justify-between sm:gap-4">
-
-          {/* Left: Intro + Title */}
-          <div className="w-full sm:max-w-[55%]">
-            <p
-              className="hero-rise mb-2 font-sans text-[12px] font-extralight tracking-widest text-foreground/50 sm:mb-3 sm:text-[13px]"
-              style={{ animationDelay: "0.1s" }}
-            >
-              Hey, I&apos;m a
-            </p>
-            <h1
-              className="hero-rise font-sans text-[clamp(40px,9vw,68px)] font-black uppercase leading-[0.88] tracking-[-0.02em] text-foreground/90"
-              style={{ animationDelay: "0.2s" }}
-            >
-              Frontend
+          {/* ── Headline ── */}
+          <div
+            className="hero-rise"
+            style={{ animationDelay: "0.25s" }}
+          >
+            <h1 className="text-[clamp(58px,14vw,130px)] font-black uppercase leading-[0.87] tracking-[-0.035em] text-foreground/90">
+              Full<span className="hero-primary">stack</span>
               <br />
-              <span className="text-foreground/20">Developer</span>
+              <span className="text-foreground/25">Dev</span>eloper
             </h1>
           </div>
 
-          {/* Right: Description block */}
+          {/* ── Divider ── */}
           <div
-            className="hero-rise w-full max-w-[320px] text-left sm:max-w-[280px] sm:text-right"
-            style={{ animationDelay: "0.4s" }}
+            className="hero-fade my-[clamp(24px,4vw,40px)] h-px bg-foreground/10"
+            style={{ animationDelay: "0.5s" }}
+          />
+
+          {/* ── Bottom grid: desc + specs ── */}
+          <div
+            className="hero-rise grid grid-cols-1 gap-7 sm:grid-cols-2 sm:items-end"
+            style={{ animationDelay: "0.55s" }}
           >
-            <p className="font-sans text-[14px] font-semibold leading-[1.4] tracking-[-0.01em] text-foreground/65 sm:text-[15px]">
-              Clean code should feel invisible.
+            {/* Description */}
+            <p className="max-w-[340px] text-[clamp(13px,2.2vw,15px)] font-normal leading-[1.65] text-foreground/50">
+              End-to-end solutions that{" "}
+              <strong className="font-semibold text-foreground/80">scale and perform</strong>. From database design to
+              dynamic interfaces, I craft complete systems that{" "}
+              <strong className="font-semibold text-foreground/80">work seamlessly</strong>.
             </p>
-            <p className="mt-1.5 font-sans text-[11px] font-extralight leading-[1.7] text-foreground/50 sm:mt-2 sm:text-[12px]">
-              From architecture to animation, I build interfaces that connect and perform.
-            </p>
+
+            {/* Specs */}
+            <ul className="flex flex-col gap-[10px] sm:items-end" aria-label="Specialisms">
+              {specs.map(([num, label]) => (
+                <li key={num} className="flex items-center gap-[10px]">
+                  <span className="font-mono text-[10px] tracking-[0.1em] text-foreground/30">{num}</span>
+                  <span className="text-[11px] font-medium uppercase tracking-[0.1em] text-foreground/45">{label}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* ── CTAs ── */}
+          <div
+            className="hero-rise mt-[clamp(28px,5vw,52px)] flex flex-wrap items-center gap-[clamp(16px,3vw,28px)]"
+            style={{ animationDelay: "0.72s" }}
+          >
+            <Link href="/projects" prefetch>
+              <span className="inline-block cursor-pointer bg-foreground px-[clamp(22px,4vw,36px)] py-[14px] font-sans text-[10px] font-bold uppercase tracking-[0.22em] text-background transition-opacity hover:opacity-75">
+                View Work
+              </span>
+            </Link>
+
+            <a
+              href="https://rakesh-patel-cv.tiiny.site"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group inline-flex items-center gap-1.5 font-sans text-[10px] font-medium uppercase tracking-[0.22em] text-foreground/30 transition-colors hover:text-foreground/60"
+            >
+              Resume
+              <ArrowUpRight
+                className="h-[11px] w-[11px] transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                strokeWidth={1.1}
+              />
+            </a>
           </div>
         </div>
+      </div>
 
-        {/* ── CTAs ── */}
-        <div
-          className="hero-rise mt-6 flex items-center gap-5 sm:absolute sm:bottom-[120px] sm:right-8 sm:mt-0 md:right-14"
-          style={{ animationDelay: "0.55s" }}
-        >
-          <Link href="/projects" prefetch>
-            <span className="inline-block cursor-pointer border border-foreground/15  bg-foreground px-5 py-3 font-sans text-[10px] font-bold uppercase tracking-[0.22em] text-background transition-opacity hover:opacity-85 sm:px-7 sm:py-[13px]">
-              View Work
+      {/* ══════════ TICKER ══════════ */}
+      <div
+        className="hero-fade relative z-10  overflow-hidden border-t border-foreground/10"
+        style={{ animationDelay: "1s" }}
+        aria-hidden="true"
+      >
+        <div className="hero-ticker flex min-w-full w-max py-3">
+          {[...tickerItems, ...tickerItems].map((item, i) => (
+            <span
+              key={i}
+              className="shrink-0 border-r border-foreground/10 px-8 font-mono text-[10px] uppercase tracking-[0.15em] text-foreground/30 whitespace-nowrap"
+            >
+              {item}
             </span>
-          </Link>
-
-          <a
-            href="https://rakesh-patel-cv.tiiny.site"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group inline-flex items-center gap-2 font-sans text-[10px] font-extralight uppercase tracking-[0.22em] text-foreground/30 transition-colors hover:text-foreground/50"
-          >
-            Resume
-            <ArrowUpRight
-              className="h-[11px] w-[11px] transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-              strokeWidth={1}
-            />
-          </a>
-        </div>
-
-        {/* ── BOTTOM: Specialisms row ── */}
-        <div
-          className="hero-fade mt-6 grid grid-cols-2 gap-4 sm:mt-0 sm:flex sm:flex-wrap sm:items-end sm:justify-between sm:gap-y-4"
-          style={{ animationDelay: "0.85s" }}
-        >
-          {[
-            ["#01", "React / Next.js"],
-            ["#02", "Motion Design"],
-            ["#03", "UI Engineering"],
-            ["#04", "Design Systems"],
-          ].map(([num, label]) => (
-            <div key={num} className="flex flex-col gap-[3px]">
-              <span className="font-mono text-[10px] font-medium tracking-[0.08em] text-foreground/30">
-                {num}
-              </span>
-              <span className="font-sans text-[11px] font-extralight tracking-[0.04em] text-foreground/50">
-                {label}
-              </span>
-            </div>
           ))}
         </div>
       </div>
 
-      {/* ── CSS: theme tokens + animations ── */}
+      {/* ══════════ STYLES ══════════ */}
       <style>{`
-        /* Theme-adaptive tokens */
-        :root {
-          --hero-bg: #f0ede8;
-        }
-        .dark {
-          --hero-bg: #0e0e0e;
-        }
-
-        /* Photo treatment: light → higher brightness, less contrast crush */
-        .hero-img {
-          filter: grayscale(1) brightness(0.65) contrast(1.15);
-        }
-        :root:not(.dark) .hero-img,
-        :not(.dark) .hero-img {
-          filter: grayscale(1) brightness(0.85) contrast(1.05);
+        /* Grid lines */
+        .hero-grid::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background-image:
+            linear-gradient(to right, hsl(var(--foreground) / 0.04) 1px, transparent 1px),
+            linear-gradient(to bottom, hsl(var(--foreground) / 0.04) 1px, transparent 1px);
+          background-size: clamp(60px, 10vw, 100px) clamp(60px, 10vw, 100px);
         }
 
-        /* Entrance animations — CSS-only for zero-JS LCP */
+        /* Outline headline word */
+        .hero-outline {
+          -webkit-text-stroke: 1.5px hsl(var(--foreground) / 0.85);
+          color: transparent;
+        }
+
+        /* Pulsing dot */
+        .hero-dot {
+          animation: heroDotPulse 2.4s ease-in-out 1.2s infinite;
+        }
+        @keyframes heroDotPulse {
+          0%, 100% { opacity: 1; }
+          50%       { opacity: 0.2; }
+        }
+
+        /* Entrance animations */
         .hero-rise {
           opacity: 0;
-          transform: translateY(18px);
-          animation: heroRise 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+          transform: translateY(20px);
+          animation: heroRise 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
         .hero-fade {
           opacity: 0;
-          animation: heroFade 0.9s ease-out forwards;
-        }
-        .hero-photo {
-          opacity: 0;
-          transform: scale(1.03);
-          animation: heroPhoto 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards;
+          animation: heroFade 0.7s ease-out forwards;
         }
         @keyframes heroRise {
           to { opacity: 1; transform: translateY(0); }
@@ -179,8 +193,15 @@ export default function HeroData() {
         @keyframes heroFade {
           to { opacity: 1; }
         }
-        @keyframes heroPhoto {
-          to { opacity: 1; transform: scale(1); }
+
+        /* Scrolling ticker */
+        .hero-ticker {
+          animation: heroTicker 18s linear infinite;
+          white-space: nowrap;
+        }
+        @keyframes heroTicker {
+          from { transform: translateX(0); }
+          to   { transform: translateX(-50%); }
         }
       `}</style>
     </section>

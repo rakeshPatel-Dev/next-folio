@@ -12,14 +12,14 @@ export const revalidate = 3600; // Cache pages for 1 hour to reduce TTFB
 const page = async () => {
   // Fetch projects on server for better performance
   const allProjects = await getProjects()
-  const completedProjects = allProjects.filter(p => p.status === 'completed')
+
 
   return (
     <>
       <HeroData />
       <div className=' selection:bg-neutral-800 dark:selection:bg-neutral-200 w-full max-w-3xl mx-auto h-auto px-6 sm:px-4 lg:px-0'>
         <Exp />
-        <HomeProjects initialProjects={completedProjects} />
+        <HomeProjects initialProjects={allProjects} />
         <AboutMe />
         <BlogSection />
         <RandomQuote />
