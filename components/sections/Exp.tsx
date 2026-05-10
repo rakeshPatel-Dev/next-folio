@@ -68,7 +68,7 @@ const Exp = () => {
                     {/* Left: company + role */}
                     <div>
                       <div className="flex items-center gap-2.5 mb-1">
-                        <span className="font-sans text-[17px] font-bold tracking-tight text-foreground">
+                        <span className="font-sans text-lg font-bold tracking-tight text-foreground">
                           {exp.company}
                         </span>
 
@@ -83,18 +83,18 @@ const Exp = () => {
                         )}
                       </div>
 
-                      <p className="font-mono text-xs text-muted-foreground tracking-wide">
+                      <p className="font-mono text-sm text-muted-foreground tracking-wide">
                         {exp.role}
                       </p>
                     </div>
 
                     {/* Right: location + period */}
                     <div className="flex sm:flex-col items-start sm:items-end gap-2 sm:gap-1 shrink-0">
-                      <span className="flex items-center gap-1 text-[11px] text-muted-foreground/70">
+                      <span className="flex items-center gap-1 text-sm text-muted-foreground">
                         <MapPin className="w-3 h-3 shrink-0" />
                         {exp.location}
                       </span>
-                      <span className="font-mono text-[11px] text-muted-foreground/50 tracking-wide">
+                      <span className="font-mono text-xs text-muted-foreground tracking-wide">
                         {exp.period}
                       </span>
                     </div>
@@ -106,14 +106,14 @@ const Exp = () => {
                     className="flex items-center gap-3 w-full group cursor-pointer"
                   >
                     <span className="flex-1 h-px bg-linear-to-r from-border/80 to-transparent group-hover:bg-border transition-colors duration-200" />
-                    <span className="font-mono text-[10px] tracking-[0.12em] uppercase text-muted-foreground/60 group-hover:text-muted-foreground transition-colors duration-200">
+                    <span className="font-mono text-xs tracking-[0.12em] uppercase text-muted-foreground group-hover:text-muted-foreground transition-colors duration-200">
                       {isOpen ? "Close" : "Details"}
                     </span>
                     <motion.div
                       animate={{ rotate: isOpen ? 180 : 0 }}
                       transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
                     >
-                      <ChevronDown className="w-3.5 h-3.5 text-muted-foreground/50 group-hover:text-muted-foreground transition-colors duration-200" />
+                      <ChevronDown className="w-3.5 h-3.5 text-muted-foreground group-hover:text-muted-foreground transition-colors duration-200" />
                     </motion.div>
                   </button>
                 </div>
@@ -139,7 +139,7 @@ const Exp = () => {
                               initial={{ opacity: 0, y: 6 }}
                               animate={{ opacity: 1, y: 0 }}
                               transition={{ delay: i * 0.04, duration: 0.3, ease: "easeOut" }}
-                              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md border border-dashed border-border/60 font-mono text-[11px] text-muted-foreground cursor-default select-none hover:border-border hover:text-foreground hover:bg-muted/30 transition-all duration-150"
+                              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md border border-dashed border-border/60 font-mono text-xs text-muted-foreground cursor-default select-none hover:border-border hover:text-foreground hover:bg-muted/30 transition-all duration-150"
                             >
                               <t.icon className="w-3 h-3 shrink-0" style={{ color: t.color }} />
                               {t.name}
@@ -160,7 +160,7 @@ const Exp = () => {
                               transition={{ delay: 0.1 + i * 0.06, duration: 0.35, ease: "easeOut" }}
                               className="flex gap-3 py-3 text-sm text-muted-foreground leading-relaxed"
                             >
-                              <span className="font-mono text-[10px] text-muted-foreground/40 pt-0.5 shrink-0 w-5">
+                              <span className="font-mono text-xs text-muted-foreground pt-0.5 shrink-0 w-5">
                                 {String(i + 1).padStart(2, "0")}
                               </span>
                               {obj}

@@ -33,14 +33,14 @@ export default function HeroData() {
         className="hero-fade relative z-10 flex items-center justify-between border-b border-foreground/10 px-[clamp(20px,5vw,52px)] py-[clamp(20px,4vw,36px)]"
         style={{ animationDelay: "0.05s" }}
       >
-        <span className="font-mono text-[11px] font-normal uppercase tracking-[0.18em] text-foreground/40">
+        <span className="font-mono text-sm font-normal mt-1 uppercase tracking-[0.18em] text-muted-foreground">
           Rakesh Patel
         </span>
 
         <Link
           href="/contact"
           prefetch
-          className="inline-flex items-center gap-1.5 border border-foreground/20 px-[18px] py-[9px] font-sans text-[10px] font-medium uppercase tracking-[0.22em] text-foreground/50 transition-colors hover:bg-foreground hover:text-background"
+          className="inline-flex items-center gap-1.5 border border-foreground/20 px-[18px] py-[9px] font-sans text-xs font-medium uppercase tracking-[0.22em] text-foreground/50 transition-colors hover:bg-foreground hover:text-background"
         >
           Get in Touch
           <ArrowUpRight className="h-[10px] w-[10px]" strokeWidth={1.2} />
@@ -56,8 +56,8 @@ export default function HeroData() {
             className="hero-fade mb-[clamp(20px,4vw,36px)] flex items-center gap-3"
             style={{ animationDelay: "0.15s" }}
           >
-            <span className="hero-dot h-[6px] w-[6px] flex-shrink-0 rounded-full bg-foreground" aria-hidden="true" />
-            <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-foreground/35">
+            <span className="hero-dot h-[6px] w-[6px] shrink-0 rounded-full bg-foreground" aria-hidden="true" />
+            <span className="font-mono text-xs uppercase tracking-[0.2em] text-foreground/35">
               Available for work
             </span>
           </div>
@@ -86,7 +86,7 @@ export default function HeroData() {
             style={{ animationDelay: "0.55s" }}
           >
             {/* Description */}
-            <p className="max-w-[340px] text-[clamp(13px,2.2vw,15px)] font-normal leading-[1.65] text-foreground/50">
+            <p className="max-w-85 text-[clamp(13px,2.2vw,15px)] font-normal leading-[1.65] text-foreground/50">
               End-to-end solutions that{" "}
               <strong className="font-semibold text-foreground/80">scale and perform</strong>. From database design to
               dynamic interfaces, I craft complete systems that{" "}
@@ -97,7 +97,7 @@ export default function HeroData() {
             <ul className="flex flex-col gap-[10px] sm:items-end" aria-label="Specialisms">
               {specs.map(([num, label]) => (
                 <li key={num} className="flex items-center gap-[10px]">
-                  <span className="font-mono text-[10px] tracking-[0.1em] text-foreground/30">{num}</span>
+                  <span className="font-mono text-xs tracking-[0.1em] text-foreground/30">{num}</span>
                   <span className="text-[11px] font-medium uppercase tracking-[0.1em] text-foreground/45">{label}</span>
                 </li>
               ))}
@@ -110,7 +110,7 @@ export default function HeroData() {
             style={{ animationDelay: "0.72s" }}
           >
             <Link href="/projects" prefetch>
-              <span className="inline-block cursor-pointer bg-foreground px-[clamp(22px,4vw,36px)] py-[14px] font-sans text-[10px] font-bold uppercase tracking-[0.22em] text-background transition-opacity hover:opacity-75">
+              <span className="inline-block cursor-pointer bg-foreground px-[clamp(22px,4vw,36px)] rounded-md py-3.5 font-sans text-xs font-bold uppercase tracking-[0.22em] text-background transition-opacity hover:opacity-75">
                 View Work
               </span>
             </Link>
@@ -119,11 +119,11 @@ export default function HeroData() {
               href="https://rakesh-patel-cv.tiiny.site"
               target="_blank"
               rel="noopener noreferrer"
-              className="group inline-flex items-center gap-1.5 font-sans text-[10px] font-medium uppercase tracking-[0.22em] text-foreground/30 transition-colors hover:text-foreground/60"
+              className="group inline-flex items-center gap-1.5 font-sans text-xs font-medium bg-muted rounded-md px-[clamp(22px,4vw,36px)] py-3.5 uppercase tracking-[0.22em] text-foreground transition-colors hover:text-foreground/60"
             >
               Resume
               <ArrowUpRight
-                className="h-[11px] w-[11px] transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                className="h-2.5 w-2.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
                 strokeWidth={1.1}
               />
             </a>
@@ -141,7 +141,7 @@ export default function HeroData() {
           {[...tickerItems, ...tickerItems].map((item, i) => (
             <span
               key={i}
-              className="shrink-0 border-r border-foreground/10 px-8 font-mono text-[10px] uppercase tracking-[0.15em] text-foreground/30 whitespace-nowrap"
+              className="shrink-0 border-r border-foreground px-8 font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground whitespace-nowrap"
             >
               {item}
             </span>

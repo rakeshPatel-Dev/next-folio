@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from "react"
 import { Moon, Sun } from "lucide-react"
 import { flushSync } from "react-dom"
+import { useTheme } from "next-themes"
 import { cn } from "@/lib/utils"
 
 interface AnimatedThemeTogglerProps extends React.ComponentPropsWithoutRef<"div"> {
@@ -13,10 +14,13 @@ export const AnimatedThemeToggler = ({
   duration = 400,
   ...props
 }: AnimatedThemeTogglerProps) => {
+  const { theme, setTheme, systemTheme } = useTheme()
   const [isDark, setIsDark] = useState(false)
+  const [mounted, setMounted] = useState(false)
   const buttonRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    setMounted(true)
     const updateTheme = () => {
       setIsDark(document.documentElement.classList.contains("dark"))
     }
@@ -27,16 +31,17 @@ export const AnimatedThemeToggler = ({
       attributeFilter: ["class"],
     })
     return () => observer.disconnect()
-  }, [])
+  }, [theme, systemTheme])
 
   const toggleTheme = useCallback(async () => {
     if (!buttonRef.current) return
+    
+    const nextTheme = isDark ? "light" : "dark"
+    
     await document.startViewTransition(() => {
       flushSync(() => {
-        const newTheme = !isDark
-        setIsDark(newTheme)
-        document.documentElement.classList.toggle("dark")
-        localStorage.setItem("theme", newTheme ? "dark" : "light")
+        setIsDark(!isDark)
+        setTheme(nextTheme)
       })
     }).ready
 
@@ -61,11 +66,12 @@ export const AnimatedThemeToggler = ({
         pseudoElement: "::view-transition-new(root)",
       }
     )
-  }, [isDark, duration])
+  }, [isDark, duration, setTheme])
 
   return (
     <div
       ref={buttonRef}
+      {...props}
       onClick={toggleTheme}
       onKeyDown={(e) => {
         if (e.key === "Enter" || e.key === " ") {
@@ -78,7 +84,7 @@ export const AnimatedThemeToggler = ({
       aria-label="Toggle theme"
       className={cn(className)}
     >
-      {isDark ? <Sun /> : <Moon />}
+      {mounted ? (isDark ? <Sun /> : <Moon />) : <Moon />}
     </div>
   )
 }
