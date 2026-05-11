@@ -41,8 +41,12 @@ const toBase64 = (str: string) =>
 // Tech Icon Component
 function TechIcon({ tech }: { tech: { label: string; icon?: string } }) {
   const Icon = useTechIcon(tech.icon)
-
   if (!Icon) {
+    // Log unresolved icon keys for debugging in browser console
+    if (typeof window !== 'undefined') {
+      // eslint-disable-next-line no-console
+      console.warn('TechIcon: icon not found for', { label: tech.label, icon: tech.icon })
+    }
     // Fallback to badge if icon not found
     return (
       <Badge variant="secondary" className="text-xs">
@@ -186,12 +190,15 @@ const ProjectCard = React.forwardRef<HTMLDivElement, ProjectCardProps>(
 
           {/* Client Info */}
           {project.isFreelance && project.isClientPublic && project.clientName && (
-            <div className="mt-3 rounded-lg bg-muted/50 p-3">
+            <div className="mt-3 relative rounded-lg bg-muted/50 p-3">
               <p className="text-xs font-medium text-muted-foreground">Client</p>
               <p className="text-sm font-semibold">{project.clientName}</p>
               {project.clientLocation && (
                 <p className="text-xs text-muted-foreground">{project.clientLocation}</p>
               )}
+              <Badge className="absolute right-3 top-3 text-xs">
+                {project.clientIndustry}
+              </Badge>
             </div>
           )}
 
