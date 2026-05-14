@@ -137,7 +137,7 @@ export default function HeroData() {
         style={{ animationDelay: "1s" }}
         aria-hidden="true"
       >
-        <div className="hero-ticker flex min-w-full w-max py-3 transform-gpu" style={{ willChange: "transform" }}>
+        <div className="hero-ticker flex min-w-full w-max py-3">
           {[...tickerItems, ...tickerItems].map((item, i) => (
             <span
               key={i}
@@ -182,12 +182,10 @@ export default function HeroData() {
           opacity: 0;
           transform: translateY(20px);
           animation: heroRise 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-          will-change: transform, opacity;
         }
         .hero-fade {
           opacity: 0;
           animation: heroFade 0.7s ease-out forwards;
-          will-change: opacity;
         }
         @keyframes heroRise {
           to { opacity: 1; transform: translateY(0); }

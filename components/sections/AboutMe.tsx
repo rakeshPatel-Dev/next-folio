@@ -70,87 +70,76 @@ export function AboutMe() {
   /* ── GSAP parallax cards & text effects ─────────────────────────── */
   useEffect(() => {
     let ctx: any
-    let observer: IntersectionObserver
 
-    const initGSAP = () => {
-      getGSAP().then(({ gsap, SplitText }) => {
-        ctx = gsap.context(() => {
-          /* 1. Stacked Cards Parallax */
-          const cards = gsap.utils.toArray<HTMLElement>(".stacked-card")
-          cards.forEach((card, index) => {
-            if (index === cards.length - 1) return
-            gsap.to(card, {
-              scale: 0.94,
-              opacity: 0.3,
-              ease: "none",
+    getGSAP().then(({ gsap, SplitText }) => {
+      ctx = gsap.context(() => {
+
+        /* 1. Stacked Cards Parallax */
+        const cards = gsap.utils.toArray<HTMLElement>(".stacked-card")
+
+        cards.forEach((card, index) => {
+          // The last card doesn't need to scale down since nothing covers it
+          if (index === cards.length - 1) return
+
+          gsap.to(card, {
+            scale: 0.94,
+            opacity: 0.3,
+            ease: "none",
+            scrollTrigger: {
+              trigger: cards[index + 1],
+              start: "top bottom",
+              end: "top top",
+              scrub: true,
+            }
+          })
+        })
+
+        /* 2. Philosophy paragraph — word-by-word reveal via SplitText */
+        if (philosophyRef.current) {
+          const split = new SplitText(philosophyRef.current, { type: "words" })
+          gsap.fromTo(
+            split.words,
+            { opacity: 0.08, y: 10 },
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.6,
+              stagger: 0.03,
+              ease: "power2.out",
               scrollTrigger: {
-                trigger: cards[index + 1],
-                start: "top bottom",
-                end: "top top",
-                scrub: true,
-              }
-            })
-          })
-
-          /* 2. Philosophy paragraph — word-by-word reveal via SplitText */
-          if (philosophyRef.current) {
-            const split = new SplitText(philosophyRef.current, { type: "words" })
-            gsap.fromTo(
-              split.words,
-              { opacity: 0.08, y: 10 },
-              {
-                opacity: 1,
-                y: 0,
-                duration: 0.6,
-                stagger: 0.03,
-                ease: "power2.out",
-                scrollTrigger: {
-                  trigger: philosophyRef.current,
-                  start: "top 82%",
-                  end: "bottom 60%",
-                  scrub: false,
-                  toggleActions: "play none none reverse",
-                },
-              }
-            )
-          }
-
-          /* 3. Expertise grid rows — subtle horizontal slide in */
-          gsap.utils.toArray<HTMLElement>(".expertise-row").forEach((row, i) => {
-            gsap.fromTo(
-              row,
-              { y: 20, opacity: 0 },
-              {
-                y: 0,
-                opacity: 1,
-                duration: 0.8,
-                ease: "power4.out",
-                scrollTrigger: {
-                  trigger: row,
-                  start: "top 88%",
-                  toggleActions: "play none none reverse",
-                },
-              }
-            )
-          })
-        }, sectionRef)
-      })
-    }
-
-    if (sectionRef.current) {
-      observer = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting) {
-          initGSAP()
-          observer.disconnect()
+                trigger: philosophyRef.current,
+                start: "top 82%",
+                end: "bottom 60%",
+                scrub: false,
+                toggleActions: "play none none reverse",
+              },
+            }
+          )
         }
-      }, { threshold: 0.1 })
-      observer.observe(sectionRef.current)
-    }
 
-    return () => {
-      ctx?.revert()
-      observer?.disconnect()
-    }
+        /* 3. Expertise grid rows — subtle horizontal slide in */
+        gsap.utils.toArray<HTMLElement>(".expertise-row").forEach((row, i) => {
+          gsap.fromTo(
+            row,
+            { y: 20, opacity: 0 },
+            {
+              y: 0,
+              opacity: 1,
+              duration: 0.8,
+              ease: [0.16, 1, 0.3, 1] as any,
+              scrollTrigger: {
+                trigger: row,
+                start: "top 88%",
+                toggleActions: "play none none reverse",
+              },
+            }
+          )
+        })
+
+      }, sectionRef)
+    })
+
+    return () => ctx?.revert()
   }, [])
 
   const copyEmail = async () => {
