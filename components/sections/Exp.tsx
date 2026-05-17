@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import { Reveal } from "@/components/motion/Reveal"
 import { useState } from "react"
 import { ChevronDown } from "lucide-react"
+import IconRenderer from "@/components/forms/project/IconRenderer"
 
 const fadeUp = {
   hidden: { opacity: 0, y: 20 },
@@ -28,9 +29,9 @@ const Exp = () => {
           <div className="flex items-center justify-center w-9 h-9 rounded-lg border border-border/60 bg-muted/30">
             <Briefcase className="w-4 h-4 text-muted-foreground" />
           </div>
-          <span className="font-mono text-xs tracking-[0.14em] uppercase text-muted-foreground">
+          <h2 className="font-mono text-xs tracking-[0.14em] uppercase text-muted-foreground">
             Experience
-          </span>
+          </h2>
           <div className="flex-1 h-px bg-border/50" />
         </div>
       </Reveal>
@@ -68,9 +69,9 @@ const Exp = () => {
                     {/* Left: company + role */}
                     <div>
                       <div className="flex items-center gap-2.5 mb-1">
-                        <span className="font-sans text-lg font-bold tracking-tight text-foreground">
+                        <h3 className="font-sans text-lg font-bold tracking-tight text-foreground">
                           {exp.company}
-                        </span>
+                        </h3>
 
                         {exp.isWorking && (
                           <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full border border-emerald-500/30 bg-emerald-500/8 text-emerald-500 font-mono text-[10px] tracking-widest uppercase">
@@ -141,7 +142,11 @@ const Exp = () => {
                               transition={{ delay: i * 0.04, duration: 0.3, ease: "easeOut" }}
                               className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md border border-dashed border-border/60 font-mono text-xs text-muted-foreground cursor-default select-none hover:border-border hover:text-foreground hover:bg-muted/30 transition-all duration-150"
                             >
-                              <t.icon className="w-3 h-3 shrink-0" style={{ color: t.color }} />
+                              <IconRenderer
+                                name={t.icon}
+                                className="w-3 h-3 shrink-0"
+                                style={{ color: t.color }}
+                              />
                               {t.name}
                             </motion.span>
                           ))}

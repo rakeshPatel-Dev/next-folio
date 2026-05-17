@@ -1,9 +1,7 @@
 "use client"
 
-import { useMemo } from "react"
 import { Input } from "@/components/ui/input"
 import IconRenderer from "@/components/forms/project/IconRenderer"
-import { ALL_ICON_NAMES } from "@/lib/all-icons"
 
 type Props = {
   value: string
@@ -11,20 +9,8 @@ type Props = {
 }
 
 export default function IconInput({ value, onChange }: Props) {
-  const matches = useMemo(() => {
-    if (!value) return []
-
-    return Array.from(
-      new Set(
-        ALL_ICON_NAMES.filter((name) =>
-          name.toLowerCase().includes(value.toLowerCase())
-        )
-      )
-    ).slice(0, 8)
-  }, [value])
-
-
-  const isValid = value && ALL_ICON_NAMES.includes(value)
+  // We removed ALL_ICON_NAMES to drastically reduce bundle size.
+  // The user can type the icon name (e.g., SiNextdotjs) and it will be rendered.
 
   return (
     <div className="space-y-2">
@@ -32,7 +18,7 @@ export default function IconInput({ value, onChange }: Props) {
         <Input
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          placeholder="FaReact, SiNextdotjs, Cpu..."
+          placeholder="e.g. SiNextdotjs, FaReact..."
         />
 
         <div className="h-9 w-9 flex items-center justify-center border rounded">
@@ -40,27 +26,9 @@ export default function IconInput({ value, onChange }: Props) {
         </div>
       </div>
 
-      {value && !isValid && (
-        <p className="text-xs text-destructive">
-          Icon not found
-        </p>
-      )}
-
-      {matches.length > 0 && (
-        <div className="border rounded p-2 grid grid-cols-4 gap-2 max-h-40 overflow-auto">
-          {matches.map((name) => (
-            <button
-              key={`icon-${name}`}
-              type="button"
-              onClick={() => onChange(name)}
-              className="flex items-center gap-2 text-xs hover:bg-muted p-1 rounded"
-            >
-              <IconRenderer name={name} className="h-4 w-4" />
-              <span className="truncate">{name}</span>
-            </button>
-          ))}
-        </div>
-      )}
+      <p className="text-[10px] text-muted-foreground">
+        Enter the PascalCase name from react-icons (e.g. SiNextdotjs, FaGithub).
+      </p>
     </div>
   )
 }

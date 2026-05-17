@@ -42,6 +42,7 @@ const Header = () => {
         {/* Logo */}
         <Link
           href="/"
+          aria-label="Home"
           className="rounded-tl-lg rounded-tr-sm rounded-br-lg rounded-bl-sm overflow-hidden transition-opacity duration-150 hover:opacity-85"
         >
           <Image

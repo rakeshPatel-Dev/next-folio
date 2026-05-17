@@ -2,8 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import { Captions, ScrollText, Wallpaper } from "lucide-react"
-import { FaInfoCircle } from "react-icons/fa"
+import { Captions, ScrollText, Wallpaper, Info } from "lucide-react"
 import { UseFormRegister, FieldErrors } from "react-hook-form"
 import FieldError from "../FieldError"
 
@@ -18,7 +17,7 @@ const CoreInfo = ({ register, errors, setValue }: Props) => {
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <FaInfoCircle className="h-5 w-5 text-muted-foreground" />
+          <Info className="h-5 w-5 text-muted-foreground" />
           Core Information
         </CardTitle>
       </CardHeader>

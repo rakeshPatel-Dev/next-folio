@@ -93,8 +93,6 @@ const ProjectCard = React.forwardRef<HTMLDivElement, ProjectCardProps>(
         animate={{ opacity: 1, scale: 1, translateX: 0, translateY: 0 }}
         transition={{ duration: 0.3 }}
         ref={ref}
-        role="button"
-        tabIndex={0}
         className={cn(
           " relative flex flex-col overflow-hidden rounded-2xl border bg-card shadow-sm transition-all duration-300",
           "hover:-translate-y-2 hover:shadow-xl",
@@ -134,7 +132,7 @@ const ProjectCard = React.forwardRef<HTMLDivElement, ProjectCardProps>(
         <div className="flex flex-1 flex-col p-6">
           {/* Title + Icons */}
           <div className="flex items-start justify-between gap-3">
-            <h4
+            <h3
               className="font-sans cursor-pointer text-xl font-semibold">
               <Link href={`/projects/${project.slug}`}
                 className=" hover:underline"
@@ -142,7 +140,7 @@ const ProjectCard = React.forwardRef<HTMLDivElement, ProjectCardProps>(
 
                 {project.title}
               </Link>
-            </h4>
+            </h3>
 
             <div className="flex gap-4 items-center">
               {project.liveUrl && (
@@ -205,7 +203,7 @@ const ProjectCard = React.forwardRef<HTMLDivElement, ProjectCardProps>(
           {/* Tech Stack with Dynamic Icons */}
           {project.techStack && project.techStack.length > 0 && (
             <div className="mt-4 flex flex-col gap-2">
-              <h3 className="font-sans text-sm font-medium">Technologies</h3>
+              <h4 className="font-sans text-sm font-medium">Technologies</h4>
               <div className="flex flex-wrap gap-3 items-center">
                 {project.techStack.slice(0, 8).map((tech, idx) => (
                   <TechIcon key={idx} tech={tech} />

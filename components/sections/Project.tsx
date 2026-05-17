@@ -20,9 +20,9 @@ const HomeProjects = ({ initialProjects }: HomeProjectsProps) => {
 
   return (
     <div>
-      <h1 className="text-2xl font-sans font-semibold mb-8 tracking-tight">
+      <h2 className="text-2xl font-sans font-semibold mb-8 tracking-tight">
         Featured Projects
-      </h1>
+      </h2>
 
       <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-10">
         {projects.slice(0, 4).map((project) => (

@@ -53,7 +53,7 @@ export function AppDock() {
           {/* Theme toggle */}
           <DockIcon>
             <Tooltip>
-              <TooltipTrigger>
+              <TooltipTrigger asChild>
                 <AnimatedThemeToggler
                   className={cn(
                     buttonVariants({ variant: "ghost", size: "icon" }),

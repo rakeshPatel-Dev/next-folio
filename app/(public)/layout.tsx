@@ -112,7 +112,9 @@ export default function RootLayout({
             <PageTransition>
               <RootProvider>
                 <JsonLd />
-                {children}
+                <main id="main-content">
+                  {children}
+                </main>
                 <Toaster />
               </RootProvider>
             </PageTransition>

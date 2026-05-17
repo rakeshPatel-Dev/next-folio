@@ -30,7 +30,7 @@ export default function HeroData() {
 
       {/* ══════════ NAV ══════════ */}
       <nav
-        className="hero-fade relative z-10 flex items-center justify-between border-b border-foreground/10 px-[clamp(20px,5vw,52px)] py-[clamp(20px,4vw,36px)]"
+        className="hero-fade relative z-10 flex items-center justify-between border-b border-muted-foreground px-[clamp(20px,5vw,52px)] py-[clamp(20px,4vw,36px)]"
         style={{ animationDelay: "0.05s" }}
       >
         <span className="font-mono text-sm font-normal mt-1 uppercase tracking-[0.18em] text-muted-foreground">
@@ -40,7 +40,7 @@ export default function HeroData() {
         <Link
           href="/contact"
           prefetch
-          className="inline-flex items-center gap-1.5 border border-foreground/20 px-[18px] py-[9px] font-sans text-xs font-medium uppercase tracking-[0.22em] text-foreground/50 transition-colors hover:bg-foreground hover:text-background"
+          className="inline-flex items-center gap-1.5 border border-muted-foreground px-[18px] py-[9px] font-sans text-xs font-medium uppercase tracking-[0.22em] text-muted-foreground transition-colors hover:bg-foreground hover:text-background"
         >
           Get in Touch
           <ArrowUpRight className="h-[10px] w-[10px]" strokeWidth={1.2} />
@@ -57,7 +57,7 @@ export default function HeroData() {
             style={{ animationDelay: "0.15s" }}
           >
             <span className="hero-dot h-[6px] w-[6px] shrink-0 rounded-full bg-foreground" aria-hidden="true" />
-            <span className="font-mono text-xs uppercase tracking-[0.2em] text-foreground/35">
+            <span className="font-mono text-xs uppercase tracking-[0.2em] text-foreground">
               Available for work
             </span>
           </div>
@@ -67,16 +67,16 @@ export default function HeroData() {
             className="hero-rise"
             style={{ animationDelay: "0.25s" }}
           >
-            <h1 className="text-[clamp(58px,14vw,130px)] font-black uppercase leading-[0.87] tracking-[-0.035em] text-foreground/90">
+            <h1 className="text-[clamp(58px,14vw,130px)] font-black uppercase leading-[0.87] tracking-[-0.035em] text-foreground">
               Full<span className="hero-primary">stack</span>
               <br />
-              <span className="text-foreground/25">Dev</span>eloper
+              <span className="text-muted-foreground">Dev</span>eloper
             </h1>
           </div>
 
           {/* ── Divider ── */}
           <div
-            className="hero-fade my-[clamp(24px,4vw,40px)] h-px bg-foreground/10"
+            className="hero-fade my-[clamp(24px,4vw,40px)] h-px bg-muted-foreground"
             style={{ animationDelay: "0.5s" }}
           />
 
@@ -86,19 +86,19 @@ export default function HeroData() {
             style={{ animationDelay: "0.55s" }}
           >
             {/* Description */}
-            <p className="max-w-85 text-[clamp(13px,2.2vw,15px)] font-normal leading-[1.65] text-foreground/50">
+            <p className="max-w-85 text-[clamp(13px,2.2vw,15px)] font-normal leading-[1.65] text-muted-foreground">
               End-to-end solutions that{" "}
-              <strong className="font-semibold text-foreground/80">scale and perform</strong>. From database design to
+              <strong className="font-semibold text-foreground">scale and perform</strong>. From database design to
               dynamic interfaces, I craft complete systems that{" "}
-              <strong className="font-semibold text-foreground/80">work seamlessly</strong>.
+              <strong className="font-semibold text-foreground">work seamlessly</strong>.
             </p>
 
             {/* Specs */}
             <ul className="flex flex-col gap-[10px] sm:items-end" aria-label="Specialisms">
               {specs.map(([num, label]) => (
                 <li key={num} className="flex items-center gap-[10px]">
-                  <span className="font-mono text-xs tracking-[0.1em] text-foreground/30">{num}</span>
-                  <span className="text-[11px] font-medium uppercase tracking-[0.1em] text-foreground/45">{label}</span>
+                  <span className="font-mono text-xs tracking-[0.1em] text-muted-foreground">{num}</span>
+                  <span className="text-[11px] font-medium uppercase tracking-[0.1em] text-foreground">{label}</span>
                 </li>
               ))}
             </ul>
@@ -119,12 +119,12 @@ export default function HeroData() {
               href="https://rakesh-patel-cv.tiiny.site"
               target="_blank"
               rel="noopener noreferrer"
-              className="group inline-flex items-center gap-1.5 font-sans text-xs font-medium bg-muted rounded-md px-[clamp(22px,4vw,36px)] py-3.5 uppercase tracking-[0.22em] text-foreground transition-colors hover:text-foreground/60"
+              className="group inline-flex items-center gap-1.5 font-sans text-xs font-medium bg-muted rounded-md px-[clamp(22px,4vw,36px)] py-3.5 uppercase tracking-[0.22em] text-foreground transition-colors hover:text-muted-foreground"
             >
               Resume
               <ArrowUpRight
-                className="h-2.5 w-2.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                strokeWidth={1.1}
+                className=" size-5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                strokeWidth={2}
               />
             </a>
           </div>
@@ -133,7 +133,7 @@ export default function HeroData() {
 
       {/* ══════════ TICKER ══════════ */}
       <div
-        className="hero-fade relative z-10  overflow-hidden border-t border-foreground/10"
+        className="hero-fade relative z-10  overflow-hidden border-t border-muted-foreground"
         style={{ animationDelay: "1s" }}
         aria-hidden="true"
       >

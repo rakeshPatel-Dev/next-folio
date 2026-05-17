@@ -5,7 +5,7 @@ import { flushSync } from "react-dom"
 import { useTheme } from "next-themes"
 import { cn } from "@/lib/utils"
 
-interface AnimatedThemeTogglerProps extends React.ComponentPropsWithoutRef<"div"> {
+interface AnimatedThemeTogglerProps extends React.ComponentPropsWithoutRef<"button"> {
   duration?: number
 }
 
@@ -69,22 +69,15 @@ export const AnimatedThemeToggler = ({
   }, [isDark, duration, setTheme])
 
   return (
-    <div
-      ref={buttonRef}
+    <button
+      ref={buttonRef as any}
       {...props}
       onClick={toggleTheme}
-      onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault()
-          toggleTheme()
-        }
-      }}
-      role="button"
-      tabIndex={0}
+      type="button"
       aria-label="Toggle theme"
       className={cn(className)}
     >
       {mounted ? (isDark ? <Sun /> : <Moon />) : <Moon />}
-    </div>
+    </button>
   )
 }

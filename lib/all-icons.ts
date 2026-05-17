@@ -1,51 +1,32 @@
-import * as FaIcons from "react-icons/fa"
-import * as Fa6Icons from "react-icons/fa6"
-import * as SiIcons from "react-icons/si"
-import * as TbIcons from "react-icons/tb"
-import * as AiIcons from "react-icons/ai"
-import * as BiIcons from "react-icons/bi"
-import * as MdIcons from "react-icons/md"
-import * as RiIcons from "react-icons/ri"
-import * as IoIcons from "react-icons/io5"
-import * as HiIcons from "react-icons/hi2"
-import * as BsIcons from "react-icons/bs"
-import * as CgIcons from "react-icons/cg"
-import * as FiIcons from "react-icons/fi"
-import * as GiIcons from "react-icons/gi"
-import * as GoIcons from "react-icons/go"
-import * as GrIcons from "react-icons/gr"
-import * as ImIcons from "react-icons/im"
-import * as VscIcons from "react-icons/vsc"
-import * as WiIcons from "react-icons/wi"
-import * as LucideIcons from "lucide-react"
+// This file is used ONLY in the admin panel to provide a searchable registry of icons.
+// We use dynamic imports to ensure these heavy icon packs are NEVER bundled into the public site.
 
-export const ICON_PACKS = {
-  Fa6: Fa6Icons,
-  Fa: FaIcons,
-  Si: SiIcons,
-  Tb: TbIcons,
-  Ai: AiIcons,
-  Bi: BiIcons,
-  Md: MdIcons,
-  Ri: RiIcons,
-  Io: IoIcons,
-  Hi: HiIcons,
-  Bs: BsIcons,
-  Cg: CgIcons,
-  Fi: FiIcons,
-  Gi: GiIcons,
-  Go: GoIcons,
-  Gr: GrIcons,
-  Im: ImIcons,
-  Vsc: VscIcons,
-  Wi: WiIcons,
-  Lucide: LucideIcons,
-}
+export const getIconPack = async (prefix: string) => {
+  switch (prefix.toLowerCase()) {
+    case "fa": return import("react-icons/fa");
+    case "fa6": return import("react-icons/fa6");
+    case "si": return import("react-icons/si");
+    case "tb": return import("react-icons/tb");
+    case "ai": return import("react-icons/ai");
+    case "bi": return import("react-icons/bi");
+    case "md": return import("react-icons/md");
+    case "ri": return import("react-icons/ri");
+    case "io": return import("react-icons/io5");
+    case "hi": return import("react-icons/hi2");
+    case "bs": return import("react-icons/bs");
+    case "cg": return import("react-icons/cg");
+    case "fi": return import("react-icons/fi");
+    case "gi": return import("react-icons/gi");
+    case "go": return import("react-icons/go");
+    case "gr": return import("react-icons/gr");
+    case "im": return import("react-icons/im");
+    case "vsc": return import("react-icons/vsc");
+    case "wi": return import("react-icons/wi");
+    default: return null;
+  }
+};
 
-export const ALL_ICON_NAMES = Array.from(
-  new Set(
-    Object.values(ICON_PACKS).flatMap((pack) =>
-      Object.keys(pack)
-    )
-  )
-).sort()
+// We still need a list of names for the search input.
+// This is still heavy but much smaller than the actual icon components if we only store strings.
+// However, even this list is huge. Let's see if we can avoid it.
+export const ALL_ICON_NAMES: string[] = []; 

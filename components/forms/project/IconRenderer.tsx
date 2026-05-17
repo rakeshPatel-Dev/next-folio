@@ -1,51 +1,45 @@
 "use client"
 
-import React from "react"
-import { ICON_PACKS } from "@/lib/all-icons"
+import React, { useEffect, useState } from "react"
+import { getIconPack } from "@/lib/all-icons"
+import * as LucideIcons from "lucide-react"
 
 type Props = {
   name?: string
   className?: string
+  style?: React.CSSProperties
 }
 
-const PREFIXES = Object.keys(ICON_PACKS).sort(
-  (a, b) => b.length - a.length
-) as (keyof typeof ICON_PACKS)[]
+export default function IconRenderer({ name, className, style }: Props) {
+  const [Icon, setIcon] = useState<React.ComponentType<{ className?: string, style?: React.CSSProperties }> | null>(null)
 
-function isValidIconComponent(
-  value: unknown
-): value is React.ComponentType<{ className?: string }> {
-  return typeof value === "function"
-}
+  useEffect(() => {
+    if (!name) return
 
-export default function IconRenderer({ name, className }: Props) {
-  if (!name) return null
-
-  // Lucide (PascalCase, no prefix) — skip "default" (module export)
-  if (
-    name !== "default" &&
-    /^[A-Z][a-zA-Z]+$/.test(name) &&
-    name in ICON_PACKS.Lucide
-  ) {
-    const Icon = ICON_PACKS.Lucide[
-      name as keyof typeof ICON_PACKS.Lucide
-    ] as React.ComponentType<{ className?: string }> | undefined
-    if (Icon && isValidIconComponent(Icon)) {
-      return <Icon className={className} />
+    // 1. Check Lucide (always bundled or optimized by lucide-react)
+    if (name in LucideIcons) {
+      setIcon(() => LucideIcons[name as keyof typeof LucideIcons] as any)
+      return
     }
-  }
 
-  // react-icons (prefix based)
-  for (const prefix of PREFIXES) {
-    if (prefix === "Lucide" || !name.startsWith(prefix)) continue
+    // 2. Check react-icons packs based on prefix
+    const resolveIcon = async () => {
+      // Find prefix (e.g. "Si" from "SiNextdotjs")
+      const prefixMatch = name.match(/^[A-Z][a-z0-9]*/)
+      if (!prefixMatch) return
 
-    const pack = ICON_PACKS[prefix] as Record<string, React.ComponentType<{ className?: string }> | undefined>
-    const Icon = pack[name]
-
-    if (Icon && isValidIconComponent(Icon)) {
-      return <Icon className={className} />
+      const prefix = prefixMatch[0]
+      const pack = await getIconPack(prefix)
+      
+      if (pack && (pack as any)[name]) {
+        setIcon(() => (pack as any)[name])
+      }
     }
-  }
 
-  return null
+    resolveIcon()
+  }, [name])
+
+  if (!Icon) return <div className={className} style={style} /> // Placeholder while loading
+
+  return <Icon className={className} style={style} />
 }

@@ -120,6 +120,7 @@ export default function ProjectsClient({ initialProjects, types, statuses, techn
             <Input
               type="search"
               placeholder="Search projects..."
+              aria-label="Search projects"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full"
