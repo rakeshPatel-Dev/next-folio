@@ -48,8 +48,8 @@ export default async function AdminProtectedLayout({
             </main>
           </ToastProvider>
 
-          <Toaster />
         </div>
+          <Toaster position="top-right"  duration={5000} closeButton className="" />
       </SidebarProvider>
     </ThemeProvider>
   )

@@ -40,7 +40,7 @@ export default function HeroData() {
         <Link
           href="/contact"
           prefetch
-          className="inline-flex items-center gap-1.5 border border-muted-foreground px-[18px] py-[9px] font-sans text-xs font-medium uppercase tracking-[0.22em] text-muted-foreground transition-colors hover:bg-foreground hover:text-background"
+          className="inline-flex items-center gap-1.5 border border-muted-foreground px-[18px] py-[9px] font-sans text-xs font-medium uppercase tracking-[0.22em] text-muted-foreground transition-all hover:bg-foreground hover:text-background focus:outline-none focus:ring-2 focus:ring-foreground focus:ring-offset-2"
         >
           Get in Touch
           <ArrowUpRight className="h-[10px] w-[10px]" strokeWidth={1.2} />
@@ -51,20 +51,25 @@ export default function HeroData() {
       <div className="relative z-10 flex flex-1 flex-col justify-between px-[clamp(20px,5vw,52px)] pb-[clamp(24px,4vw,48px)] pt-[clamp(32px,6vw,64px)]">
         <div>
 
-          {/* ── Availability label ── */}
+          {/* ── Availability badge ── */}
           <div
-            className="hero-fade mb-[clamp(20px,4vw,36px)] flex items-center gap-3"
+            className="hero-fade mb-[clamp(20px,4vw,36px)] flex items-center gap-3 group"
             style={{ animationDelay: "0.15s" }}
           >
-            <span className="hero-dot h-[6px] w-[6px] shrink-0 rounded-full bg-foreground" aria-hidden="true" />
-            <span className="font-mono text-xs uppercase tracking-[0.2em] text-foreground">
+            <span className="relative flex h-2 w-2 shrink-0">
+              {/* Pulsing dot ring - using pulse instead of ping for performance */}
+              <span className="absolute inline-flex h-full w-full animate-pulse rounded-full bg-emerald-400/60" />
+              {/* Core dot */}
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
+            </span>
+            <span className="font-mono text-xs font-medium uppercase tracking-[0.2em] text-foreground/80 transition-colors group-hover:text-foreground">
               Available for work
             </span>
           </div>
 
           {/* ── Headline ── */}
           <div
-            className="hero-rise"
+            className="hero-rise min-h-[clamp(100px,20vw,180px)]"
             style={{ animationDelay: "0.25s" }}
           >
             <h1 className="text-[clamp(58px,14vw,130px)] font-black uppercase leading-[0.87] tracking-[-0.035em] text-foreground">
@@ -93,15 +98,15 @@ export default function HeroData() {
               <strong className="font-semibold text-foreground">work seamlessly</strong>.
             </p>
 
-            {/* Specs */}
-            <ul className="flex flex-col gap-[10px] sm:items-end" aria-label="Specialisms">
+            {/* Specs - Using dl for better semantics */}
+            <dl className="flex flex-col gap-[10px] sm:items-end" aria-label="Specialisms">
               {specs.map(([num, label]) => (
-                <li key={num} className="flex items-center gap-[10px]">
-                  <span className="font-mono text-xs tracking-[0.1em] text-muted-foreground">{num}</span>
-                  <span className="text-[11px] font-medium uppercase tracking-[0.1em] text-foreground">{label}</span>
-                </li>
+                <div key={num} className="flex items-center gap-[10px]">
+                  <dt className="font-mono text-xs tracking-[0.1em] text-muted-foreground">{num}</dt>
+                  <dd className="text-[11px] font-medium uppercase tracking-[0.1em] text-foreground">{label}</dd>
+                </div>
               ))}
-            </ul>
+            </dl>
           </div>
 
           {/* ── CTAs ── */}
@@ -110,7 +115,7 @@ export default function HeroData() {
             style={{ animationDelay: "0.72s" }}
           >
             <Link href="/projects" prefetch>
-              <span className="inline-block cursor-pointer bg-foreground px-[clamp(22px,4vw,36px)] rounded-md py-3.5 font-sans text-xs font-bold uppercase tracking-[0.22em] text-background transition-opacity hover:opacity-75">
+              <span className="inline-block cursor-pointer bg-foreground px-[clamp(22px,4vw,36px)] rounded-md py-3.5 font-sans text-xs font-bold uppercase tracking-[0.22em] text-background transition-all hover:opacity-75 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-foreground focus:ring-offset-2">
                 View Work
               </span>
             </Link>
@@ -119,11 +124,11 @@ export default function HeroData() {
               href="https://rakesh-patel-cv.tiiny.site"
               target="_blank"
               rel="noopener noreferrer"
-              className="group inline-flex items-center gap-1.5 font-sans text-xs font-medium bg-muted rounded-md px-[clamp(22px,4vw,36px)] py-3.5 uppercase tracking-[0.22em] text-foreground transition-colors hover:text-muted-foreground"
+              className="group inline-flex items-center gap-1.5 font-sans text-xs font-medium bg-muted rounded-md px-[clamp(22px,4vw,36px)] py-3.5 uppercase tracking-[0.22em] text-foreground transition-all hover:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-foreground focus:ring-offset-2"
             >
               Resume
               <ArrowUpRight
-                className=" size-5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                className="size-5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-active:translate-x-1 group-active:-translate-y-1"
                 strokeWidth={2}
               />
             </a>
@@ -133,77 +138,21 @@ export default function HeroData() {
 
       {/* ══════════ TICKER ══════════ */}
       <div
-        className="hero-fade relative z-10  overflow-hidden border-t border-muted-foreground"
+        className="hero-fade relative z-10 overflow-hidden border-t border-muted-foreground bg-background/50 backdrop-blur-[1px]"
         style={{ animationDelay: "1s" }}
         aria-hidden="true"
       >
-        <div className="hero-ticker flex min-w-full w-max py-3">
+        <div className="hero-ticker flex min-w-full w-max py-3.5">
           {[...tickerItems, ...tickerItems].map((item, i) => (
             <span
               key={i}
-              className="shrink-0 border-r border-foreground px-8 font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground whitespace-nowrap"
+              className="shrink-0 border-r border-foreground/30 px-8 font-mono text-xs font-medium uppercase tracking-[0.15em] text-muted-foreground whitespace-nowrap transition-colors hover:text-foreground"
             >
               {item}
             </span>
           ))}
         </div>
       </div>
-
-      {/* ══════════ STYLES ══════════ */}
-      <style>{`
-        /* Grid lines */
-        .hero-grid::before {
-          content: '';
-          position: absolute;
-          inset: 0;
-          background-image:
-            linear-gradient(to right, hsl(var(--foreground) / 0.04) 1px, transparent 1px),
-            linear-gradient(to bottom, hsl(var(--foreground) / 0.04) 1px, transparent 1px);
-          background-size: clamp(60px, 10vw, 100px) clamp(60px, 10vw, 100px);
-        }
-
-        /* Outline headline word */
-        .hero-outline {
-          -webkit-text-stroke: 1.5px hsl(var(--foreground) / 0.85);
-          color: transparent;
-        }
-
-        /* Pulsing dot */
-        .hero-dot {
-          animation: heroDotPulse 2.4s ease-in-out 1.2s infinite;
-        }
-        @keyframes heroDotPulse {
-          0%, 100% { opacity: 1; }
-          50%       { opacity: 0.2; }
-        }
-
-        /* Entrance animations */
-        .hero-rise {
-          opacity: 0;
-          transform: translateY(20px);
-          animation: heroRise 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-        .hero-fade {
-          opacity: 0;
-          animation: heroFade 0.7s ease-out forwards;
-        }
-        @keyframes heroRise {
-          to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes heroFade {
-          to { opacity: 1; }
-        }
-
-        /* Scrolling ticker */
-        .hero-ticker {
-          animation: heroTicker 18s linear infinite;
-          white-space: nowrap;
-        }
-        @keyframes heroTicker {
-          from { transform: translateX(0); }
-          to   { transform: translateX(-50%); }
-        }
-      `}</style>
     </section>
   )
 }

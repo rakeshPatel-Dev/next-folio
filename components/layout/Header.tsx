@@ -21,7 +21,7 @@ const Header = () => {
     }
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
+  }, [ isScrolled])
 
   return (
     <header
@@ -50,7 +50,7 @@ const Header = () => {
             height={55}
             src="/images/logo.png"
             alt="Logo"
-            className={cn("h-18 w-18 bg-black  rounded-xl object-contain md:h-20 md:w-20", isScrolled ? "h-12 transition-all duration-300 w-12 md:h-14 md:w-14" : "")}
+            className={cn("h-15 w-15 bg-black  rounded-xl object-contain md:h-18 md:w-18", isScrolled ? "h-12 transition-all duration-300 w-12 md:h-14 md:w-14" : "")}
             priority
           />
         </Link>

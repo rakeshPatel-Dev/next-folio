@@ -151,3 +151,72 @@
     animation: none;
     mix-blend-mode: normal;
 }
+
+
+/* Hero section styles */
+
+/* Grid lines */
+        .hero-grid::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background-image:
+            linear-gradient(to right, hsl(var(--foreground) / 0.04) 1px, transparent 1px),
+            linear-gradient(to bottom, hsl(var(--foreground) / 0.04) 1px, transparent 1px);
+          background-size: clamp(60px, 10vw, 100px) clamp(60px, 10vw, 100px);
+        }
+
+        /* Outline headline word */
+        .hero-outline {
+          -webkit-text-stroke: 1.5px hsl(var(--foreground) / 0.85);
+          color: transparent;
+        }
+
+        /* Entrance animations */
+        .hero-rise {
+          opacity: 0;
+          transform: translateY(20px);
+          animation: heroRise 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+          will-change: transform, opacity;
+        }
+        .hero-fade {
+          opacity: 0;
+          animation: heroFade 0.7s ease-out forwards;
+          will-change: opacity;
+        }
+        @keyframes heroRise {
+          to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes heroFade {
+          to { opacity: 1; }
+        }
+
+        /* Scrolling ticker */
+        .hero-ticker {
+          animation: heroTicker 18s linear infinite;
+          white-space: nowrap;
+          will-change: transform;
+        }
+        .hero-ticker:hover {
+          animation-play-state: paused;
+        }
+        @keyframes heroTicker {
+          from { transform: translateX(0); }
+          to   { transform: translateX(-50%); }
+        }
+
+        /* Reduced motion support */
+        @media (prefers-reduced-motion: reduce) {
+          .hero-rise, .hero-fade, .hero-ticker {
+            animation: none !important;
+            opacity: 1;
+            transform: none;
+          }
+          .hero-ticker {
+            animation: none;
+            overflow-x: auto;
+          }
+          .hero-ticker:hover {
+            animation-play-state: running;
+          }
+        }

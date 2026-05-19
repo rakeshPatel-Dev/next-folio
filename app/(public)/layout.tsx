@@ -115,7 +115,7 @@ export default function RootLayout({
                 <main id="main-content">
                   {children}
                 </main>
-                <Toaster />
+                <Toaster position="top-right" duration={5000} closeButton className=" absolute z-50" />
               </RootProvider>
             </PageTransition>
           </ToastProvider>

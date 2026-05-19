@@ -10,7 +10,7 @@ type SkillProps = {
   index: number
 }
 
-export default function SkillPill({ name, Icon, color, index }: SkillProps) {
+export default function SkillPill({ name, Icon, color }: SkillProps) {
   return (
     <Tooltip>
       <TooltipTrigger asChild>
