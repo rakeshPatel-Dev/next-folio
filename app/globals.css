@@ -152,6 +152,22 @@
     mix-blend-mode: normal;
 }
 
+/* Smooth in-page anchor scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Hide scrollbar but keep element scrollable */
+.toc-scrollbar-hidden {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+.toc-scrollbar-hidden::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+  width: 0;
+  height: 0;
+}
+
 
 /* Hero section styles */
 
