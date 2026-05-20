@@ -30,8 +30,8 @@ export default function TOCPortal({ children }: { children: React.ReactNode }) {
     const mo = new MutationObserver(() => {
       const active = findActive(container)
       if (active) {
-        const id = active.getAttribute('href') || active.id || active.textContent || ''
-        if (lastActiveRef.current !== id) {
+        const id = active.getAttribute('href') || active.id || ''    
+            if (lastActiveRef.current !== id) {
           lastActiveRef.current = id
           try {
             active.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'smooth' })
