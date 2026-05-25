@@ -9,8 +9,6 @@ import { BlogCard } from "@/components/blog/Blog-card"
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import Script from 'next/script'
-import { TOCProvider } from 'fumadocs-ui/components/toc'
-import { TOCItems } from 'fumadocs-ui/components/toc/default'
 import TOCPortal from '@/components/blog/TOCPortal'
 
 interface BlogDetailPageProps {
@@ -237,20 +235,14 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
       </div>
 
       {/* MDX Content (with Fumadocs TOC) */}
-      <TOCProvider toc={mdxPage.toc ?? []}>
-        <div className="max-w-4xl mx-auto px-6 pb-12">
-          <div className="prose prose-lg dark:prose-invert max-w-none">
-            <MDXContent />
-          </div>
+      <div className="max-w-4xl mx-auto px-6 pb-12">
+        <div className="prose prose-lg dark:prose-invert max-w-none">
+          <MDXContent />
         </div>
+      </div>
 
-        {/* Fixed right-side TOC for large screens */}
-        <TOCPortal>
-          <div className="hidden lg:block">
-            <TOCItems />
-          </div>
-        </TOCPortal>
-      </TOCProvider>
+      {/* Fixed right-side TOC for large screens */}
+      <TOCPortal items={mdxPage.toc ?? []} />
 
       {/* Prev/Next Navigation - shadcn style */}
       <div className="max-w-4xl mx-auto px-6 pb-12">
