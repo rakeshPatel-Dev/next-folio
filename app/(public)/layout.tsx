@@ -112,7 +112,7 @@ export default function RootLayout({
             <PageTransition>
               <RootProvider>
                 <JsonLd />
-                <main id="main-content" className="mx-auto w-full max-w-5xl px-[clamp(20px,5vw,52px)]">
+                <main id="main-content" className="mx-auto w-full max-w-5xl px-[clamp(6px,3vw,52px)]">
                   {children}
                 </main>
                 <Toaster position="top-right" duration={5000} closeButton className=" absolute z-50" />

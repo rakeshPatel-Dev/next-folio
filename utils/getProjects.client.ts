@@ -26,6 +26,7 @@ export type Project = {
   features?: Array<{ title: string; description: string }> | string[]
   results?: Array<{ metric: string; description: string }>
   gallery?: string[]
+  videoUrl?: string
   createdAt: string
   updatedAt: string
 }

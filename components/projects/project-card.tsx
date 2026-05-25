@@ -8,11 +8,13 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip
 import Image from "next/image"
 // import { useRouter } from "next/navigation"
 import { Badge } from "@/components/ui/badge"
-import { useTechIcon } from "@/hooks/useTechIcon"
 import { motion } from 'framer-motion'
 import Link from "next/link"
 import WorldIcon from "../ui/world-icon"
 import GithubIcon from "../ui/github-icon"
+import { ProjectVideoDialog } from "@/components/ui/project-video-dialog"
+import { techStacks } from "@/data/techStacks"
+import IconRenderer from "@/components/forms/project/IconRenderer"
 
 interface ProjectCardProps {
   project: Project
@@ -40,11 +42,17 @@ const toBase64 = (str: string) =>
 
 // Tech Icon Component
 function TechIcon({ tech }: { tech: { label: string; icon?: string } }) {
-  const Icon = useTechIcon(tech.icon)
-  if (!Icon) {
+  const resolvedIconName = tech.icon
+    ? techStacks.find(
+      (stack) =>
+        stack.value.toLowerCase() === tech.icon?.toLowerCase() ||
+        stack.label.toLowerCase() === tech.icon?.toLowerCase()
+    )?.icon ?? tech.icon
+    : undefined
+
+  if (!resolvedIconName) {
     // Log unresolved icon keys for debugging in browser console
     if (typeof window !== 'undefined') {
-      // eslint-disable-next-line no-console
       console.warn('TechIcon: icon not found for', { label: tech.label, icon: tech.icon })
     }
     // Fallback to badge if icon not found
@@ -59,7 +67,7 @@ function TechIcon({ tech }: { tech: { label: string; icon?: string } }) {
     <Tooltip>
       <TooltipTrigger asChild>
         <div className=" transition-transform hover:scale-110">
-          <Icon className="h-6 w-6 text-muted-foreground hover:text-foreground" />
+          <IconRenderer name={resolvedIconName} className="h-6 w-6 text-muted-foreground hover:text-foreground" />
         </div>
       </TooltipTrigger>
       <TooltipContent>{tech.label}</TooltipContent>
@@ -77,15 +85,15 @@ const ProjectCard = React.forwardRef<HTMLDivElement, ProjectCardProps>(
     }[project.status] || project.status
 
     const typeColors = {
-      "web": "#3b82f6",
-      "mobile": "#10b981",
-      "desktop": "#8b5cf6",
-      "fullstack": "#f59e0b",
-      "frontend": "#06b6d4",
-      "backend": "#ef4444",
+      web: "bg-blue-500/80",
+      mobile: "bg-emerald-500/80",
+      desktop: "bg-violet-500/80",
+      fullstack: "bg-amber-500/80",
+      frontend: "bg-cyan-500/80",
+      backend: "bg-red-500/80",
     }
 
-    const typeColor = typeColors[project.type.toLowerCase() as keyof typeof typeColors] || "#6b7280"
+    const typeColor = typeColors[project.type.toLowerCase() as keyof typeof typeColors] || "bg-slate-500/80"
 
     return (
       <motion.div
@@ -101,8 +109,10 @@ const ProjectCard = React.forwardRef<HTMLDivElement, ProjectCardProps>(
       >
         {/* Type Badge */}
         <span
-          className="absolute right-3 top-3 z-10 rounded-full px-3 py-1 text-xs font-medium text-white backdrop-blur-md"
-          style={{ backgroundColor: typeColor + "CC" }}
+          className={cn(
+            "absolute right-3 top-3 z-10 rounded-full px-3 py-1 text-xs font-medium text-white backdrop-blur-md",
+            typeColor
+          )}
         >
           {project.type.toUpperCase()}
         </span>
@@ -115,17 +125,26 @@ const ProjectCard = React.forwardRef<HTMLDivElement, ProjectCardProps>(
         )}
 
 
-        {/* Image */}
+        {/* Cover media */}
         <div className="relative aspect-video overflow-hidden p-2">
-          <Image
-            src={project.image}
-            alt={project.title}
-            fill
-            sizes="(min-width: 768px) 50vw, 100vw"
-            placeholder="blur"
-            blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(700, 475))}`}
-            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-          />
+          {project.videoUrl ? (
+            <ProjectVideoDialog
+              videoSrc={project.videoUrl}
+              thumbnailSrc={project.image}
+              thumbnailAlt={`${project.title} video`}
+              className="h-full"
+            />
+          ) : (
+            <Image
+              src={project.image}
+              alt={project.title}
+              fill
+              sizes="(min-width: 768px) 50vw, 100vw"
+              placeholder="blur"
+              blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(700, 475))}`}
+              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+            />
+          )}
         </div>
 
         {/* Content */}

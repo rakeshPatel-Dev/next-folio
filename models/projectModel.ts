@@ -52,6 +52,7 @@ const projectSchema = new mongoose.Schema(
 
     liveUrl: String,
     repoUrl: String,
+    videoUrl: String,
 
     // 🔥 Freelance-related (OPTIONAL)
     isFreelance: {

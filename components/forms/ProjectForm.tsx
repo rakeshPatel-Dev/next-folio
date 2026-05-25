@@ -20,6 +20,7 @@ export type ProjectFormValues = {
   title: string
   shortDescription: string
   image: File | null
+  videoUrl?: string
   type: string
   status: string
   techStack: { label: string; icon?: string }[]
@@ -59,6 +60,7 @@ export default function ProjectForm({ path, saveProject, initialData }: Props) {
         type: initialData.type,
         status: initialData.status,
         techStack: initialData.techStack,
+        videoUrl: initialData.videoUrl,
         liveUrl: initialData.liveUrl,
         repoUrl: initialData.repoUrl,
         isFreelance: initialData.isFreelance,

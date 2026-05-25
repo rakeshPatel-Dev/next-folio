@@ -19,6 +19,7 @@ export type ProjectType = {
   liveUrl?: string
   repoUrl?: string
   githubUrl?: string
+  videoUrl?: string
   isFreelance: boolean
   clientName?: string
   clientLocation?: string

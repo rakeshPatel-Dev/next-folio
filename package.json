@@ -47,6 +47,7 @@
     "jsonwebtoken": "^9.0.3",
     "lucide-react": "^0.562.0",
     "mongoose": "^9.1.2",
+    "motion": "^12.40.0",
     "next": "^16.1.6",
     "next-auth": "^4.24.13",
     "next-cloudinary": "^6.17.5",

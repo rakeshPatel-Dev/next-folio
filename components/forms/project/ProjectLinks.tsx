@@ -42,6 +42,17 @@ export function ProjectLinks({ register }: ProjectLinksProps) {
             {...register("repoUrl")}
           />
         </div>
+        <div className="space-y-1 md:col-span-2">
+          <label htmlFor="videoUrl" className="text-sm font-medium">
+            Video URL <span className="text-muted-foreground">(optional)</span>
+          </label>
+          <Input
+            id="videoUrl"
+            type="url"
+            placeholder="https://www.youtube.com/embed/..."
+            {...register("videoUrl")}
+          />
+        </div>
       </CardContent>
     </Card>
   )

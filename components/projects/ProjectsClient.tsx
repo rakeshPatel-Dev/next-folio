@@ -22,6 +22,7 @@ interface Project {
   type?: string
   status?: string
   techStack?: { label: string }[]
+  videoUrl?: string
 }
 
 interface ProjectsClientProps {
