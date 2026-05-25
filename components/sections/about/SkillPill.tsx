@@ -47,7 +47,7 @@ export default function SkillPill({
           <div
             className={cn(
               "skill-pill group relative flex items-center justify-center",
-              "border border-border bg-muted transition-all duration-300",
+              "border border-border bg-black/80 transition-all duration-300",
               "cursor-default select-none",
               sizeMap[size],
               // Animation

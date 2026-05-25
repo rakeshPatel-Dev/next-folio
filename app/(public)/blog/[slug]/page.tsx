@@ -9,7 +9,7 @@ import { BlogCard } from "@/components/blog/Blog-card"
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import Script from 'next/script'
-import { TOCProvider } from 'fumadocs-ui/components/toc/index'
+import { TOCProvider } from 'fumadocs-ui/components/toc'
 import { TOCItems } from 'fumadocs-ui/components/toc/default'
 import TOCPortal from '@/components/blog/TOCPortal'
 

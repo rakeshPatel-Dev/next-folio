@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Space_Grotesk, Fira_Code } from "next/font/google";
 import "../globals.css";
 import Header from "@/components/layout/Header";
-import { ThemeProvider } from "next-themes";
 import Footer from "@/components/layout/Footer";
 import { AppDock } from "@/components/sections/GlobalDock";
 import { siteConfig } from "@/lib/site-config";
@@ -15,6 +14,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { JsonLd } from "@/components/sections/JsonLd";
 import { Noise } from "@/components/ui/noise";
 import { GridPattern } from "@/components/ui/grid-pattern";
+import { ThemeProvider } from "@/components/providers/theme-provider";
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],

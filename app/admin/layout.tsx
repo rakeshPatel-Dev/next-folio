@@ -1,5 +1,5 @@
-import { ThemeProvider } from "next-themes"
 import "../globals.css"
+import { ThemeProvider } from "@/components/providers/theme-provider"
 
 export default function AdminPublicLayout({
   children,

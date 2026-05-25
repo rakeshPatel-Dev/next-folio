@@ -22,7 +22,7 @@ export default function HeroData() {
 
       {/* ── Ghost BG lettermark ── */}
       <div
-        className="pointer-events-none absolute right-[-0.02em] top-[-0.05em] z-0 select-none text-[clamp(180px,38vw,420px)] font-black leading-none tracking-[-0.05em] text-foreground opacity-[0.03]"
+        className="pointer-events-none absolute right-[-0.02em] top-[-0.05em] z-0 select-none text-[clamp(180px,38vw,420px)] font-black leading-none tracking-[-0.05em] text-muted-foreground opacity-10"
         aria-hidden="true"
       >
         RP

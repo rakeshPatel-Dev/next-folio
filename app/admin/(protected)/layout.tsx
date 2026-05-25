@@ -1,6 +1,5 @@
 import { AppSidebar } from "@/components/app-siderbar"
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
-import { ThemeProvider } from "next-themes"
 import { getSession } from "@/lib/auth"
 import { redirect } from "next/navigation"
 import type { Metadata } from "next"
@@ -33,24 +32,21 @@ export default async function AdminProtectedLayout({
 
 
   return (
-    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-      <SidebarProvider>
-        <div className="flex min-h-screen w-full bg-gray-50 dark:bg-neutral-900/50">
-          <AppSidebar />
+    <SidebarProvider>
+      <div className="flex min-h-screen w-full bg-gray-50 dark:bg-neutral-900/50">
+        <AppSidebar />
 
-          <div className="p-2">
-            <SidebarTrigger />
-          </div>
-          <ToastProvider>
-
-            <main className="flex-1 p-6 overflow-auto">
-              {children}
-            </main>
-          </ToastProvider>
-
+        <div className="p-2">
+          <SidebarTrigger />
         </div>
-          <Toaster position="top-right"  duration={5000} closeButton className="" />
-      </SidebarProvider>
-    </ThemeProvider>
+        <ToastProvider>
+          <main className="flex-1 overflow-auto p-6">
+            {children}
+          </main>
+        </ToastProvider>
+
+      </div>
+      <Toaster position="top-right" duration={5000} closeButton className="" />
+    </SidebarProvider>
   )
 }

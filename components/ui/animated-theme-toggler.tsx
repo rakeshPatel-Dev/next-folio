@@ -1,5 +1,5 @@
 "use client"
-import { useCallback, useEffect, useRef, useState } from "react"
+import { forwardRef, useCallback, useRef } from "react"
 import { Moon, Sun } from "lucide-react"
 import { flushSync } from "react-dom"
 import { useTheme } from "next-themes"
@@ -9,41 +9,51 @@ interface AnimatedThemeTogglerProps extends React.ComponentPropsWithoutRef<"butt
   duration?: number
 }
 
-export const AnimatedThemeToggler = ({
-  className,
-  duration = 400,
-  ...props
-}: AnimatedThemeTogglerProps) => {
-  const { theme, setTheme, systemTheme } = useTheme()
-  const [isDark, setIsDark] = useState(false)
-  const [mounted, setMounted] = useState(false)
-  const buttonRef = useRef<HTMLDivElement>(null)
+export const AnimatedThemeToggler = forwardRef<HTMLButtonElement, AnimatedThemeTogglerProps>(function AnimatedThemeToggler(
+  {
+    className,
+    duration = 400,
+    ...props
+  },
+  forwardedRef
+) {
+  const { resolvedTheme, setTheme } = useTheme()
+  const buttonRef = useRef<HTMLButtonElement>(null)
 
-  useEffect(() => {
-    setMounted(true)
-    const updateTheme = () => {
-      setIsDark(document.documentElement.classList.contains("dark"))
-    }
-    updateTheme()
-    const observer = new MutationObserver(updateTheme)
-    observer.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ["class"],
-    })
-    return () => observer.disconnect()
-  }, [theme, systemTheme])
+  const isDark = resolvedTheme === "dark"
+
+  const setButtonRef = useCallback(
+    (node: HTMLButtonElement | null) => {
+      buttonRef.current = node
+
+      if (typeof forwardedRef === "function") {
+        forwardedRef(node)
+        return
+      }
+
+      if (forwardedRef) {
+        forwardedRef.current = node
+      }
+    },
+    [forwardedRef]
+  )
 
   const toggleTheme = useCallback(async () => {
     if (!buttonRef.current) return
-    
+
     const nextTheme = isDark ? "light" : "dark"
-    
-    await document.startViewTransition(() => {
+    if (typeof document.startViewTransition !== "function") {
+      setTheme(nextTheme)
+      return
+    }
+
+    const transition = document.startViewTransition(() => {
       flushSync(() => {
-        setIsDark(!isDark)
         setTheme(nextTheme)
       })
-    }).ready
+    })
+
+    await transition.ready
 
     const { top, left, width, height } =
       buttonRef.current.getBoundingClientRect()
@@ -66,18 +76,18 @@ export const AnimatedThemeToggler = ({
         pseudoElement: "::view-transition-new(root)",
       }
     )
-  }, [isDark, duration, setTheme])
+  }, [duration, isDark, setTheme])
 
   return (
     <button
-      ref={buttonRef as any}
+      ref={setButtonRef}
       {...props}
       onClick={toggleTheme}
       type="button"
       aria-label="Toggle theme"
       className={cn(className)}
     >
-      {mounted ? (isDark ? <Sun /> : <Moon />) : <Moon />}
+      {resolvedTheme ? (isDark ? <Sun /> : <Moon />) : <Moon />}
     </button>
   )
-}
+})

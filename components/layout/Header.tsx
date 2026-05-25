@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation"
 import { useTheme } from "next-themes"
 import { headerData } from "@/config/headerData"
 import { cn } from "@/lib/utils"
+import { AnimatedThemeToggler } from "../ui/animated-theme-toggler";
 
 const Header = () => {
   const pathname = usePathname()
@@ -90,6 +91,10 @@ const Header = () => {
             })}
           </div>
         </nav>
+
+        <div>
+          <AnimatedThemeToggler/>
+        </div>
 
         {/* Empty placeholder for symmetry if needed, or a 'Hire Me' CTA */}
         <div className="hidden sm:block">
