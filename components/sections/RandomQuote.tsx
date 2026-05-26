@@ -1,25 +1,37 @@
 "use client"
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { techQuotes } from '@/data/techQuotes'
 import { Dot, Quote, RefreshCw } from 'lucide-react'
 import { Button } from '../ui/button'
+
+function getRandomQuoteIndex() {
+  return Math.floor(Math.random() * techQuotes.length)
+}
 
 function RandomQuoteContent() {
   const [quote, setQuote] = useState(() => {
     if (techQuotes.length === 0) {
       return { content: 'No quotes available', author: 'Unknown' }
     }
-    const idx = Math.floor(Math.random() * techQuotes.length)
-    return techQuotes[idx]
+    return techQuotes[0]
   })
   const [isLoading, setIsLoading] = useState(false)
+
+  useEffect(() => {
+    if (techQuotes.length > 1) {
+      const timeoutId = window.setTimeout(() => {
+        setQuote(techQuotes[getRandomQuoteIndex()])
+      }, 0)
+
+      return () => window.clearTimeout(timeoutId)
+    }
+  }, [])
 
   const getNewQuote = () => {
     setIsLoading(true)
     setTimeout(() => {
-      const idx = Math.floor(Math.random() * techQuotes.length)
-      setQuote(techQuotes[idx])
+      setQuote(techQuotes[getRandomQuoteIndex()])
       setIsLoading(false)
     }, 300)
   }

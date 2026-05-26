@@ -1,5 +1,3 @@
-"use client"
-
 export default function SectionLabel({ number, title }: { number: string; title: string }) {
   return (
     <div className="section-label mb-10 flex items-center gap-4 overflow-hidden">

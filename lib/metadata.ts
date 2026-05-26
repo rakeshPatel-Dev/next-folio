@@ -28,17 +28,17 @@ export const PUBLIC_CONTACT_METADATA: Metadata = {
   description:
     "Get in touch for collaboration, freelance work, or professional inquiries.",
   alternates: {
-    canonical: `${process.env.NEXT_PUBLIC_APP_URL || "https://rakeshthedev.vercel.app"}/contact`,
+    canonical: `${process.env.NEXT_PUBLIC_APP_URL || "https://rakeshpatel.me"}/contact`,
   },
   openGraph: {
     title: "Contact | Rakesh Patel",
     description:
       "Get in touch for collaboration, freelance work, or professional inquiries.",
-    url: `${process.env.NEXT_PUBLIC_APP_URL || "https://rakeshthedev.vercel.app"}/contact`,
+    url: `${process.env.NEXT_PUBLIC_APP_URL || "https://rakeshpatel.me"}/contact`,
     type: "website",
     images: [
       {
-        url: "https://rakeshthedev.vercel.app/og-image.png",
+        url: "https://rakeshpatel.me/og-image.png",
         width: 1200,
         height: 630,
         alt: "Rakesh Patel — Contact",
@@ -50,6 +50,6 @@ export const PUBLIC_CONTACT_METADATA: Metadata = {
     title: "Contact | Rakesh Patel",
     description:
       "Get in touch for collaboration, freelance work, or professional inquiries.",
-    images: ["https://rakeshthedev.vercel.app/og-image.png"],
+    images: ["https://rakeshpatel.me/og-image.png"],
   },
 }

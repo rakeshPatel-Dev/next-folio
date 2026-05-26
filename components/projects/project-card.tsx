@@ -1,14 +1,10 @@
-"use client"
-
 import * as React from "react"
 import { ArrowUpRight } from "lucide-react"
 import { cn } from "@/lib/utils"
-import type { Project } from "@/utils/getProjects.client"
+import type { ProjectType } from "@/utils/getProjects.server"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 import Image from "next/image"
-// import { useRouter } from "next/navigation"
 import { Badge } from "@/components/ui/badge"
-import { motion } from 'framer-motion'
 import Link from "next/link"
 import WorldIcon from "../ui/world-icon"
 import GithubIcon from "../ui/github-icon"
@@ -17,28 +13,11 @@ import { techStacks } from "@/data/techStacks"
 import IconRenderer from "@/components/forms/project/IconRenderer"
 
 interface ProjectCardProps {
-  project: Project
+  project: ProjectType
 }
 
-const shimmer = (w: number, h: number) => `
-<svg width="${w}" height="${h}" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-  <defs>
-    <linearGradient id="g">
-      <stop stop-color="#333" offset="20%" />
-      <stop stop-color="#222" offset="50%" />
-      <stop stop-color="#333" offset="70%" />
-    </linearGradient>
-  </defs>
-  <rect width="${w}" height="${h}" fill="#333" />
-  <rect id="r" width="${w}" height="${h}" fill="url(#g)">
-    <animate attributeName="x" from="-${w}" to="${w}" dur="1s" repeatCount="indefinite" />
-  </rect>
-</svg>`
-
-const toBase64 = (str: string) =>
-  typeof window === 'undefined'
-    ? Buffer.from(str).toString('base64')
-    : window.btoa(str)
+const blurDataURL =
+  "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0nNzAwJyBoZWlnaHQ9JzQ3NScgdmlld0JveD0nMCAwIDcwMCA0NzUnIHhtbG5zPSdodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2Zyc+PHJlY3Qgd2lkdGg9JzcwMCcgaGVpZ2h0PSc0NzUnIGZpbGw9JyMyMjInIC8+PC9zdmc+"
 
 // Tech Icon Component
 function TechIcon({ tech }: { tech: { label: string; icon?: string } }) {
@@ -96,10 +75,7 @@ const ProjectCard = React.forwardRef<HTMLDivElement, ProjectCardProps>(
     const typeColor = typeColors[project.type.toLowerCase() as keyof typeof typeColors] || "bg-slate-500/80"
 
     return (
-      <motion.div
-        initial={{ opacity: 0, scale: 0.9, translateX: -5, translateY: -5 }}
-        animate={{ opacity: 1, scale: 1, translateX: 0, translateY: 0 }}
-        transition={{ duration: 0.3 }}
+      <div
         ref={ref}
         className={cn(
           " relative flex flex-col overflow-hidden rounded-2xl border bg-card shadow-sm transition-all duration-300",
@@ -141,7 +117,7 @@ const ProjectCard = React.forwardRef<HTMLDivElement, ProjectCardProps>(
               fill
               sizes="(min-width: 768px) 50vw, 100vw"
               placeholder="blur"
-              blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(700, 475))}`}
+              blurDataURL={blurDataURL}
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
             />
           )}
@@ -283,7 +259,7 @@ const ProjectCard = React.forwardRef<HTMLDivElement, ProjectCardProps>(
             </Link>
           </div>
         </div>
-      </motion.div>
+      </div>
     )
   }
 )

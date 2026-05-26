@@ -4,7 +4,6 @@ import { useEffect, useRef } from "react"
 import { motion } from "framer-motion"
 import {
    MapPin, Mail,
-  Github, Instagram, Linkedin, Facebook,
   FileScan,
 } from "lucide-react"
 import { useToast } from "../zenblocks/toast"
@@ -14,6 +13,7 @@ import SectionLabel from "./about/SectionLabel"
 import SkillPill from "./about/SkillPill"
 import ExpertiseCard from "./about/ExpertiseCard"
 import SocialLink from "./about/SocialLink"
+import { expertiseItems, socialLinks } from "@/data/About"
 
 /* ─── GSAP lazy loader ───────────────────────────────────────────────────── */
 
@@ -28,35 +28,6 @@ async function getGSAP() {
 
 /* ─── Expertise card ─────────────────────────────────────────────────────── */
 
-const expertiseItems = [
-  {
-    title: "Interface Architecture",
-    desc: "Component systems, design tokens, and scalable front-end structures built to last.",
-  },
-  {
-    title: "Motion & Interaction",
-    desc: "GSAP, Framer Motion, and CSS — animations that feel inevitable, never ornamental.",
-  },
-  {
-    title: "Performance Engineering",
-    desc: "Core Web Vitals, bundle analysis, lazy loading and precise rendering strategy.",
-  },
-  {
-    title: "Design Collaboration",
-    desc: "Figma-fluent. I close the gap between pixel-perfect specs and production code.",
-  },
-]
-
-
-
-/* ─── Social link ────────────────────────────────────────────────────────── */
-
-const socialLinks = [
-  { label: "GitHub", href: "https://github.com/rakeshpatel-dev", Icon: Github, image: "/brands/github.png" },
-  { label: "Instagram", href: "https://instagram.com/rikesh_112", Icon: Instagram, image: "/brands/insta.png" },
-  { label: "LinkedIn", href: "https://linkedin.com/in/rakeshpatel-developer", Icon: Linkedin, image: "/brands/linkedin.png" },
-  { label: "Facebook", href: "https://facebook.com/rakeshthedev", Icon: Facebook, image: "/brands/facebook.png" },
-]
 
 
 
@@ -83,7 +54,7 @@ export function AboutMe() {
 
           gsap.to(card, {
             scale: 0.94,
-            opacity: 0.3,
+            opacity: 0.5,
             ease: "none",
             scrollTrigger: {
               trigger: cards[index + 1],
@@ -129,7 +100,7 @@ export function AboutMe() {
               ease: [0.16, 1, 0.3, 1] as any,
               scrollTrigger: {
                 trigger: row,
-                start: "top 88%",
+                start: "top 90%",
                 toggleActions: "play none none reverse",
               },
             }
@@ -206,7 +177,7 @@ export function AboutMe() {
             <Tooltip>
               <TooltipTrigger asChild>
                 <motion.a
-                  href="https://rakesh-patel-cv.tiiny.site"
+                  href={process.env.NEXT_PUBLIC_RESUME_LINK}
                   target="_blank"
                   initial={{ opacity: 0, x: -12 }}
                   whileInView={{ opacity: 1, x: 0 }}

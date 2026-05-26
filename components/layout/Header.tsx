@@ -11,7 +11,6 @@ import { AnimatedThemeToggler } from "../ui/animated-theme-toggler";
 
 const Header = () => {
   const pathname = usePathname()
-  const { theme } = useTheme()
   const [isScrolled, setIsScrolled] = useState(false)
   const [mounted, setMounted] = useState(false)
 
@@ -91,10 +90,6 @@ const Header = () => {
             })}
           </div>
         </nav>
-
-        <div>
-          <AnimatedThemeToggler/>
-        </div>
 
         {/* Empty placeholder for symmetry if needed, or a 'Hire Me' CTA */}
         <div className="hidden sm:block">

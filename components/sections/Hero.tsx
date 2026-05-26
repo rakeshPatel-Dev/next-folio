@@ -121,7 +121,7 @@ export default function HeroData() {
             </Link>
 
             <a
-              href="https://rakesh-patel-cv.tiiny.site"
+              href={process.env.NEXT_PUBLIC_RESUME_LINK}
               target="_blank"
               rel="noopener noreferrer"
               className="group inline-flex items-center gap-1.5 font-sans text-xs font-medium bg-muted rounded-md px-[clamp(22px,4vw,36px)] py-3.5 uppercase tracking-[0.22em] text-foreground transition-all hover:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-foreground focus:ring-offset-2"

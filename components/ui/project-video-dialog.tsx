@@ -103,14 +103,14 @@ export function ProjectVideoDialog({
         }
       }}
       onClick={() => setIsVideoOpen(false)}
-      className="fixed inset-0 flex items-center justify-center bg-black/75 p-3 backdrop-blur-xl sm:p-4 md:p-6"
+      className="fixed inset-0 flex items-center justify-center bg-black/75 p-3 backdrop-blur-xl sm:p-4 md:p-10"
       style={{ zIndex: 1000 }}
     >
       <motion.div
         {...selectedAnimation}
         transition={{ type: "spring", damping: 30, stiffness: 300 }}
         onClick={(e) => e.stopPropagation()}
-        className="relative w-full max-w-6xl"
+        className="relative w-full max-w-5xl p-4"
       >
         <motion.button
           type="button"
@@ -150,15 +150,15 @@ export function ProjectVideoDialog({
           className="w-full rounded-md border shadow-lg transition-all duration-200 ease-out group-hover:brightness-[0.8]"
         />
         <div className="absolute inset-0 flex scale-[0.9] items-center justify-center rounded-2xl transition-all duration-200 ease-out group-hover:scale-100">
-          <div className="bg-primary/10 flex size-28 items-center justify-center rounded-full backdrop-blur-md">
+          <div className="bg-primary/20 flex size-28 items-center justify-center rounded-full border border-background/10 backdrop-blur-md">
             <div
-              className={`from-primary/30 to-primary relative flex size-20 scale-100 items-center justify-center rounded-full bg-linear-to-b shadow-md transition-all duration-200 ease-out group-hover:scale-[1.2]`}
+              className={`from-primary/50 to-primary relative flex size-20 scale-100 items-center justify-center border border-background/10 rounded-full bg-linear-to-b shadow-md transition-all duration-200 ease-out group-hover:scale-[1.2]`}
             >
               <Play
-                className="size-8 scale-100 fill-white text-white transition-transform duration-200 ease-out group-hover:scale-105"
+                className="size-8 scale-100 fill-white  text-white transition-transform duration-200 ease-out group-hover:scale-105"
                 style={{
                   filter:
-                    "drop-shadow(0 4px 3px rgb(0 0 0 / 0.07)) drop-shadow(0 2px 2px rgb(0 0 0 / 0.06))",
+                    "drop-shadow(0 4px 3px rgb(0 0 0 / 0.5)) drop-shadow(0 2px 2px rgb(0 0 0 / 0.5))",
                 }}
               />
             </div>

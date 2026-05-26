@@ -8,11 +8,11 @@ export const siteConfig = {
   // URLs
   url:
     process.env.NEXT_PUBLIC_APP_URL ||
-    "https://rakeshthedev.vercel.app",
+    "https://rakeshpatel.me",
   basePath: "/",
 
   // Branding
-  ogImage: "https://rakeshthedev.vercel.app/og-image.png",
+  ogImage: "https://rakeshpatel.me/og-image.png",
   favicon: "/favicon.ico",
 
   // SEO verification
@@ -21,7 +21,7 @@ export const siteConfig = {
   // Author info
   author: {
     name: "Rakesh Patel",
-    email: "rakeshpatel.dev@gmail.com", // optional but good for schema
+    email: "devrakesh.tech@gmail.com", // optional but good for schema
   },
 
   // Social links
@@ -29,6 +29,8 @@ export const siteConfig = {
     twitter: "https://twitter.com/rakeshthedev",
     github: "https://github.com/rakeshthedev",
     linkedin: "https://linkedin.com/in/rakeshpatel-developer",
+    instagram: "https://instagram.com/rikesh_112",
+    facebook: "https://facebook.com/rakeshthedev",
   },
 
   // SEO keywords (secondary signal only)
@@ -50,7 +52,6 @@ export const siteConfig = {
     "Rakesh Patel Kathmandu",
     "Rakesh Patel Kathmandu Nepal",
     "Rakesh Patel Full-Stack Developer",
-    ""
   ],
 
   // Navigation (helps sitemap + structure later)
@@ -73,11 +74,11 @@ export const siteConfig = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://rakeshthedev.vercel.app",
+    url: "https://rakeshpatel.me",
     siteName: "Rakesh Patel Portfolio",
     images: [
       {
-        url: "https://rakeshthedev.vercel.app/og-image.png",
+        url: "https://rakeshpatel.me/og-image.png",
         width: 1200,
         height: 630,
         alt: "Rakesh Patel Portfolio",
@@ -95,11 +96,13 @@ export const siteConfig = {
   schema: {
     type: "Person",
     name: "Rakesh Patel",
-    url: "https://rakeshthedev.vercel.app",
+    url: "https://rakeshpatel.me",
     sameAs: [
       "https://github.com/rakeshthedev",
       "https://twitter.com/rakeshthedev",
       "https://linkedin.com/in/rakeshpatel-dev",
+      "https://instagram.com/rikesh_112",
+      "https://facebook.com/rakeshthedev",
     ],
     jobTitle: "Full-Stack Developer",
     location: "Kathmandu, Nepal",

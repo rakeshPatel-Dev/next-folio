@@ -129,7 +129,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
     headline: blogMeta.title,
     description: blogMeta.description,
     image: blogMeta.coverImage,
-    url: `${process.env.NEXT_PUBLIC_APP_URL || "https://rakeshthedev.vercel.app"}/blog/${blogMeta.slug}`,
+    url: `${siteConfig.url}/blog/${blogMeta.slug}`,
     datePublished: blogMeta.publishedAt || blogMeta.createdAt,
     dateModified: blogMeta.updatedAt || blogMeta.publishedAt || blogMeta.createdAt,
     author: {
@@ -139,12 +139,12 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
     publisher: {
       "@type": "Person",
       name: "Rakesh Patel",
-      url: process.env.NEXT_PUBLIC_APP_URL || "https://rakeshthedev.vercel.app",
+      url: siteConfig.url,
     },
     keywords: blogMeta.tags.join(", "),
     mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": `${process.env.NEXT_PUBLIC_APP_URL || "https://rakeshthedev.vercel.app"}/blog/${blogMeta.slug}`,
+      "@id": `${siteConfig.url}/blog/${blogMeta.slug}`,
     },
   }
 

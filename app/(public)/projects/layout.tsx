@@ -1,5 +1,5 @@
-// app/projects/layout.tsx
 import type { Metadata } from "next"
+import { siteConfig } from "@/lib/site-config"
 
 export const metadata: Metadata = {
   title: {
@@ -8,15 +8,18 @@ export const metadata: Metadata = {
   },
   description:
     "A curated list of real-world projects with technologies, challenges, and outcomes.",
+  alternates: {
+    canonical: `${siteConfig.url}/projects`,
+  },
   openGraph: {
     title: "Projects | Rakesh Patel",
     description:
       "A curated list of real-world projects with technologies, challenges, and outcomes.",
-    url: `${process.env.NEXT_PUBLIC_APP_URL || "https://rakeshthedev.vercel.app"}/projects`,
+    url: `${siteConfig.url}/projects`,
     type: "website",
     images: [
       {
-        url: "https://rakeshthedev.vercel.app/og-image.png",
+        url: `${siteConfig.url}/og-image.png`,
         width: 1200,
         height: 630,
         alt: "Rakesh Patel — Projects",
@@ -28,7 +31,7 @@ export const metadata: Metadata = {
     title: "Projects | Rakesh Patel",
     description:
       "A curated list of real-world projects with technologies, challenges, and outcomes.",
-    images: ["https://rakeshthedev.vercel.app/og-image.png"],
+    images: [`${siteConfig.url}/og-image.png`],
   },
 }
 
