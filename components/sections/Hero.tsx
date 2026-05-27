@@ -99,7 +99,7 @@ export default function HeroData() {
             <h1 className="text-sm uppercase leading-relaxed tracking-[0.03em] text-foreground sm:text-xl sm:leading-20 sm:tracking-[0.035em]">
               Hi, I&apos;m <span className="hero-primary text-lg font-black sm:text-2xl">Rakesh Patel</span>, a
             </h1>
-            <h1 className="text-5xl font-black uppercase leading-[0.9] tracking-[-0.03em] text-foreground sm:text-6xl sm:leading-[0.87] sm:tracking-[-0.035em] md:text-7xl">
+            <h1 className="text-[clamp(2.4rem,13vw,3.5rem)] font-black uppercase leading-[0.9] tracking-[-0.03em] text-foreground sm:text-6xl sm:leading-[0.87] sm:tracking-[-0.035em] md:text-7xl">
               Full<span className="hero-primary">stack</span>
               <br />
               <span className="text-muted-foreground">Dev</span>eloper
@@ -112,7 +112,7 @@ export default function HeroData() {
           /> */}
 
           <div
-            className="hero-rise grid grid-cols-1 py-6 gap-7 sm:grid-cols-2 sm:items-end"
+            className="hero-rise grid grid-cols-1 gap-7 py-6 sm:grid-cols-2 sm:items-end"
             style={{ animationDelay: "0.55s" }}
           >
             <p className="max-w-72 text-xs font-normal leading-[1.6] text-muted-foreground sm:max-w-85 sm:text-[clamp(13px,2.2vw,15px)] sm:leading-[1.65]">
@@ -122,7 +122,7 @@ export default function HeroData() {
               <strong className="font-semibold text-foreground">work seamlessly</strong>.
             </p>
 
-            <dl className=" flex-col gap-2.5 sm:flex sm:items-end" aria-label="Specialisms">
+            <dl className="flex flex-col gap-2.5 sm:items-end" aria-label="Specialisms">
               {specs.map(([num, label]) => (
                 <div key={num} className="flex items-center gap-2.5">
                   <dt className="font-mono text-[10px] tracking-widest text-muted-foreground sm:text-xs">{num}</dt>
@@ -195,21 +195,6 @@ export default function HeroData() {
           filter: grayscale(1) brightness(0.85) contrast(1.05);
         }
 
-        .hero-rise {
-          opacity: 0;
-          transform: translateY(18px);
-          animation: heroRise 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-        .hero-fade {
-          opacity: 0;
-          animation: heroFade 0.9s ease-out forwards;
-        }
-        .hero-photo {
-          opacity: 0;
-          transform: scale(1.03);
-          animation: heroPhoto 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards;
-        }
-
         .hero-glow-core {
           background: radial-gradient(ellipse at center, rgba(255, 200, 120, 0.22) 0%, rgba(255, 200, 120, 0.08) 55%, transparent 100%);
           filter: blur(48px);
@@ -223,15 +208,22 @@ export default function HeroData() {
           opacity: 0.7;
         }
 
+        .hero-photo {
+          opacity: 0;
+          transform: scale(1.03);
+          animation: heroPhoto 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards;
+        }
+
         @media (max-width: 640px) {
           .hero-root {
-            min-height: 94svh;
+            min-height: 90svh;
           }
 
           .hero-root .hero-fade,
           .hero-root .hero-rise {
-            animation-duration: 0.01ms;
-            animation-iteration-count: 1;
+            animation: none !important;
+            opacity: 1;
+            transform: none;
           }
         }
 
@@ -247,17 +239,6 @@ export default function HeroData() {
           }
         }
 
-        @keyframes heroRise {
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-        @keyframes heroFade {
-          to {
-            opacity: 1;
-          }
-        }
         @keyframes heroPhoto {
           to {
             opacity: 1;

@@ -170,8 +170,6 @@ html {
 
 
 /* Hero section styles */
-
-/* Grid lines */
         .hero-grid::before {
           content: '';
           position: absolute;
@@ -180,12 +178,6 @@ html {
             linear-gradient(to right, hsl(var(--foreground) / 0.04) 1px, transparent 1px),
             linear-gradient(to bottom, hsl(var(--foreground) / 0.04) 1px, transparent 1px);
           background-size: clamp(60px, 10vw, 100px) clamp(60px, 10vw, 100px);
-        }
-
-        /* Outline headline word */
-        .hero-outline {
-          -webkit-text-stroke: 1.5px hsl(var(--foreground) / 0.85);
-          color: transparent;
         }
 
         /* Entrance animations */
