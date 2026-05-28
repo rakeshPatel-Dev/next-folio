@@ -1,11 +1,10 @@
 "use client"
 
-import { MapPin, Briefcase } from "lucide-react"
+import { MapPin, Briefcase, Calendar, ChevronDown } from "lucide-react"
 import { experiences } from "@/data/experience"
 import { motion, AnimatePresence } from "framer-motion"
 import { Reveal } from "@/components/motion/Reveal"
 import { useState } from "react"
-import { ChevronDown } from "lucide-react"
 import IconRenderer from "@/components/forms/project/IconRenderer"
 
 const fadeUp = {
@@ -18,28 +17,30 @@ const fadeUp = {
 }
 
 const Exp = () => {
-  const [openIdx, setOpenIdx] = useState<number | null>(null)
+  const [expandedId, setExpandedId] = useState<number | null>(null)
 
   return (
-    <section className="mt-12 max-w-4xl mx-auto mb-20">
-
+    <section className="mt-12 max-w-5xl mx-auto mb-20">
       {/* Section heading */}
       <Reveal variant="fadeUp">
         <div className="flex items-center gap-3 mb-12">
           <div className="flex items-center justify-center w-9 h-9 rounded-lg border border-border/60 bg-muted/30">
             <Briefcase className="w-4 h-4 text-muted-foreground" />
           </div>
-          <h2 className="font-mono text-xs tracking-[0.14em] uppercase text-muted-foreground">
-            Experience
-          </h2>
+          <div>
+            <h2 className="font-mono text-xs tracking-[0.14em] uppercase text-muted-foreground">
+              Experience
+            </h2>
+            <p className="text-xs text-muted-foreground/50 mt-0.5">Professional journey</p>
+          </div>
           <div className="flex-1 h-px bg-border/50" />
         </div>
       </Reveal>
 
-      {/* Cards */}
-      <div className="space-y-3">
+      {/* Cards grid */}
+      <div className="space-y-4">
         {experiences.map((exp, idx) => {
-          const isOpen = openIdx === idx
+          const isExpanded = expandedId === idx
 
           return (
             <motion.div
@@ -52,142 +53,124 @@ const Exp = () => {
             >
               <div
                 className={`
-                  rounded-2xl border bg-card/40 backdrop-blur-sm
-                  transition-all duration-300
-                  ${isOpen
-                    ? "border-border/80 bg-card/70"
-                    : "border-border/40 hover:border-border/70 hover:bg-card/60"
+                  rounded-2xl border transition-all duration-300
+                  ${isExpanded
+                    ? "border-border bg-card shadow-sm"
+                    : "border-border/40 bg-card/30 hover:border-border/60 hover:bg-card/40"
                   }
                 `}
               >
-                {/* Card top */}
-                <div className="p-6 sm:p-7">
-
-                  {/* Header row */}
-                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-5">
-
-                    {/* Left: company + role */}
-                    <div>
-                      <div className="flex items-center gap-2.5 mb-1">
-                        <h3 className="font-sans text-lg font-bold tracking-tight text-foreground">
+                {/* Header - always visible */}
+                <div 
+                  className="p-5 sm:p-6 cursor-pointer"
+                  onClick={() => setExpandedId(isExpanded ? null : idx)}
+                >
+                  <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
+                    {/* Left section */}
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2.5 mb-1.5 flex-wrap">
+                        <h3 className="font-sans text-lg font-semibold tracking-tight text-foreground">
                           {exp.company}
                         </h3>
-
                         {exp.isWorking && (
-                          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full border border-emerald-500/30 bg-emerald-500/8 text-emerald-500 font-mono text-[10px] tracking-widest uppercase">
+                          <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full border border-emerald-500/30 bg-emerald-500/8 text-emerald-500 font-mono text-[10px] tracking-wider uppercase">
                             <span className="relative flex h-1.5 w-1.5">
-                              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500/50" />
+                              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500/60" />
                               <span className="relative h-1.5 w-1.5 rounded-full bg-emerald-500" />
                             </span>
-                            Working
+                            Current
                           </span>
                         )}
                       </div>
-
-                      <p className="font-mono text-sm text-muted-foreground tracking-wide">
+                      <p className="font-mono text-sm text-muted-foreground">
                         {exp.role}
                       </p>
                     </div>
 
-                    {/* Right: location + period */}
-                    <div className="flex sm:flex-col items-start sm:items-end gap-2 sm:gap-1 shrink-0">
-                      <span className="flex items-center gap-1 text-sm text-muted-foreground">
-                        <MapPin className="w-3 h-3 shrink-0" />
-                        {exp.location}
-                      </span>
-                      <span className="font-mono text-xs text-muted-foreground tracking-wide">
-                        {exp.period}
-                      </span>
+                    {/* Right section - meta info */}
+                    <div className="flex flex-wrap gap-4 text-sm">
+                      <div className="flex items-center gap-1.5 text-muted-foreground">
+                        <MapPin className="w-3.5 h-3.5" />
+                        <span className="text-sm">{exp.location}</span>
+                      </div>
+                      <div className="flex items-center gap-1.5 text-muted-foreground">
+                        <Calendar className="w-3.5 h-3.5" />
+                        <span className="font-mono text-xs">{exp.period}</span>
+                      </div>
                     </div>
                   </div>
 
-                  {/* Accordion trigger */}
-                  <button
-                    onClick={() => setOpenIdx(isOpen ? null : idx)}
-                    className="flex items-center gap-3 w-full group cursor-pointer"
-                  >
-                    <span className="flex-1 h-px bg-linear-to-r from-border/80 to-transparent group-hover:bg-border transition-colors duration-200" />
-                    <span className="font-mono text-xs tracking-[0.12em] uppercase text-muted-foreground group-hover:text-muted-foreground transition-colors duration-200">
-                      {isOpen ? "Close" : "Details"}
+                  {/* Expand indicator */}
+                  <div className="flex items-center justify-end gap-2 mt-4 pt-3 border-t border-border/30">
+                    <span className="text-[10px] font-mono tracking-wider uppercase text-muted-foreground/50">
+                      {isExpanded ? "Show less" : "Show more"}
                     </span>
                     <motion.div
-                      animate={{ rotate: isOpen ? 180 : 0 }}
+                      animate={{ rotate: isExpanded ? 180 : 0 }}
                       transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
                     >
-                      <ChevronDown className="w-3.5 h-3.5 text-muted-foreground group-hover:text-muted-foreground transition-colors duration-200" />
+                      <ChevronDown className="w-3.5 h-3.5 text-muted-foreground/50" />
                     </motion.div>
-                  </button>
+                  </div>
                 </div>
 
-                {/* Accordion body */}
+                {/* Expanded content */}
                 <AnimatePresence initial={false}>
-                  {isOpen && (
+                  {isExpanded && (
                     <motion.div
-                      key="body"
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: "auto", opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
                       transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                      className="overflow-hidden"
+                      className="overflow-hidden border-t border-border/40"
                     >
-                      <div className="px-6 sm:px-7 pb-6 sm:pb-7 space-y-5 border-t border-border/40">
-
-                        {/* Tech chips */}
-                        <div className="flex flex-wrap gap-2 pt-5">
-                          {exp.tech.map((t, i) => (
-                            <motion.span
-                              key={i}
-                              initial={{ opacity: 0, y: 6 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              transition={{ delay: i * 0.04, duration: 0.3, ease: "easeOut" }}
-                              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md border border-dashed border-border/60 font-mono text-xs text-muted-foreground cursor-default select-none hover:border-border hover:text-foreground hover:bg-muted/30 transition-all duration-150"
-                            >
-                              <IconRenderer
-                                name={t.icon}
-                                className="w-3 h-3 shrink-0"
-                                style={{ color: t.color }}
-                              />
-                              {t.name}
-                            </motion.span>
-                          ))}
-                        </div>
-
-                        {/* Divider */}
-                        <div className="h-px bg-border/30" />
-
-                        {/* Objectives */}
-                        <ul className="space-y-0 divide-y divide-border/30">
-                          {exp.objectives.map((obj, i) => (
-                            <motion.li
-                              key={i}
-                              initial={{ opacity: 0, x: -8 }}
-                              animate={{ opacity: 1, x: 0 }}
-                              transition={{ delay: 0.1 + i * 0.06, duration: 0.35, ease: "easeOut" }}
-                              className="flex gap-3 py-3 text-sm text-muted-foreground leading-relaxed"
-                            >
-                              <span className="font-mono text-xs text-muted-foreground pt-0.5 shrink-0 w-5">
-                                {String(i + 1).padStart(2, "0")}
-                              </span>
-                              {obj}
-                            </motion.li>
-                          ))}
-                        </ul>
-
-                        {/* Stats row — optional, remove if not in your data */}
-                        {/* {exp.stats && (
-                          <div className="flex items-center gap-6 pt-1">
-                            {exp.stats.map((s: { val: string; label: string }, i: number) => (
-                              <div key={i} className="flex flex-col gap-0.5">
-                                <span className="text-xl font-bold tracking-tight text-foreground leading-none">
-                                  {s.val}
-                                </span>
-                                <span className="font-mono text-[10px] text-muted-foreground/50 uppercase tracking-widest">
-                                  {s.label}
-                                </span>
-                              </div>
+                      <div className="p-5 sm:p-6 space-y-6">
+                        
+                        {/* Tech stack */}
+                        <div>
+                          <h4 className="text-[10px] font-mono tracking-wider uppercase text-muted-foreground/50 mb-3">
+                            Technologies
+                          </h4>
+                          <div className="flex flex-wrap gap-2">
+                            {exp.tech.map((t, i) => (
+                              <motion.span
+                                key={i}
+                                initial={{ opacity: 0, scale: 0.95 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                transition={{ delay: i * 0.03, duration: 0.2 }}
+                                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md border border-border/50 bg-muted/20 text-xs text-muted-foreground"
+                              >
+                                <IconRenderer
+                                  name={t.icon}
+                                  className="w-3 h-3"
+                                  style={{ color: t.color }}
+                                />
+                                {t.name}
+                              </motion.span>
                             ))}
                           </div>
-                        )} */}
+                        </div>
+
+                        {/* Key responsibilities & achievements */}
+                        <div>
+                          <h4 className="text-[10px] font-mono tracking-wider uppercase text-muted-foreground/50 mb-3">
+                            Key Highlights
+                          </h4>
+                          <div className="space-y-2">
+                            {exp.objectives.map((obj, i) => (
+                              <motion.div
+                                key={i}
+                                initial={{ opacity: 0, x: -8 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ delay: 0.1 + i * 0.05, duration: 0.3 }}
+                                className="flex gap-3 text-sm text-muted-foreground leading-relaxed"
+                              >
+                                <span className="text-muted-foreground/30 mt-0.5">•</span>
+                                <span>{obj}</span>
+                              </motion.div>
+                            ))}
+                          </div>
+                        </div>
                       </div>
                     </motion.div>
                   )}
