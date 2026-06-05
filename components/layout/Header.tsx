@@ -11,6 +11,7 @@ import { AnimatedThemeToggler } from "../ui/animated-theme-toggler";
 
 const Header = () => {
   const pathname = usePathname()
+  const { resolvedTheme } = useTheme()
   const [isScrolled, setIsScrolled] = useState(false)
   const [mounted, setMounted] = useState(false)
 
@@ -43,14 +44,33 @@ const Header = () => {
         <Link
           href="/"
           aria-label="Home"
-          className="rounded-tl-lg rounded-tr-sm rounded-br-lg rounded-bl-sm overflow-hidden transition-opacity duration-150 hover:opacity-85"
+          className={cn(
+            "relative overflow-hidden rounded-xl transition-opacity duration-150 hover:opacity-85",
+            isScrolled ? "h-12 w-12 md:h-14 md:w-14 transition-all duration-300" : "h-15 w-15 md:h-18 md:w-18"
+          )}
         >
+          {/* Dark mode logo (white mark on black bg) */}
           <Image
-            width={55}
-            height={55}
-            src="/images/logo.png"
+            width={72}
+            height={72}
+            src="/images/rakesh-dark.png"
             alt="Logo"
-            className={cn("h-15 w-15 bg-black  rounded-xl object-contain md:h-18 md:w-18", isScrolled ? "h-12 transition-all duration-300 w-12 md:h-14 md:w-14" : "")}
+            className={cn(
+              "absolute inset-0 h-full w-full rounded-xl object-contain transition-opacity duration-300",
+              mounted && resolvedTheme === "dark" ? "opacity-100" : "opacity-0"
+            )}
+            priority
+          />
+          {/* Light mode logo (black mark on white bg) */}
+          <Image
+            width={72}
+            height={72}
+            src="/images/rakesh-light.png"
+            alt="Logo"
+            className={cn(
+              "absolute inset-0 h-full w-full rounded-xl object-contain transition-opacity duration-300",
+              mounted && resolvedTheme !== "dark" ? "opacity-100" : "opacity-0"
+            )}
             priority
           />
         </Link>
