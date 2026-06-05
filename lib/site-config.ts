@@ -14,6 +14,12 @@ export const siteConfig = {
   // Branding
   ogImage: "https://rakeshpatel.me/og-image.png",
   favicon: "/favicon.ico",
+  logo: {
+    light: "/images/rakesh-light.png",   // black mark on white bg — for light mode
+    dark: "/images/rakesh-dark.png",     // white mark on black bg — for dark mode
+    markLight: "/images/logo-light.png", // bare mark, transparent bg, light mode
+    markDark: "/images/logo-dark.png",   // bare mark, transparent bg, dark mode
+  },
 
   // SEO verification
   googleVerification: "google4b9a8ebb48599781",
@@ -78,7 +84,7 @@ export const siteConfig = {
     siteName: "Rakesh Patel Portfolio",
     images: [
       {
-        url: "https://rakeshpatel.me/og-image.png",
+        url: "https://rakeshpatel.me/og-image.png", // same as ogImage above
         width: 1200,
         height: 630,
         alt: "Rakesh Patel Portfolio",

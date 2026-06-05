@@ -7,7 +7,7 @@ export function JsonLd() {
     "@type": "Person",
     name: siteConfig.name,
     url: siteConfig.url,
-    image: siteConfig.ogImage,
+    image: `${siteConfig.url}${siteConfig.logo.dark}`,
     jobTitle: "Full-Stack Developer",
     worksFor: {
       "@type": "Organization",
@@ -16,6 +16,8 @@ export function JsonLd() {
     sameAs: [
       siteConfig.links.twitter,
       siteConfig.links.github,
+      siteConfig.links.linkedin,
+      siteConfig.links.instagram,
     ],
     address: {
       "@type": "PostalAddress",

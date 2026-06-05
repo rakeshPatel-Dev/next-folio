@@ -13,6 +13,9 @@ export const metadata: Metadata = {
   description: "Explore the portfolio of Rakesh Patel, a Full Stack Developer specializing in React, Next.js, and MERN. Showcasing modern web experiences, technical blogs, and creative projects.",
   keywords: ["Rakesh Patel", "Frontend Developer", "Full Stack Developer",
     "React Developer", "Next.js Portfolio", "Web Developer Nepal"],
+  alternates: {
+    canonical: siteConfig.url,
+  },
   openGraph: {
     title: "Rakesh Patel | Portfolio | Full Stack Developer",
     description: "Explore the portfolio of Rakesh Patel, a Full Stack Developer specializing in React, Next.js, and MERN. Showcasing modern web experiences, technical blogs, and creative projects.",
@@ -20,7 +23,7 @@ export const metadata: Metadata = {
     siteName: "Rakesh Patel Portfolio",
     images: [
       {
-        url: `${siteConfig.url}/og-image.png`,
+        url: siteConfig.ogImage,
         width: 1200,
         height: 630,
         alt: "Rakesh Patel Portfolio",
@@ -28,6 +31,13 @@ export const metadata: Metadata = {
     ],
     locale: "en_US",
     type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Rakesh Patel | Portfolio | Full Stack Developer",
+    description: "Explore the portfolio of Rakesh Patel, a Full Stack Developer specializing in React, Next.js, and MERN.",
+    images: [siteConfig.ogImage],
+    creator: siteConfig.links.twitter.split("/").pop(),
   },
   robots: {
     index: true,

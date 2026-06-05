@@ -1,5 +1,6 @@
 // lib/metadata.ts
 import type { Metadata } from "next";
+import { siteConfig } from "@/lib/site-config";
 
 export const DASHBOARD_METADATA: Metadata = {
   title: "Dashboard"
@@ -28,17 +29,17 @@ export const PUBLIC_CONTACT_METADATA: Metadata = {
   description:
     "Get in touch for collaboration, freelance work, or professional inquiries.",
   alternates: {
-    canonical: `${process.env.NEXT_PUBLIC_APP_URL || "https://rakeshpatel.me"}/contact`,
+    canonical: `${siteConfig.url}/contact`,
   },
   openGraph: {
     title: "Contact | Rakesh Patel",
     description:
       "Get in touch for collaboration, freelance work, or professional inquiries.",
-    url: `${process.env.NEXT_PUBLIC_APP_URL || "https://rakeshpatel.me"}/contact`,
+    url: `${siteConfig.url}/contact`,
     type: "website",
     images: [
       {
-        url: "https://rakeshpatel.me/og-image.png",
+        url: siteConfig.ogImage,
         width: 1200,
         height: 630,
         alt: "Rakesh Patel — Contact",
@@ -50,6 +51,6 @@ export const PUBLIC_CONTACT_METADATA: Metadata = {
     title: "Contact | Rakesh Patel",
     description:
       "Get in touch for collaboration, freelance work, or professional inquiries.",
-    images: ["https://rakeshpatel.me/og-image.png"],
+    images: [siteConfig.ogImage],
   },
 }

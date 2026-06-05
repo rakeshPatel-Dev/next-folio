@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: `${siteConfig.url}/og-image.png`,
+        url: siteConfig.ogImage,
         width: 1200,
         height: 630,
         alt: "Rakesh Patel — Blog",
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     title: "Blogs | Rakesh Patel",
     description:
       "Articles on web development, software engineering, and real-world learning.",
-    images: [`${siteConfig.url}/og-image.png`],
+    images: [siteConfig.ogImage],
   },
 }
 
