@@ -76,7 +76,7 @@ export const metadata: Metadata = {
     canonical: siteConfig.url,
   },
   appleWebApp: {
-    title: siteConfig.name,
+    title: "Rakesh",
   },
   verification: {
     google: siteConfig.googleVerification,
