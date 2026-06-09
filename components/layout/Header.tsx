@@ -7,7 +7,6 @@ import { usePathname } from "next/navigation"
 import { useTheme } from "next-themes"
 import { headerData } from "@/config/headerData"
 import { cn } from "@/lib/utils"
-import { AnimatedThemeToggler } from "../ui/animated-theme-toggler";
 
 const Header = () => {
   const pathname = usePathname()
@@ -53,7 +52,7 @@ const Header = () => {
           <Image
             width={72}
             height={72}
-            src="/images/rakesh-dark.png"
+            src="https://res.cloudinary.com/dzebbt9j5/image/upload/v1781007642/rakesh-dark_npr0v6.png"
             alt="Logo"
             className={cn(
               "absolute inset-0 h-full w-full rounded-xl object-contain transition-opacity duration-300",
@@ -65,7 +64,7 @@ const Header = () => {
           <Image
             width={72}
             height={72}
-            src="/images/rakesh-light.png"
+            src="https://res.cloudinary.com/dzebbt9j5/image/upload/v1781007660/rakesh-light_tsdkju.png"
             alt="Logo"
             className={cn(
               "absolute inset-0 h-full w-full rounded-xl object-contain transition-opacity duration-300",
@@ -103,7 +102,7 @@ const Header = () => {
                   {data.label}
                   {/* Active underline dot */}
                   {isActive && (
-                    <span className="absolute bottom-0.5 left-1/2 -translate-x-1/2 h-0.5 w-[14px] rounded-full bg-foreground/80 dark:bg-white/80" />
+                    <span className="absolute bottom-0.5 left-1/2 -translate-x-1/2 h-0.5 w-4 rounded-full bg-foreground/80 dark:bg-white/80" />
                   )}
                 </Link>
               )
