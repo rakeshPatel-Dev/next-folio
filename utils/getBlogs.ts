@@ -67,104 +67,114 @@ function serializeBlog(blog: any): BlogDocument {
  * Get all blogs with optional filters and pagination
  */
 export async function getBlogs(query: BlogQuery = {}): Promise<BlogDocument[]> {
-  await connectDB()
+  try {
+    await connectDB()
 
-  const {
-    status,
-    isFeatured,
-    tag,
-    tags,
-    author,
-    search,
-    limit,
-    skip,
-    sortBy = 'createdAt',
-    sortOrder = 'desc',
-  } = query
+    const {
+      status,
+      isFeatured,
+      tag,
+      tags,
+      author,
+      search,
+      limit,
+      skip,
+      sortBy = 'createdAt',
+      sortOrder = 'desc',
+    } = query
 
-  // Build MongoDB query
-  const filter: any = {}
+    // Build MongoDB query
+    const filter: any = {}
 
-  if (status) {
-    filter.status = status
+    if (status) {
+      filter.status = status
+    }
+
+    if (isFeatured !== undefined) {
+      filter.isFeatured = isFeatured
+    }
+
+    if (tag) {
+      filter.tags = tag
+    }
+
+    if (tags && tags.length > 0) {
+      filter.tags = { $in: tags }
+    }
+
+    if (author && mongoose.Types.ObjectId.isValid(author)) {
+      filter.author = author
+    }
+
+    function escapeRegex(str: string) : string {
+      return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+    }
+
+    if (search) {
+
+      const escapedSearch = escapeRegex(search)
+
+      filter.$or = [
+        { title: { $regex: escapedSearch, $options: 'i' } },
+        { description: { $regex: escapedSearch, $options: 'i' } },
+      ]
+    }
+
+    // Build sort object
+    const sort: any = {}
+    sort[sortBy] = sortOrder === 'asc' ? 1 : -1
+
+    // Execute query
+    let queryBuilder = Blog.find(filter)
+      .sort(sort)
+      .populate('author', 'name email image')
+      .lean()
+
+    if (skip !== undefined) {
+      queryBuilder = queryBuilder.skip(skip)
+    }
+
+    if (limit !== undefined) {
+      queryBuilder = queryBuilder.limit(limit)
+    }
+
+    const blogs = await queryBuilder
+
+    return blogs.map(serializeBlog)
+  } catch (error) {
+    console.error('Error fetching blogs:', error)
+    return []
   }
-
-  if (isFeatured !== undefined) {
-    filter.isFeatured = isFeatured
-  }
-
-  if (tag) {
-    filter.tags = tag
-  }
-
-  if (tags && tags.length > 0) {
-    filter.tags = { $in: tags }
-  }
-
-  if (author && mongoose.Types.ObjectId.isValid(author)) {
-    filter.author = author
-  }
-
-  function escapeRegex(str: string) : string {
-    return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-  }
-
-  if (search) {
-
-    const escapedSearch = escapeRegex(search)
-
-    filter.$or = [
-      { title: { $regex: escapedSearch, $options: 'i' } },
-      { description: { $regex: escapedSearch, $options: 'i' } },
-    ]
-  }
-
-  // Build sort object
-  const sort: any = {}
-  sort[sortBy] = sortOrder === 'asc' ? 1 : -1
-
-  // Execute query
-  let queryBuilder = Blog.find(filter)
-    .sort(sort)
-    .populate('author', 'name email image')
-    .lean()
-
-  if (skip !== undefined) {
-    queryBuilder = queryBuilder.skip(skip)
-  }
-
-  if (limit !== undefined) {
-    queryBuilder = queryBuilder.limit(limit)
-  }
-
-  const blogs = await queryBuilder
-
-  return blogs.map(serializeBlog)
 }
 
 /**
  * Get a single blog by ID or slug
  */
 export async function getBlogByIdOrSlug(idOrSlug: string): Promise<BlogDocument | null> {
-  await connectDB()
+  try {
+    await connectDB()
 
-  let blog
+    let blog
 
-  // Try to find by ID first
-  if (mongoose.Types.ObjectId.isValid(idOrSlug)) {
-    blog = await Blog.findById(idOrSlug)
-      .populate('author', 'name email image')
-      .lean()
+    // Try to find by ID first
+    if (mongoose.Types.ObjectId.isValid(idOrSlug)) {
+      blog = await Blog.findById(idOrSlug)
+        .populate('author', 'name email image')
+        .lean()
+    }
+
+    // If not found, try by slug
+    if (!blog) {
+      blog = await Blog.findOne({ slug: idOrSlug })
+        .populate('author', 'name email image')
+        .lean()
+    }
+
+    return blog ? serializeBlog(blog) : null
+  } catch (error) {
+    console.error(`Error fetching blog by ID or slug "${idOrSlug}":`, error)
+    return null
   }
-
-  // If not found, try by slug
-  if (!blog) {
-    blog = await Blog.findOne({ slug: idOrSlug })
-      .populate('author', 'name email image')
-      .lean()
-  }
-
-  return blog ? serializeBlog(blog) : null
 }
 
 /**
@@ -249,48 +259,63 @@ export async function searchBlogs(searchTerm: string, limit?: number): Promise<B
  * Get related blogs (by tags, excluding current blog)
  */
 export async function getRelatedBlogs(blogId: string, limit: number = 3): Promise<BlogDocument[]> {
-  await connectDB()
+  try {
+    await connectDB()
 
-  // Get current blog to find its tags
-  const currentBlog = await Blog.findById(blogId).lean()
+    // Get current blog to find its tags
+    const currentBlog = await Blog.findById(blogId).lean()
 
-  if (!currentBlog || !currentBlog.tags || currentBlog.tags.length === 0) {
-    // If no tags, just return latest blogs
-    return getLatestBlogs(limit)
+    if (!currentBlog || !currentBlog.tags || currentBlog.tags.length === 0) {
+      // If no tags, just return latest blogs
+      return getLatestBlogs(limit)
+    }
+
+    // Find blogs with matching tags, excluding current blog
+    const blogs = await Blog.find({
+      _id: { $ne: blogId },
+      status: 'published',
+      tags: { $in: currentBlog.tags },
+    })
+      .sort({ publishedAt: -1 })
+      .limit(limit)
+      .populate('author', 'name email image')
+      .lean()
+
+    return blogs.map(serializeBlog)
+  } catch (error) {
+    console.error('Error fetching related blogs:', error)
+    return []
   }
-
-  // Find blogs with matching tags, excluding current blog
-  const blogs = await Blog.find({
-    _id: { $ne: blogId },
-    status: 'published',
-    tags: { $in: currentBlog.tags },
-  })
-    .sort({ publishedAt: -1 })
-    .limit(limit)
-    .populate('author', 'name email image')
-    .lean()
-
-  return blogs.map(serializeBlog)
 }
 
 /**
  * Get blog statistics for a user
  */
 export async function getBlogStats(userId: string) {
-  await connectDB()
+  try {
+    await connectDB()
 
-  const [totalBlogs, publishedBlogs, draftBlogs, featuredBlogs] = await Promise.all([
-    Blog.countDocuments({ author: userId }),
-    Blog.countDocuments({ author: userId, status: 'published' }),
-    Blog.countDocuments({ author: userId, status: 'draft' }),
-    Blog.countDocuments({ author: userId, isFeatured: true }),
-  ])
+    const [totalBlogs, publishedBlogs, draftBlogs, featuredBlogs] = await Promise.all([
+      Blog.countDocuments({ author: userId }),
+      Blog.countDocuments({ author: userId, status: 'published' }),
+      Blog.countDocuments({ author: userId, status: 'draft' }),
+      Blog.countDocuments({ author: userId, isFeatured: true }),
+    ])
 
-  return {
-    total: totalBlogs,
-    published: publishedBlogs,
-    draft: draftBlogs,
-    featured: featuredBlogs,
+    return {
+      total: totalBlogs,
+      published: publishedBlogs,
+      draft: draftBlogs,
+      featured: featuredBlogs,
+    }
+  } catch (error) {
+    console.error('Error fetching blog stats:', error)
+    return {
+      total: 0,
+      published: 0,
+      draft: 0,
+      featured: 0,
+    }
   }
 }
 
@@ -298,50 +323,65 @@ export async function getBlogStats(userId: string) {
  * Get all unique tags from published blogs
  */
 export async function getAllTags(): Promise<string[]> {
-  await connectDB()
+  try {
+    await connectDB()
 
-  const result = await Blog.aggregate([
-    { $match: { status: 'published' } },
-    { $unwind: '$tags' },
-    { $group: { _id: '$tags', count: { $sum: 1 } } },
-    { $sort: { count: -1 } },
-  ])
+    const result = await Blog.aggregate([
+      { $match: { status: 'published' } },
+      { $unwind: '$tags' },
+      { $group: { _id: '$tags', count: { $sum: 1 } } },
+      { $sort: { count: -1 } },
+    ])
 
-  return result.map((item) => item._id)
+    return result.map((item) => item._id)
+  } catch (error) {
+    console.error('Error fetching all tags:', error)
+    return []
+  }
 }
 
 /**
  * Get tag with blog count
  */
 export async function getTagsWithCount(): Promise<Array<{ tag: string; count: number }>> {
-  await connectDB()
+  try {
+    await connectDB()
 
-  const result = await Blog.aggregate([
-    { $match: { status: 'published' } },
-    { $unwind: '$tags' },
-    { $group: { _id: '$tags', count: { $sum: 1 } } },
-    { $sort: { count: -1 } },
-  ])
+    const result = await Blog.aggregate([
+      { $match: { status: 'published' } },
+      { $unwind: '$tags' },
+      { $group: { _id: '$tags', count: { $sum: 1 } } },
+      { $sort: { count: -1 } },
+    ])
 
-  return result.map((item) => ({
-    tag: item._id,
-    count: item.count,
-  }))
+    return result.map((item) => ({
+      tag: item._id,
+      count: item.count,
+    }))
+  } catch (error) {
+    console.error('Error fetching tags with count:', error)
+    return []
+  }
 }
 
 /**
  * Check if slug exists (for validation)
  */
 export async function slugExists(slug: string, excludeId?: string): Promise<boolean> {
-  await connectDB()
+  try {
+    await connectDB()
 
-  const query: any = { slug }
+    const query: any = { slug }
 
-  if (excludeId && mongoose.Types.ObjectId.isValid(excludeId)) {
-    query._id = { $ne: excludeId }
+    if (excludeId && mongoose.Types.ObjectId.isValid(excludeId)) {
+      query._id = { $ne: excludeId }
+    }
+
+    const blog = await Blog.findOne(query).lean()
+
+    return !!blog
+  } catch (error) {
+    console.error('Error checking if slug exists:', error)
+    return false
   }
-
-  const blog = await Blog.findOne(query).lean()
-
-  return !!blog
 }
