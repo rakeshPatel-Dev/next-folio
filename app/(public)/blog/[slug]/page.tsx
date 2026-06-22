@@ -98,7 +98,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
 
   // Filter out null values and drafts, sort by published date
   const publishedBlogs = allMongoBlogs
-    .filter(blog => blog !== null && blog.status === 'published')
+    .filter((blog): blog is NonNullable<typeof blog> => blog !== null && blog.status === 'published')
     .sort((a, b) => {
       const dateA = new Date(a.publishedAt || a.createdAt).getTime()
       const dateB = new Date(b.publishedAt || b.createdAt).getTime()
