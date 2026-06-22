@@ -80,7 +80,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
   // Get metadata from MongoDB
   const blogMeta = await getBlogByIdOrSlug(slug)
 
-  if (!mdxPage || !blogMeta) {
+  if (!mdxPage || !blogMeta || blogMeta.status === 'draft') {
     notFound()
   }
 
@@ -96,9 +96,9 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
     })
   )
 
-  // Filter out null values and sort by published date
+  // Filter out null values and drafts, sort by published date
   const publishedBlogs = allMongoBlogs
-    .filter(blog => blog !== null)
+    .filter(blog => blog !== null && blog.status === 'published')
     .sort((a, b) => {
       const dateA = new Date(a.publishedAt || a.createdAt).getTime()
       const dateB = new Date(b.publishedAt || b.createdAt).getTime()

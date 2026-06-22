@@ -66,7 +66,8 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   // Get project directly from database
   const project = await getProjectBySlug(slug)
 
-  if (!project) {
+  // Hide paused projects from public
+  if (!project || project.status === 'paused') {
     notFound()
   }
 

@@ -65,12 +65,12 @@ function serializeProject(project: any): ProjectType {
   }
 }
 
-// ✅ Server-side - Get all projects
+// ✅ Server-side - Get all projects (excludes paused)
 export async function getProjects(): Promise<ProjectType[]> {
   try {
     await connectDB()
     
-    const projects = await Project.find({})
+    const projects = await Project.find({ status: { $ne: 'paused' } })
       .sort({ createdAt: -1 })
       .lean()
     
@@ -113,7 +113,7 @@ export async function getProjectById(id: string): Promise<ProjectType | null> {
   }
 }
 
-// ✅ Server-side - Get related projects
+// ✅ Server-side - Get related projects (excludes paused)
 export async function getRelatedProjects(
   currentProjectId: string,
   limit: number = 3
@@ -125,9 +125,10 @@ export async function getRelatedProjects(
     
     if (!currentProject) return []
     
-    // Find projects with same type or category
+    // Find projects with same type or category, excluding paused
     const related = await Project.find({
       _id: { $ne: currentProjectId },
+      status: { $ne: 'paused' },
       $or: [
         { type: currentProject.type },
         { category: currentProject.category }
@@ -136,13 +137,14 @@ export async function getRelatedProjects(
       .limit(limit)
       .lean()
     
-    // If not enough, fill with latest
+    // If not enough, fill with latest (also excluding paused)
     if (related.length < limit) {
       const remaining = await Project.find({
         _id: { 
           $ne: currentProjectId,
           $nin: related.map(p => p._id)
-        }
+        },
+        status: { $ne: 'paused' },
       })
         .sort({ createdAt: -1 })
         .limit(limit - related.length)
@@ -175,12 +177,12 @@ export async function getFeaturedProjects(limit: number = 3): Promise<ProjectTyp
   }
 }
 
-// ✅ Server-side - Get projects by type
+// ✅ Server-side - Get projects by type (excludes paused)
 export async function getProjectsByType(type: string): Promise<ProjectType[]> {
   try {
     await connectDB()
     
-    const projects = await Project.find({ type })
+    const projects = await Project.find({ type, status: { $ne: 'paused' } })
       .sort({ createdAt: -1 })
       .lean()
     
@@ -191,12 +193,12 @@ export async function getProjectsByType(type: string): Promise<ProjectType[]> {
   }
 }
 
-// ✅ Server-side - Get projects by category
+// ✅ Server-side - Get projects by category (excludes paused)
 export async function getProjectsByCategory(category: string): Promise<ProjectType[]> {
   try {
     await connectDB()
     
-    const projects = await Project.find({ category })
+    const projects = await Project.find({ category, status: { $ne: 'paused' } })
       .sort({ createdAt: -1 })
       .lean()
     
@@ -207,12 +209,13 @@ export async function getProjectsByCategory(category: string): Promise<ProjectTy
   }
 }
 
-// ✅ Server-side - Search projects
+// ✅ Server-side - Search projects (excludes paused)
 export async function searchProjects(query: string): Promise<ProjectType[]> {
   try {
     await connectDB()
     
     const projects = await Project.find({
+      status: { $ne: 'paused' },
       $or: [
         { title: { $regex: query, $options: 'i' } },
         { shortDescription: { $regex: query, $options: 'i' } },
