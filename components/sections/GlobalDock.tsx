@@ -12,7 +12,7 @@ import { Github, Linkedin, Mail } from "lucide-react";
 
 const socialDock = [
   { label: "GitHub", icon: Github, href: "https://github.com/rakeshPatel-Dev" },
-  { label: "LinkedIn", icon: Linkedin, href: "https://linkedin.com/in/rakeshpatel-developer" },
+  { label: "LinkedIn", icon: Linkedin, href: "https://linkedin.com/in/101rakesh" },
   { label: "Email", icon: Mail, href: "mailto:rk5080976@gmail.com" },
 ];
 

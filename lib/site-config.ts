@@ -34,7 +34,7 @@ export const siteConfig = {
   links: {
     twitter: "https://twitter.com/rakeshthedev",
     github: "https://github.com/rakeshthedev",
-    linkedin: "https://linkedin.com/in/rakeshpatel-developer",
+    linkedin: "https://linkedin.com/in/101rakesh",
     instagram: "https://instagram.com/rikesh_112",
     facebook: "https://facebook.com/rakeshthedev",
   },
