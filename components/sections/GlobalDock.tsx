@@ -48,8 +48,6 @@ export function AppDock() {
               );
             })}
 
-            {/* Divider */}
-            <Separator orientation="vertical" className="h-8 bg-neutral-500/50" />
 
           </Dock>
         </TooltipProvider>
