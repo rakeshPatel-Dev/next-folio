@@ -36,7 +36,7 @@ export function PullCordThemeToggler() {
       />
 
      { !closeHint &&
-      <span className="fixed top-50 right-50 hidden sm:flex z-50 group font-mono italic text-muted-foreground/50">
+      <span className="fixed top-50 right-50 hidden md:flex z-50 group font-mono italic text-muted-foreground/50">
           <X
           onClick={() => setCloseHint(true)}
            className="bg-card border group-hover:opacity-100 opacity-0  rounded-full p-1 size-5"
