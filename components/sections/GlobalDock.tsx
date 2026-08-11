@@ -7,6 +7,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { PullCordThemeToggler } from "@/components/ui/pullcord-theme-toggler";
+import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
 
 import { Github, Linkedin, Mail } from "lucide-react";
 
@@ -46,14 +47,31 @@ export function AppDock() {
                   </Tooltip>
                 </DockIcon>
               );
-            })}
+            })} {/* Divider */}
+            
+            <Separator orientation="vertical" className="h-8 md:hidden bg-neutral-500/50" />
 
+            {/* Theme toggle (mobile only, pullcord shows at md+) */}
+            <DockIcon className="md:hidden">
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <AnimatedThemeToggler
+                    className={cn(
+                      buttonVariants({ variant: "ghost", size: "icon" }),
+                      "size-12 cursor-pointer rounded-full"
+                    )}
+                  />
+                </TooltipTrigger>
+                <TooltipContent>Theme</TooltipContent>
+              </Tooltip>
+            </DockIcon>
 
           </Dock>
         </TooltipProvider>
       </div>
 
       {/* Theme toggle */}
+      {/* Theme toggle (md and up) */}
       <PullCordThemeToggler />
     </>
   );

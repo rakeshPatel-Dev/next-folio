@@ -25,6 +25,7 @@ export function PullCordThemeToggler() {
       <PullCord
         onPull={() => setTheme(dark ? "light" : "dark")}
         pulled={!dark}
+        className="hidden md:block"
         ariaLabel="Toggle theme"
         config={{
           gravity: 1250,   // hang tension / fall speed
