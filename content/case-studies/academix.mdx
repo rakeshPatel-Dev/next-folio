@@ -1,0 +1,468 @@
+---
+title: Academix - Case Study
+description: A full-stack academic management system for managing students, teachers, courses, enrollments, and academic workflows through role-based dashboards.
+---
+
+## Project Overview
+
+Academix is a full-stack academic management system designed to centralize common academic administration workflows in one platform.
+
+The system provides separate experiences for **Admins, Teachers, and Students**, with role-based access controlling what each user can view and manage.
+
+Administrators can manage students, teachers, and courses, assign teachers to courses, and enroll students. Teachers can access their assigned courses and related student information, while students can view their enrolled courses and academic information.
+
+The project was built to go beyond basic CRUD by implementing authentication, authorization, email services, dashboard analytics, and a structured REST API.
+
+---
+
+## The Problem
+
+Academic information is often managed through spreadsheets, paper records, or multiple disconnected tools.
+
+This can make relatively simple operations such as managing students, assigning teachers to courses, and tracking enrollments unnecessarily manual.
+
+The goal was to build a centralized system where administrators, teachers, and students could access the information relevant to their roles without relying on separate tools.
+
+---
+
+## Goals
+
+* Centralize student, teacher, and course management.
+* Implement secure role-based access for different users.
+* Simplify course assignment and student enrollment workflows.
+* Provide administrators with an overview of academic data.
+* Add email notifications for relevant system events.
+* Build a maintainable backend with clear separation of responsibilities.
+* Provide a responsive interface that works across different screen sizes.
+
+---
+
+## My Role
+
+I designed and developed the project, including:
+
+* Product and feature planning
+* UI/UX implementation
+* Frontend development
+* REST API development
+* MongoDB database design
+* Authentication and authorization
+* Role-based access control
+* Email service integration
+* Dashboard and data visualization
+* Form handling and validation
+* Deployment and project documentation
+
+---
+
+## The Solution
+
+Academix provides a centralized interface for managing the core academic entities of an institution.
+
+The application separates functionality based on user roles:
+
+### Admin
+
+Admins have the highest level of access and can:
+
+* Manage students
+* Manage teachers
+* Manage courses
+* Assign teachers to courses
+* Enroll students into courses
+* View academic statistics
+
+### Teacher
+
+Teachers can:
+
+* View assigned courses
+* Access relevant student information
+* Manage information associated with their academic responsibilities
+
+### Student
+
+Students can:
+
+* View enrolled courses
+* Access available academic information
+* Manage their profile information where permitted
+
+### Basic Flow
+
+```text
+User
+  |
+Authentication
+  |
+Role Identification
+  |
+Role-Based Dashboard
+  |
+Academic Operations
+  |
+REST API
+  |
+MongoDB
+````
+
+---
+
+## Key Features
+
+### Role-Based Authentication
+
+Academix supports three primary roles:
+
+* Admin
+* Teacher
+* Student
+
+Authentication is implemented using **JWT**, while passwords are securely hashed using **bcrypt**.
+
+Protected routes prevent unauthenticated users from accessing restricted resources, while authorization logic ensures users can only perform actions permitted by their role.
+
+---
+
+### Student Management
+
+Administrators can create, update, and view student records.
+
+Student management also connects with course enrollment, allowing academic relationships to be maintained within the same system.
+
+---
+
+### Teacher Management
+
+Administrators can manage teacher records and assign teachers to courses.
+
+Teachers can then access the courses assigned to them through their dashboard.
+
+---
+
+### Course Management
+
+Courses can be created and managed by authorized administrators.
+
+The system supports relationships between:
+
+```text
+Course
+  |
+  ├── Teacher
+  |
+  └── Students
+```
+
+This provides the foundation for managing academic activities around individual courses.
+
+---
+
+### Course Enrollment
+
+Administrators can enroll students into courses, creating a structured relationship between students and the courses they take.
+
+---
+
+### Dashboard Analytics
+
+The dashboard provides an overview of institutional data such as:
+
+* Total students
+* Total teachers
+* Total courses
+* Enrollment information
+
+**Chart.js** is used to visualize relevant data.
+
+---
+
+### Email Notification Service
+
+Academix includes a dedicated email service for sending system notifications.
+
+The email functionality is separated from the controllers through a reusable service layer and uses **Nodemailer** for email delivery.
+
+This allows email-related logic to be maintained independently from the application's core business logic.
+
+---
+
+### Protected Routes
+
+Sensitive API endpoints are protected through authentication and authorization middleware.
+
+The general request flow is:
+
+```text
+Request
+   |
+Authentication Middleware
+   |
+Authorization / Role Check
+   |
+Controller
+   |
+Service
+   |
+Database
+```
+
+---
+
+### Responsive Interface
+
+The frontend is built with Tailwind CSS and is designed to provide a consistent experience across desktop and smaller screen sizes.
+
+React Hook Form is used for form management, while React Hot Toast provides feedback for user actions.
+
+---
+
+## Technical Architecture
+
+```text
+                    ┌─────────────────────┐
+                    │      React App      │
+                    │ React + Vite        │
+                    │ Tailwind CSS         │
+                    └──────────┬──────────┘
+                               |
+                              Axios
+                               |
+                    ┌──────────▼──────────┐
+                    │    Express API      │
+                    │      REST API       │
+                    └──────────┬──────────┘
+                               |
+                    ┌──────────▼──────────┐
+                    │ Authentication      │
+                    │ & Authorization      │
+                    │ Middleware           │
+                    └──────────┬──────────┘
+                               |
+                    ┌──────────▼──────────┐
+                    │    Controllers      │
+                    └──────────┬──────────┘
+                               |
+                    ┌──────────▼──────────┐
+                    │     Services        │
+                    │ Business Logic      │
+                    │ Email Service       │
+                    └──────────┬──────────┘
+                               |
+                    ┌──────────▼──────────┐
+                    │      Mongoose       │
+                    └──────────┬──────────┘
+                               |
+                    ┌──────────▼──────────┐
+                    │      MongoDB        │
+                    └─────────────────────┘
+```
+
+---
+
+## Tech Stack
+
+### Frontend
+
+* **React 19**
+* **Vite**
+* **Tailwind CSS 4**
+* **React Router 7**
+* **Axios**
+* **React Hook Form**
+* **Chart.js**
+* **React Chartjs 2**
+* **Lucide React**
+* **React Hot Toast**
+
+### Backend
+
+* **Node.js**
+* **Express.js**
+* **MongoDB**
+* **Mongoose**
+* **JWT**
+* **bcryptjs**
+* **Nodemailer**
+* **dotenv**
+* **cors**
+* **cookie-parser**
+
+### Development
+
+* **pnpm**
+* **ESLint**
+* **Git & GitHub**
+
+---
+
+## Key Technical Decisions
+
+### JWT-Based Authentication
+
+JWT was chosen to provide stateless authentication between the frontend and REST API.
+
+Authentication and authorization are handled through middleware so protected routes do not need to duplicate access-control logic.
+
+---
+
+### Role-Based Authorization
+
+Instead of treating every authenticated user the same, Academix checks the user's role before allowing access to protected operations.
+
+This creates a clear permission boundary between:
+
+```text
+Admin
+Teacher
+Student
+```
+
+---
+
+### Service Layer
+
+Business logic is separated from HTTP-specific controller logic through services.
+
+Instead of placing every operation directly inside controllers:
+
+```text
+Route
+  ↓
+Controller
+  ↓
+Service
+  ↓
+Model
+```
+
+This makes the backend easier to maintain as the number of features grows.
+
+---
+
+### Dedicated Email Service
+
+Email functionality is isolated into its own service rather than being implemented directly inside individual controllers.
+
+This allows different parts of the application to reuse the same email infrastructure.
+
+---
+
+### MongoDB with Mongoose
+
+MongoDB provides the persistence layer while Mongoose handles:
+
+* Schema definitions
+* Data modeling
+* Validation
+* Relationships
+* Database queries
+
+---
+
+## Challenges & Solutions
+
+### Managing Different User Roles
+
+Different users require different permissions and interfaces.
+
+**Solution:** Authentication and authorization middleware separates identity verification from role-based access control.
+
+---
+
+### Keeping Controllers Maintainable
+
+As features were added, placing database queries and business logic directly inside controllers would make them increasingly difficult to maintain.
+
+**Solution:** Business logic is moved into service modules, keeping controllers focused on handling requests and responses.
+
+---
+
+### Managing Academic Relationships
+
+Students, teachers, and courses are related to each other, making the data model more complex than independent CRUD resources.
+
+**Solution:** Mongoose relationships are used to connect relevant academic entities and support operations such as course assignments and student enrollment.
+
+---
+
+### Handling Email Logic
+
+Sending emails directly from controllers would tightly couple notification logic with individual application operations.
+
+**Solution:** A dedicated email service handles email delivery through Nodemailer.
+
+---
+
+## Security
+
+Academix implements several basic security measures:
+
+* Password hashing using bcrypt
+* JWT-based authentication
+* Protected API routes
+* Role-based authorization
+* Environment variables for sensitive configuration
+* CORS configuration
+* Server-side request validation
+
+Sensitive credentials such as database URLs, JWT secrets, and SMTP credentials are kept outside the source code through environment variables.
+
+---
+
+## Results
+
+The result is a working academic management platform that provides:
+
+* Role-based authentication for Admins, Teachers, and Students.
+* Student, teacher, and course management.
+* Course assignment and student enrollment workflows.
+* Dashboard analytics.
+* Protected REST API endpoints.
+* Dedicated email notification services.
+* Responsive web interfaces.
+* Modular backend architecture with controllers, services, middleware, and models.
+
+The project also provides a foundation that can be extended with additional academic workflows without replacing the existing architecture.
+
+---
+
+## Lessons Learned
+
+### CRUD Is Only the Starting Point
+
+Building the basic CRUD operations was relatively straightforward. The more interesting engineering problems came from connecting those resources and enforcing who could access or modify them.
+
+### Authorization Is Different From Authentication
+
+Verifying that a user is logged in is only one part of access control. The application also needs to determine what that authenticated user is allowed to do.
+
+### Separation of Concerns Matters
+
+Separating controllers, services, middleware, and email functionality makes the backend easier to reason about and extend.
+
+### Data Relationships Shape the Application
+
+Students, teachers, and courses cannot be treated as completely independent resources. Their relationships directly influence both the database design and the user experience.
+
+### Real Systems Need More Than a UI
+
+Building Academix helped me move beyond implementing interfaces and CRUD operations toward thinking about authentication, authorization, data flow, service boundaries, and maintainability.
+
+---
+
+## What I'd Improve
+
+If I continued developing Academix, the next improvements would focus on useful academic workflows rather than adding unnecessary complexity:
+
+* Add attendance management for individual courses.
+* Add assignment creation and student submissions.
+* Add search, filtering, and pagination to large datasets.
+* Add a secure password-reset flow through the existing email service.
+* Add activity logs for important administrative actions.
+* Improve dashboard analytics as more academic data becomes available.
+* Add automated backend and frontend tests.
+
+The goal would be to gradually turn Academix from an academic management system into a more complete **learning management platform**, while keeping the existing architecture simple and maintainable.
+
+```

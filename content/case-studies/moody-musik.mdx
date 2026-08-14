@@ -1,0 +1,226 @@
+---
+title: moodyMusik - Case Study
+description: A mood-based music web app that turns how you feel into a personalized YouTube playlist.
+
+---
+
+## Project Overview
+
+moodyMusik is a web application that builds personalized music playlists from a single choice: your current mood.
+
+Users pick one of five moods — Energetic, Chill, Romantic, Sad, or Focus — and the app searches YouTube for matching official music videos, tags them by language (English, Hindi, Nepali), and presents a ready-to-play playlist with an in-app player.
+
+The idea came from wanting music discovery to follow how someone actually feels rather than just genre or artist.
+
+---
+
+## The Problem
+
+Finding music that matches how you feel usually means bouncing between apps, charts, and playlists. Most recommendations are based on listening history, not current emotional state.
+
+I wanted to build a tool where one decision — your mood — leads straight to a listenable playlist.
+
+---
+
+## Goals
+
+* Let users pick a mood and immediately get a playlist.
+* Use the YouTube API to fetch real, playable official music videos.
+* Support multiple languages (English, Hindi, Nepali).
+* Keep the flow minimal: mood → playlist → player.
+
+---
+
+## My Role
+
+I designed and developed the project, including:
+
+* Product concept
+* UI/UX
+* Frontend development
+* YouTube API integration
+* Playlist generation and language filtering
+* In-app video player
+* Deployment
+
+---
+
+## The Solution
+
+The application walks the user from a mood selection to a playable playlist in one flow.
+
+Select a mood, generate the playlist, then browse, filter, search, and play music videos without leaving the app.
+
+### Basic Flow
+
+```text
+Select Mood
+      |
+YouTube Search API
+      |
+Video Details (durations)
+      |
+Language Tagging
+      |
+Filter / Search / Shuffle
+      |
+In-app Player
+```
+
+---
+
+## Key Features
+
+### Mood Selection
+
+Five moods: Energetic, Chill, Romantic, Sad, and Focus. Each mood drives a matching gradient color theme across the interface.
+
+### Playlist Generation
+
+Queries the YouTube Search API (music category, medium duration, embeddable videos) for official music videos matching the selected mood, then enriches each video with its duration.
+
+### Language Filter
+
+Videos are automatically tagged as English, Hindi, or Nepali based on title and channel metadata, and the user can filter the playlist by language.
+
+### In-app Search
+
+A debounced search lets users look up any song or artist directly inside the playlist view, with results shown inline.
+
+### In-app Player
+
+Playback happens inside the app using YouTube's embed, with previous/next navigation, back-to-playlist, and change-mood controls.
+
+### Shuffle, Play All & Save
+
+Playlists can be shuffled, played all at once, or saved to localStorage.
+
+---
+
+## Technical Architecture
+
+```text
+Frontend (React + TypeScript + Vite + Tailwind)
+              |
+        YouTube Data API v3
+          (Search + Videos)
+              |
+        Playlist UI
+              |
+        In-app Player
+```
+
+### Tech Stack
+
+* **Frontend:** React, TypeScript, Vite, Tailwind CSS
+* **Routing:** React Router
+* **Animations:** Motion (Framer Motion)
+* **Icons:** lucide-react
+* **API:** YouTube Data API v3 (Search, Videos)
+* **Deployment:** Vercel
+
+---
+
+## Key Technical Decisions
+
+### Mood as the Primary Input
+
+A single mood selection replaces genre and artist browsing, keeping the product focused and easy to understand.
+
+### YouTube as the Content Source
+
+YouTube already hosts official music videos and provides embedding, durations, and thumbnails through a simple API, so no custom content pipeline was needed.
+
+### Language Detection From Metadata
+
+Instead of manual curation, the app infers language from video titles and channel names, keeping playlists relevant for English, Hindi, and Nepali listeners.
+
+### Embedded Video Playback
+
+Using YouTube's iframe embed keeps the player in-app while offloading streaming, autoplay, and fullscreen handling.
+
+---
+
+## Challenges & Solutions
+
+### Working Within YouTube API Quotas
+
+Every search costs API quota, and hitting limits during development was common.
+
+**Solution:** Search and Videos calls were combined so results and durations come back in as few requests as possible, and queries only run on demand.
+
+### Showing Only Playable Videos
+
+Not every search result can be embedded.
+
+**Solution:** Requests used `videoEmbeddable=true`, and a final embeddability check was applied before display.
+
+### Keeping the Interface Mood-Consistent
+
+Each mood needed its own visual identity.
+
+**Solution:** A mood-based gradient system re-themes the selection area and selected cards per mood.
+
+### Handling Missing Durations
+
+Some API responses lack content details.
+
+**Solution:** ISO-8601 durations are parsed defensively and fall back to "N/A" when absent.
+
+---
+
+## Security / Performance
+
+### Security
+
+* The YouTube API key lives in an environment variable (`VITE_YOUTUBE_API_KEY`), not in the source.
+* Only the video data required by the UI is fetched and processed.
+
+### Performance
+
+* Search input is debounced so API requests don't fire on every keystroke.
+* Shuffling and filtering happen client-side without extra requests.
+* Video playback is delegated to YouTube's embed instead of loading media locally.
+
+---
+
+## Results
+
+The result is a working web application that:
+
+* Generates a playlist from a single mood selection.
+* Fetches real, playable official music videos from YouTube.
+* Filters playlists by English, Hindi, and Nepali.
+* Plays videos in-app with previous/next navigation.
+* Shuffles, saves, and searches playlists.
+
+---
+
+## Lessons Learned
+
+### A single clear flow beats many options
+
+Keeping the core journey to mood → playlist → player made the product immediately understandable.
+
+### Client-side enrichment keeps API costs down
+
+Folding duration and language tagging into the search step avoided extra round trips.
+
+### Metadata heuristics are good enough for v1
+
+Detecting language from titles and channels worked well without a full content pipeline.
+
+---
+
+## What I'd Improve
+
+If I continued developing moodyMusik, I'd focus on:
+
+* Implementing the planned camera-based AI mood detection (face-api.js is already in the dependencies).
+* Making mood selection smarter by learning from listening history.
+* Building real saved-playlist management instead of a single localStorage entry.
+* Curating language-specific playlists instead of relying only on search metadata.
+* Improving error handling for API rate limits.
+* Adding better loading and empty states.
+
+---

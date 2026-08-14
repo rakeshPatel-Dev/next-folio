@@ -1,4 +1,5 @@
 import { getProjectBySlug, getRelatedProjects, getProjects } from '@/utils/getProjects.server'
+import { getCaseStudy } from '@/lib/caseStudySource'
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -9,6 +10,10 @@ import { siteConfig } from '@/lib/site-config'
 
 interface ProjectPageProps {
   params: Promise<{ slug: string }>
+}
+
+function Lead({ children }: { children: React.ReactNode }) {
+  return <p className="text-xl text-muted-foreground">{children}</p>
 }
 
 export async function generateStaticParams() {
@@ -73,6 +78,10 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
   // Get related projects
   const relatedProjects = await getRelatedProjects(project._id, 3)
+
+  // Get case study MDX content (matches project slug → content/case-studies/{slug}.mdx)
+  const caseStudy = getCaseStudy(slug)
+  const CaseStudyContent = caseStudy?.body
 
   return (
     <article className="min-h-screen">
@@ -146,6 +155,16 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
           </div>
         </div>
       </div>
+
+      {/* Case Study */}
+      {CaseStudyContent && (
+        <section className="max-w-7xl mx-auto px-6 pb-16 border-t pt-16">
+          <h2 className="text-3xl font-bold mb-8">Case Study</h2>
+          <div className="prose prose-lg dark:prose-invert max-w-none">
+            <CaseStudyContent components={{ Lead }} />
+          </div>
+        </section>
+      )}
 
       {/* Related Projects */}
       {relatedProjects.length > 0 && (

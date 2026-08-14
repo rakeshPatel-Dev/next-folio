@@ -1,0 +1,232 @@
+---
+title: Image Toolkit - Case Study
+description: A browser-based image manipulation platform that converts, compresses, resizes, crops, and watermarks images with zero server processing.
+
+---
+
+## Project Overview
+
+Image Toolkit is a web application that handles the full image lifecycle — convert, compress, resize, crop, and watermark — all in the browser.
+
+Users upload an image, pick a tool, and every edit happens client-side with real-time before/after previews. Batch jobs are supported, and processed images can be downloaded individually or bundled into a ZIP.
+
+The idea came from wanting a fast, privacy-first alternative to fragmented desktop editors and server-side upload tools.
+
+---
+
+## The Problem
+
+Preparing images for web, social, and print usually means juggling multiple disconnected tools, uploading sensitive assets to third-party servers, and waiting on slow round trips.
+
+Most tools either process on a server (raising privacy concerns) or are full-featured editors with a steep learning curve for simple tasks.
+
+I wanted to build a tool where one upload leads straight to a fast, secure, and simple edit-and-download flow.
+
+---
+
+## Goals
+
+* Let users pick a tool and immediately edit an image.
+* Process everything client-side for privacy and speed.
+* Support the common jobs: convert, compress, resize, crop, watermark.
+* Handle multiple images at once with ZIP batch downloads.
+* Keep the flow minimal: upload → edit → download.
+
+---
+
+## My Role
+
+I designed and developed the project, including:
+
+* Product concept
+* UI/UX
+* Frontend development
+* Canvas-based image processing
+* Batch download handling
+* Freemium pricing model
+* Deployment
+
+---
+
+## The Solution
+
+The application walks the user from an upload to a downloadable result through dedicated tool pages.
+
+Upload an image, pick a tool (Convert, Compress, Resize, Crop, or Watermark), adjust the settings, preview the result in real time, then download it individually or as part of a batch ZIP.
+
+### Basic Flow
+
+```text
+Upload Image
+      |
+Select Tool
+      |
+Adjust Settings
+      |
+Real-time Preview
+      |
+Download / Batch ZIP
+```
+
+---
+
+## Key Features
+
+### Image Conversion
+
+Converts images between JPG, PNG, WebP, GIF, and BMP with quality control and batch processing.
+
+### Compression
+
+Reduces file sizes intelligently with a preview comparison and target-size controls.
+
+### Resize
+
+Changes dimensions with preset sizes (YouTube, Instagram, Web) and aspect-ratio locking.
+
+### Cropping
+
+Custom aspect ratios (1:1, 4:3, 16:9) with drag-to-resize selection.
+
+### Watermarking
+
+Adds text or image watermarks with position, rotation, opacity, and blend modes.
+
+### Batch Processing
+
+Handles multiple images at once and downloads them all as a ZIP.
+
+---
+
+## Technical Architecture
+
+```text
+Frontend (React + TypeScript + Vite + Tailwind)
+              |
+        Canvas API (image processing)
+              |
+        Tool Pages (Convert / Compress / Resize / Crop / Watermark)
+              |
+        Download / Batch ZIP (JSZip)
+```
+
+### Tech Stack
+
+* **Frontend:** React, TypeScript, Vite, Tailwind CSS
+* **Routing:** React Router
+* **Animations:** Framer Motion
+* **Icons:** lucide-react
+* **Imaging:** Canvas API, browser-image-compression, react-easy-crop
+* **Uploads:** react-dropzone
+* **Batch export:** JSZip, file-saver
+* **UI:** Radix UI, react-colorful, react-hot-toast
+
+---
+
+## Key Technical Decisions
+
+### Browser as the Processing Engine
+
+The Canvas API handles all manipulation locally, so images never leave the user's device — removing both privacy concerns and upload latency.
+
+### One Tool Per Page
+
+Each task gets its own focused route (Convert, Compress, Resize, Crop, Watermark) instead of one overwhelming editor.
+
+### Real-time Preview
+
+Every tool renders a before/after comparison so users see the result of their settings instantly.
+
+### ZIP for Batch Downloads
+
+JSZip bundles multiple processed images into a single download, keeping the batch flow simple.
+
+---
+
+## Challenges & Solutions
+
+### Performance on Large Images
+
+Canvas operations on large files can be slow in the browser.
+
+**Solution:** Compression uses browser-image-compression for intelligent size reduction, and previews update in real time so users see results without waiting.
+
+### Keeping Crop UX Intuitive
+
+Custom aspect ratios and drag-to-resize selections are easy to get wrong.
+
+**Solution:** react-easy-crop provides a well-tested drag-and-resize cropping interface.
+
+### Consistent UX Across Tools
+
+Five tools with different controls risk feeling disconnected.
+
+**Solution:** Shared animated UI components and a consistent upload → edit → download layout across every tool page.
+
+### No Server to Leak or Store Data
+
+Privacy promises rely on the client doing everything.
+
+**Solution:** All processing is client-side by design, with no backend and no data collection.
+
+---
+
+## Security / Performance
+
+### Security
+
+* No server storage — images are processed entirely in the browser.
+* No data collection — images are never stored, analyzed, or tracked.
+* HTTPS-only data transmission.
+
+### Performance
+
+* Client-side processing removes upload and round-trip latency.
+* Batch jobs use JSZip to bundle results into a single download.
+* Responsive, mobile-first design keeps interactions snappy.
+
+---
+
+## Results
+
+The result is a working web application that:
+
+* Converts images between JPG, PNG, WebP, GIF, and BMP with quality control.
+* Compresses files with target-size controls and preview comparison.
+* Resizes with presets and aspect-ratio locking.
+* Crops with custom ratios and drag-to-resize selection.
+* Watermarks with position, rotation, opacity, and blend modes.
+* Processes multiple images at once and downloads them as ZIP.
+
+---
+
+## Lessons Learned
+
+### A single clear flow beats many options
+
+Keeping the core journey to upload → edit → download made every tool immediately understandable.
+
+### Client-side processing is a strong differentiator
+
+Doing everything in the browser removes privacy objections and latency in one decision.
+
+### Focused tools beat one big editor
+
+Dedicated pages for each task keep the learning curve low and the interface simple.
+
+### Batch support turns a utility into a workflow
+
+ZIP downloads and multi-image handling made the tool practical for real workloads.
+
+---
+
+## What I'd Improve
+
+If I continued developing Image Toolkit, I'd focus on:
+
+* Shipping the planned AI background remover.
+* Adding more formats (AVIF, HEIC) and advanced compression profiles.
+* Adding user accounts so saved settings and project history persist.
+* Building an undo/redo history for edits.
+* Adding bulk operations like batch rename and format migration.
+* Improving loading and empty states across tools.
