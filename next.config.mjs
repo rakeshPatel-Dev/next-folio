@@ -6,6 +6,8 @@ const nextConfig = {
   reactStrictMode: true,
   // Avoid auto-writing AGENTS.md / CLAUDE.md on every `next dev`
   agentRules: false,
+  // Typecheck via `tsc --noEmit` (full next type phase OOMs on 8GB machines)
+  typescript: { ignoreBuildErrors: true },
   images: {
     remotePatterns: [
       {
@@ -16,18 +18,8 @@ const nextConfig = {
     ],
   },
   experimental: {
-    // Only packs used by IconRenderer / content — listing every react-icons
-    // pack made webpack OOM (~4GB) on first compile of `/`.
-    optimizePackageImports: [
-      "react-icons/fa",
-      "react-icons/si",
-      "react-icons/bi",
-      "react-icons/ri",
-      "react-icons/ai",
-      "react-icons/io5",
-      "react-icons/tb",
-      "lucide-react",
-    ],
+    cpus: 2,
+    optimizePackageImports: ["lucide-react"],
   },
 };
 

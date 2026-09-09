@@ -8,7 +8,7 @@
   "type": "module",
   "scripts": {
     "dev": "fumadocs-mdx && next dev --turbopack",
-    "build": "fumadocs-mdx && next build",
+    "build": "fumadocs-mdx && next build --webpack",
     "postinstall": "fumadocs-mdx",
     "start": "next start",
     "lint": "eslint"
@@ -36,7 +36,6 @@
     "pullcord": "^0.1.0",
     "react": "19.2.3",
     "react-dom": "19.2.3",
-    "react-icons": "^5.5.0",
     "tailwind-merge": "^3.4.0",
     "zod": "^4.3.5"
   },
