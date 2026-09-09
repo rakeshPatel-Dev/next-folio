@@ -8,7 +8,6 @@ import { siteConfig } from "@/lib/site-config";
 import { RootProvider } from "fumadocs-ui/provider/next"
 import { PageTransition } from "@/components/motion/PageTransition";
 import { ToastProvider } from "@/components/zenblocks/toast";
-import { Toaster } from "sonner";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { JsonLd } from "@/components/sections/JsonLd";
@@ -90,13 +89,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning data-scroll-behavior="smooth">
       <head>
-        {/* LCP Preload */}
+        {/* LCP Preload — must match Hero image src */}
         <link
           rel="preload"
           as="image"
-          href="/images/the-hero.webp"
+          href="https://res.cloudinary.com/dzebbt9j5/image/upload/v1779865854/rakesh_fkagx4.webp"
           type="image/webp"
         />
       </head>
@@ -104,6 +103,7 @@ export default function RootLayout({
         suppressHydrationWarning
         className={`${spaceGrotesk.variable} ${firaCode.variable} antialiased pt-15 sm:pt-16`}
       >
+        <JsonLd />
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem={true} storageKey="theme">
           <Noise />
           <GridPattern />
@@ -111,11 +111,9 @@ export default function RootLayout({
           <ToastProvider>
             <PageTransition>
               <RootProvider>
-                <JsonLd />
                 <main id="main-content" className="mx-auto w-full max-w-5xl px-[clamp(6px,3vw,52px)]">
                   {children}
                 </main>
-                <Toaster position="top-right" duration={5000} closeButton className=" absolute z-50" />
               </RootProvider>
             </PageTransition>
           </ToastProvider>

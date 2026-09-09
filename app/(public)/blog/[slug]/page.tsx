@@ -1,6 +1,5 @@
 import { notFound } from 'next/navigation'
-import { getBlogPage, getBlogSlugs, getAllBlogPages } from '@/lib/blogSource'
-import { getBlogByIdOrSlug, getRelatedBlogs } from '@/utils/getBlogs'
+import { getBlogPostBySlug, getBlogSlugs, getRelatedBlogs, getPublishedBlogPosts } from '@/lib/blogSource'
 import Image from "next/image"
 import { Badge } from "@/components/ui/badge"
 import { Calendar, Clock, User, ArrowLeft, Redo2, Undo2, Star } from "lucide-react"
@@ -8,8 +7,9 @@ import Link from "next/link"
 import { BlogCard } from "@/components/blog/Blog-card"
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
-import Script from 'next/script'
-import TOCPortal from '@/components/blog/TOCPortal'
+import BlogTOC from '@/components/blog/BlogTOC'
+import { Metadata } from 'next'
+import { siteConfig } from '@/lib/site-config'
 
 interface BlogDetailPageProps {
   params: Promise<{
@@ -24,12 +24,9 @@ export async function generateStaticParams() {
   }))
 }
 
-import { Metadata } from 'next'
-import { siteConfig } from '@/lib/site-config'
-
 export async function generateMetadata({ params }: BlogDetailPageProps): Promise<Metadata> {
   const { slug } = await params
-  const blogMeta = await getBlogByIdOrSlug(slug)
+  const blogMeta = getBlogPostBySlug(slug)
 
   if (!blogMeta) {
     return {
@@ -74,53 +71,34 @@ export async function generateMetadata({ params }: BlogDetailPageProps): Promise
 export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
   const { slug } = await params
 
-  // Get MDX content from Fumadocs
-  const mdxPage = getBlogPage(slug)
+  // Get all blog metadata from static MDX
+  const blogMeta = getBlogPostBySlug(slug)
 
-  // Get metadata from MongoDB
-  const blogMeta = await getBlogByIdOrSlug(slug)
-
-  if (!mdxPage || !blogMeta || blogMeta.status === 'draft') {
+  if (!blogMeta) {
     notFound()
   }
 
-  // Get all blogs for prev/next navigation
-  const allBlogs = getAllBlogPages()
-  const allMongoBlogs = await Promise.all(
-    allBlogs.map(async (page: any) => {
-      const pageSlug = page.title
-        ?.toLowerCase()
-        .replace(/\s+/g, '-')
-        .replace(/[^a-z0-9-]/g, '')
-      return await getBlogByIdOrSlug(pageSlug)
-    })
-  )
+  const MDXContent = blogMeta.body
 
-  // Filter out null values and drafts, sort by published date
-  const publishedBlogs = allMongoBlogs
-    .filter((blog): blog is NonNullable<typeof blog> => blog !== null && blog.status === 'published')
-    .sort((a, b) => {
-      const dateA = new Date(a.publishedAt || a.createdAt).getTime()
-      const dateB = new Date(b.publishedAt || b.createdAt).getTime()
-      return dateB - dateA // Newest first
-    })
+  if (!MDXContent) {
+    notFound()
+  }
 
-  // Find current blog index
-  const currentIndex = publishedBlogs.findIndex(blog => blog._id === blogMeta._id)
+  // Get all published blogs for prev/next navigation
+  const publishedBlogs = getPublishedBlogPosts()
 
-  // Get prev and next blogs
+  const currentIndex = publishedBlogs.findIndex(blog => blog.slug === blogMeta.slug)
+
   const prevBlog = currentIndex > 0 ? publishedBlogs[currentIndex - 1] : null
   const nextBlog = currentIndex < publishedBlogs.length - 1 ? publishedBlogs[currentIndex + 1] : null
 
   // Get related blogs
-  const relatedBlogs = await getRelatedBlogs(blogMeta._id, 3)
+  const relatedBlogs = getRelatedBlogs(blogMeta.slug, 3)
 
-  // Get MDX content
-  const MDXContent = mdxPage.body
-
-  // Calculate reading time
-  const readingTime = Math.ceil(
-    blogMeta.description.split(/\s+/).length / 5
+  // Calculate reading time (~200 WPM on description; body word count unavailable at list-card sites)
+  const readingTime = Math.max(
+    1,
+    Math.ceil(blogMeta.description.split(/\s+/).length / 200)
   )
 
   const blogPostingSchema = {
@@ -150,8 +128,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
 
   return (
     <article className="min-h-screen">
-      <Script
-        id="blog-posting-schema"
+      <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(blogPostingSchema) }}
       />
@@ -234,16 +211,14 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
         </div>
       </div>
 
-      {/* MDX Content (with Fumadocs TOC) */}
-      <div className="max-w-4xl mx-auto px-6 pb-12">
-        <div className="prose prose-lg dark:prose-invert max-w-none">
+      {/* Article body — TOC floats outside on xl+ */}
+      <div className="mx-auto max-w-4xl px-6 pb-12">
+        <BlogTOC items={blogMeta.toc ?? []} variant="mobile" />
+        <div className="prose prose-lg dark:prose-invert max-w-none blog-prose">
           <MDXContent />
         </div>
       </div>
-
-      {/* Fixed right-side TOC for large screens */}
-      <TOCPortal items={mdxPage.toc ?? []} />
-
+      <BlogTOC items={blogMeta.toc ?? []} variant="desktop" />
       {/* Prev/Next Navigation - shadcn style */}
       <div className="max-w-4xl mx-auto px-6 pb-12">
         <div className="flex flex-col sm:flex-row gap-4 border-t pt-12">
@@ -314,8 +289,9 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
                 subtitle={relatedBlog.description}
                 image={relatedBlog.coverImage}
                 category={relatedBlog.tags[0] || "General"}
-                readingTime={`${Math.ceil(
-                  relatedBlog.description.split(/\s+/).length / 200
+                readingTime={`${Math.max(
+                  1,
+                  Math.ceil(relatedBlog.description.split(/\s+/).length / 200)
                 )} min read`}
                 date={new Date(
                   relatedBlog.publishedAt || relatedBlog.createdAt

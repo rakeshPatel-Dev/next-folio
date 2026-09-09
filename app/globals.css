@@ -157,15 +157,9 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Hide scrollbar but keep element scrollable */
-.toc-scrollbar-hidden {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
-}
-.toc-scrollbar-hidden::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Opera */
-  width: 0;
-  height: 0;
+/* Blog headings clear sticky header when jumped to from TOC */
+.blog-prose :is(h1, h2, h3, h4, h5, h6) {
+  scroll-margin-top: 6rem;
 }
 
 
