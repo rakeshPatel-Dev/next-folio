@@ -91,11 +91,11 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning data-scroll-behavior="smooth">
       <head>
-        {/* LCP Preload — must match Hero image src */}
+        {/* LCP Preload — must match Hero image src (Cloudinary transforms) */}
         <link
           rel="preload"
           as="image"
-          href="https://res.cloudinary.com/dzebbt9j5/image/upload/v1779865854/rakesh_fkagx4.webp"
+          href="https://res.cloudinary.com/dzebbt9j5/image/upload/f_webp,q_auto:good,w_900,c_limit/v1779865854/rakesh_fkagx4.webp"
           type="image/webp"
         />
       </head>
