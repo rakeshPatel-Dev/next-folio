@@ -1,4 +1,4 @@
-import { getProjectBySlug, getRelatedProjects, getProjects } from '@/utils/getProjects.server'
+import { getProjectBySlug, getRelatedProjects, getProjects } from '@/lib/projectSource'
 import { getCaseStudy } from '@/lib/caseStudySource'
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
@@ -16,8 +16,8 @@ function Lead({ children }: { children: React.ReactNode }) {
   return <p className="text-xl text-muted-foreground">{children}</p>
 }
 
-export async function generateStaticParams() {
-  const projects = await getProjects()
+export function generateStaticParams() {
+  const projects = getProjects()
   return projects.map((project) => ({
     slug: project.slug,
   }))
@@ -25,7 +25,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: ProjectPageProps): Promise<Metadata> {
   const { slug } = await params
-  const project = await getProjectBySlug(slug)
+  const project = getProjectBySlug(slug)
 
   if (!project) {
     return {
@@ -68,8 +68,8 @@ export async function generateMetadata({ params }: ProjectPageProps): Promise<Me
 export default async function ProjectPage({ params }: ProjectPageProps) {
   const { slug } = await params
 
-  // Get project directly from database
-  const project = await getProjectBySlug(slug)
+  // Get project from static content
+  const project = getProjectBySlug(slug)
 
   // Hide paused projects from public
   if (!project || project.status === 'paused') {
@@ -77,7 +77,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   }
 
   // Get related projects
-  const relatedProjects = await getRelatedProjects(project._id, 3)
+  const relatedProjects = getRelatedProjects(project.slug, 3)
 
   // Get case study MDX content (matches project slug → content/case-studies/{slug}.mdx)
   const caseStudy = getCaseStudy(slug)

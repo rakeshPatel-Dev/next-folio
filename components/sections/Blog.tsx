@@ -1,5 +1,5 @@
 import { BlogCard } from "@/components/blog/Blog-card"
-import { getFeaturedBlogs, getLatestBlogs } from "@/utils/getBlogs"
+import { getFeaturedBlogs, getLatestBlogs } from "@/lib/blogSource"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { ArrowRight } from "lucide-react"
@@ -10,16 +10,14 @@ interface BlogSectionProps {
   showCount?: number
 }
 
-export default async function BlogSection({
+export default function BlogSection({
   featuredCount = 1,
   showCount = 3,
 }: BlogSectionProps) {
 
-  // Fetch featured and latest blogs
-  const [featuredBlogs, latestBlogs] = await Promise.all([
-    getFeaturedBlogs(featuredCount),
-    getLatestBlogs(showCount)
-  ])
+  // Fetch featured and latest blogs from static MDX
+  const featuredBlogs = getFeaturedBlogs(featuredCount)
+  const latestBlogs = getLatestBlogs(showCount)
 
   // Use featured blogs if available, otherwise use latest
   const displayFeatured = featuredBlogs.length > 0
@@ -100,9 +98,9 @@ export default async function BlogSection({
 
 // Helper function to calculate reading time
 function calculateReadingTime(text: string): string {
-  const wordsPerMinute = 5
+  const wordsPerMinute = 200
   const wordCount = text.split(/\s+/).length
-  const minutes = Math.ceil(wordCount / wordsPerMinute)
+  const minutes = Math.max(1, Math.ceil(wordCount / wordsPerMinute))
   return `${minutes} min read`
 }
 

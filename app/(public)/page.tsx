@@ -1,5 +1,5 @@
 import HeroData from '@/components/sections/Hero'
-import { getProjects } from '@/utils/getProjects.server'
+import { getProjects } from '@/lib/projectSource'
 import Exp from '@/components/sections/Exp'
 import HomeProjects from '@/components/sections/Project'
 import { AboutMe } from '@/components/sections/AboutMe'
@@ -52,11 +52,9 @@ export const metadata: Metadata = {
   },
 }
 
-export const revalidate = 3600; // Cache pages for 1 hour to reduce TTFB
-
 const page = async () => {
-  // Fetch projects on server for better performance
-  const allProjects = await getProjects()
+  // Fetch projects from static content for better performance
+  const allProjects = getProjects()
 
 
   return (

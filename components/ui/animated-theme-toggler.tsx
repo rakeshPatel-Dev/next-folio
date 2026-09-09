@@ -4,6 +4,7 @@ import { Moon, Sun } from "lucide-react"
 import { flushSync } from "react-dom"
 import { useTheme } from "next-themes"
 import { cn } from "@/lib/utils"
+import { useIsMounted } from "@/hooks/useIsMounted"
 
 interface AnimatedThemeTogglerProps extends React.ComponentPropsWithoutRef<"button"> {
   duration?: number
@@ -19,8 +20,10 @@ export const AnimatedThemeToggler = forwardRef<HTMLButtonElement, AnimatedThemeT
 ) {
   const { resolvedTheme, setTheme } = useTheme()
   const buttonRef = useRef<HTMLButtonElement>(null)
+  const mounted = useIsMounted()
 
-  const isDark = resolvedTheme === "dark"
+  // Only read theme after mount so SSR + first client paint match (Moon placeholder).
+  const isDark = mounted && resolvedTheme === "dark"
 
   const setButtonRef = useCallback(
     (node: HTMLButtonElement | null) => {
@@ -87,7 +90,7 @@ export const AnimatedThemeToggler = forwardRef<HTMLButtonElement, AnimatedThemeT
       aria-label="Toggle theme"
       className={cn(className)}
     >
-      {resolvedTheme ? (isDark ? <Sun /> : <Moon />) : <Moon />}
+      {isDark ? <Sun /> : <Moon />}
     </button>
   )
 })

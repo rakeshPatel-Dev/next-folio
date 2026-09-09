@@ -1,27 +1,31 @@
 import { MetadataRoute } from "next";
 import { siteConfig } from "@/lib/site-config";
-import { getProjects } from "@/utils/getProjects.server";
-import { getPublishedBlogs } from "@/utils/getBlogs";
+import { getProjects } from "@/lib/projectSource";
+import { getPublishedBlogPosts } from "@/lib/blogSource";
 
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+function safeLastModified(value?: string): Date {
+  if (!value) return new Date()
+  const date = new Date(value)
+  return Number.isNaN(date.getTime()) ? new Date() : date
+}
+
+export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = siteConfig.url;
 
-  // Fetch dynamic routes
-  const [projects, blogs] = await Promise.all([
-    getProjects(),
-    getPublishedBlogs(),
-  ]);
+  // Fetch dynamic routes from static content
+  const projects = getProjects();
+  const blogs = getPublishedBlogPosts();
 
   const projectUrls = projects.map((project) => ({
     url: `${baseUrl}/projects/${project.slug}`,
-    lastModified: new Date(project.updatedAt),
+    lastModified: safeLastModified(project.updatedAt),
     changeFrequency: "monthly" as const,
     priority: 0.7,
   }));
 
   const blogUrls = blogs.map((blog) => ({
     url: `${baseUrl}/blog/${blog.slug}`,
-    lastModified: new Date(blog.updatedAt),
+    lastModified: safeLastModified(blog.updatedAt),
     changeFrequency: "weekly" as const,
     priority: 0.6,
   }));

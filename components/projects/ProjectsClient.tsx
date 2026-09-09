@@ -1,7 +1,8 @@
 "use client"
 
 import { ProjectCard } from '@/components/projects/project-card'
-import React, { useEffect, useState } from 'react'
+import type { ProjectType } from '@/lib/projectSource'
+import React, { useState, useMemo } from 'react'
 import { Filter, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -15,18 +16,8 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 
-interface Project {
-  _id: string
-  title?: string
-  shortDescription?: string
-  type?: string
-  status?: string
-  techStack?: { label: string }[]
-  videoUrl?: string
-}
-
 interface ProjectsClientProps {
-  initialProjects: Project[]
+  initialProjects: ProjectType[]
   types: string[]
   statuses: string[]
   technologies: string[]
@@ -34,7 +25,6 @@ interface ProjectsClientProps {
 
 export default function ProjectsClient({ initialProjects, types, statuses, technologies }: ProjectsClientProps) {
   const [projects] = useState(initialProjects)
-  const [filteredProjects, setFilteredProjects] = useState(initialProjects)
 
   // Filter states
   const [searchQuery, setSearchQuery] = useState('')
@@ -42,41 +32,41 @@ export default function ProjectsClient({ initialProjects, types, statuses, techn
   const [selectedStatus, setSelectedStatus] = useState<string | null>(null)
   const [selectedTech, setSelectedTech] = useState<string[]>([])
 
-  // Apply filters
-  useEffect(() => {
+  // Apply filters (derived state)
+  const filteredProjects = useMemo(() => {
     let filtered = [...projects]
 
     // Search filter
     if (searchQuery) {
       const query = searchQuery.toLowerCase()
       filtered = filtered.filter(
-        (p: any) =>
+        (p) =>
           p.title?.toLowerCase().includes(query) ||
           p.shortDescription?.toLowerCase().includes(query) ||
-          p.techStack?.some((t: any) => t.label.toLowerCase().includes(query))
+          p.techStack?.some((t) => t.label.toLowerCase().includes(query))
       )
     }
 
     // Type filter
     if (selectedType) {
-      filtered = filtered.filter((p: any) => p.type === selectedType)
+      filtered = filtered.filter((p) => p.type === selectedType)
     }
 
     // Status filter
     if (selectedStatus) {
-      filtered = filtered.filter((p: any) => p.status === selectedStatus)
+      filtered = filtered.filter((p) => p.status === selectedStatus)
     }
 
     // Technology filter
     if (selectedTech.length > 0) {
-      filtered = filtered.filter((p: any) =>
+      filtered = filtered.filter((p) =>
         selectedTech.every(tech =>
-          p.techStack?.some((t: any) => t.label === tech)
+          p.techStack?.some((t) => t.label === tech)
         )
       )
     }
 
-    setFilteredProjects(filtered)
+    return filtered
   }, [projects, searchQuery, selectedType, selectedStatus, selectedTech])
 
   const clearFilters = () => {
@@ -287,7 +277,7 @@ export default function ProjectsClient({ initialProjects, types, statuses, techn
         </div>
       ) : (
         <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-6">
-          {filteredProjects.map((project: any) => (
+          {filteredProjects.map((project) => (
             <ProjectCard key={project._id} project={project} />
           ))}
         </div>

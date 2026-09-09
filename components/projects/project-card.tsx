@@ -1,7 +1,9 @@
+"use client"
+
 import * as React from "react"
 import { ArrowUpRight } from "lucide-react"
 import { cn } from "@/lib/utils"
-import type { ProjectType } from "@/utils/getProjects.server"
+import type { ProjectType } from "@/lib/projectSource"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 import Image from "next/image"
 import { Badge } from "@/components/ui/badge"
@@ -9,8 +11,7 @@ import Link from "next/link"
 import WorldIcon from "../ui/world-icon"
 import GithubIcon from "../ui/github-icon"
 import { ProjectVideoDialog } from "@/components/ui/project-video-dialog"
-import { techStacks } from "@/data/techStacks"
-import IconRenderer from "@/components/forms/project/IconRenderer"
+import IconRenderer from "@/components/ui/IconRenderer"
 
 interface ProjectCardProps {
   project: ProjectType
@@ -21,20 +22,7 @@ const blurDataURL =
 
 // Tech Icon Component
 function TechIcon({ tech }: { tech: { label: string; icon?: string } }) {
-  const resolvedIconName = tech.icon
-    ? techStacks.find(
-      (stack) =>
-        stack.value.toLowerCase() === tech.icon?.toLowerCase() ||
-        stack.label.toLowerCase() === tech.icon?.toLowerCase()
-    )?.icon ?? tech.icon
-    : undefined
-
-  if (!resolvedIconName) {
-    // Log unresolved icon keys for debugging in browser console
-    if (typeof window !== 'undefined') {
-      console.warn('TechIcon: icon not found for', { label: tech.label, icon: tech.icon })
-    }
-    // Fallback to badge if icon not found
+  if (!tech.icon) {
     return (
       <Badge variant="secondary" className="text-xs">
         {tech.label}
@@ -46,7 +34,7 @@ function TechIcon({ tech }: { tech: { label: string; icon?: string } }) {
     <Tooltip>
       <TooltipTrigger asChild>
         <div className=" transition-transform hover:scale-110">
-          <IconRenderer name={resolvedIconName} className="h-6 w-6 text-muted-foreground hover:text-foreground" />
+          <IconRenderer name={tech.icon} className="h-6 w-6 text-muted-foreground hover:text-foreground" />
         </div>
       </TooltipTrigger>
       <TooltipContent>{tech.label}</TooltipContent>
@@ -146,7 +134,6 @@ const ProjectCard = React.forwardRef<HTMLDivElement, ProjectCardProps>(
                       href={project.liveUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      onClick={(e) => e.stopPropagation()}
                       aria-label="Live website"
                     >
                       <WorldIcon className="h-6 w-6 text-muted-foreground hover:text-primary" />
@@ -164,7 +151,6 @@ const ProjectCard = React.forwardRef<HTMLDivElement, ProjectCardProps>(
                       href={project.repoUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      onClick={(e) => e.stopPropagation()}
                       aria-label="Source code"
                     >
                       <GithubIcon className="h-6 w-6 text-muted-foreground hover:text-primary" />

@@ -1,21 +1,20 @@
-"use client"
-
 import { ProjectCard } from '@/components/projects/project-card'
 import { Button } from '@/components/ui/button'
 import { ArrowRight } from 'lucide-react'
 import Link from 'next/link'
 import { MagneticHover } from '../motion/Reveal'
-import type { Project } from '@/utils/getProjects.client'
+import type { ProjectType } from '@/lib/projectSource'
 
 interface HomeProjectsProps {
-  initialProjects: Project[]
+  initialProjects: ProjectType[]
 }
 
-const HomeProjects = ({ initialProjects }: HomeProjectsProps) => {
+/** Server Component — MagneticHover is the only client island for the CTA. */
+export default function HomeProjects({ initialProjects }: HomeProjectsProps) {
   const projects = initialProjects
 
   if (projects.length === 0) {
-    return null // Don't show section if no projects
+    return null
   }
 
   return (
@@ -48,5 +47,3 @@ const HomeProjects = ({ initialProjects }: HomeProjectsProps) => {
     </div>
   )
 }
-
-export default HomeProjects

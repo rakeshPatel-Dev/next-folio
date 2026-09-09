@@ -16,6 +16,6 @@ function getDocSlug(doc: { info?: { path?: string }; slug?: string; title?: stri
  */
 export function getCaseStudy(slug: string) {
   const docsArray = Array.isArray(caseStudies) ? caseStudies : []
-  const found = docsArray.find((doc: any) => getDocSlug(doc) === slug)
+  const found = docsArray.find((doc) => getDocSlug(doc) === slug)
   return found ?? null
 }

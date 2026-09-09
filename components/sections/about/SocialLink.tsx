@@ -2,11 +2,12 @@
 
 import { useState } from "react"
 import { motion, useSpring, useMotionValue, useTransform } from "framer-motion"
+import type { LucideIcon } from "lucide-react"
 import Image from "next/image"
 import { ArrowUpRight } from "lucide-react"
 import { MagneticHover } from "../../motion/Reveal"
 
-export default function SocialLink({ label, href, Icon, index, image }: { label: string; href: string; Icon: any; index: number; image: string }) {
+export default function SocialLink({ label, href, Icon, index, image }: { label: string; href: string; Icon: LucideIcon; index: number; image: string }) {
   const [isHovered, setIsHovered] = useState(false)
   const x = useMotionValue(0)
   const y = useMotionValue(0)
@@ -45,7 +46,13 @@ export default function SocialLink({ label, href, Icon, index, image }: { label:
           scale: { duration: 0.4, ease: [0.34, 1.56, 0.64, 1] },
         }}
       >
-        <Image src={image} fill alt={label} className="object-cover" />
+        <Image
+          src={image}
+          fill
+          sizes="300px"
+          alt={label}
+          className="object-cover"
+        />
       </motion.div>
 
       <MagneticHover strength={0.15}>

@@ -1,19 +1,16 @@
 "use client"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { PullCord } from "pullcord"
 import "pullcord/pullcord.css"
 import { useTheme } from "next-themes"
 import UpArrow from "../icons/up-arrow";
 import {X} from "lucide-react"
+import { useIsMounted } from "@/hooks/useIsMounted"
 
 export function PullCordThemeToggler() {
   const { resolvedTheme, setTheme } = useTheme()
-  const [mounted, setMounted] = useState(false)
+  const mounted = useIsMounted()
   const [closeHint, setCloseHint] = useState(false)
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
 
   if (!mounted) return null
 

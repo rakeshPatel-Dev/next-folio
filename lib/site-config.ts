@@ -15,10 +15,8 @@ export const siteConfig = {
   ogImage: "https://rakeshpatel.me/og-image.png",
   favicon: "/favicon.ico",
   logo: {
-    light: "/images/rakesh-light.png",   // black mark on white bg — for light mode
-    dark: "/images/rakesh-dark.png",     // white mark on black bg — for dark mode
-    markLight: "/images/logo-light.png", // bare mark, transparent bg, light mode
-    markDark: "/images/logo-dark.png",   // bare mark, transparent bg, dark mode
+    light: "/images/rakesh-light.png",
+    dark: "/images/rakesh-dark.png",
   },
 
   // SEO verification
