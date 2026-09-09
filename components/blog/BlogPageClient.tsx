@@ -338,7 +338,7 @@ function EmptyState({
 function calculateReadingTime(text: string): string {
   const wordsPerMinute = 200
   const wordCount = text.split(/\s+/).length
-  const minutes = Math.ceil(wordCount / wordsPerMinute)
+  const minutes = Math.max(1, Math.ceil(wordCount / wordsPerMinute))
   return `${minutes} min read`
 }
 

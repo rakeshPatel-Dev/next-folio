@@ -4,24 +4,25 @@ import { useState, useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
-import { useTheme } from "next-themes"
 import { headerData } from "@/config/headerData"
 import { cn } from "@/lib/utils"
 
+/**
+ * Client island: scroll shrink + active pathname.
+ * Theme logos use CSS dark: variants (no next-themes → no hydration mismatch).
+ */
 const Header = () => {
   const pathname = usePathname()
-  const { resolvedTheme } = useTheme()
   const [isScrolled, setIsScrolled] = useState(false)
-  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
-    setMounted(true)
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20)
     }
-    window.addEventListener("scroll", handleScroll)
+    handleScroll()
+    window.addEventListener("scroll", handleScroll, { passive: true })
     return () => window.removeEventListener("scroll", handleScroll)
-  }, [ isScrolled])
+  }, [])
 
   return (
     <header
@@ -38,8 +39,6 @@ const Header = () => {
             : "py-3"
         )}
       >
-
-        {/* Logo */}
         <Link
           href="/"
           aria-label="Home"
@@ -48,33 +47,26 @@ const Header = () => {
             isScrolled ? "h-12 w-12 md:h-14 md:w-14 transition-all duration-300" : "h-15 w-15 md:h-18 md:w-18"
           )}
         >
-          {/* Dark mode logo (white mark on black bg) */}
+          {/* Dark-mode logo */}
           <Image
             width={72}
             height={72}
             src="https://res.cloudinary.com/dzebbt9j5/image/upload/v1781007642/rakesh-dark_npr0v6.png"
             alt="Logo"
-            className={cn(
-              "absolute inset-0 h-full w-full rounded-xl object-contain transition-opacity duration-300",
-              mounted && resolvedTheme === "dark" ? "opacity-100" : "opacity-0"
-            )}
+            className="absolute inset-0 h-full w-full rounded-xl object-contain opacity-0 transition-opacity duration-300 dark:opacity-100"
             priority
           />
-          {/* Light mode logo (black mark on white bg) */}
+          {/* Light-mode logo */}
           <Image
             width={72}
             height={72}
             src="https://res.cloudinary.com/dzebbt9j5/image/upload/v1781007660/rakesh-light_tsdkju.png"
             alt="Logo"
-            className={cn(
-              "absolute inset-0 h-full w-full rounded-xl object-contain transition-opacity duration-300",
-              mounted && resolvedTheme !== "dark" ? "opacity-100" : "opacity-0"
-            )}
+            className="absolute inset-0 h-full w-full rounded-xl object-contain opacity-100 transition-opacity duration-300 dark:opacity-0"
             priority
           />
         </Link>
 
-        {/* Navigation - using CSS animations instead of framer-motion */}
         <nav>
           <div className="flex items-center gap-1 md:gap-2">
             {headerData.map((data, idx) => {
@@ -94,13 +86,12 @@ const Header = () => {
                       : "text-foreground/60 dark:text-white/60 hover:text-foreground dark:hover:text-white hover:bg-foreground/5 dark:hover:bg-white/5"
                   )}
                   style={{
-                    animation: 'fadeIn 0.3s ease forwards',
+                    animation: "fadeIn 0.3s ease forwards",
                     animationDelay: `${idx * 0.05}s`,
-                    opacity: 0
+                    opacity: 0,
                   }}
                 >
                   {data.label}
-                  {/* Active underline dot */}
                   {isActive && (
                     <span className="absolute bottom-0.5 left-1/2 -translate-x-1/2 h-0.5 w-4 rounded-full bg-foreground/80 dark:bg-white/80" />
                   )}
@@ -110,7 +101,6 @@ const Header = () => {
           </div>
         </nav>
 
-        {/* Empty placeholder for symmetry if needed, or a 'Hire Me' CTA */}
         <div className="hidden sm:block">
           {isScrolled && (
             <Link
@@ -125,6 +115,5 @@ const Header = () => {
     </header>
   )
 }
-
 
 export default Header

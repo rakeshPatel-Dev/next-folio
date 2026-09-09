@@ -1,5 +1,3 @@
-"use client"
-
 export default function ExpertiseCard({ title, desc, index }: { title: string; desc: string; index: number }) {
   return (
     <div className="group relative flex flex-col justify-between border-t border-border bg-transparent px-0 py-10 transition-colors duration-500 hover:border-foreground">

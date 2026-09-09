@@ -1,13 +1,9 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useIsMounted } from "@/hooks/useIsMounted"
 
 export function Noise() {
-  const [mounted, setMounted] = useState(false)
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
+  const mounted = useIsMounted()
 
   if (!mounted) {
     return null

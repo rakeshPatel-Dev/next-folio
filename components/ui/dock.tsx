@@ -1,3 +1,5 @@
+"use client"
+
 import React, { useRef } from "react"
 import type { PropsWithChildren } from "react"
 import { cva, type VariantProps } from "class-variance-authority"

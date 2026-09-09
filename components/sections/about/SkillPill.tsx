@@ -1,8 +1,7 @@
 "use client"
 
-import { forwardRef } from "react"
 import * as Tooltip from "@radix-ui/react-tooltip"
-import IconRenderer from "@/components/forms/project/IconRenderer"
+import IconRenderer from "@/components/ui/IconRenderer"
 import { cn } from "@/lib/utils"
 
 type SkillProps = {

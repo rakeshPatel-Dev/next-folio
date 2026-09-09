@@ -1,5 +1,4 @@
 import { siteConfig } from "@/lib/site-config";
-import Script from "next/script";
 
 export function JsonLd() {
   const personSchema = {
@@ -41,13 +40,11 @@ export function JsonLd() {
 
   return (
     <>
-      <Script
-        id="person-schema"
+      <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
       />
-      <Script
-        id="website-schema"
+      <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
       />
