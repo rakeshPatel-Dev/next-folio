@@ -1,8 +1,10 @@
 import { ArrowUpRight, Briefcase } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
-import { MagneticHover } from "../motion/Reveal";
+import { MagneticHover } from "../motion/Reveal"
 
+const HERO_IMAGE =
+  "https://res.cloudinary.com/dzebbt9j5/image/upload/f_webp,q_auto:good,w_900,c_limit/v1779865854/rakesh_fkagx4.webp"
 
 export default function HeroData() {
   const specs = [
@@ -38,11 +40,12 @@ export default function HeroData() {
           }}
         >
           <Image
-            src="https://res.cloudinary.com/dzebbt9j5/image/upload/v1779865854/rakesh_fkagx4.webp"
+            src={HERO_IMAGE}
             alt="Rakesh Patel"
             fill
             priority
-            sizes="(max-width: 600px) 100vw, (max-width: 900px) 92vw, 780px"
+            unoptimized
+            sizes="(max-width: 600px) 90vw, (max-width: 900px) 76vw, 640px"
             className="hero-img object-cover object-top"
           />
         </div>
@@ -137,30 +140,28 @@ export default function HeroData() {
             style={{ animationDelay: "0.72s" }}
           >
             <Link href="/projects" prefetch>
-            <MagneticHover strength={0.4}>
-              <span className="inline-flex items-center justify-center gap-2 cursor-pointer bg-foreground px-[clamp(20px,3vw,32px)] rounded-md py-3 font-sans text-xs font-bold uppercase tracking-[0.22em] border border-background/10 text-background transition-all hover:opacity-75 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-foreground focus:ring-offset-2">
-              <Briefcase className="size-4" strokeWidth={2} />
-                View Work
-              </span>
-            </MagneticHover>
+              <MagneticHover strength={0.4}>
+                <span className="inline-flex items-center justify-center gap-2 cursor-pointer bg-foreground px-[clamp(20px,3vw,32px)] rounded-md py-3 font-sans text-xs font-bold uppercase tracking-[0.22em] border border-background/10 text-background transition-all hover:opacity-75 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-foreground focus:ring-offset-2">
+                  <Briefcase className="size-4" strokeWidth={2} />
+                  View Work
+                </span>
+              </MagneticHover>
             </Link>
 
-            <MagneticHover strength={0.4}
-            
-            >
-            <a
-              href={process.env.NEXT_PUBLIC_RESUME_LINK}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group inline-flex items-center gap-1.5 font-sans text-xs font-medium bg-muted rounded-md border border-foreground/10 px-[clamp(22px,4vw,36px)] py-3 uppercase tracking-[0.22em] text-foreground transition-all hover:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-foreground focus:ring-offset-2"
-            >
-              Resume
-              <ArrowUpRight
-                className="size-5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-active:translate-x-1 group-active:-translate-y-1"
-                strokeWidth={2}
-              />
-            </a>
-              </MagneticHover>
+            <MagneticHover strength={0.4}>
+              <a
+                href={process.env.NEXT_PUBLIC_RESUME_LINK}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group inline-flex items-center gap-1.5 font-sans text-xs font-medium bg-muted rounded-md border border-foreground/10 px-[clamp(22px,4vw,36px)] py-3 uppercase tracking-[0.22em] text-foreground transition-all hover:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-foreground focus:ring-offset-2"
+              >
+                Resume
+                <ArrowUpRight
+                  className="size-5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-active:translate-x-1 group-active:-translate-y-1"
+                  strokeWidth={2}
+                />
+              </a>
+            </MagneticHover>
           </div>
         </div>
       </div>
