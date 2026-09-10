@@ -3,11 +3,19 @@
 import { useState } from "react"
 import { useForm, ValidationError } from "@formspree/react"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { Badge } from "@/components/ui/badge"
-import { Mail, MapPin, Sparkles, Send, Clock3, ShieldCheck } from "lucide-react"
+import { Send, CheckCircle2 } from "lucide-react"
+import { cn } from "@/lib/utils"
+
+const FIELD_CLASS = cn(
+  "h-12 rounded-2xl border border-border/60 bg-background px-4 text-base",
+  "shadow-[inset_0_1px_2px_rgba(0,0,0,0.04)]",
+  "placeholder:text-muted-foreground/60",
+  "transition-shadow duration-200 ease-out",
+  "focus-visible:ring-1 focus-visible:ring-foreground/20 focus-visible:border-foreground/20",
+  "focus-visible:shadow-[inset_0_1px_2px_rgba(0,0,0,0.04),0_0_0_4px_rgba(0,0,0,0.03)]"
+)
 
 export function ContactForm() {
   const [formState, handleSubmit] = useForm("mykvgajk")
@@ -21,129 +29,97 @@ export function ContactForm() {
     setFormData((current) => ({ ...current, [field]: value }))
   }
 
-  return (
-    <div className="grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
-      <div className="space-y-6">
-        <Card className="overflow-hidden border-foreground/10 bg-linear-to-br from-background via-background to-foreground/5 shadow-xl">
-          <CardHeader className="space-y-4">
-            <Badge variant="outline" className="w-fit gap-2 px-3 py-1">
-              <Sparkles className="h-3.5 w-3.5" />
-              Contact channel
-            </Badge>
-            <div className="space-y-3">
-              <CardTitle className="text-3xl sm:text-4xl tracking-tight">
-                Let&apos;s build something precise.
-              </CardTitle>
-              <CardDescription className="max-w-xl text-base leading-7">
-                Send a project idea, a freelance brief, or a quick question. This form is wired directly to Formspree, so submissions go straight to the configured inbox without custom backend plumbing.
-              </CardDescription>
-            </div>
-          </CardHeader>
+  if (formState.succeeded) {
+    return (
+      <div className="flex flex-col items-center gap-3 rounded-2xl border border-border/60 bg-background px-6 py-10 text-center shadow-[inset_0_1px_2px_rgba(0,0,0,0.04)]">
+        <span className="flex size-12 items-center justify-center rounded-full bg-emerald-500/10">
+          <CheckCircle2 className="size-6 text-emerald-500" />
+        </span>
+        <div className="space-y-1">
+          <p className="text-sm font-semibold">Message sent</p>
+          <p className="text-sm text-muted-foreground">
+            Thanks for reaching out — I&apos;ll get back to you soon.
+          </p>
+        </div>
+      </div>
+    )
+  }
 
-          <CardContent className="grid gap-4 sm:grid-cols-2">
-            <div className="rounded-2xl border bg-background/70 p-4 backdrop-blur">
-              <Mail className="h-5 w-5 text-foreground/80" />
-              <p className="mt-3 text-sm font-medium">Email</p>
-              <a href="mailto:devrakesh.tech@gmail.com" className="mt-1 block break-all text-sm text-muted-foreground hover:text-foreground transition-colors">
-                devrakesh.tech@gmail.com
-              </a>
-            </div>
-            <div className="rounded-2xl border bg-background/70 p-4 backdrop-blur">
-              <MapPin className="h-5 w-5 text-foreground/80" />
-              <p className="mt-3 text-sm font-medium">Response style</p>
-              <p className="mt-1 text-sm text-muted-foreground">
-                Clear scope, quick acknowledgement, and a direct follow-up path.
-              </p>
-            </div>
-            <div className="rounded-2xl border bg-background/70 p-4 backdrop-blur">
-              <Clock3 className="h-5 w-5 text-foreground/80" />
-              <p className="mt-3 text-sm font-medium">Typical reply</p>
-              <p className="mt-1 text-sm text-muted-foreground">
-                Usually within 1-2 business days.
-              </p>
-            </div>
-            <div className="rounded-2xl border bg-background/70 p-4 backdrop-blur">
-              <ShieldCheck className="h-5 w-5 text-foreground/80" />
-              <p className="mt-3 text-sm font-medium">Delivery</p>
-              <p className="mt-1 text-sm text-muted-foreground">
-                Formspree handles submission delivery and basic form protection.
-              </p>
-            </div>
-          </CardContent>
-        </Card>
+  return (
+    <form onSubmit={handleSubmit} className="w-full space-y-3">
+      <Input
+        id="name"
+        name="name"
+        placeholder="Name"
+        value={formData.name}
+        onChange={(e) => updateField("name", e.target.value)}
+        required
+        maxLength={120}
+        className={FIELD_CLASS}
+      />
+
+      <div className="space-y-1.5">
+        <Input
+          id="email"
+          name="email"
+          type="email"
+          placeholder="Email"
+          value={formData.email}
+          onChange={(e) => updateField("email", e.target.value)}
+          required
+          className={FIELD_CLASS}
+        />
+        <ValidationError
+          prefix="Email"
+          field="email"
+          errors={formState.errors}
+          className="px-1 text-xs text-red-500"
+        />
       </div>
 
-      <Card className="border-foreground/10 shadow-xl shadow-foreground/5">
-        <CardHeader>
-          <CardTitle>Send a message</CardTitle>
-          <CardDescription>
-            Keep it short or include as much context as you need.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          {formState.succeeded ? (
-            <div className="rounded-2xl border border-emerald-500/20 bg-emerald-500/5 p-6">
-              <p className="text-lg font-semibold">Thanks for reaching out.</p>
-              <p className="mt-2 text-sm text-muted-foreground">
-                Your message has been sent successfully. I&apos;ll get back to you as soon as possible.
-              </p>
-            </div>
-          ) : (
-            <form onSubmit={handleSubmit} className="space-y-5">
-            <div className="space-y-2">
-              <label htmlFor="name" className="text-sm font-medium">Name</label>
-              <Input
-                id="name"
-                name="name"
-                placeholder="Your name"
-                value={formData.name}
-                onChange={(event) => updateField("name", event.target.value)}
-                required
-                maxLength={120}
-              />
-            </div>
+      <div className="space-y-1.5">
+        <Textarea
+          id="message"
+          name="message"
+          placeholder="Message"
+          value={formData.message}
+          onChange={(e) => updateField("message", e.target.value)}
+          required
+          maxLength={5000}
+          className={cn(FIELD_CLASS, "h-auto min-h-32 resize-none py-3.5 leading-relaxed")}
+        />
+        <ValidationError
+          prefix="Message"
+          field="message"
+          errors={formState.errors}
+          className="px-1 text-xs text-red-500"
+        />
+      </div>
 
-            <div className="space-y-2">
-              <label htmlFor="email" className="text-sm font-medium">Email</label>
-              <Input
-                id="email"
-                name="email"
-                type="email"
-                placeholder="you@example.com"
-                value={formData.email}
-                onChange={(event) => updateField("email", event.target.value)}
-                required
-              />
-              <ValidationError prefix="Email" field="email" errors={formState.errors} />
-            </div>
+      <Button
+        type="submit"
+        disabled={formState.submitting}
+        className={cn(
+          "group relative h-12 w-full gap-2 overflow-hidden rounded-2xl text-sm font-semibold",
+          "bg-foreground text-background dark:bg-white dark:text-black",
+          "shadow-[0_1px_2px_rgba(0,0,0,0.08),0_4px_12px_-2px_rgba(0,0,0,0.15),inset_0_1px_0_rgba(255,255,255,0.15)]",
+          "transition-all duration-200 ease-out",
+          "hover:shadow-[0_1px_2px_rgba(0,0,0,0.1),0_8px_20px_-4px_rgba(0,0,0,0.22),inset_0_1px_0_rgba(255,255,255,0.2)]",
+          "hover:-translate-y-px",
+          "active:translate-y-0 active:shadow-[0_1px_2px_rgba(0,0,0,0.08),inset_0_1px_0_rgba(255,255,255,0.15)]",
+          "disabled:opacity-70 disabled:hover:translate-y-0"
+        )}
+      >
+        <span className="relative z-10 flex items-center gap-2">
+          {formState.submitting ? "Sending..." : "Send"}
+          <Send className="size-4 transition-transform duration-200 group-hover:translate-x-0.5" />
+        </span>
 
-            <div className="space-y-2">
-              <label htmlFor="message" className="text-sm font-medium">Message</label>
-              <Textarea
-                id="message"
-                name="message"
-                placeholder="Tell me about the project, timeline, or question..."
-                className="min-h-44 resize-none"
-                value={formData.message}
-                onChange={(event) => updateField("message", event.target.value)}
-                required
-                maxLength={5000}
-              />
-              <ValidationError prefix="Message" field="message" errors={formState.errors} />
-            </div>
-
-            <Button
-              type="submit"
-              className="w-full gap-2"
-              disabled={formState.submitting}
-            >
-              {formState.submitting ? "Sending..." : "Send inquiry"}
-              <Send className="h-4 w-4" />
-            </Button>
-          </form>
-          )}
-        </CardContent>
-      </Card>
-    </div>
+        <span
+          className="pointer-events-none absolute inset-x-0 top-0 h-1/2 bg-linear-to-b from-white/15 to-transparent"
+          aria-hidden
+        />
+      </Button>
+    </form>
   )
 }
