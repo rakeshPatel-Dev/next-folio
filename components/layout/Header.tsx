@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation"
 import { headerData } from "@/config/headerData"
 import { cn } from "@/lib/utils"
 import { AnimatePresence, motion } from "framer-motion"
-import { ArrowUpRight } from "lucide-react"
+import { ArrowUpRight, Home } from "lucide-react"
 import { LetsTalkDialog } from "@/components/ui/lets-talk-dialog"
 
 /**
@@ -26,11 +26,7 @@ const Header = () => {
   }, [])
 
   return (
-    <header
-      className={cn(
-        "font-sans fixed z-50 w-full transition-all duration-300 px-4 sm:px-6 top-4",
-      )}
-    >
+    <header className="font-sans fixed top-4 z-50 w-full px-4 sm:px-6">
       <div className="relative mx-auto w-fit">
         {/* Soft ambient glow behind the pill (only when scrolled) */}
         <div
@@ -46,61 +42,76 @@ const Header = () => {
             "relative flex max-w-fit items-center justify-center rounded-full border backdrop-blur-3xl transition-all duration-300",
             isScrolled
               ? [
-                  // borders
-                  "border-foreground/10 dark:border-white/12",
-                  // background
-                  "bg-background/70 dark:bg-background/60",
-                  // padding + gap
-                  "py-1.5 pl-4 pr-1.5 gap-3",
-                  // layered shadow: tight ring + soft drop + deep ambient
-                  "shadow-[0_1px_2px_rgba(0,0,0,0.04),0_4px_12px_-2px_rgba(0,0,0,0.08),0_12px_32px_-8px_rgba(0,0,0,0.12)]",
-                  "dark:shadow-[0_1px_2px_rgba(0,0,0,0.4),0_4px_16px_-2px_rgba(0,0,0,0.5),0_16px_40px_-8px_rgba(0,0,0,0.6)]",
-                  // inner highlight for a "glass" top edge
-                  "ring-1 ring-inset ring-white/40 dark:ring-white/5",
-                ].join(" ")
+                "border-foreground/10 dark:border-white/12",
+                "bg-background/70 dark:bg-background/60",
+                "py-1.5 pl-4 pr-1.5 gap-3",
+                "shadow-[0_1px_2px_rgba(0,0,0,0.04),0_4px_12px_-2px_rgba(0,0,0,0.08),0_12px_32px_-8px_rgba(0,0,0,0.12)]",
+                "dark:shadow-[0_1px_2px_rgba(0,0,0,0.4),0_4px_16px_-2px_rgba(0,0,0,0.5),0_16px_40px_-8px_rgba(0,0,0,0.6)]",
+                "ring-1 ring-inset ring-white/40 dark:ring-white/5",
+              ].join(" ")
               : "border-transparent bg-transparent py-3 px-4 gap-0"
           )}
         >
           {/* Nav */}
-          <nav>
-            <div className="flex items-center gap-0.5 md:gap-1">
-              {headerData.map((data, idx) => {
-                const isActive =
-                  data.href === "/"
-                    ? pathname === "/"
-                    : pathname?.startsWith(data.href)
+          <nav className="flex items-center gap-0.5 md:gap-2">
+            {headerData.map((data, idx) => {
+              const isActive =
+                data.href === "/"
+                  ? pathname === "/"
+                  : pathname?.startsWith(data.href)
 
-                return (
-                  <Link
-                    key={idx}
-                    href={data.href}
-                    className={cn(
-                      "relative px-3 py-1.5 text-base font-medium rounded-full",
-                      "transition-all duration-200 ease-out",
-                      isActive
-                        ? "text-foreground"
-                        : "text-foreground/55 hover:text-foreground hover:bg-foreground/6 active:scale-[0.97]"
-                    )}
-                    style={{
-                      animation: "fadeIn 0.3s ease forwards",
-                      animationDelay: `${idx * 0.05}s`,
-                      opacity: 0,
-                    }}
-                  >
-                    {data.label}
+              const isHome = data.href === "/"
 
-                    {/* Active underline — animated in */}
-                    {isActive && (
-                      <motion.span
-                        layoutId="nav-underline"
-                        className="absolute bottom-0.5 left-1/2 -translate-x-1/2 h-0.5 w-4 rounded-full bg-foreground/80"
-                        transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                      />
-                    )}
-                  </Link>
-                )
-              })}
-            </div>
+              return (
+                <Link
+                  key={idx}
+                  href={data.href}
+                  aria-label={isHome ? "Home" : undefined}
+                  className={cn(
+                    "group/home relative rounded-full transition-all duration-200 ease-out",
+                    isHome
+                      ? "flex h-8 items-center justify-center"
+                      : "px-3 py-1.5 text-base font-medium",
+                    isActive
+                      ? "text-foreground"
+                      : "text-foreground/55 hover:text-foreground hover:bg-foreground/6 px-1.5 pl-2 active:scale-[0.97]"
+                  )}
+                  style={{
+                    animation: "fadeIn 0.3s ease forwards",
+                    animationDelay: `${idx * 0.05}s`,
+                    opacity: 0,
+                  }}
+                >
+                  {isHome ? (
+                    <span className="relative flex  items-center">
+                      {/* Icon — nudges left on hover to make room */}
+                      <Home className="size-5 shrink-0 transition-transform duration-300 ease-out group-hover/home:-translate-x-0.5" />
+
+                      {/* "Home" label — slides in from the right */}
+                      <span className="ml-0 w-0 overflow-hidden whitespace-nowrap text-base font-medium opacity-0 transition-all  duration-300 ease-out group-hover/home:ml-2 group-hover/home:w-12 group-hover/home:opacity-100">
+                        <span className="inline-block translate-x-2 transition-transform duration-300 ease-out group-hover/home:translate-x-0">
+                          { data.label }
+                        </span>
+                      </span>
+                    </span>
+                  ) : (
+                    data.label
+                  )}
+
+                  {/* Active underline — animated in */}
+                  {isActive && (
+                    <motion.span
+                      layoutId="nav-underline"
+                      className={cn(
+                        "absolute bottom-0.5 left-1/2 -translate-x-1/2 h-0.5 rounded-full bg-foreground/80",
+                        isHome ? "w-3" : "w-4"
+                      )}
+                      transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                    />
+                  )}
+                </Link>
+              )
+            })}
           </nav>
 
           {/* CTA — slides in on scroll */}
@@ -123,22 +134,19 @@ const Header = () => {
                     "transition-all duration-200",
                     "shadow-[0_1px_2px_rgba(0,0,0,0.1),0_4px_10px_-2px_rgba(0,0,0,0.15)]",
                     "hover:shadow-[0_1px_2px_rgba(0,0,0,0.12),0_6px_16px_-2px_rgba(0,0,0,0.2)]",
-                    "active:scale-[0.98]"
+                    "active:scale-[0.98] md:mr-1"
                   )}
                 >
-                  {/* Subtle top gloss */}
                   <span
                     className="pointer-events-none absolute inset-x-0 top-0 h-1/2 rounded-t-full bg-linear-to-b from-white/20 to-transparent opacity-60"
                     aria-hidden
                   />
 
-                  {/* Label + arrow — arrow slides in, label nudges left */}
                   <span className="relative flex items-center">
                     <span className="transition-transform duration-300 ease-out group-hover/cta:-translate-x-1">
                       Let&apos;s Talk
                     </span>
 
-                    {/* Arrow: slides in from the right */}
                     <span className="ml-0 w-0 overflow-hidden opacity-0 transition-all duration-300 ease-out group-hover/cta:ml-1.5 group-hover/cta:w-4 group-hover/cta:opacity-100">
                       <ArrowUpRight
                         className="h-4 w-4 shrink-0 translate-x-2 transition-transform duration-300 ease-out group-hover/cta:translate-x-0"
