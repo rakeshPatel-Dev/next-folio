@@ -17,6 +17,7 @@ function RandomQuoteContent() {
     return techQuotes[0]
   })
   const [isLoading, setIsLoading] = useState(false)
+  const [isFading, setIsFading] = useState(false)
 
   useEffect(() => {
     if (techQuotes.length > 1) {
@@ -30,52 +31,63 @@ function RandomQuoteContent() {
 
   const getNewQuote = () => {
     setIsLoading(true)
+    setIsFading(true)
+
     setTimeout(() => {
       setQuote(techQuotes[getRandomQuoteIndex()])
+      setIsFading(false)
       setIsLoading(false)
     }, 300)
   }
 
   return (
-    <div className=" mt-20 flex items-center justify-center">
+    <div className="mt-20 flex items-center justify-center px-4">
       <div className="w-full max-w-3xl">
-        <div className=" rounded-2xl shadow-lg dark:shadow-2xl p-8 md:p-12 border ">
+        <div className="rounded-2xl relative max-h-auto shadow-lg dark:shadow-2xl border py-8 px-8 sm:py-10 sm:px-10">
 
-          <div className="space-y-6">
+          <div>
             <div className="relative">
-              <Quote className=' rotate-y-180 text-muted' size={50} />
-              <p className="text-xl md:text-2xl font-black font-sans text-center leading-relaxed pl-4">
-                {quote.content}
-              </p>
-            </div>
+              <Quote
+                className="rotate-y-180 text-muted-foreground/50 absolute -top-5 -left-5"
+                size={30}
+              />
+              <div
+                className={`transition-all duration-300 ease-out ${
+                  isFading
+                    ? 'opacity-0 translate-y-1 blur-[2px]'
+                    : 'opacity-100 translate-y-0 blur-0'
+                }`}
+              >
+                <p className="text-xl font-black font-sans text-center leading-relaxed px-8">
+                  {quote.content}
+                </p>
 
-            <div className="flex  justify-center pt-4">
-              <p className="text-sm md:text-base text-muted-foreground font-medium">
-                — {quote.author}
-              </p>
+                <div className="flex justify-center mt-6">
+                  <p className="text-sm md:text-base text-muted-foreground font-medium">
+                    — {quote.author}
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
 
-          <div className="h-px bg-linear-to-r from-transparent via-neutral-300 dark:via-neutral-600 to-transparent my-8"></div>
-
-          <div className="flex justify-center">
-            <Button
-              onClick={getNewQuote}
-              disabled={isLoading}
-              variant="outline"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-lg font-medium transition-all duration-200 ease-in-out hover:shadow-md dark:hover:shadow-lg active:scale-95"
-            >
-              <RefreshCw size={18} className={isLoading ? 'animate-spin' : ''} />
-              <span>Get New</span>
-            </Button>
-          </div>
+          <Button
+            onClick={getNewQuote}
+            disabled={isLoading}
+            title="Get New"
+            variant="ghost"
+            className="inline-flex absolute bottom-4 right-4 items-center gap-2 px-6 py-3 rounded-full font-medium transition-all duration-200 ease-in-out hover:shadow-md dark:hover:shadow-lg active:scale-95"
+          >
+            <RefreshCw size={18} className={isLoading ? 'animate-spin' : ''} />
+          </Button>
         </div>
 
-        <p className="text-center flex items-center justify-center font-mono text-muted-foreground text-sm mt-8">Tech Quotes <Dot /> Random</p>
+        <p className="text-center flex items-center justify-center font-mono text-muted-foreground text-sm mt-4">
+          Tech <Dot/> Scripture <Dot/> Wisdom
+        </p>
       </div>
     </div>
   )
 }
 
 export default RandomQuoteContent
-
