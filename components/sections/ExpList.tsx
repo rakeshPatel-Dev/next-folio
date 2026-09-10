@@ -57,7 +57,7 @@ export function ExpList({ items }: { items: Experience[] }) {
                         {exp.company}
                       </h3>
                       {exp.isWorking && (
-                        <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full border border-emerald-500/30 bg-emerald-500/8 text-emerald-500 font-mono text-[10px] tracking-wider uppercase">
+                        <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full border border-emerald-500/30 bg-emerald-500/8 text-emerald-500 font-mono text-sm tracking-wider uppercase">
                           <span className="relative flex h-1.5 w-1.5">
                             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500/60" />
                             <span className="relative h-1.5 w-1.5 rounded-full bg-emerald-500" />
@@ -78,13 +78,13 @@ export function ExpList({ items }: { items: Experience[] }) {
                     </div>
                     <div className="flex items-center gap-1.5 text-muted-foreground">
                       <Calendar className="w-3.5 h-3.5" />
-                      <span className="font-mono text-xs">{exp.period}</span>
+                      <span className="font-mono text-sm">{exp.period}</span>
                     </div>
                   </div>
                 </div>
 
                 <div className="flex items-center justify-end gap-2 mt-4 pt-3 border-t border-border/30">
-                  <span className="text-[10px] font-mono tracking-wider uppercase text-muted-foreground/50">
+                  <span className="text-sm font-mono tracking-wider uppercase text-muted-foreground/50">
                     {isExpanded ? "Show less" : "Show more"}
                   </span>
                   <motion.div
@@ -107,7 +107,7 @@ export function ExpList({ items }: { items: Experience[] }) {
                   >
                     <div className="p-5 sm:p-6 space-y-6">
                       <div>
-                        <h4 className="text-[10px] font-mono tracking-wider uppercase text-muted-foreground/50 mb-3">
+                        <h4 className="text-sm font-mono tracking-wider uppercase text-muted-foreground/50 mb-3">
                           Technologies
                         </h4>
                         <div className="flex flex-wrap gap-2">
@@ -117,7 +117,7 @@ export function ExpList({ items }: { items: Experience[] }) {
                               initial={{ opacity: 0, scale: 0.95 }}
                               animate={{ opacity: 1, scale: 1 }}
                               transition={{ delay: i * 0.03, duration: 0.2 }}
-                              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md border border-border/50 bg-muted/20 text-xs text-muted-foreground"
+                              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md border border-border/50 bg-muted/20 text-sm text-muted-foreground"
                             >
                               <IconRenderer
                                 name={t.icon}
@@ -131,7 +131,7 @@ export function ExpList({ items }: { items: Experience[] }) {
                       </div>
 
                       <div>
-                        <h4 className="text-[10px] font-mono tracking-wider uppercase text-muted-foreground/50 mb-3">
+                        <h4 className="text-sm font-mono tracking-wider uppercase text-muted-foreground/50 mb-3">
                           Key Highlights
                         </h4>
                         <div className="space-y-2">
