@@ -6,15 +6,17 @@ import { usePathname } from "next/navigation"
 import { headerData } from "@/config/headerData"
 import { cn } from "@/lib/utils"
 import { AnimatePresence, motion } from "framer-motion"
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight } from "lucide-react"
+import { LetsTalkDialog } from "@/components/ui/lets-talk-dialog"
 
 /**
  * Client island: scroll shrink + active pathname.
- * Centered pill nav; "Let's Talk" CTA slides in on scroll.
+ * Centered pill nav; "Let's Talk" CTA slides in on scroll and opens a connect dialog.
  */
 const Header = () => {
   const pathname = usePathname()
   const [isScrolled, setIsScrolled] = useState(false)
+  const [isTalkOpen, setIsTalkOpen] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20)
@@ -102,53 +104,56 @@ const Header = () => {
           </nav>
 
           {/* CTA — slides in on scroll */}
-        <AnimatePresence initial={false}>
-  {isScrolled && (
-    <motion.div
-      initial={{ opacity: 0, width: 0 }}
-      animate={{ opacity: 1, width: "auto" }}
-      exit={{ opacity: 0, width: 0 }}
-      transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-      className="overflow-hidden"
-    >
-      <Link
-        href="/contact"
-        className={cn(
-          "group/cta relative inline-flex items-center whitespace-nowrap rounded-full",
-          "bg-foreground dark:bg-white px-4 py-1.5",
-          "text-sm font-semibold text-background dark:text-black",
-          "transition-all duration-200",
-          "shadow-[0_1px_2px_rgba(0,0,0,0.1),0_4px_10px_-2px_rgba(0,0,0,0.15)]",
-          "hover:shadow-[0_1px_2px_rgba(0,0,0,0.12),0_6px_16px_-2px_rgba(0,0,0,0.2)]",
-          "active:scale-[0.98]"
-        )}
-      >
-        {/* Subtle top gloss */}
-        <span
-          className="pointer-events-none absolute inset-x-0 top-0 h-1/2 rounded-t-full bg-linear-to-b from-white/20 to-transparent opacity-60"
-          aria-hidden
-        />
+          <AnimatePresence initial={false}>
+            {isScrolled && (
+              <motion.div
+                initial={{ opacity: 0, width: 0 }}
+                animate={{ opacity: 1, width: "auto" }}
+                exit={{ opacity: 0, width: 0 }}
+                transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                className="overflow-hidden"
+              >
+                <button
+                  type="button"
+                  onClick={() => setIsTalkOpen(true)}
+                  className={cn(
+                    "group/cta relative inline-flex items-center whitespace-nowrap rounded-full",
+                    "bg-foreground dark:bg-white px-4 py-1.5",
+                    "text-sm font-semibold text-background dark:text-black",
+                    "transition-all duration-200",
+                    "shadow-[0_1px_2px_rgba(0,0,0,0.1),0_4px_10px_-2px_rgba(0,0,0,0.15)]",
+                    "hover:shadow-[0_1px_2px_rgba(0,0,0,0.12),0_6px_16px_-2px_rgba(0,0,0,0.2)]",
+                    "active:scale-[0.98]"
+                  )}
+                >
+                  {/* Subtle top gloss */}
+                  <span
+                    className="pointer-events-none absolute inset-x-0 top-0 h-1/2 rounded-t-full bg-linear-to-b from-white/20 to-transparent opacity-60"
+                    aria-hidden
+                  />
 
-        {/* Label + arrow — arrow slides in, label nudges left */}
-        <span className="relative flex items-center">
-          <span className="transition-transform duration-300 ease-out group-hover/cta:-translate-x-1">
-            Let&apos;s Talk
-          </span>
+                  {/* Label + arrow — arrow slides in, label nudges left */}
+                  <span className="relative flex items-center">
+                    <span className="transition-transform duration-300 ease-out group-hover/cta:-translate-x-1">
+                      Let&apos;s Talk
+                    </span>
 
-          {/* Arrow: slides in from the right */}
-          <span className="ml-0 w-0 overflow-hidden opacity-0 transition-all duration-300 ease-out group-hover/cta:ml-1.5 group-hover/cta:w-4 group-hover/cta:opacity-100">
-            <ArrowUpRight
-              className="h-4 w-4 shrink-0 translate-x-2 transition-transform duration-300 ease-out group-hover/cta:translate-x-0"
-              strokeWidth={2.5}
-            />
-          </span>
-        </span>
-      </Link>
-    </motion.div>
-  )}
-</AnimatePresence>
+                    {/* Arrow: slides in from the right */}
+                    <span className="ml-0 w-0 overflow-hidden opacity-0 transition-all duration-300 ease-out group-hover/cta:ml-1.5 group-hover/cta:w-4 group-hover/cta:opacity-100">
+                      <ArrowUpRight
+                        className="h-4 w-4 shrink-0 translate-x-2 transition-transform duration-300 ease-out group-hover/cta:translate-x-0"
+                        strokeWidth={2.5}
+                      />
+                    </span>
+                  </span>
+                </button>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
+
+      <LetsTalkDialog open={isTalkOpen} onClose={() => setIsTalkOpen(false)} />
     </header>
   )
 }
