@@ -19,6 +19,12 @@ export const siteConfig = {
     dark: "/images/rakesh-dark.png",
   },
 
+  // Layout — change once; applied on root via `max-w-app` / `px-app`
+  layout: {
+    maxWidth: "48rem", // ≈ max-w-3xl; try 56rem (4xl), 64rem (5xl), 72rem (6xl)
+    paddingX: "clamp(1.25rem, 3vw, 52px)",
+  },
+
   // SEO verification
   googleVerification: "google4b9a8ebb48599781",
 

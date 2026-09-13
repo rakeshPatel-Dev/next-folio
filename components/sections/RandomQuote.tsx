@@ -41,7 +41,7 @@ function RandomQuoteContent() {
   }
 
   return (
-    <div className="mt-20 flex items-center justify-center px-4">
+    <div className="mt-20 flex items-center justify-center">
       <div className="w-full max-w-3xl">
         <div className="rounded-2xl relative max-h-auto shadow-lg dark:shadow-2xl border py-8 px-8 sm:py-10 sm:px-10">
 

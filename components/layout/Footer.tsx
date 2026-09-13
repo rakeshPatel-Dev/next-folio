@@ -8,7 +8,7 @@ function FooterCopy() {
 
 const Footer = () => {
   return (
-    <footer className="w-full mt-10 max-w-4xl mb-20 mx-auto py-8 border-t border-black/10 dark:border-white/10 flex flex-col sm:flex-row items-center justify-center">
+    <footer className="w-full mt-10 max-w-app px-app mb-20 mx-auto py-8 border-t border-black/10 dark:border-white/10 flex flex-col sm:flex-row items-center justify-center">
       <FooterCopy />
     </footer>
   )

@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import type { Metadata } from "next";
 import { Space_Grotesk, Fira_Code } from "next/font/google";
 import "../globals.css";
@@ -102,6 +103,12 @@ export default function RootLayout({
       <body
         suppressHydrationWarning
         className={`${spaceGrotesk.variable} ${firaCode.variable} antialiased pt-15 sm:pt-16`}
+        style={
+          {
+            "--app-max-width": siteConfig.layout.maxWidth,
+            "--app-padding-x": siteConfig.layout.paddingX,
+          } as CSSProperties
+        }
       >
         <JsonLd />
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem={true} storageKey="theme">
@@ -111,7 +118,7 @@ export default function RootLayout({
           <ToastProvider>
             <PageTransition>
               <RootProvider>
-                <main id="main-content" className="mx-auto w-full max-w-5xl px-[clamp(6px,3vw,52px)]">
+                <main id="main-content" className="mx-auto w-full max-w-app px-app">
                   {children}
                 </main>
               </RootProvider>

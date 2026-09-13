@@ -133,7 +133,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(blogPostingSchema) }}
       />
       {/* Back Button */}
-      <div className="max-w-4xl mx-auto px-6 pt-24 pb-8">
+      <div className="max-w-4xl mx-auto pt-24 pb-8">
         <Link
           href="/blog"
         >
@@ -145,7 +145,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
       </div>
 
       {/* Header */}
-      <header className="max-w-4xl mx-auto px-6 pb-8">
+      <header className="max-w-4xl mx-auto pb-8">
         {/* Tags */}
         <div className="flex flex-wrap gap-2 mb-4">
           {blogMeta.tags.map((tag) => (
@@ -199,7 +199,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
       </header>
 
       {/* Cover Image */}
-      <div className="max-w-4xl mx-auto px-6 mb-12">
+      <div className="max-w-4xl mx-auto mb-12">
         <div className="relative aspect-video w-full overflow-hidden rounded-2xl">
           <Image
             src={blogMeta.coverImage}
@@ -212,7 +212,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
       </div>
 
       {/* Article body — TOC floats outside on xl+ */}
-      <div className="mx-auto max-w-4xl px-6 pb-12">
+      <div className="mx-auto max-w-4xl pb-12">
         <BlogTOC items={blogMeta.toc ?? []} variant="mobile" />
         <div className="prose prose-lg dark:prose-invert max-w-none blog-prose">
           <MDXContent />
@@ -220,7 +220,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
       </div>
       <BlogTOC items={blogMeta.toc ?? []} variant="desktop" />
       {/* Prev/Next Navigation - shadcn style */}
-      <div className="max-w-4xl mx-auto px-6 pb-12">
+      <div className="max-w-4xl mx-auto pb-12">
         <div className="flex flex-col sm:flex-row gap-4 border-t pt-12">
           {/* Previous Blog */}
           {prevBlog && (
@@ -279,7 +279,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
 
       {/* Related Blogs */}
       {relatedBlogs.length > 0 && (
-        <section className="max-w-4xl mx-auto px-6 py-12 border-t">
+        <section className="max-w-4xl mx-auto py-12 border-t">
           <h2 className="text-2xl font-bold mb-8">Related Posts</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {relatedBlogs.map((relatedBlog) => (
