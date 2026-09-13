@@ -5,10 +5,16 @@
 
 @custom-variant dark (&:is(.dark *));
 
-:root            { --transition-fill: #f0ede8; }  /* light: warm off-white */
+:root {
+  --transition-fill: #f0ede8; /* light: warm off-white */
+  --app-max-width: 64rem; /* overridden by siteConfig.layout.maxWidth on <body> */
+  --app-padding-x: clamp(6px, 3vw, 52px); /* overridden by siteConfig.layout.paddingX */
+}
 .dark            { --transition-fill: #080808; }  /* dark: near black      */
 
 @theme inline {
+  --max-width-app: var(--app-max-width);
+  --spacing-app: var(--app-padding-x);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-space-grotesk);
@@ -222,3 +228,99 @@ html {
             animation-play-state: running;
           }
         }
+
+/* Brand icon — glass depth badge; knobs via CSS vars from BrandIcon */
+.brand-icon {
+  --_brand: var(--brand-icon-color);
+  width: var(--brand-icon-size);
+  height: var(--brand-icon-size);
+  border-radius: var(--brand-icon-radius);
+  border: 1px solid
+    color-mix(
+      in oklab,
+      white calc(var(--brand-icon-border) * 100%),
+      var(--_brand)
+    );
+  background: linear-gradient(
+    var(--brand-icon-angle),
+    color-mix(
+      in oklab,
+      var(--_brand) calc((1 - var(--brand-icon-highlight)) * 72%),
+      rgb(255 255 255 / 42%)
+    ),
+    color-mix(
+      in oklab,
+      var(--_brand) calc((1 - var(--brand-icon-shade)) * 88%),
+      rgb(0 0 0 / 28%)
+    )
+  );
+  backdrop-filter: blur(var(--brand-icon-blur)) saturate(1.25);
+  -webkit-backdrop-filter: blur(var(--brand-icon-blur)) saturate(1.25);
+  box-shadow:
+    0 1px 2px
+      color-mix(
+        in oklab,
+        var(--_brand) calc(var(--brand-icon-depth) * 28%),
+        transparent
+      ),
+    0 6px 16px -4px
+      color-mix(
+        in oklab,
+        var(--_brand) calc(var(--brand-icon-depth) * 42%),
+        transparent
+      ),
+    0 14px 32px -10px
+      color-mix(
+        in oklab,
+        var(--_brand) calc(var(--brand-icon-glow) * 40%),
+        transparent
+      ),
+    inset 0 1px 0 rgb(255 255 255 / calc(var(--brand-icon-inset) * 100%)),
+    inset 0 -1px 1px rgb(0 0 0 / 10%);
+}
+
+.brand-icon::before {
+  content: "";
+  position: absolute;
+  inset: 10%;
+  z-index: -1;
+  border-radius: inherit;
+  background: var(--_brand);
+  opacity: calc(var(--brand-icon-glow) * 0.55);
+  filter: blur(var(--brand-icon-glow-blur));
+  pointer-events: none;
+}
+
+.dark .brand-icon {
+  --_brand: var(--brand-icon-color-dark);
+  border-color: color-mix(
+    in oklab,
+    white calc(var(--brand-icon-border) * 55%),
+    transparent
+  );
+  box-shadow:
+    0 1px 2px rgb(0 0 0 / 40%),
+    0 6px 18px -4px
+      color-mix(
+        in oklab,
+        var(--_brand) calc(var(--brand-icon-depth) * 55%),
+        transparent
+      ),
+    0 16px 36px -12px
+      color-mix(
+        in oklab,
+        var(--_brand) calc(var(--brand-icon-glow) * 38%),
+        transparent
+      ),
+    inset 0 1px 0 rgb(255 255 255 / calc(var(--brand-icon-inset) * 40%)),
+    inset 0 -1px 1px rgb(0 0 0 / 28%);
+}
+
+.brand-icon svg {
+  width: var(--brand-icon-glyph);
+  height: var(--brand-icon-glyph);
+  filter: drop-shadow(0 1px 1px rgb(0 0 0 / 18%));
+}
+
+
+
