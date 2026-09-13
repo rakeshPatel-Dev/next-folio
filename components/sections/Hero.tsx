@@ -1,95 +1,12 @@
-import { Facebook, Github, Instagram, Linkedin, Twitter } from "lucide-react"
 import { TechIcon } from "../ui/tech-icon"
 import { SocialIcon } from "../ui/social-icon"
 import { HelloAnimation } from "../ui/hello-animation"
 import { DashedUnderline } from "../ui/dashed-underline"
 import DirectionTicker from "../ui/direction-ticker"
-import { siteConfig } from "@/lib/site-config"
 import { NowPlaying } from "../last-fm/now-playing"
-import { FaNodeJs, FaReact, SiNextdotjs, SiTypescript } from "@/components/icons"
-
-const heroTech = [
-  {
-    label: "React",
-    Icon: FaReact,
-    color: "#087ea4",
-    colorDark: "#0b8ec0",
-  },
-  {
-    label: "Next.js",
-    Icon: SiNextdotjs,
-    color: "#0d1117",
-    colorDark: "#2f363d",
-  },
-  {
-    label: "Node.js",
-    Icon: FaNodeJs,
-    color: "#2f6b2f",
-    colorDark: "#3c8c3c",
-  },
-  {
-    label: "TypeScript",
-    Icon: SiTypescript,
-    color: "#235a97",
-    colorDark: "#3178C6",
-  },
-] as const
-
-const heroSocial = [
-  {
-    label: "GitHub",
-    href: siteConfig.links.github,
-    Icon: Github,
-    color: "#0d1117",
-    colorDark: "#161b22",
-    labelWidthClass: "group-hover/expand:w-14",
-  },
-  {
-    label: "LinkedIn",
-    href: siteConfig.links.linkedin,
-    Icon: Linkedin,
-    color: "#004182",
-    colorDark: "#00356b",
-    labelWidthClass: "group-hover/expand:w-[4.25rem]",
-  },
-  {
-    label: "Twitter",
-    href: siteConfig.links.twitter,
-    Icon: Twitter,
-    color: "#0c7abf",
-    colorDark: "#0a689f",
-    labelWidthClass: "group-hover/expand:w-14",
-  },
-  {
-    label: "Instagram",
-    href: siteConfig.links.instagram,
-    Icon: Instagram,
-    color: "#b02a45",
-    colorDark: "#8f2137",
-    labelWidthClass: "group-hover/expand:w-[4.75rem]",
-  },
-  {
-    label: "Facebook",
-    href: siteConfig.links.facebook,
-    Icon: Facebook,
-    color: "#0f5bb5",
-    colorDark: "#0c4a94",
-    labelWidthClass: "group-hover/expand:w-[4.5rem]",
-  },
-] as const
+import { heroTech, heroSocial, tickerItems } from "@/data/hero"
 
 export default function HeroData() {
-  const tickerItems = [
-    "React",
-    "Next.js",
-    "Node.js",
-    "TypeScript",
-    "MongoDB",
-    "Firebase",
-    "Express.js",
-    "REST APIs",
-  ]
-
   return (
     <section className="hero-root relative mx-auto flex w-full max-w-app flex-col justify-center overflow-hidden font-sans">
       <div className="flex flex-col items-start pt-[clamp(60px,8vw,100px)] pb-[clamp(28px,5vw,44px)] text-left">
