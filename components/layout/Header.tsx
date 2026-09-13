@@ -55,7 +55,7 @@ const Header = () => {
 
   return (
     <>
-      <header className="font-sans fixed inset-x-0 top-3 z-50 px-3 md:top-4 md:px-6">
+      <header className="font-sans fixed inset-x-0 top-5 z-50 px-3 md:top-8 md:px-0">
         {/* ============================================================
          * MOBILE — static, flat, no effects
          * ============================================================ */}
@@ -140,9 +140,10 @@ const Header = () => {
         </div>
 
         {/* ============================================================
-         * DESKTOP — original animated pill
+         * DESKTOP — centered within app column, pill state on scroll
          * ============================================================ */}
-        <div className="relative mx-auto hidden w-fit md:block">
+        <div className="relative mx-auto hidden w-full max-w-app px-app md:block">
+          <motion.div className="relative mx-auto w-fit">
           <div
             className={cn(
               "pointer-events-none absolute -inset-x-6 -inset-y-2 rounded-full bg-foreground/5 blur-2xl transition-opacity duration-500",
@@ -162,7 +163,7 @@ const Header = () => {
                   "shadow-[0_1px_2px_rgba(0,0,0,0.04),0_4px_12px_-2px_rgba(0,0,0,0.08),0_12px_32px_-8px_rgba(0,0,0,0.12)]",
                   "ring-1 ring-inset ring-white/40 dark:ring-white/5",
                 ].join(" ")
-                : "gap-0 border-transparent bg-transparent px-4 py-3"
+                : "gap-0 border-transparent bg-transparent px-0 py-3"
             )}
           >
             <nav className="flex items-center gap-0.5 md:gap-2">
@@ -266,6 +267,7 @@ const Header = () => {
               )}
             </AnimatePresence>
           </div>
+          </motion.div>
         </div>
       </header>
 
