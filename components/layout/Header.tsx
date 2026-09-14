@@ -8,6 +8,8 @@ import { cn } from "@/lib/utils"
 import { AnimatePresence, motion } from "framer-motion"
 import { ArrowUpRight, Home, Menu, X } from "lucide-react"
 import { LetsTalkDialog } from "@/components/ui/lets-talk-dialog"
+import { AnimatedThemeToggler } from "../ui/animated-theme-toggler";
+import { buttonVariants } from "../ui/button";
 
 /**
  * Mobile  → static pill bar. No scroll listener, no blur, no animations.
@@ -73,6 +75,17 @@ const Header = () => {
               </span>
             </Link>
 
+            <div className="flex items-center">
+
+            {/* Theme Toggler */}
+            <AnimatedThemeToggler
+              className={cn(
+                buttonVariants({ variant: "ghost", size: "icon" }),
+                "size-10 rounded-full p-0 md:hidden"
+              )}
+              buttonClassName="size-5"
+            />
+
             {/* Menu toggle */}
             <button
               type="button"
@@ -86,7 +99,9 @@ const Header = () => {
               ) : (
                 <Menu className="size-5" strokeWidth={2} />
               )}
-            </button>
+              </button>
+            </div>
+
           </div>
 
           {/* Dropdown */}
@@ -144,129 +159,129 @@ const Header = () => {
          * ============================================================ */}
         <div className="relative mx-auto hidden w-full max-w-app px-app md:block">
           <motion.div className="relative mx-auto w-fit">
-          <div
-            className={cn(
-              "pointer-events-none absolute -inset-x-6 -inset-y-2 rounded-full bg-foreground/5 blur-2xl transition-opacity duration-500",
-              isScrolled ? "opacity-100" : "opacity-0"
-            )}
-            aria-hidden
-          />
+            <div
+              className={cn(
+                "pointer-events-none absolute -inset-x-6 -inset-y-2 rounded-full bg-foreground/5 blur-2xl transition-opacity duration-500",
+                isScrolled ? "opacity-100" : "opacity-0"
+              )}
+              aria-hidden
+            />
 
-          <div
-            className={cn(
-              "relative flex max-w-fit items-center justify-center rounded-full border backdrop-blur-3xl",
-              "transition-[background-color,border-color,box-shadow,padding] duration-300",
-              isScrolled
-                ? [
-                  "gap-3",
-                  "border-foreground/10 bg-background/70 py-1.5 pl-4 pr-1.5 dark:border-white/12 dark:bg-background/60",
-                  "shadow-[0_1px_2px_rgba(0,0,0,0.04),0_4px_12px_-2px_rgba(0,0,0,0.08),0_12px_32px_-8px_rgba(0,0,0,0.12)]",
-                  "ring-1 ring-inset ring-white/40 dark:ring-white/5",
-                ].join(" ")
-                : "gap-0 border-transparent bg-transparent px-0 py-3"
-            )}
-          >
-            <nav className="flex items-center gap-0.5 md:gap-2">
-              {headerData.map((data, idx) => {
-                const isActive =
-                  data.href === "/"
-                    ? pathname === "/"
-                    : pathname?.startsWith(data.href)
-                const isHome = data.href === "/"
+            <div
+              className={cn(
+                "relative flex max-w-fit items-center justify-center rounded-full border backdrop-blur-3xl",
+                "transition-[background-color,border-color,box-shadow,padding] duration-300",
+                isScrolled
+                  ? [
+                    "gap-3",
+                    "border-foreground/10 bg-background/70 py-1.5 pl-4 pr-1.5 dark:border-white/12 dark:bg-background/60",
+                    "shadow-[0_1px_2px_rgba(0,0,0,0.04),0_4px_12px_-2px_rgba(0,0,0,0.08),0_12px_32px_-8px_rgba(0,0,0,0.12)]",
+                    "ring-1 ring-inset ring-white/40 dark:ring-white/5",
+                  ].join(" ")
+                  : "gap-0 border-transparent bg-transparent px-0 py-3"
+              )}
+            >
+              <nav className="flex items-center gap-0.5 md:gap-2">
+                {headerData.map((data, idx) => {
+                  const isActive =
+                    data.href === "/"
+                      ? pathname === "/"
+                      : pathname?.startsWith(data.href)
+                  const isHome = data.href === "/"
 
-                return (
-                  <Link
-                    key={idx}
-                    href={data.href}
-                    aria-label={isHome ? "Home" : undefined}
-                    className={cn(
-                      "group/home relative rounded-full transition-all duration-200 ease-out",
-                      isHome
-                        ? "flex h-8 items-center justify-center"
-                        : "px-3 py-1.5 text-base font-medium",
-                      isActive
-                        ? "text-foreground"
-                        : "px-1.5 pl-2 text-foreground/55 [@media(hover:hover)]:hover:bg-foreground/6 [@media(hover:hover)]:hover:text-foreground active:scale-[0.97]"
-                    )}
-                    style={{
-                      animation: "fadeIn 0.3s ease forwards",
-                      animationDelay: `${idx * 0.05}s`,
-                      opacity: 0,
-                    }}
-                  >
-                    {isHome ? (
-                      <span className="relative flex items-center">
-                        <Home className="size-5 shrink-0 transition-transform duration-300 ease-out group-hover/home:-translate-x-0.5" />
-                        <span className="ml-0 w-0 overflow-hidden whitespace-nowrap text-base font-medium opacity-0 transition-all duration-300 ease-out group-hover/home:ml-2 group-hover/home:w-12 group-hover/home:opacity-100">
-                          <span className="inline-block translate-x-2 transition-transform duration-300 ease-out group-hover/home:translate-x-0">
-                            {data.label}
+                  return (
+                    <Link
+                      key={idx}
+                      href={data.href}
+                      aria-label={isHome ? "Home" : undefined}
+                      className={cn(
+                        "group/home relative rounded-full transition-all duration-200 ease-out",
+                        isHome
+                          ? "flex h-8 items-center justify-center"
+                          : "px-3 py-1.5 text-base font-medium",
+                        isActive
+                          ? "text-foreground"
+                          : "px-1.5 pl-2 text-foreground/55 [@media(hover:hover)]:hover:bg-foreground/6 [@media(hover:hover)]:hover:text-foreground active:scale-[0.97]"
+                      )}
+                      style={{
+                        animation: "fadeIn 0.3s ease forwards",
+                        animationDelay: `${idx * 0.05}s`,
+                        opacity: 0,
+                      }}
+                    >
+                      {isHome ? (
+                        <span className="relative flex items-center">
+                          <Home className="size-5 shrink-0 transition-transform duration-300 ease-out group-hover/home:-translate-x-0.5" />
+                          <span className="ml-0 w-0 overflow-hidden whitespace-nowrap text-base font-medium opacity-0 transition-all duration-300 ease-out group-hover/home:ml-2 group-hover/home:w-12 group-hover/home:opacity-100">
+                            <span className="inline-block translate-x-2 transition-transform duration-300 ease-out group-hover/home:translate-x-0">
+                              {data.label}
+                            </span>
                           </span>
                         </span>
-                      </span>
-                    ) : (
-                      data.label
-                    )}
+                      ) : (
+                        data.label
+                      )}
 
-                    {isActive && (
-                      <motion.span
-                        layoutId="nav-underline"
-                        className={cn(
-                          "absolute bottom-0.5 left-1/2 h-0.5 -translate-x-1/2 rounded-full bg-foreground/80",
-                          isHome ? "w-3" : "w-4"
-                        )}
-                        transition={{
-                          type: "spring",
-                          stiffness: 400,
-                          damping: 30,
-                        }}
-                      />
-                    )}
-                  </Link>
-                )
-              })}
-            </nav>
-
-            <AnimatePresence initial={false}>
-              {isScrolled && (
-                <motion.div
-                  initial={{ opacity: 0, width: 0 }}
-                  animate={{ opacity: 1, width: "auto" }}
-                  exit={{ opacity: 0, width: 0 }}
-                  transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                  className="overflow-hidden"
-                >
-                  <button
-                    type="button"
-                    onClick={() => setIsTalkOpen(true)}
-                    className={cn(
-                      "group/cta relative mr-1 inline-flex items-center whitespace-nowrap rounded-full",
-                      "bg-foreground px-4 py-1.5 dark:bg-white",
-                      "text-sm font-semibold text-background dark:text-black",
-                      "shadow-[0_1px_2px_rgba(0,0,0,0.1),0_4px_10px_-2px_rgba(0,0,0,0.15)]",
-                      "transition-[box-shadow,transform] duration-200 active:scale-[0.98]",
-                      "[@media(hover:hover)]:hover:shadow-[0_1px_2px_rgba(0,0,0,0.12),0_6px_16px_-2px_rgba(0,0,0,0.2)]"
-                    )}
-                  >
-                    <span
-                      aria-hidden
-                      className="pointer-events-none absolute inset-x-0 top-0 h-1/2 rounded-t-full bg-linear-to-b from-white/20 to-transparent opacity-60"
-                    />
-                    <span className="relative flex items-center">
-                      <span className="transition-transform duration-300 ease-out group-hover/cta:-translate-x-1">
-                        Let&apos;s Talk
-                      </span>
-                      <span className="ml-0 w-0 overflow-hidden opacity-0 transition-all duration-300 ease-out group-hover/cta:ml-1.5 group-hover/cta:w-4 group-hover/cta:opacity-100">
-                        <ArrowUpRight
-                          className="h-4 w-4 shrink-0 translate-x-2 transition-transform duration-300 ease-out group-hover/cta:translate-x-0"
-                          strokeWidth={2.5}
+                      {isActive && (
+                        <motion.span
+                          layoutId="nav-underline"
+                          className={cn(
+                            "absolute bottom-0.5 left-1/2 h-0.5 -translate-x-1/2 rounded-full bg-foreground/80",
+                            isHome ? "w-3" : "w-4"
+                          )}
+                          transition={{
+                            type: "spring",
+                            stiffness: 400,
+                            damping: 30,
+                          }}
                         />
+                      )}
+                    </Link>
+                  )
+                })}
+              </nav>
+
+              <AnimatePresence initial={false}>
+                {isScrolled && (
+                  <motion.div
+                    initial={{ opacity: 0, width: 0 }}
+                    animate={{ opacity: 1, width: "auto" }}
+                    exit={{ opacity: 0, width: 0 }}
+                    transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                    className="overflow-hidden"
+                  >
+                    <button
+                      type="button"
+                      onClick={() => setIsTalkOpen(true)}
+                      className={cn(
+                        "group/cta relative mr-1 inline-flex items-center whitespace-nowrap rounded-full",
+                        "bg-foreground px-4 py-1.5 dark:bg-white",
+                        "text-sm font-semibold text-background dark:text-black",
+                        "shadow-[0_1px_2px_rgba(0,0,0,0.1),0_4px_10px_-2px_rgba(0,0,0,0.15)]",
+                        "transition-[box-shadow,transform] duration-200 active:scale-[0.98]",
+                        "[@media(hover:hover)]:hover:shadow-[0_1px_2px_rgba(0,0,0,0.12),0_6px_16px_-2px_rgba(0,0,0,0.2)]"
+                      )}
+                    >
+                      <span
+                        aria-hidden
+                        className="pointer-events-none absolute inset-x-0 top-0 h-1/2 rounded-t-full bg-linear-to-b from-white/20 to-transparent opacity-60"
+                      />
+                      <span className="relative flex items-center">
+                        <span className="transition-transform duration-300 ease-out group-hover/cta:-translate-x-1">
+                          Let&apos;s Talk
+                        </span>
+                        <span className="ml-0 w-0 overflow-hidden opacity-0 transition-all duration-300 ease-out group-hover/cta:ml-1.5 group-hover/cta:w-4 group-hover/cta:opacity-100">
+                          <ArrowUpRight
+                            className="h-4 w-4 shrink-0 translate-x-2 transition-transform duration-300 ease-out group-hover/cta:translate-x-0"
+                            strokeWidth={2.5}
+                          />
+                        </span>
                       </span>
-                    </span>
-                  </button>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
+                    </button>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           </motion.div>
         </div>
       </header>

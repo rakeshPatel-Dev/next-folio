@@ -8,12 +8,14 @@ import { useIsMounted } from "@/hooks/useIsMounted"
 
 interface AnimatedThemeTogglerProps extends React.ComponentPropsWithoutRef<"button"> {
   duration?: number
+  buttonClassName?: string
 }
 
 export const AnimatedThemeToggler = forwardRef<HTMLButtonElement, AnimatedThemeTogglerProps>(function AnimatedThemeToggler(
   {
     className,
     duration = 400,
+    buttonClassName,
     ...props
   },
   forwardedRef
@@ -90,7 +92,7 @@ export const AnimatedThemeToggler = forwardRef<HTMLButtonElement, AnimatedThemeT
       aria-label="Toggle theme"
       className={cn(className)}
     >
-      {isDark ? <Sun /> : <Moon />}
+      {isDark ? <Sun className={cn(buttonClassName)} /> : <Moon className={cn(buttonClassName)} />}
     </button>
   )
 })
