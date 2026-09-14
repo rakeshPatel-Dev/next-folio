@@ -3,7 +3,7 @@ import { Skeleton } from "@/components/ui/skeleton"
 
 export default function BlogLoading() {
   return (
-    <main className="p-6 max-w-4xl mx-auto">
+    <main className="py-6 max-w-4xl mx-auto">
       {/* Header */}
       <div className="text-center mt-5 mb-8">
         <Skeleton className="h-12 w-32 mx-auto rounded-lg" />

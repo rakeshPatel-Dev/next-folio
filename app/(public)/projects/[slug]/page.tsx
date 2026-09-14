@@ -86,7 +86,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   return (
     <article className="min-h-screen">
       {/* Back Button */}
-      <div className="max-w-3xl mx-auto px-6 pt-24 pb-8">
+      <div className="max-w-3xl mx-auto pt-24 pb-8">
         <Link
           href="/projects"
           className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
@@ -108,7 +108,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent" />
 
         <div className="absolute bottom-0 left-0 right-0">
-          <div className="max-w-7xl mx-auto px-6 pb-12">
+          <div className="max-w-7xl mx-auto pb-12">
             <div className="max-w-3xl">
               <h1 className="text-4xl md:text-6xl font-bold mb-4">
                 {project.title}
@@ -140,7 +140,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
       </section>
 
       {/* Content */}
-      <div className="max-w-7xl mx-auto px-6 pb-16">
+      <div className="max-w-7xl mx-auto pb-16">
         <div className="prose prose-lg dark:prose-invert max-w-none">
           <h2>Overview</h2>
           <p>{project.longDescription || project.shortDescription}</p>
@@ -158,7 +158,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
       {/* Case Study */}
       {CaseStudyContent && (
-        <section className="max-w-7xl mx-auto px-6 pb-16 border-t pt-16">
+        <section className="max-w-7xl mx-auto pb-16 border-t pt-16">
           <h2 className="text-3xl font-bold mb-8">Case Study</h2>
           <div className="prose prose-lg dark:prose-invert max-w-none">
             <CaseStudyContent components={{ Lead }} />
@@ -168,7 +168,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
       {/* Related Projects */}
       {relatedProjects.length > 0 && (
-        <section className="max-w-7xl mx-auto px-6 pb-16 border-t pt-16">
+        <section className="max-w-7xl mx-auto pb-16 border-t pt-16">
           <h2 className="text-3xl font-bold mb-8">Related Projects</h2>
           <div className="grid md:grid-cols-3 gap-6">
             {relatedProjects.map((related) => (

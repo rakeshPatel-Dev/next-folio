@@ -60,7 +60,7 @@ const page = async () => {
   return (
     <>
       <HeroData />
-      <div className=' selection:bg-neutral-800 dark:selection:bg-neutral-200 w-full max-w-3xl mx-auto h-auto px-6 sm:px-4 lg:px-0'>
+      <div className=' selection:bg-neutral-800 dark:selection:bg-neutral-200 w-full max-w-3xl mx-auto h-auto'>
         <Exp />
         <HomeProjects initialProjects={allProjects} />
         <AboutMe />

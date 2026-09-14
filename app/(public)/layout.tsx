@@ -1,9 +1,10 @@
+import type { CSSProperties } from "react";
 import type { Metadata } from "next";
 import { Space_Grotesk, Fira_Code } from "next/font/google";
 import "../globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
-import { AppDock } from "@/components/sections/GlobalDock";
+// import { AppDock } from "@/components/sections/GlobalDock";
 import { siteConfig } from "@/lib/site-config";
 import { RootProvider } from "fumadocs-ui/provider/next"
 import { PageTransition } from "@/components/motion/PageTransition";
@@ -14,6 +15,7 @@ import { JsonLd } from "@/components/sections/JsonLd";
 import { Noise } from "@/components/ui/noise";
 import { GridPattern } from "@/components/ui/grid-pattern";
 import { ThemeProvider } from "@/components/providers/theme-provider";
+import { PullCordThemeToggler } from "@/components/ui/pullcord-theme-toggler";
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -102,6 +104,12 @@ export default function RootLayout({
       <body
         suppressHydrationWarning
         className={`${spaceGrotesk.variable} ${firaCode.variable} antialiased pt-15 sm:pt-16`}
+        style={
+          {
+            "--app-max-width": siteConfig.layout.maxWidth,
+            "--app-padding-x": siteConfig.layout.paddingX,
+          } as CSSProperties
+        }
       >
         <JsonLd />
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem={true} storageKey="theme">
@@ -111,13 +119,14 @@ export default function RootLayout({
           <ToastProvider>
             <PageTransition>
               <RootProvider>
-                <main id="main-content" className="mx-auto w-full max-w-5xl px-[clamp(6px,3vw,52px)]">
+                <main id="main-content" className="mx-auto w-full max-w-app px-app">
                   {children}
                 </main>
               </RootProvider>
             </PageTransition>
           </ToastProvider>
-          <AppDock />
+          {/* <AppDock /> */}
+          <PullCordThemeToggler/>
           <Footer />
         </ThemeProvider>
         <Analytics />

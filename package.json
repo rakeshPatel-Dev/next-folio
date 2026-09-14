@@ -36,6 +36,7 @@
     "pullcord": "^0.1.0",
     "react": "19.2.3",
     "react-dom": "19.2.3",
+    "svg-letter-draw": "^1.1.4",
     "tailwind-merge": "^3.4.0",
     "zod": "^4.3.5"
   },

@@ -15,6 +15,16 @@ const nextConfig = {
         hostname: 'res.cloudinary.com',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'lastfm.freetls.fastly.net',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.last.fm',
+        pathname: '/**',
+      },
     ],
   },
   experimental: {

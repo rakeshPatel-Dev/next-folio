@@ -7,7 +7,7 @@ export const metadata = PUBLIC_CONTACT_METADATA
 
 const Page = () => {
   return (
-    <main className="mx-auto  max-w-2xl px-6 py-24 sm:py-32">
+    <main className="mx-auto max-w-2xl py-24 sm:py-32">
       {/* Header */}
       <div className="mb-12 space-y-3">
         <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
