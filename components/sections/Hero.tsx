@@ -4,6 +4,7 @@ import { HelloAnimation } from "../ui/hello-animation"
 import { DashedUnderline } from "../ui/dashed-underline"
 import DirectionTicker from "../ui/direction-ticker"
 import { NowPlaying } from "../last-fm/now-playing"
+import { SectionHeading } from "@/components/sections/section-heading"
 import { heroTech, heroSocial, tickerItems } from "@/data/hero"
 
 export default function HeroData() {
@@ -66,9 +67,7 @@ export default function HeroData() {
         />
 
         <div className="hero-rise mt-8 space-y-3" style={{ animationDelay: "0.5s" }}>
-          <h2 className="text-2xl font-medium tracking-[0.04em] text-muted-foreground">
-            Find me on
-          </h2>
+          <SectionHeading>Find me on</SectionHeading>
 
           <div className="flex flex-wrap items-center gap-2">
             {heroSocial.map(({ label, href, Icon, color, colorDark, labelWidthClass }) => (

@@ -1,16 +1,15 @@
 import { experiences } from "@/data/experience"
 import { Reveal } from "@/components/motion/Reveal"
 import { ExpList } from "@/components/sections/ExpList"
+import { SectionHeading } from "@/components/sections/section-heading"
 
 /** Server Component — heading is static; ExpList is the interactive island. */
 export default function Exp() {
   return (
-    <section className="mt-12 max-w-app mx-auto mb-20">
+    <section className="mx-auto mb-16 mt-10 max-w-app sm:mb-20 sm:mt-12">
       <Reveal variant="fadeUp">
-        <div className="flex items-center gap-3 mb-4">
-            <h2 className=" text-3xl font-sans text-primary font-semibold tracking-tight">
-              Experience
-            </h2>
+        <div className="mb-4 flex items-center gap-3">
+          <SectionHeading>Experience</SectionHeading>
         </div>
       </Reveal>
 

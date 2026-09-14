@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button'
 import { ArrowRight } from 'lucide-react'
 import Link from 'next/link'
 import { MagneticHover } from '../motion/Reveal'
+import { SectionHeading } from '@/components/sections/section-heading'
 import type { ProjectType } from '@/lib/projectSource'
 
 interface HomeProjectsProps {
@@ -19,9 +20,7 @@ export default function HomeProjects({ initialProjects }: HomeProjectsProps) {
 
   return (
     <div>
-      <h2 className="text-2xl font-sans font-semibold mb-8 tracking-tight">
-        Featured Projects
-      </h2>
+      <SectionHeading className="mb-8">Featured Projects</SectionHeading>
 
       <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-10">
         {projects.slice(0, 4).map((project) => (

@@ -4,6 +4,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { ArrowRight } from "lucide-react"
 import { MagneticHover } from "../motion/Reveal"
+import { SectionHeading } from "@/components/sections/section-heading"
 
 interface BlogSectionProps {
   featuredCount?: number
@@ -41,9 +42,7 @@ export default function BlogSection({
 
   return (
     <section className="grid gap-8">
-      <h2 className="text-2xl font-sans font-semibold tracking-tight">
-        Latest Blogs
-      </h2>
+      <SectionHeading>Latest Blogs</SectionHeading>
 
       {/* Featured card(s) */}
       {displayFeatured.map((blog) => (
