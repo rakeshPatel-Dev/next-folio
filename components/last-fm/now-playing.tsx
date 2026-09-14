@@ -113,6 +113,13 @@ export function NowPlaying({ className }: { className?: string }) {
 
     if (!loaded || !track?.name) return null
 
+    const byline = [
+        track.artist ? `by ${track.artist}` : null,
+        track.album || null,
+    ]
+        .filter(Boolean)
+        .join(" · ")
+
     return (
         <a
             href={track.url}
@@ -120,11 +127,11 @@ export function NowPlaying({ className }: { className?: string }) {
             rel="noopener noreferrer"
             aria-label={`${statusLabel}: ${track.name} by ${track.artist} on YouTube Music`}
             className={cn(
-                "group/now-playing relative inline-flex max-w-full max-w-3xl items-center gap-3 overflow-visible rounded-full p-1.5 pr-3 text-primary sm:pr-4",
+                "group/now-playing relative flex w-full max-w-3xl items-start gap-3 overflow-visible rounded-full p-1.5 pr-3 text-primary sm:items-center sm:pr-4",
                 className
             )}
         >
-            <span className="relative size-9 shrink-0 overflow-visible">
+            <span className="relative mt-0.5 size-9 shrink-0 overflow-visible sm:mt-0">
                 {nowPlaying ? <MusicVisualizer /> : null}
                 {track.image ? (
                     <span className="relative z-[1] block size-full overflow-hidden rounded-full border border-foreground/10">
@@ -137,7 +144,7 @@ export function NowPlaying({ className }: { className?: string }) {
                         />
                     </span>
                 ) : (
-                    <span className="relative z-1 inline-flex size-full items-center justify-center">
+                    <span className="relative z-[1] inline-flex size-full items-center justify-center">
                         <BrandIcon
                             color={YT_MUSIC_RED}
                             colorDark={YT_MUSIC_RED_DARK}
@@ -147,18 +154,28 @@ export function NowPlaying({ className }: { className?: string }) {
                 )}
             </span>
 
-            <div className="flex min-w-0 flex-1 flex-col text-muted-foreground md:flex-row md:flex-nowrap md:items-center md:gap-x-2">
-                <NowPlayingStatus className="shrink-0" />
-                <span aria-hidden className="hidden shrink-0 text-muted-foreground/60 md:inline">
-                    –
-                </span>
-                <p className="min-w-0 flex-1 break-break-words text-sm font-semibold leading-snug tracking-tight md:truncate">
-                    <span className="block md:inline">{track.name}</span>
-                    <span className="md:inline">
-                        {" "}by {track.artist}
-                        {track.album ? ` · ${track.album}` : ""}
+            <div className="min-w-0 flex-1">
+                {/* Mobile: stacked + truncated. Desktop: one compact line. */}
+                <div className="hidden min-w-0 items-center gap-x-2 text-muted-foreground md:flex">
+                    <NowPlayingStatus className="shrink-0" />
+                    <span aria-hidden className="shrink-0 text-muted-foreground/60">
+                        –
                     </span>
-                </p>
+                    <p className="min-w-0 truncate text-sm font-semibold tracking-tight">
+                        <span>{track.name}</span>
+                        {byline ? <span className="font-medium"> {byline}</span> : null}
+                    </p>
+                </div>
+
+                <div className="min-w-0 space-y-0.5 text-muted-foreground md:hidden">
+                    <NowPlayingStatus />
+                    <p className="truncate text-sm font-semibold tracking-tight text-foreground/90">
+                        {track.name}
+                    </p>
+                    {byline ? (
+                        <p className="truncate text-xs text-muted-foreground/80">{byline}</p>
+                    ) : null}
+                </div>
             </div>
         </a>
     )
