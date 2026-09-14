@@ -3,7 +3,7 @@
 import Image from "next/image"
 import { useSyncExternalStore } from "react"
 import { BrandIcon } from "@/components/ui/brand-icon"
-import { LastFmIcon } from "@/components/last-fm/last-fm-icon"
+import { YouTubeMusicIcon } from "@/components/last-fm/yt-music-icon"
 import { cn } from "@/lib/utils"
 
 export type LastFmTrack = {
@@ -26,8 +26,8 @@ type LastFmState = {
     loaded: boolean
 }
 
-const LASTFM_RED = "#9b0d08"
-const LASTFM_RED_DARK = "#7a0a06"
+const YT_MUSIC_RED = "#ff0000"
+const YT_MUSIC_RED_DARK = "#cc0000"
 
 let state: LastFmState = { track: null, loaded: false }
 const listeners = new Set<() => void>()
@@ -136,16 +136,16 @@ export function NowPlaying({ className }: { className?: string }) {
             href={track.url}
             target="_blank"
             rel="noopener noreferrer"
-            aria-label={`${statusLabel}: ${track.name} by ${track.artist} on Last.fm`}
+            aria-label={`${statusLabel}: ${track.name} by ${track.artist} on YouTube Music`}
             className={cn(
                 "group/now-playing relative inline-flex max-w-full max-w-3xl items-center gap-3 rounded-full p-1 pr-3 text-primary sm:pr-4",
                 className
             )}
         >
             <BrandIcon
-                color={LASTFM_RED}
-                colorDark={LASTFM_RED_DARK}
-                icon={<LastFmIcon />}
+                color={YT_MUSIC_RED}
+                colorDark={YT_MUSIC_RED_DARK}
+                icon={<YouTubeMusicIcon />}
             />
 
             {track.image ? (
