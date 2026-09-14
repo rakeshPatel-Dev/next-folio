@@ -7,8 +7,8 @@ export default function Exp() {
   return (
     <section className="mt-12 max-w-app mx-auto mb-20">
       <Reveal variant="fadeUp">
-        <div className="flex items-center gap-3 mb-6">
-            <h2 className=" text-2xl font-sans text-primary font-semibold tracking-tight">
+        <div className="flex items-center gap-3 mb-4">
+            <h2 className=" text-3xl font-sans text-primary font-semibold tracking-tight">
               Experience
             </h2>
         </div>
