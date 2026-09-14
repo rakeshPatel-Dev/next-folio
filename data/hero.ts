@@ -36,7 +36,7 @@ export const heroSocial = [
     Icon: Github,
     color: "#0d1117",
     colorDark: "#161b22",
-    labelWidthClass: "group-hover/expand:w-14",
+    labelWidthClass: "group-hover/expand:w-10",
   },
   {
     label: "LinkedIn",
@@ -44,7 +44,7 @@ export const heroSocial = [
     Icon: Linkedin,
     color: "#004182",
     colorDark: "#00356b",
-    labelWidthClass: "group-hover/expand:w-[4.25rem]",
+    labelWidthClass: "group-hover/expand:w-[3.25rem]",
   },
   {
     label: "Twitter",
@@ -52,7 +52,7 @@ export const heroSocial = [
     Icon: Twitter,
     color: "#0c7abf",
     colorDark: "#0a689f",
-    labelWidthClass: "group-hover/expand:w-14",
+    labelWidthClass: "group-hover/expand:w-11",
   },
   {
     label: "Instagram",
@@ -60,7 +60,7 @@ export const heroSocial = [
     Icon: Instagram,
     color: "#b02a45",
     colorDark: "#8f2137",
-    labelWidthClass: "group-hover/expand:w-[4.75rem]",
+    labelWidthClass: "group-hover/expand:w-[3.75rem]",
   },
   {
     label: "Facebook",
@@ -68,7 +68,7 @@ export const heroSocial = [
     Icon: Facebook,
     color: "#0f5bb5",
     colorDark: "#0c4a94",
-    labelWidthClass: "group-hover/expand:w-[4.5rem]",
+    labelWidthClass: "group-hover/expand:w-[3.75rem]",
   },
 ] as const
 

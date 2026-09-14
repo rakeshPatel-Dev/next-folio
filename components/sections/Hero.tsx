@@ -9,7 +9,7 @@ import { heroTech, heroSocial, tickerItems } from "@/data/hero"
 export default function HeroData() {
   return (
     <section className="hero-root relative mx-auto flex w-full max-w-app flex-col justify-center overflow-hidden font-sans">
-      <div className="flex flex-col items-start pt-[clamp(60px,8vw,100px)] pb-[clamp(28px,5vw,44px)] text-left">
+      <div className="flex flex-col items-start pt-[clamp(60px,8vw,100px)]  text-left">
         <div className="w-full" style={{ animationDelay: "0.05s" }}>
           <HelloAnimation />
           
@@ -86,8 +86,14 @@ export default function HeroData() {
         </div>
       </div>
 
+      <DashedUnderline
+        width={800}
+        style={{ animationDelay: "0.35s" }}
+        className="hero-rise mt-5 border-primary"
+      />
+
       <div
-        className="hero-fade relative z-10 mt-auto overflow-hidden border-t border-muted-foreground bg-background/50 px-6 backdrop-blur-[1px]"
+        className="hero-fade relative z-10 mt-auto overflow-hidden  bg-background/50 px-6 backdrop-blur-[1px]"
         style={{ animationDelay: "0.9s" }}
         aria-hidden="true"
       >
