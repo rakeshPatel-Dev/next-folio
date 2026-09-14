@@ -3,6 +3,7 @@
 import Image from "next/image"
 import { useSyncExternalStore } from "react"
 import { BrandIcon } from "@/components/ui/brand-icon"
+import { MusicVisualizer } from "@/components/last-fm/music-visualizer"
 import { YouTubeMusicIcon } from "@/components/last-fm/yt-music-icon"
 import { cn } from "@/lib/utils"
 
@@ -90,7 +91,7 @@ export function useLastFmTrack() {
 
 /** Section title — sits above the NowPlaying card. */
 export function NowPlayingStatus({ className }: { className?: string }) {
-    const { loaded, track, nowPlaying, statusLabel } = useLastFmTrack()
+    const { loaded, track, statusLabel } = useLastFmTrack()
 
     if (!loaded || !track?.name) return null
 
@@ -101,25 +102,6 @@ export function NowPlayingStatus({ className }: { className?: string }) {
                 className
             )}
         >
-            <span className="relative flex size-1.5 shrink-0">
-                {nowPlaying ? (
-                    <>
-                        <span
-                            aria-hidden
-                            className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500/70"
-                        />
-                        <span
-                            aria-hidden
-                            className="relative inline-flex size-1.5 rounded-full bg-emerald-500"
-                        />
-                    </>
-                ) : (
-                    <span
-                        aria-hidden
-                        className="relative inline-flex size-1.5 rounded-full bg-muted-foreground/55"
-                    />
-                )}
-            </span>
             {statusLabel}
         </h2>
     )
@@ -127,7 +109,7 @@ export function NowPlayingStatus({ className }: { className?: string }) {
 
 /** Track card only — no status title inside. */
 export function NowPlaying({ className }: { className?: string }) {
-    const { track, loaded, statusLabel } = useLastFmTrack()
+    const { track, loaded, nowPlaying, statusLabel } = useLastFmTrack()
 
     if (!loaded || !track?.name) return null
 
@@ -138,27 +120,32 @@ export function NowPlaying({ className }: { className?: string }) {
             rel="noopener noreferrer"
             aria-label={`${statusLabel}: ${track.name} by ${track.artist} on YouTube Music`}
             className={cn(
-                "group/now-playing relative inline-flex max-w-full max-w-3xl items-center gap-3 rounded-full p-1 pr-3 text-primary sm:pr-4",
+                "group/now-playing relative inline-flex max-w-full max-w-3xl items-center gap-3 overflow-visible rounded-full p-1.5 pr-3 text-primary sm:pr-4",
                 className
             )}
         >
-            <BrandIcon
-                color={YT_MUSIC_RED}
-                colorDark={YT_MUSIC_RED_DARK}
-                icon={<YouTubeMusicIcon />}
-            />
-
-            {track.image ? (
-                <span className="relative size-9 shrink-0 overflow-hidden rounded-full border border-foreground/10">
-                    <Image
-                        src={track.image}
-                        alt=""
-                        fill
-                        sizes="36px"
-                        className="object-cover transition-transform duration-150 group-hover/now-playing:scale-105"
-                    />
-                </span>
-            ) : null}
+            <span className="relative size-9 shrink-0 overflow-visible">
+                {nowPlaying ? <MusicVisualizer /> : null}
+                {track.image ? (
+                    <span className="relative z-[1] block size-full overflow-hidden rounded-full border border-foreground/10">
+                        <Image
+                            src={track.image}
+                            alt=""
+                            fill
+                            sizes="36px"
+                            className="object-cover transition-transform duration-150 group-hover/now-playing:scale-105"
+                        />
+                    </span>
+                ) : (
+                    <span className="relative z-1 inline-flex size-full items-center justify-center">
+                        <BrandIcon
+                            color={YT_MUSIC_RED}
+                            colorDark={YT_MUSIC_RED_DARK}
+                            icon={<YouTubeMusicIcon />}
+                        />
+                    </span>
+                )}
+            </span>
 
             <div className="flex min-w-0 flex-1 flex-col text-muted-foreground md:flex-row md:flex-nowrap md:items-center md:gap-x-2">
                 <NowPlayingStatus className="shrink-0" />
