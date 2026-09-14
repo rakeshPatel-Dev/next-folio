@@ -4,7 +4,7 @@ import { Space_Grotesk, Fira_Code } from "next/font/google";
 import "../globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
-import { AppDock } from "@/components/sections/GlobalDock";
+// import { AppDock } from "@/components/sections/GlobalDock";
 import { siteConfig } from "@/lib/site-config";
 import { RootProvider } from "fumadocs-ui/provider/next"
 import { PageTransition } from "@/components/motion/PageTransition";
@@ -15,6 +15,7 @@ import { JsonLd } from "@/components/sections/JsonLd";
 import { Noise } from "@/components/ui/noise";
 import { GridPattern } from "@/components/ui/grid-pattern";
 import { ThemeProvider } from "@/components/providers/theme-provider";
+import { PullCordThemeToggler } from "@/components/ui/pullcord-theme-toggler";
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -124,7 +125,8 @@ export default function RootLayout({
               </RootProvider>
             </PageTransition>
           </ToastProvider>
-          <AppDock />
+          {/* <AppDock /> */}
+          <PullCordThemeToggler/>
           <Footer />
         </ThemeProvider>
         <Analytics />
