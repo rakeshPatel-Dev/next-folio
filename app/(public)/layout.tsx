@@ -102,6 +102,11 @@ export default function RootLayout({
           type="image/webp"
         />
         <link rel="prefetch" href="/api/lastfm" />
+        <script
+          defer
+          src="https://cloud.umami.is/script.js"
+          data-website-id="e42483ec-0e90-4f99-9b3d-2576d579fb19"
+        />
       </head>
       <body
         suppressHydrationWarning
