@@ -17,6 +17,10 @@ export type TooltipIconProps = {
   size?: number
   iconSize?: number
   className?: string
+  /** Render the icon as an external link. */
+  href?: string
+  /** Render the icon as a button (no href). */
+  onClick?: () => void
   brandIconProps?: Omit<
     BrandIconProps,
     "icon" | "color" | "colorDark" | "size" | "iconSize" | "className"
@@ -31,28 +35,53 @@ export function TooltipIcon({
   colorDark,
   size = 28,
   iconSize = 15,
+  href,
+  onClick,
   className,
   brandIconProps,
 }: TooltipIconProps) {
+  const badgeClass = cn(
+    "inline-flex shrink-0 translate-y-[-0.1em] align-middle",
+    className
+  )
+  const badge = (
+    <BrandIcon
+      color={color}
+      colorDark={colorDark}
+      size={size}
+      iconSize={iconSize}
+      icon={icon}
+      {...brandIconProps}
+    />
+  )
+
   return (
     <Tooltip delayDuration={80}>
       <TooltipTrigger asChild>
-        <span
-        aria-label={label}
-          className={cn(
-            "inline-flex shrink-0 translate-y-[-0.1em] align-middle outline-none",
-            className
-          )}
-        >
-          <BrandIcon
-            color={color}
-            colorDark={colorDark}
-            size={size}
-            iconSize={iconSize}
-            icon={icon}
-            {...brandIconProps}
-          />
-        </span>
+        {href ? (
+          <a
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={label}
+            className={badgeClass}
+          >
+            {badge}
+          </a>
+        ) : onClick ? (
+          <button
+            type="button"
+            onClick={onClick}
+            aria-label={label}
+            className={badgeClass}
+          >
+            {badge}
+          </button>
+        ) : (
+          <span aria-label={label} className={badgeClass}>
+            {badge}
+          </span>
+        )}
       </TooltipTrigger>
       <TooltipContent side="top" sideOffset={8} gooey>
         {label}

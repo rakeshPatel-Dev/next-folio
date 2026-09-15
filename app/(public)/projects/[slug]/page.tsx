@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { ArrowLeft, Dot, ExternalLink, Github } from 'lucide-react'
 import { CtaButton } from '@/components/ui/cta-button'
 import { ExpandIcon } from '@/components/ui/expand-icon'
+import { DynamicIslandTOC } from '@/components/ui/dynamic-island-toc'
 import { ProjectCard } from '@/components/projects/project-card'
 import { FlowSteps } from '@/components/sections/case-study/flow-steps'
 import { ArchitectureDiagram } from '@/components/sections/case-study/architecture-diagram'
@@ -14,7 +15,7 @@ import { Badge } from '@/components/ui/badge'
 import IconRenderer from '@/components/ui/IconRenderer'
 import { getIconColors } from '@/lib/icon-map'
 import { Metadata } from 'next'
-import { siteConfig } from '@/lib/site-config'
+import { canonicalUrl, siteConfig } from '@/lib/site-config'
 
 interface ProjectPageProps {
   params: Promise<{ slug: string }>
@@ -49,7 +50,7 @@ export async function generateMetadata({ params }: ProjectPageProps): Promise<Me
     title: project.title,
     description: project.shortDescription,
     keywords: project.techStack?.map((t) => t.label) ?? [],
-    alternates: { canonical: url },
+    alternates: { canonical: canonicalUrl(`/projects/${project.slug}`) },
     openGraph: {
       title: project.title,
       description: project.shortDescription,
@@ -89,6 +90,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
   return (
     <article className="min-h-screen">
+      <DynamicIslandTOC selector="article h2, article h3, article h4" />
       <div className="mx-auto max-w-3xl">
         {/* Back link */}
         <div className="pt-8 pb-3">
