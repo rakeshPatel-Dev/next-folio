@@ -1,7 +1,8 @@
 // components/blog/BlogPageClient.tsx
 "use client"
 
-import { BlogCard } from "@/components/blog/Blog-card"
+import { BlogRowCard } from "@/components/blog/blog-row-card"
+import { calculateReadTimeFromWordCount } from "@/lib/read-time"
 import { useState, useMemo } from "react"
 import { Filter, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -12,7 +13,6 @@ import {
   DropdownMenuContent,
   DropdownMenuCheckboxItem,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
@@ -25,9 +25,9 @@ type Blog = {
   tags: string[]
   author: { name: string }
   status: string
-  isFeatured: boolean
   publishedAt: string | null
   createdAt: string
+  wordCount: number
 }
 
 interface BlogPageClientProps {
@@ -38,7 +38,6 @@ export default function BlogPageClient({ initialBlogs }: BlogPageClientProps) {
   // Filter states
   const [searchQuery, setSearchQuery] = useState("")
   const [selectedTags, setSelectedTags] = useState<string[]>([])
-  const [showFeaturedOnly, setShowFeaturedOnly] = useState(false)
 
   // Extract unique tags from initial blogs
   const availableTags = useMemo(() => {
@@ -72,41 +71,28 @@ export default function BlogPageClient({ initialBlogs }: BlogPageClientProps) {
       )
     }
 
-    // Featured filter
-    if (showFeaturedOnly) {
-      filtered = filtered.filter((blog) => blog.isFeatured)
-    }
-
     // Sort by date (newest first)
     return filtered.sort((a, b) => {
       const dateA = new Date(a.publishedAt || a.createdAt).getTime()
       const dateB = new Date(b.publishedAt || b.createdAt).getTime()
       return dateB - dateA
     })
-  }, [initialBlogs, searchQuery, selectedTags, showFeaturedOnly])
+  }, [initialBlogs, searchQuery, selectedTags])
 
   const clearFilters = () => {
     setSearchQuery("")
     setSelectedTags([])
-    setShowFeaturedOnly(false)
   }
 
   const activeFiltersCount =
     (searchQuery ? 1 : 0) +
-    selectedTags.length +
-    (showFeaturedOnly ? 1 : 0)
+    selectedTags.length
 
   const toggleTag = (tag: string) => {
     setSelectedTags((prev) =>
       prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]
     )
   }
-
-  // Separate featured and regular blogs
-  const featuredBlog = filteredBlogs.find((b) => b.isFeatured)
-  const regularBlogs = featuredBlog
-    ? filteredBlogs.filter((b) => b._id !== featuredBlog._id)
-    : filteredBlogs
 
   return (
     <main className="py-6 max-w-4xl mx-auto">
@@ -150,19 +136,6 @@ export default function BlogPageClient({ initialBlogs }: BlogPageClientProps) {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-64">
-              {/* Featured Filter */}
-              <DropdownMenuLabel>Show</DropdownMenuLabel>
-              <div className="px-2 py-1.5">
-                <DropdownMenuCheckboxItem
-                  checked={showFeaturedOnly}
-                  onCheckedChange={setShowFeaturedOnly}
-                >
-                  Featured posts only
-                </DropdownMenuCheckboxItem>
-              </div>
-
-              <DropdownMenuSeparator />
-
               {/* Tags Filter */}
               <DropdownMenuLabel>Tags</DropdownMenuLabel>
               <div className="px-2 py-1.5 max-h-64 overflow-y-auto space-y-1">
@@ -214,15 +187,6 @@ export default function BlogPageClient({ initialBlogs }: BlogPageClientProps) {
                 </button>
               </Badge>
             )}
-            {showFeaturedOnly && (
-              <Badge variant="secondary" className="gap-1">
-                Featured only
-                <X
-                  className="h-3 w-3 cursor-pointer"
-                  onClick={() => setShowFeaturedOnly(false)}
-                />
-              </Badge>
-            )}
             {selectedTags.map((tag) => (
               <Badge key={tag} variant="secondary" className="gap-1">
                 {tag}
@@ -250,43 +214,21 @@ export default function BlogPageClient({ initialBlogs }: BlogPageClientProps) {
           onClearFilters={clearFilters}
         />
       ) : (
-        <>
-          {/* Featured Blog */}
-          {featuredBlog && (
-            <div className="mb-8">
-              <BlogCard
-                title={featuredBlog.title}
-                subtitle={featuredBlog.description}
-                image={featuredBlog.coverImage}
-                category={featuredBlog.tags?.[0] || "General"}
-                readingTime={calculateReadingTime(featuredBlog.description)}
-                date={formatDate(featuredBlog.publishedAt || featuredBlog.createdAt)}
-                link={`/blog/${featuredBlog.slug}`}
-                variant="featured"
-                className="w-full"
-              />
-            </div>
-          )}
-
-          {/* Regular Blogs Grid */}
-          {regularBlogs.length > 0 && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              {regularBlogs.map((blog) => (
-                <BlogCard
-                  key={blog._id}
-                  title={blog.title}
-                  subtitle={blog.description}
-                  image={blog.coverImage}
-                  category={blog.tags?.[0] || "General"}
-                  readingTime={calculateReadingTime(blog.description)}
-                  date={formatDate(blog.publishedAt || blog.createdAt)}
-                  link={`/blog/${blog.slug}`}
-                  variant="default"
-                />
-              ))}
-            </div>
-          )}
-        </>
+        // Blog rows
+        <div>
+          {filteredBlogs.map((blog) => (
+            <BlogRowCard
+              key={blog._id}
+              title={blog.title}
+              subtitle={blog.description}
+              image={blog.coverImage}
+              category={blog.tags?.[0] || "General"}
+              readingTime={`${calculateReadTimeFromWordCount(blog.wordCount)} min read`}
+              date={formatDate(blog.publishedAt || blog.createdAt)}
+              link={`/blog/${blog.slug}`}
+            />
+          ))}
+        </div>
       )}
     </main>
   )
@@ -335,12 +277,6 @@ function EmptyState({
 }
 
 // Helper functions
-function calculateReadingTime(text: string): string {
-  const wordsPerMinute = 200
-  const wordCount = text.split(/\s+/).length
-  const minutes = Math.max(1, Math.ceil(wordCount / wordsPerMinute))
-  return `${minutes} min read`
-}
 
 function formatDate(dateString: string): string {
   const date = new Date(dateString)

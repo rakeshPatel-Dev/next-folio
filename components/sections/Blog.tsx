@@ -1,106 +1,53 @@
-import { BlogCard } from "@/components/blog/Blog-card"
-import { getFeaturedBlogs, getLatestBlogs } from "@/lib/blogSource"
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { ArrowRight } from "lucide-react"
+import { BlogRowCard } from "@/components/blog/blog-row-card"
+import { getLatestBlogs } from "@/lib/blogSource"
+import { calculateReadTimeFromWordCount } from "@/lib/read-time"
 import { MagneticHover } from "../motion/Reveal"
 import { SectionHeading } from "@/components/sections/section-heading"
+import { CtaButton } from "@/components/ui/cta-button"
 
 interface BlogSectionProps {
-  featuredCount?: number
   showCount?: number
 }
 
 export default function BlogSection({
-  featuredCount = 1,
   showCount = 3,
 }: BlogSectionProps) {
 
-  // Fetch featured and latest blogs from static MDX
-  const featuredBlogs = getFeaturedBlogs(featuredCount)
+  // Fetch latest blogs from static MDX
   const latestBlogs = getLatestBlogs(showCount)
 
-  // Use featured blogs if available, otherwise use latest
-  const displayFeatured = featuredBlogs.length > 0
-    ? featuredBlogs.slice(0, featuredCount)
-    : latestBlogs.slice(0, featuredCount)
-
-  // Remove featured from latest to avoid duplicates
-  const featuredIds = new Set(displayFeatured.map(blog => blog._id))
-  const remainingCount = showCount - displayFeatured.length
-  const displayRegular = latestBlogs
-    .filter(blog => !featuredIds.has(blog._id))
-    .slice(0, remainingCount)
-
-  // Total blogs to display
-  const allDisplayBlogs = [...displayFeatured, ...displayRegular]
-
   // Don't show section if no blogs
-  if (allDisplayBlogs.length === 0) {
+  if (latestBlogs.length === 0) {
     return null
   }
 
   return (
-    <section className="grid gap-8">
+    <section className="grid py-4 gap-8 max-w-app overflow-hidden mx-auto ">
       <SectionHeading>Latest Blogs</SectionHeading>
 
-      {/* Featured card(s) */}
-      {displayFeatured.map((blog) => (
-        <BlogCard
-          key={blog._id}
-          title={blog.title}
-          subtitle={blog.description}
-          image={blog.coverImage}
-          category={blog.tags?.[0] || "General"}
-          readingTime={calculateReadingTime(blog.description)}
-          date={formatDate(blog.publishedAt || blog.createdAt)}
-          link={`/blog/${blog.slug}`}
-          variant="featured"
-          className="col-span-full w-full lg:h-100"
-        />
-      ))}
-
-      {/* Default cards */}
-      {displayRegular.length > 0 && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          {displayRegular.map((blog) => (
-            <BlogCard
-              key={blog._id}
-              title={blog.title}
-              subtitle={blog.description}
-              image={blog.coverImage}
-              category={blog.tags?.[0] || "General"}
-              readingTime={calculateReadingTime(blog.description)}
-              date={formatDate(blog.publishedAt || blog.createdAt)}
-              link={`/blog/${blog.slug}`}
-              variant="default"
-            />
-          ))}
-        </div>
-      )}
+      {/* Blog rows */}
+      <div className="mt-2 mb-42 ">
+        {latestBlogs.map((blog) => (
+          <BlogRowCard
+            key={blog._id}
+            title={blog.title}
+            subtitle={blog.description}
+            image={blog.coverImage}
+            category={blog.tags?.[0] || "General"}
+            readingTime={`${calculateReadTimeFromWordCount(blog.wordCount)} min read`}
+            date={formatDate(blog.publishedAt || blog.createdAt)}
+            link={`/blog/${blog.slug}`}
+          />
+        ))}
+      </div>
 
       <div className="w-full flex items-center justify-center">
         <MagneticHover strength={0.4}>
-
-          <Link href="/blog">
-            <Button variant="outline" className="hover:bg-muted-foreground transition-all active:scale-95 cursor-pointer border-2 border-dashed"
-            >
-              View All
-              <ArrowRight className="h-4 w-4" />
-            </Button>
-          </Link>
+          <CtaButton href="/blog" label="Read More" />
         </MagneticHover>
       </div>
     </section>
   )
-}
-
-// Helper function to calculate reading time
-function calculateReadingTime(text: string): string {
-  const wordsPerMinute = 200
-  const wordCount = text.split(/\s+/).length
-  const minutes = Math.max(1, Math.ceil(wordCount / wordsPerMinute))
-  return `${minutes} min read`
 }
 
 // Helper function to format date

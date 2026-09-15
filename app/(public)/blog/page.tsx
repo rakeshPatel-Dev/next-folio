@@ -18,9 +18,9 @@ export default function BlogPage() {
     tags: b.tags,
     author: b.author,
     status: b.status,
-    isFeatured: b.isFeatured,
     publishedAt: b.publishedAt,
     createdAt: b.createdAt,
+    wordCount: b.wordCount,
   }))
 
   // Pass to client component for filtering
