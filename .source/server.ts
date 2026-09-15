@@ -7,10 +7,10 @@ import * as __fd_glob_12 from "../content/projects/image-toolkit.mdx?collection=
 import * as __fd_glob_11 from "../content/projects/cinebook.mdx?collection=projects"
 import * as __fd_glob_10 from "../content/projects/academix.mdx?collection=projects"
 import * as __fd_glob_9 from "../content/blogs/the-market-dominance-of-mern-in-2026.mdx?collection=docs"
-import * as __fd_glob_8 from "../content/blogs/the-god-of-ai-in-2026-why-anthropic-leads-the-intelligence-race.mdx?collection=docs"
+import * as __fd_glob_8 from "../content/blogs/the-god-of-ai-in-2026-why-anthropic-is-so-hard-to-ignore.mdx?collection=docs"
 import * as __fd_glob_7 from "../content/blogs/imposter-syndrome-reflections.mdx?collection=docs"
-import * as __fd_glob_6 from "../content/blogs/getting-started-with-nextjs-15.mdx?collection=docs"
-import * as __fd_glob_5 from "../content/blogs/ai-first-development-and-agentic-workflows.mdx?collection=docs"
+import * as __fd_glob_6 from "../content/blogs/ai-first-development-and-agentic-workflows.mdx?collection=docs"
+import * as __fd_glob_5 from "../content/blogs/ai-built-my-react-app.mdx?collection=docs"
 import * as __fd_glob_4 from "../content/case-studies/otrack.mdx?collection=caseStudies"
 import * as __fd_glob_3 from "../content/case-studies/moody-musik.mdx?collection=caseStudies"
 import * as __fd_glob_2 from "../content/case-studies/ishirablecom.mdx?collection=caseStudies"
@@ -28,7 +28,7 @@ export const caseStudies = await create.doc("caseStudies", "content/case-studies
 
 export const caseStudiesMeta = await create.meta("caseStudiesMeta", "content/case-studies", {});
 
-export const docs = await create.doc("docs", "content/blogs", {"ai-first-development-and-agentic-workflows.mdx": __fd_glob_5, "getting-started-with-nextjs-15.mdx": __fd_glob_6, "imposter-syndrome-reflections.mdx": __fd_glob_7, "the-god-of-ai-in-2026-why-anthropic-leads-the-intelligence-race.mdx": __fd_glob_8, "the-market-dominance-of-mern-in-2026.mdx": __fd_glob_9, });
+export const docs = await create.doc("docs", "content/blogs", {"ai-built-my-react-app.mdx": __fd_glob_5, "ai-first-development-and-agentic-workflows.mdx": __fd_glob_6, "imposter-syndrome-reflections.mdx": __fd_glob_7, "the-god-of-ai-in-2026-why-anthropic-is-so-hard-to-ignore.mdx": __fd_glob_8, "the-market-dominance-of-mern-in-2026.mdx": __fd_glob_9, });
 
 export const meta = await create.meta("meta", "content/blogs", {});
 
