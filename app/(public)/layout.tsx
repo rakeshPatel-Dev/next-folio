@@ -5,7 +5,7 @@ import "../globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 // import { AppDock } from "@/components/sections/GlobalDock";
-import { siteConfig } from "@/lib/site-config";
+import { canonicalUrl, siteConfig } from "@/lib/site-config";
 import { RootProvider } from "fumadocs-ui/provider/next"
 import { PageTransition } from "@/components/motion/PageTransition";
 import { ToastProvider } from "@/components/zenblocks/toast";
@@ -75,7 +75,7 @@ export const metadata: Metadata = {
     },
   },
   alternates: {
-    canonical: siteConfig.url,
+    canonical: canonicalUrl("/"),
   },
   appleWebApp: {
     title: "Rakesh",
@@ -101,6 +101,7 @@ export default function RootLayout({
           href="https://res.cloudinary.com/dzebbt9j5/image/upload/f_webp,q_auto:good,w_900,c_limit/v1779865854/rakesh_fkagx4.webp"
           type="image/webp"
         />
+        <link rel="prefetch" href="/api/lastfm" />
       </head>
       <body
         suppressHydrationWarning

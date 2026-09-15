@@ -31,16 +31,16 @@ export const siteConfig = {
   // Author info
   author: {
     name: "Rakesh Patel",
-    email: "devrakesh.tech@gmail.com", // optional but good for schema
+    email: "dev@rakeshpatel.me", // optional but good for schema
   },
 
   // Social links
   links: {
-    twitter: "https://twitter.com/rakeshthedev",
-    github: "https://github.com/rakeshthedev",
-    linkedin: "https://linkedin.com/in/101rakesh",
-    instagram: "https://instagram.com/rikesh_112",
-    facebook: "https://facebook.com/rakeshthedev",
+    twitter: "https://x.com/1o1rakesh",
+    github: "https://github.com/rakeshpatel-dev",
+    linkedin: "https://linkedin.com/in/1o1rakesh",
+    instagram: "https://instagram.com/1o1rakesh",
+    facebook: "https://facebook.com/1o1rakesh",
   },
 
   // SEO keywords (secondary signal only)
@@ -98,7 +98,7 @@ export const siteConfig = {
 
   // Twitter metadata
   twitter: {
-    handle: "@rakeshthedev",
+    handle: "@1o1rakesh",
     cardType: "summary_large_image",
   },
 
@@ -108,13 +108,22 @@ export const siteConfig = {
     name: "Rakesh Patel",
     url: "https://rakeshpatel.me",
     sameAs: [
-      "https://github.com/rakeshthedev",
-      "https://twitter.com/rakeshthedev",
-      "https://linkedin.com/in/rakeshpatel-dev",
-      "https://instagram.com/rikesh_112",
-      "https://facebook.com/rakeshthedev",
+      "https://github.com/rakeshpatel-dev",
+      "https://x.com/1o1rakesh",
+      "https://linkedin.com/in/1o1rakesh",
+      "https://instagram.com/1o1rakesh",
+      "https://facebook.com/1o1rakesh",
     ],
     jobTitle: "Full-Stack Developer",
     location: "Kathmandu, Nepal",
   },
 };
+
+// Canonical URL helper. Omitted outside production so that on localhost
+// (e.g. during `npm run dev`) Utterances builds its OAuth redirect_uri from
+// the page origin and the sign-in popup returns to localhost instead of the
+// deployed site.
+export function canonicalUrl(path = "/"): string | undefined {
+  if (process.env.NODE_ENV !== "production") return undefined
+  return `${siteConfig.url.replace(/\/+$/, "")}/${path.replace(/^\/+/, "")}`
+}

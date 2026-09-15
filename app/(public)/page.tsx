@@ -5,7 +5,7 @@ import HomeProjects from '@/components/sections/Project'
 import { AboutMe } from '@/components/sections/AboutMe'
 import BlogSection from '@/components/sections/Blog'
 import { Metadata } from 'next'
-import { siteConfig } from '@/lib/site-config'
+import { canonicalUrl, siteConfig } from '@/lib/site-config'
 
 export const metadata: Metadata = {
   title: "Rakesh Patel | Portfolio | Full Stack Developer",
@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   keywords: ["Rakesh Patel", "Frontend Developer", "Full Stack Developer",
     "React Developer", "Next.js Portfolio", "Web Developer Nepal"],
   alternates: {
-    canonical: siteConfig.url,
+    canonical: canonicalUrl("/"),
   },
   openGraph: {
     title: "Rakesh Patel | Portfolio | Full Stack Developer",

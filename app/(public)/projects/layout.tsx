@@ -1,5 +1,5 @@
 import type { Metadata } from "next"
-import { siteConfig } from "@/lib/site-config"
+import { canonicalUrl, siteConfig } from "@/lib/site-config"
 
 export const metadata: Metadata = {
   title: {
@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   description:
     "A curated list of real-world projects with technologies, challenges, and outcomes.",
   alternates: {
-    canonical: `${siteConfig.url}/projects`,
+    canonical: canonicalUrl("/projects"),
   },
   openGraph: {
     title: "Projects | Rakesh Patel",
