@@ -205,6 +205,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
             src={blogMeta.coverImage}
             alt={blogMeta.title}
             fill
+            sizes="(min-width: 896px) 896px, 100vw"
             className="object-cover"
             priority
           />

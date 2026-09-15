@@ -9,6 +9,8 @@ const nextConfig = {
   // Typecheck via `tsc --noEmit` (full next type phase OOMs on 8GB machines)
   typescript: { ignoreBuildErrors: true },
   images: {
+    dangerouslyAllowSVG: true,
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
     remotePatterns: [
       {
         protocol: 'https',
@@ -23,6 +25,16 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: '**.last.fm',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.vercel.app',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.rakeshpatel.me',
         pathname: '/**',
       },
     ],
