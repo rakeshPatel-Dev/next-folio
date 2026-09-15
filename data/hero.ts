@@ -1,5 +1,5 @@
-import { Facebook, Github, Instagram, Linkedin, Twitter } from "lucide-react"
-import { FaNodeJs, FaReact, SiNextdotjs, SiTypescript } from "@/components/icons"
+import { Facebook, Github, Instagram, Linkedin } from "lucide-react"
+import { FaNodeJs, FaReact, SiNextdotjs, SiTypescript, SiX } from "@/components/icons"
 import { siteConfig } from "@/lib/site-config"
 
 export const heroTech = [
@@ -47,12 +47,12 @@ export const heroSocial = [
     labelWidthClass: "group-hover/expand:w-[3.25rem]",
   },
   {
-    label: "Twitter",
+    label: "X",
     href: siteConfig.links.twitter,
-    Icon: Twitter,
-    color: "#0c7abf",
-    colorDark: "#0a689f",
-    labelWidthClass: "group-hover/expand:w-11",
+    Icon: SiX,
+    color: "#000000",
+    colorDark: "#ffffff",
+    labelWidthClass: "group-hover/expand:w-5",
   },
   {
     label: "Instagram",
