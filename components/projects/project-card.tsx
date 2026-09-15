@@ -115,7 +115,7 @@ const ProjectCard = React.forwardRef<HTMLDivElement, ProjectCardProps>(
           )}
         </div>
         </CursorFill>
-        <span className="h-px w-full bg-primary text-primary"/>
+        <span className="h-px w-full bg-muted-foreground/70 text-primary"/>
       </>
     )
   }

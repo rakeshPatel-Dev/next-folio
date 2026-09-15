@@ -67,7 +67,7 @@ export function DashedUnderline({
       fill="none"
       aria-hidden={title ? undefined : true}
       role={title ? "img" : undefined}
-      className={cn("shrink-0 text-foreground/25", className)}
+      className={cn("shrink-0 max-w-full text-foreground/25", className)}
       {...props}
     >
       {title ? <title>{title}</title> : null}

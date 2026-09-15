@@ -25,7 +25,7 @@ export function ExpList({ items }: { items: Experience[] }) {
   const [expandedId, setExpandedId] = useState<number | null>(null)
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-4">
       {items.map((exp, idx) => {
         const isExpanded = expandedId === idx
 
@@ -37,6 +37,10 @@ export function ExpList({ items }: { items: Experience[] }) {
             whileInView="visible"
             viewport={{ once: true, amount: 0.15 }}
             variants={fadeUp}
+            className={cn(
+              "rounded-2xl border border-border bg-card p-4 shadow-[0_8px_30px_-12px_rgba(0,0,0,0.4)]",
+              "sm:border-transparent sm:bg-transparent sm:p-0 sm:shadow-none"
+            )}
           >
               <button
                 type="button"
@@ -44,7 +48,7 @@ export function ExpList({ items }: { items: Experience[] }) {
                 onClick={() => setExpandedId(isExpanded ? null : idx)}
                 aria-expanded={isExpanded}
               >
-                <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
+                <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-2">
                   <div className="">
                     <div className="flex items-center gap-2.5 flex-wrap">
                       <h3 className="font-sans text-lg font-semibold tracking-tight text-foreground">
@@ -72,7 +76,7 @@ export function ExpList({ items }: { items: Experience[] }) {
                     </p>
                   </div>
 
-                  <div className="flex flex-col  text-muted-foreground  justify-center items-end text-sm">
+                  <div className="flex flex-col text-muted-foreground justify-center items-start lg:items-end text-sm">
                       <span className="font-mono">{exp.period}</span>
                       <span className="">{exp.location}</span>
                   </div>
@@ -89,7 +93,7 @@ export function ExpList({ items }: { items: Experience[] }) {
                     className="overflow-hidden"
                   >
                     <div className="mt-8 mb-5">
-                      <DashedUnderline width={800} className="text-foreground" />
+                      <DashedUnderline width={800} className="w-full text-foreground" />
                       <div className="mt-4 space-y-6">
                         <h4 className="text-sm text-foreground">
                           Technologies & Tools
