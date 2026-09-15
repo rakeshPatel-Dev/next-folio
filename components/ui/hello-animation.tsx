@@ -1,11 +1,33 @@
 "use client"
 
+import { useEffect, useState } from "react"
 import { AnimatedSVGText } from "svg-letter-draw"
 import { cn } from "@/lib/utils"
 
 // Local Space Grotesk TTF so opentype.js (used by svg-letter-draw) can parse it.
 // The app loads Space Grotesk via next/font/google; this keeps the glyphs identical.
 const FONT_URL = "/fonts/SpaceGrotesk.ttf"
+
+// The draw timeline in svg-letter-draw starts as soon as the <svg> mounts, but the
+// letter paths only appear after the font is fetched AND parsed by opentype.js. On
+// slow connections/phones that gap can exceed the whole animation, so the draw
+// happens invisibly and the text pops in at the end.
+//
+// Warm the font into the browser cache *before* mounting the animation; only the
+// (fast) local parse remains, which fits inside the per-letter delays.
+let fontReady: Promise<void> | null = null
+function warmFont(url = FONT_URL): Promise<void> {
+  if (!fontReady) {
+    fontReady = fetch(url, { cache: "force-cache" })
+      .then((res) => {
+        if (!res.ok) throw new Error(`Failed to fetch font (${res.status})`)
+        return res.arrayBuffer()
+      })
+      .then(() => undefined)
+      .catch(() => undefined) // fall through — the package retries on its own
+  }
+  return fontReady
+}
 
 // Space Grotesk Bold geometry at FONT_SIZE=60, letterSpacing=0 (measured via opentype.js):
 // - the svg viewBox is `totalWidth` x (baseline + 20)
@@ -24,6 +46,12 @@ const GLYPH_ASPECT = 160.26 / 50.82 // svg width : glyph-band height
  * proportioned on every device, and the crop is width-relative so it never clips.
  */
 export function HelloAnimation({ className }: { className?: string }) {
+  const [ready, setReady] = useState(false)
+
+  useEffect(() => {
+    warmFont().then(() => setReady(true))
+  }, [])
+
   return (
     <div
       className={cn(
@@ -33,24 +61,26 @@ export function HelloAnimation({ className }: { className?: string }) {
       role="img"
       aria-label="Hello,"
     >
-      <div className="w-full overflow-hidden" style={{ aspectRatio: `${GLYPH_ASPECT} / 1` }}>
-        <div style={{ marginTop: `${-GLYPH_TOP * 100}%` }}>
-          <AnimatedSVGText
-            fontUrl={FONT_URL}
-            text="Hello,"
-            fontSize={FONT_SIZE}
-            letterSpacing={0}
-            strokeWidth={2}
-            letterAnimationDuration={1.2}
-            letterDelay={0.15}
-            fillAnimationType="draw"
-            fillDrawDuration={0.6}
-            lineColor="currentColor"
-            fillColor="currentColor"
-            pathDecimalPlaces={6}
-          />
+      {ready && (
+        <div className="w-full overflow-hidden" style={{ aspectRatio: `${GLYPH_ASPECT} / 1` }}>
+          <div style={{ marginTop: `${-GLYPH_TOP * 100}%` }}>
+            <AnimatedSVGText
+              fontUrl={FONT_URL}
+              text="Hello,"
+              fontSize={FONT_SIZE}
+              letterSpacing={0}
+              strokeWidth={2}
+              letterAnimationDuration={1.2}
+              letterDelay={0.15}
+              fillAnimationType="draw"
+              fillDrawDuration={0.6}
+              lineColor="currentColor"
+              fillColor="currentColor"
+              pathDecimalPlaces={6}
+            />
+          </div>
         </div>
-      </div>
+      )}
     </div>
   )
 }
