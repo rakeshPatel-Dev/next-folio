@@ -1,9 +1,8 @@
 import { ProjectCard } from '@/components/projects/project-card'
-import { Button } from '@/components/ui/button'
 import { ArrowRight } from 'lucide-react'
-import Link from 'next/link'
 import { MagneticHover } from '../motion/Reveal'
 import { SectionHeading } from '@/components/sections/section-heading'
+import { CtaButton } from '@/components/ui/cta-button'
 import type { ProjectType } from '@/lib/projectSource'
 
 interface HomeProjectsProps {
@@ -22,7 +21,7 @@ export default function HomeProjects({ initialProjects }: HomeProjectsProps) {
     <div>
       <SectionHeading className="mb-8">Featured Projects</SectionHeading>
 
-      <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-10">
+      <div className="mt-10 grid grid-cols-1  ">
         {projects.slice(0, 4).map((project) => (
           <ProjectCard key={project._id} project={project} />
         ))}
@@ -30,17 +29,9 @@ export default function HomeProjects({ initialProjects }: HomeProjectsProps) {
 
       {projects.length > 4 && (
         <div className="mt-10 flex w-full justify-center">
-          <Link href="/projects">
-            <MagneticHover strength={0.4}>
-              <Button
-                variant="outline"
-                className="hover:bg-muted-foreground transition-all active:scale-95 cursor-pointer border-2 border-dashed"
-              >
-                View More
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-            </MagneticHover>
-          </Link>
+          <MagneticHover strength={0.4}>
+            <CtaButton href="/projects" label="View More" icon={ArrowRight} />
+          </MagneticHover>
         </div>
       )}
     </div>

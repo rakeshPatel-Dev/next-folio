@@ -1,17 +1,15 @@
 "use client"
 
 import * as React from "react"
-import { ArrowUpRight } from "lucide-react"
+import { Code } from "lucide-react"
 import { cn } from "@/lib/utils"
 import type { ProjectType } from "@/lib/projectSource"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
+import { CursorFill } from "@/components/motion/cursor-fill"
 import Image from "next/image"
-import { Badge } from "@/components/ui/badge"
 import Link from "next/link"
 import WorldIcon from "../ui/world-icon"
 import GithubIcon from "../ui/github-icon"
-import { ProjectVideoDialog } from "@/components/ui/project-video-dialog"
-import IconRenderer from "@/components/ui/IconRenderer"
 
 interface ProjectCardProps {
   project: ProjectType
@@ -20,232 +18,101 @@ interface ProjectCardProps {
 const blurDataURL =
   "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0nNzAwJyBoZWlnaHQ9JzQ3NScgdmlld0JveD0nMCAwIDcwMCA0NzUnIHhtbG5zPSdodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2Zyc+PHJlY3Qgd2lkdGg9JzcwMCcgaGVpZ2h0PSc0NzUnIGZpbGw9JyMyMjInIC8+PC9zdmc+"
 
-// Tech Icon Component
-function TechIcon({ tech }: { tech: { label: string; icon?: string } }) {
-  if (!tech.icon) {
-    return (
-      <Badge variant="secondary" className="text-xs">
-        {tech.label}
-      </Badge>
-    )
-  }
-
-  return (
-    <Tooltip>
-      <TooltipTrigger asChild>
-        <div className=" transition-transform hover:scale-110">
-          <IconRenderer name={tech.icon} className="h-6 w-6 text-muted-foreground hover:text-foreground" />
-        </div>
-      </TooltipTrigger>
-      <TooltipContent>{tech.label}</TooltipContent>
-    </Tooltip>
-  )
-}
-
 const ProjectCard = React.forwardRef<HTMLDivElement, ProjectCardProps>(
   ({ project }, ref) => {
-
-    const statusDisplay = {
-      "completed": "Completed",
-      "building": "In Progress",
-      "planning": "Planning"
-    }[project.status] || project.status
-
-    const typeColors = {
-      web: "bg-blue-500/80",
-      mobile: "bg-emerald-500/80",
-      desktop: "bg-violet-500/80",
-      fullstack: "bg-amber-500/80",
-      frontend: "bg-cyan-500/80",
-      backend: "bg-red-500/80",
-    }
-
-    const typeColor = typeColors[project.type.toLowerCase() as keyof typeof typeColors] || "bg-slate-500/80"
+    // Determine the favicon / icon source
+    const faviconSrc =
+      project.liveUrl && project.faviconUrl
+        ? new URL(project.liveUrl).origin + project.faviconUrl
+        : null
 
     return (
-      <div
+      <CursorFill
         ref={ref}
+        wholeFill
+        invert
         className={cn(
-          " relative flex flex-col overflow-hidden rounded-2xl border bg-card shadow-sm transition-all duration-300",
-          "hover:-translate-y-2 hover:shadow-xl",
-          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+          "group relative flex items-center gap-4 border-y-2 py-4 shadow-sm transition-all duration-200",
+          "hover:shadow-md ",
+          "focus-within:outline-none"
         )}
       >
-        {/* Type Badge */}
-        <span
-          className={cn(
-            "absolute right-3 top-3 z-10 rounded-full px-3 py-1 text-xs font-medium text-white backdrop-blur-md",
-            typeColor
-          )}
-        >
-          {project.type.toUpperCase()}
-        </span>
+        {/* Whole-card link to project details */}
+        <Link
+          href={`/projects/${project.slug}`}
+          aria-label={`${project.title} — details`}
+          className="absolute inset-0 z-40 outline-none focus-visible:ring-2 focus-visible:ring-primary"
+        />
 
-        {/* Freelance Badge */}
-        {project.isFreelance && (
-          <span className="absolute left-3 top-3 z-10 rounded-full bg-purple-600/90 px-3 py-1 text-xs font-medium text-white backdrop-blur-md">
-            FREELANCE
-          </span>
-        )}
-
-
-        {/* Cover media */}
-        <div className="relative aspect-video overflow-hidden p-2">
-          {project.videoUrl ? (
-            <ProjectVideoDialog
-              videoSrc={project.videoUrl}
-              thumbnailSrc={project.image}
-              thumbnailAlt={`${project.title} video`}
-              className="h-full"
-            />
-          ) : (
-            <Image
-              src={project.image}
-              alt={project.title}
-              fill
-              sizes="(min-width: 768px) 50vw, 100vw"
-              placeholder="blur"
-              blurDataURL={blurDataURL}
-              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-            />
-          )}
-        </div>
-
-        {/* Content */}
-        <div className="flex flex-1 flex-col p-6">
-          {/* Title + Icons */}
-          <div className="flex items-start justify-between gap-3">
-            <h3
-              className="font-sans cursor-pointer text-xl font-semibold">
-              <Link href={`/projects/${project.slug}`}
-                className=" hover:underline"
-              >
-
-                {project.title}
-              </Link>
-            </h3>
-
-            <div className="flex gap-4 items-center">
-              {project.liveUrl && (
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <a
-                      title="Live link"
-                      href={project.liveUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label="Live website"
-                    >
-                      <WorldIcon className="h-6 w-6 text-muted-foreground hover:text-primary" />
-                    </a>
-                  </TooltipTrigger>
-                  <TooltipContent>Live Website</TooltipContent>
-                </Tooltip>
-              )}
-
-              {project.repoUrl && (
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <a
-                      title="Source code"
-                      href={project.repoUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label="Source code"
-                    >
-                      <GithubIcon className="h-6 w-6 text-muted-foreground hover:text-primary" />
-                    </a>
-                  </TooltipTrigger>
-                  <TooltipContent>Source Code</TooltipContent>
-                </Tooltip>
-              )}
-            </div>
-          </div>
-
-          {/* Description */}
-          <p className="mt-3 flex-1 text-muted-foreground line-clamp-2">
-            {project.shortDescription}
-          </p>
-
-          {/* Client Info */}
-          {project.isFreelance && project.isClientPublic && project.clientName && (
-            <div className="mt-3 relative rounded-lg bg-muted/50 p-3">
-              <p className="text-xs font-medium text-muted-foreground">Client</p>
-              <p className="text-sm font-semibold">{project.clientName}</p>
-              {project.clientLocation && (
-                <p className="text-xs text-muted-foreground">{project.clientLocation}</p>
-              )}
-              <Badge className="absolute right-3 top-3 text-xs">
-                {project.clientIndustry}
-              </Badge>
-            </div>
-          )}
-
-          {/* Tech Stack with Dynamic Icons */}
-          {project.techStack && project.techStack.length > 0 && (
-            <div className="mt-4 flex flex-col gap-2">
-              <h4 className="font-sans text-sm font-medium">Technologies</h4>
-              <div className="flex flex-wrap gap-3 items-center">
-                {project.techStack.slice(0, 8).map((tech, idx) => (
-                  <TechIcon key={idx} tech={tech} />
-                ))}
-                {project.techStack.length > 8 && (
-                  <Badge variant="outline" className="text-xs">
-                    +{project.techStack.length - 8}
-                  </Badge>
-                )}
+        {/* Favicon + title row shifts inward on hover, action icons stay put */}
+        <div className="relative z-10 flex w-full min-w-0 items-center gap-4 transition-transform duration-300 ease-out group-hover:translate-x-2">
+          {/* Favicon / Thumbnail */}
+          <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-md">
+            {faviconSrc ? (
+              <Image
+                src={faviconSrc}
+                alt={project.title}
+                fill
+                sizes="40px"
+                placeholder="blur"
+                blurDataURL={blurDataURL}
+                className="object-cover"
+              />
+            ) : (
+              <div className="flex h-full w-full items-center justify-center text-muted-foreground">
+                <Code className="h-5 w-5" />
               </div>
-            </div>
-          )}
+            )}
+          </div>
 
-          {/* Footer */}
-          <div className="mt-6 flex items-center justify-between">
-            {/* Status */}
-            <div
-              className={cn(
-                "flex items-center gap-2 rounded-full border px-3 py-1 text-sm font-medium",
-                project.status === "completed"
-                  ? "border-green-500 text-green-500"
-                  : project.status !== "in-progress"
-                    ? "border-orange-500 text-orange-500"
-                    : "border-blue-500 text-blue-500"
-              )}
-            >
-              <span className="relative flex h-3 w-3">
-                <span
-                  className={cn(
-                    "absolute inline-flex h-full w-full animate-ping rounded-full opacity-75",
-                    project.status === "completed"
-                      ? "bg-green-400"
-                      : project.status !== "in-progress"
-                        ? "bg-orange-400"
-                        : "bg-blue-400"
-                  )}
-                />
-                <span
-                  className={cn(
-                    "relative inline-flex h-3 w-3 rounded-full",
-                    project.status === "completed"
-                      ? "bg-green-500"
-                      : project.status !== "in-progress"
-                        ? "bg-orange-500"
-                        : "bg-blue-500"
-                  )}
-                />
-              </span>
-              {statusDisplay}
-            </div>
-
-            {/* Visual CTA */}
-            <Link
-              href={`/projects/${project.slug}`}
-              className="group inline-flex items-center gap-1 text-sm font-medium text-muted-foreground transition-all hover:text-primary">
-              View details
-              <ArrowUpRight className="h-6 w-6 group-hover:rotate-45 transition-all group-hover:translate-x-1 duration-100" />
-            </Link>
+          {/* Main content: title + short description */}
+          <div className="min-w-0 flex-1">
+            <span className="block truncate font-sans text-xl font-semibold">
+              {project.title}
+            </span>
+            <p className="mt-0.5 truncate text-sm text-muted-foreground">
+              {project.shortDescription}
+            </p>
           </div>
         </div>
-      </div>
+
+        {/* Action links: live & source (pinned) */}
+        <div className="relative z-50 flex shrink-0 items-center gap-2">
+          {project.liveUrl && (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <a
+                  href={project.liveUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Live website"
+                  className="inline-flex rounded-full p-2 text-muted-foreground transition-colors duration-300 hover:bg-muted hover:text-foreground"
+                >
+                  <WorldIcon size={18} />
+                </a>
+              </TooltipTrigger>
+              <TooltipContent gooey>Live Website</TooltipContent>
+            </Tooltip>
+          )}
+
+          {project.repoUrl && (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <a
+                  href={project.repoUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Source code"
+                  className="inline-flex rounded-full p-2 text-muted-foreground transition-colors duration-300 hover:bg-muted hover:text-foreground"
+                >
+                  <GithubIcon size={18} />
+                </a>
+              </TooltipTrigger>
+              <TooltipContent gooey>Source Code</TooltipContent>
+            </Tooltip>
+          )}
+        </div>
+      </CursorFill>
     )
   }
 )
