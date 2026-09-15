@@ -28,7 +28,7 @@ export function Comments() {
   }, [])
 
   return (
-    <section className="mx-auto max-w-3xl px-6 pb-12">
+    <section className="mx-auto max-w-3xl pb-12">
       <h2 className="mb-6 text-2xl font-bold tracking-tight border-t pt-12">Comments</h2>
       <div ref={containerRef} />
     </section>

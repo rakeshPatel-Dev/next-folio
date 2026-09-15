@@ -95,7 +95,7 @@ export default function BlogPageClient({ initialBlogs }: BlogPageClientProps) {
   }
 
   return (
-    <main className="py-6 max-w-4xl mx-auto">
+    <main className="py-6 ">
       {/* Header */}
       <div className="text-center mt-5 mb-8">
         <h1 className="text-4xl md:text-5xl font-bold">Blog</h1>

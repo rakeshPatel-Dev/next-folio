@@ -8,7 +8,6 @@ import { BlogRowCard } from "@/components/blog/blog-row-card"
 import { BlogShare } from "@/components/blog/BlogShare"
 import { Comments } from "@/components/blog/Comments"
 import { calculateReadTimeFromWordCount } from "@/lib/read-time"
-import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { DynamicIslandTOC } from '@/components/ui/dynamic-island-toc'
 import { Metadata } from 'next'
@@ -128,17 +127,20 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
       />
 
       {/* Back Button */}
-      <div className="max-w-4xl mx-auto pt-24 pb-8">
-          <Button asChild variant="ghost" >
-          <Link href="/blog" className="group cursor-pointer">
-            <ArrowLeft className="h-4 w-4 opacity-50 translate-x-1 transition-all group-hover:opacity-100 group-hover:-translate-x-1 group-hover:scale-110" />
-            Back to Blogs
+      <div className="max-w-3xl mx-auto pt-8 pb-8">
+          {/* Back Button */}
+
+        <Link
+          href="/blog"
+          className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+        >
+          <ArrowLeft className="h-3.5 w-3.5" />
+          Back to Blogs
         </Link>
-          </Button>
       </div>
 
       {/* Header */}
-      <header className="max-w-4xl mx-auto pb-8">
+      <header className=" pb-8">
         {/* Tags */}
         <div className="flex flex-wrap gap-2 mb-4">
           {blogMeta.tags.map((tag) => (
@@ -204,7 +206,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
       </div>
 
       {/* Article body — TOC is a floating dynamic island */}
-      <div className="mx-auto max-w-3xl pb-12 px-6">
+      <div className="mx-auto max-w-3xl pb-12 ">
         <DynamicIslandTOC selector='[data-toc="article"] h2, [data-toc="article"] h3, [data-toc="article"] h4' />
         <div
           className="prose prose-lg dark:prose-invert max-w-none prose-headings:tracking-tight prose-headings:font-semibold prose-p:leading-relaxed"
@@ -218,7 +220,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
       <Comments />
 
       {/* Prev/Next Navigation */}
-      <div className="max-w-4xl mx-auto pb-12 px-6">
+      <div className=" pb-12 ">
         <div className="flex flex-col sm:flex-row gap-4 border-t pt-12">
           {prevBlog && (
             <Link href={`/blog/${prevBlog.slug}`} className="flex-1 group">
@@ -266,7 +268,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
 
       {/* Related Blogs */}
       {relatedBlogs.length > 0 && (
-        <section className="max-w-4xl mx-auto py-12 border-t px-6">
+        <section className="py-12 border-t">
           <h2 className="text-2xl font-bold mb-8 tracking-tight">Related Posts</h2>
           <div>
             {relatedBlogs.map((relatedBlog) => (
