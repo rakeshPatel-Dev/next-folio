@@ -11,6 +11,8 @@ type ProjectDoc = {
   status?: string
   category?: string
   year?: string
+  role?: string
+  timeline?: string
   techStack?: Array<{ label?: string; icon?: string }>
   technologies?: string[]
   liveUrl?: string
@@ -26,6 +28,7 @@ type ProjectDoc = {
   solution?: string
   createdAt?: string
   updatedAt?: string
+  faviconUrl?: string
   info?: { path?: string }
 }
 
@@ -38,12 +41,15 @@ export type ProjectType = {
   _id: string
   title: string
   shortDescription: string
+  faviconUrl?: string
   longDescription?: string
   image: string
   imagePublicId: string
   slug: string
   type: string
   status: string
+  role?: string
+  timeline?: string
   category?: string
   year?: string
   techStack: TechItem[]
@@ -87,6 +93,8 @@ function serializeProject(doc: ProjectDoc): ProjectType {
     slug: doc.slug || getDocSlug(doc),
     type: doc.type ?? '',
     status: doc.status ?? '',
+    role: doc.role,
+    timeline: doc.timeline,
     category: doc.category,
     year: doc.year,
     techStack: Array.isArray(doc.techStack)
@@ -96,6 +104,7 @@ function serializeProject(doc: ProjectDoc): ProjectType {
       : [],
     technologies: doc.technologies,
     liveUrl: doc.liveUrl,
+    faviconUrl: doc.faviconUrl || (doc.liveUrl ? '/favicon.svg' : undefined),
     repoUrl: doc.repoUrl,
     githubUrl: doc.githubUrl,
     videoUrl: doc.videoUrl,
