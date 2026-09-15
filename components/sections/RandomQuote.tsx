@@ -2,8 +2,9 @@
 
 import { useEffect, useState } from 'react'
 import { techQuotes } from '@/data/techQuotes'
-import { Dot, Quote, RefreshCw } from 'lucide-react'
+import { Dot, Quote, RefreshCw, LoaderCircle } from 'lucide-react'
 import { Button } from '../ui/button'
+import { BrandIcon } from '../ui/brand-icon'
 
 function getRandomQuoteIndex() {
   return Math.floor(Math.random() * techQuotes.length)
@@ -75,10 +76,26 @@ function RandomQuoteContent() {
             onClick={getNewQuote}
             disabled={isLoading}
             title="Get New"
+            aria-label="Get a new quote"
             variant="ghost"
-            className="inline-flex absolute bottom-4 right-4 items-center gap-2 px-6 py-3 rounded-full font-medium transition-all duration-200 ease-in-out hover:shadow-md dark:hover:shadow-lg active:scale-95"
+            size="icon-lg"
+            className="absolute bottom-4 right-4 cursor-pointer rounded-full bg-transparent p-1 transition-transform duration-200 active:scale-90"
           >
-            <RefreshCw size={18} className={isLoading ? 'animate-spin' : ''} />
+            {isLoading ? (
+              <BrandIcon
+                color="var(--foreground)"
+                colorDark="var(--foreground)"
+                iconColor="var(--background)"
+                icon={<LoaderCircle size={18} className="animate-spin" />}
+              />
+            ) : (
+              <BrandIcon
+                color="var(--foreground)"
+                colorDark="var(--foreground)"
+                iconColor="var(--background)"
+                icon={<RefreshCw size={18} />}
+              />
+            )}
           </Button>
         </div>
 

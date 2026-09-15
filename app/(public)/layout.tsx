@@ -16,6 +16,7 @@ import { Noise } from "@/components/ui/noise";
 import { GridPattern } from "@/components/ui/grid-pattern";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { PullCordThemeToggler } from "@/components/ui/pullcord-theme-toggler";
+import RandomQuote from "@/components/sections/RandomQuote";
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -121,6 +122,7 @@ export default function RootLayout({
               <RootProvider>
                 <main id="main-content" className="mx-auto w-full max-w-app px-app">
                   {children}
+                  <RandomQuote />
                 </main>
               </RootProvider>
             </PageTransition>

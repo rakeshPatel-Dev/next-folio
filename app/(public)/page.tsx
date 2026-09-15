@@ -4,7 +4,6 @@ import Exp from '@/components/sections/Exp'
 import HomeProjects from '@/components/sections/Project'
 import { AboutMe } from '@/components/sections/AboutMe'
 import BlogSection from '@/components/sections/Blog'
-import RandomQuote from '@/components/sections/RandomQuote'
 import { Metadata } from 'next'
 import { siteConfig } from '@/lib/site-config'
 
@@ -65,7 +64,6 @@ const page = async () => {
         <HomeProjects initialProjects={allProjects} />
         <AboutMe />
         <BlogSection />
-        <RandomQuote />
 
       </div >
     </>
