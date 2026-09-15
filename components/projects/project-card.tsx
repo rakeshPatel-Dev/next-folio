@@ -27,12 +27,14 @@ const ProjectCard = React.forwardRef<HTMLDivElement, ProjectCardProps>(
         : null
 
     return (
+      <>
+
       <CursorFill
         ref={ref}
         wholeFill
         invert
         className={cn(
-          "group relative flex items-center gap-4 border-y-2 py-4 shadow-sm transition-all duration-200",
+          "group relative flex items-center gap-4  py-4  transition-all duration-200",
           "hover:shadow-md ",
           "focus-within:outline-none"
         )}
@@ -112,7 +114,9 @@ const ProjectCard = React.forwardRef<HTMLDivElement, ProjectCardProps>(
             </Tooltip>
           )}
         </div>
-      </CursorFill>
+        </CursorFill>
+        <span className="h-px w-full bg-primary text-primary"/>
+      </>
     )
   }
 )
