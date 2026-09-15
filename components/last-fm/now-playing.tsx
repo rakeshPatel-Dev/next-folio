@@ -111,7 +111,25 @@ export function NowPlayingStatus({ className }: { className?: string }) {
 export function NowPlaying({ className }: { className?: string }) {
     const { track, loaded, nowPlaying, statusLabel } = useLastFmTrack()
 
-    if (!loaded || !track?.name) return null
+    if (!loaded) {
+        return (
+            <div
+                className={cn(
+                    "inline-flex max-w-full items-center gap-3 rounded-full p-1.5 pr-3 sm:pr-4 animate-pulse bg-muted/50",
+                    className
+                )}
+                aria-hidden="true"
+            >
+                <span className="size-9 shrink-0 rounded-full bg-muted" />
+                <div className="flex min-w-0 flex-1 flex-col gap-1.5">
+                    <span className="h-3 w-16 rounded bg-muted" />
+                    <span className="h-3.5 w-32 rounded bg-muted" />
+                </div>
+            </div>
+        )
+    }
+
+    if (!track?.name) return null
 
     return (
         <a
