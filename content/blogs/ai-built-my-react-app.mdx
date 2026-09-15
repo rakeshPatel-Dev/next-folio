@@ -1,0 +1,267 @@
+---
+title: I Let AI Build My React App - What Worked, What Failed, and What I Still Had to Code
+description: I let AI coding agents handle a large part of my React development workflow. Here is what actually worked, what went wrong, and why developers still matter.
+slug: ai-built-my-react-app
+tags: ["ai", "react", "coding-agents"]
+author: Rakesh Patel
+date: 2026-09-15
+coverImage: "https://res.cloudinary.com/dzebbt9j5/image/upload/v1789479899/AI_build_my_react_app_ykonhv.png"
+status: "published"
+publishedAt: "2026-09-15T10:00:00.000Z"
+---
+
+## I stopped asking AI to write code
+
+For a while, using AI for development meant asking a question, getting some code, copying it into the project, and fixing whatever broke.
+
+That workflow feels very different now.
+
+I increasingly use coding agents that can inspect a repository, search through files, edit multiple files, run terminal commands, read the output, and continue working from there.
+
+Instead of asking:
+
+> "How do I build this React component?"
+
+I can give an agent a real task:
+
+> "Add this feature to the existing application, follow the current patterns, run the relevant checks, and tell me what you changed."
+
+That is a much bigger shift than autocomplete.
+
+The agent is no longer just helping me write a line of code. It can participate in the development loop.
+
+And after using this workflow for real projects, I have a much more complicated opinion about AI coding than I did before.
+
+## The part that actually feels like magic
+
+The biggest improvement is not that AI can write React.
+
+We already knew that.
+
+The interesting part is that an agent can work inside the context of an actual codebase.
+
+It can find the relevant files, inspect existing components, follow imports, modify several files, run commands, see errors, and try again.
+
+For example, when working on a feature, I might start with a high-level requirement instead of manually deciding which files need changing.
+
+The agent can investigate the repository first.
+
+That makes the workflow feel closer to delegating a small engineering task than asking a chatbot for a code snippet.
+
+Modern coding agents are explicitly built around this loop. They can search a codebase, edit files, execute shell commands and inspect the results before continuing.
+
+That is where I think the real value is.
+
+## I use agents more than I use AI for individual snippets
+
+My workflow has moved heavily toward the terminal and agent-driven development.
+
+I still use AI for questions, explanations, debugging and exploring ideas, but for actual implementation I increasingly prefer giving an agent a task and letting it work through the repository.
+
+That does not mean I disappear while it codes.
+
+I watch the changes.
+
+I inspect the diff.
+
+I run the application.
+
+I test the feature.
+
+I tell it what is wrong.
+
+Then it continues.
+
+Some agents even support planning or read-only modes, which makes it possible to ask them to understand a problem before allowing them to modify anything.
+
+That small change matters.
+
+I would much rather have an agent explain its approach before making a large architectural change than discover the approach after it has modified twenty files.
+
+## What AI is surprisingly good at
+
+### Repetitive implementation
+
+This is probably the easiest win.
+
+Once the project has established patterns, agents can reproduce them quickly.
+
+Creating similar components, adding API integration, updating types, wiring forms, handling basic loading states, writing tests, or making consistent changes across multiple files can become much faster.
+
+The boring work gets delegated.
+
+### Debugging
+
+I also use agents heavily when something breaks.
+
+Instead of immediately searching the internet, I can give the agent the error and let it inspect the surrounding code.
+
+It can trace where the value came from, inspect related files, run commands and test possible fixes.
+
+Sometimes it finds the problem immediately.
+
+Sometimes it confidently finds the wrong problem.
+
+That distinction is important.
+
+### Working through large changes
+
+A normal chat response has a natural limitation.
+
+It gives me an answer.
+
+An agent can keep working.
+
+It can make one change, run a command, read the result, make another change and continue.
+
+That makes it much more useful for changes that cross multiple files.
+
+OpenCode, for example, is built specifically as a terminal-based coding agent and supports project-level instructions and specialized agents.
+
+## Then the problems started showing up
+
+The biggest mistake is assuming that because an agent can complete a task, it understands the project.
+
+It does not.
+
+An agent can produce code that works while still making the codebase worse.
+
+I have seen the same patterns repeatedly.
+
+It may introduce an abstraction that is not needed.
+
+It may duplicate logic that already exists somewhere else.
+
+It may solve a local problem without considering how the component is used elsewhere.
+
+It may add another dependency when a small utility would have been enough.
+
+And sometimes it simply follows an existing bad pattern because that is what the repository already contains.
+
+AI is very good at continuing patterns.
+
+It is not automatically good at deciding whether those patterns should exist.
+
+## The "almost right" problem
+
+This is probably the most frustrating part.
+
+AI-generated code is often not completely wrong.
+
+It is almost right.
+
+The button works, but the loading state has an edge case.
+
+The API integration works, but the error handling is weak.
+
+The component looks good, but it behaves badly at a particular breakpoint.
+
+The refactor works, but now another part of the application depends on an assumption that has changed.
+
+These problems are dangerous because they are easy to miss.
+
+Stack Overflow's 2025 Developer Survey found that 84% of respondents were using or planning to use AI tools, while 33% trusted their accuracy. The survey also found that 66% identified AI solutions that were "almost right, but not quite" as a major frustration, and 45% found debugging AI-generated code more time-consuming.
+
+That matches my experience much more than the idea that AI simply replaces coding work.
+
+## AI can even make you slower
+
+There is another interesting side to this.
+
+A 2025 randomized controlled trial from METR studied experienced open-source developers working on repositories they already knew. The study found that developers using early-2025 AI tools took 19% longer on the studied tasks, despite expecting AI to make them substantially faster.
+
+That does not mean AI makes every developer slower.
+
+It was a specific study with specific developers, repositories and tools.
+
+In fact, METR later reported evidence that AI appeared to be speeding developers up more in early 2026, although the researchers also noted important limitations in that later experiment.
+
+For me, the lesson is simpler.
+
+**AI speed is not the same thing as development speed.**
+
+If I generate code in thirty seconds and spend twenty minutes understanding, correcting and testing it, I did not save twenty minutes.
+
+## What I still have to do
+
+The parts I value most as a developer are also the parts I do not want to blindly delegate.
+
+I still need to decide how the application should be structured.
+
+I still need to understand the data flow.
+
+I still need to decide whether a feature belongs in a component, hook, service or API layer.
+
+I still need to think about authentication, authorization, validation, security and edge cases.
+
+And most importantly, I need to know whether the solution is actually appropriate for the product.
+
+AI can give me five possible implementations.
+
+It cannot tell me which one makes sense for my application without enough context.
+
+Even when it does suggest one, I still have to judge it.
+
+## My role has changed
+
+I do write less code manually than I used to.
+
+But I do not think that means I am doing less engineering.
+
+In many cases, I am spending more time reviewing code, breaking problems into smaller tasks, checking assumptions, testing behavior and deciding what should happen next.
+
+The skill is shifting from:
+
+> "Can you write this code?"
+
+toward:
+
+> "Can you understand this system well enough to tell an agent what should change, recognize when it is wrong, and fix the direction?"
+
+That is a very different skill.
+
+And I think it is going to matter more as agents become better.
+
+## So, did AI build my React app?
+
+Partly.
+
+It wrote a lot of the code.
+
+It explored files I would have opened manually.
+
+It handled repetitive implementation.
+
+It debugged problems.
+
+It suggested approaches I would not have considered immediately.
+
+But it did not own the architecture.
+
+It did not decide what the product needed.
+
+It did not take responsibility when something broke.
+
+And I would not ship code simply because an agent says it works.
+
+That is the difference between **AI-generated software** and **software engineered with AI**.
+
+I prefer the second one.
+
+The goal is not to prove that I can build an entire application without touching the keyboard.
+
+The goal is to use AI to remove unnecessary work while keeping the parts that require judgment, understanding and responsibility.
+
+That is where I still want to be useful.
+
+And for now, I think that is exactly where developers should be.
+
+---
+
+## Sources
+
+- [Stack Overflow Developer Survey 2025](https://survey.stackoverflow.co/2025/)
+- [METR: Measuring the Impact of Early-2025 AI on Experienced Open-Source Developer Productivity](https://metr.org/blog/2025-07-10-early-2025-ai-experienced-os-dev-study/)
+- [METR: AI Developer Productivity Update](https://metr.org/blog/2026-02-24-uplift-update/)
+- [Cursor Agent Documentation](https://cursor.com/docs/agent/overview)
+- [OpenCode Documentation](https://opencode.ai/docs/)
