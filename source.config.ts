@@ -10,7 +10,6 @@ const blogSchema = z.object({
   date: z.union([z.string(), z.date()]).optional(),
   coverImage: z.string().default(''),
   status: z.enum(['draft', 'published']).default('draft'),
-  isFeatured: z.boolean().default(false),
   publishedAt: z.string().optional(),
   createdAt: z.string().optional(),
   updatedAt: z.string().optional(),
