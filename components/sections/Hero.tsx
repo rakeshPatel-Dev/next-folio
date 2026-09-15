@@ -1,4 +1,4 @@
-import { TechIcon } from "../ui/tech-icon"
+import { TooltipIcon } from "../ui/tooltip-icon"
 import { SocialIcon } from "../ui/social-icon"
 import { HelloAnimation } from "../ui/hello-animation"
 import { DashedUnderline } from "../ui/dashed-underline"
@@ -30,7 +30,7 @@ export default function HeroData() {
               {heroTech.map(({ label, Icon, color, colorDark }, i) => (
                 <span key={label}>
                   {i > 0 && <span className="text-muted-foreground">, </span>}
-                  <TechIcon
+                  <TooltipIcon
                     label={label}
                     color={color}
                     colorDark={colorDark}

@@ -42,7 +42,7 @@ type TooltipContentProps = React.ComponentProps<typeof TooltipPrimitive.Content>
 
 function TooltipContent({
   className,
-  sideOffset = 6,
+  sideOffset = 0,
   side = "top",
   gooey = false,
   children,

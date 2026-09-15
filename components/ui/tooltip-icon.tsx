@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/tooltip"
 import { cn } from "@/lib/utils"
 
-export type TechIconProps = {
+export type TooltipIconProps = {
   label: string
   icon: ReactNode
   color: string
@@ -23,8 +23,8 @@ export type TechIconProps = {
   >
 }
 
-/** Inline tech mark with gooey spring tooltip (no expand-on-hover). */
-export function TechIcon({
+/** Brand icon badge with a gooey spring tooltip (no expand-on-hover). */
+export function TooltipIcon({
   label,
   icon,
   color,
@@ -33,11 +33,12 @@ export function TechIcon({
   iconSize = 15,
   className,
   brandIconProps,
-}: TechIconProps) {
+}: TooltipIconProps) {
   return (
     <Tooltip delayDuration={80}>
       <TooltipTrigger asChild>
         <span
+        aria-label={label}
           className={cn(
             "inline-flex shrink-0 translate-y-[-0.1em] align-middle outline-none",
             className
