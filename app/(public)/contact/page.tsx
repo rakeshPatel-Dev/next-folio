@@ -2,6 +2,7 @@ import { PUBLIC_CONTACT_METADATA } from "@/lib/metadata"
 import { ContactForm } from "@/components/contact/contact-form"
 import { ArrowUpRight } from "lucide-react"
 import Link from "next/link"
+import { siteConfig } from "@/lib/site-config"
 
 export const metadata = PUBLIC_CONTACT_METADATA
 
@@ -21,12 +22,12 @@ const Page = () => {
 
       {/* Direct contact */}
       <Link
-        href="mailto:devrakesh.tech@gmail.com"
+        href={`mailto:${siteConfig.author.email}`}
         className="group mb-10 flex items-center justify-between border-y border-border/60 py-4 text-sm transition-colors hover:text-foreground"
       >
         <span className="text-muted-foreground">Direct line</span>
         <span className="flex items-center gap-1.5 font-medium">
-          devrakesh.tech@gmail.com
+          {siteConfig.author.email}
           <ArrowUpRight className="size-3.5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
         </span>
       </Link>

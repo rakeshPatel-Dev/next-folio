@@ -12,9 +12,9 @@ import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
 import { Github, Linkedin, Mail } from "lucide-react";
 
 const socialDock = [
-  { label: "GitHub", icon: Github, href: "https://github.com/rakeshPatel-Dev" },
-  { label: "LinkedIn", icon: Linkedin, href: "https://linkedin.com/in/101rakesh" },
-  { label: "Email", icon: Mail, href: "mailto:rk5080976@gmail.com" },
+  { label: "GitHub", icon: Github, href: "https://github.com/rakeshpatel-dev" },
+  { label: "LinkedIn", icon: Linkedin, href: "https://linkedin.com/in/1o1rakesh" },
+  { label: "Email", icon: Mail, href: "mailto:dev@rakeshpatel.me" },
 ];
 
 export function AppDock() {

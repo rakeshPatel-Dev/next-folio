@@ -11,6 +11,7 @@ import { SocialLinks } from "./about/SocialLinks"
 import { expertiseItems } from "@/data/About"
 import { AboutMeEffects } from "./about/AboutMeEffects"
 import { CopyEmailButton } from "./about/CopyEmailButton"
+import { siteConfig } from "@/lib/site-config"
 
 /** Server Component — GSAP + copy-email are client islands. */
 export function AboutMe() {
@@ -41,7 +42,7 @@ export function AboutMe() {
               Kathmandu, Nepal
             </div>
 
-            <CopyEmailButton email="devrakesh.tech@gmail.com" />
+            <CopyEmailButton email={siteConfig.author.email} />
 
             {resumeLink && (
               <Tooltip>
