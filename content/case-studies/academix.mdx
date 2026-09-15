@@ -3,108 +3,106 @@ title: Academix - Case Study
 description: A full-stack academic management system for managing students, teachers, courses, enrollments, and academic workflows through role-based dashboards.
 ---
 
+<Lead>
+  Academix is a full-stack academic management system that brings student,
+  teacher, and course administration into one place, with separate dashboards
+  for Admins, Teachers, and Students.
+</Lead>
+
+<Callout variant="tip" title="At a glance">
+  <Badge>React 19</Badge> <Badge variant="outline">Express</Badge>{" "}
+  <Badge variant="outline">MongoDB</Badge> — JWT auth, role-based dashboards,
+  and a modular REST API.
+</Callout>
+
 ## Project Overview
 
-Academix is a full-stack academic management system designed to centralize common academic administration workflows in one platform.
+Academix is a full-stack academic management system built to bring common academic administration tasks into one platform.
 
-The system provides separate experiences for **Admins, Teachers, and Students**, with role-based access controlling what each user can view and manage.
+The system gives **Admins, Teachers, and Students** their own experience, with role-based access deciding what each person can see and do.
 
-Administrators can manage students, teachers, and courses, assign teachers to courses, and enroll students. Teachers can access their assigned courses and related student information, while students can view their enrolled courses and academic information.
+Admins manage students, teachers, and courses, assign teachers to courses, and enroll students. Teachers get access to their assigned courses and the student information that comes with them. Students can view their enrolled courses and academic details.
 
-The project was built to go beyond basic CRUD by implementing authentication, authorization, email services, dashboard analytics, and a structured REST API.
+I wanted this to go past basic CRUD, so it also includes authentication, authorization, email services, dashboard analytics, and a structured REST API.
 
 ---
 
 ## The Problem
 
-Academic information is often managed through spreadsheets, paper records, or multiple disconnected tools.
+Academic information usually ends up spread across spreadsheets, paper records, or a handful of disconnected tools.
 
-This can make relatively simple operations such as managing students, assigning teachers to courses, and tracking enrollments unnecessarily manual.
+Simple things like managing students, assigning teachers to courses, and tracking enrollments end up being far more manual than they should be.
 
-The goal was to build a centralized system where administrators, teachers, and students could access the information relevant to their roles without relying on separate tools.
+The goal was to build one place where admins, teachers, and students could each access what matters to them without jumping between tools.
 
 ---
 
 ## Goals
 
-* Centralize student, teacher, and course management.
-* Implement secure role-based access for different users.
-* Simplify course assignment and student enrollment workflows.
-* Provide administrators with an overview of academic data.
-* Add email notifications for relevant system events.
-* Build a maintainable backend with clear separation of responsibilities.
-* Provide a responsive interface that works across different screen sizes.
+- Bring student, teacher, and course management into one system.
+- Set up secure role-based access for different users.
+- Make course assignment and student enrollment simpler.
+- Give admins a clear overview of academic data.
+- Send email notifications for relevant system events.
+- Keep the backend maintainable with clear separation of responsibilities.
+- Make the interface responsive across screen sizes.
 
 ---
 
 ## My Role
 
-I designed and developed the project, including:
+I designed and built the project, including:
 
-* Product and feature planning
-* UI/UX implementation
-* Frontend development
-* REST API development
-* MongoDB database design
-* Authentication and authorization
-* Role-based access control
-* Email service integration
-* Dashboard and data visualization
-* Form handling and validation
-* Deployment and project documentation
+- Product and feature planning
+- UI/UX design and implementation
+- Frontend development
+- REST API development
+- MongoDB database design
+- Authentication and authorization
+- Role-based access control
+- Email service integration
+- Dashboard and data visualization
+- Form handling and validation
+- Deployment and project documentation
 
 ---
 
 ## The Solution
 
-Academix provides a centralized interface for managing the core academic entities of an institution.
-
-The application separates functionality based on user roles:
+Academix gives admins, teachers, and students a shared system with different views depending on their role.
 
 ### Admin
 
 Admins have the highest level of access and can:
 
-* Manage students
-* Manage teachers
-* Manage courses
-* Assign teachers to courses
-* Enroll students into courses
-* View academic statistics
+- Manage students
+- Manage teachers
+- Manage courses
+- Assign teachers to courses
+- Enroll students into courses
+- View academic statistics
 
 ### Teacher
 
 Teachers can:
 
-* View assigned courses
-* Access relevant student information
-* Manage information associated with their academic responsibilities
+- View assigned courses
+- Access relevant student information
+- Manage information tied to their academic responsibilities
 
 ### Student
 
 Students can:
 
-* View enrolled courses
-* Access available academic information
-* Manage their profile information where permitted
+- View enrolled courses
+- Access available academic information
+- Manage their profile where permitted
 
-### Basic Flow
+### Request Flow
 
-```text
-User
-  |
-Authentication
-  |
-Role Identification
-  |
-Role-Based Dashboard
-  |
-Academic Operations
-  |
-REST API
-  |
-MongoDB
-````
+Every authenticated request follows the same path:
+
+<FlowSteps steps={["User", "Authentication", "Role Check", "Role-Based Dashboard", "Academic Operation", "REST API", "MongoDB"]} />
 
 ---
 
@@ -112,151 +110,132 @@ MongoDB
 
 ### Role-Based Authentication
 
-Academix supports three primary roles:
+Academix has three primary roles:
 
-* Admin
-* Teacher
-* Student
+- **Admin**
+- **Teacher**
+- **Student**
 
-Authentication is implemented using **JWT**, while passwords are securely hashed using **bcrypt**.
+Whenever someone tries a protected action, the system checks who they are and what their role allows before moving forward:
 
-Protected routes prevent unauthenticated users from accessing restricted resources, while authorization logic ensures users can only perform actions permitted by their role.
+| Role | Can manage students | Can assign teachers | Can manage courses |
+| --- | :---: | :---: | :---: |
+| **Admin** | Yes | Yes | Yes |
+| **Teacher** | No | No | Assigned only |
+| **Student** | No | No | No |
+
+<Callout variant="note">
+  Authorization runs as middleware, so protected routes don't repeat
+  access-control logic. They just declare which roles are allowed.
+</Callout>
+
+Authentication uses **JWT**, and passwords are hashed with **bcrypt**.
+
+Protected routes block unauthenticated users, and authorization logic makes sure each user only does what their role permits.
 
 ---
 
 ### Student Management
 
-Administrators can create, update, and view student records.
+Admins can create, update, and view student records.
 
-Student management also connects with course enrollment, allowing academic relationships to be maintained within the same system.
+Student management also ties into course enrollment, so academic relationships stay in the same system.
 
 ---
 
 ### Teacher Management
 
-Administrators can manage teacher records and assign teachers to courses.
+Admins can manage teacher records and assign teachers to courses.
 
-Teachers can then access the courses assigned to them through their dashboard.
+Teachers then access the courses assigned to them through their dashboard.
 
 ---
 
 ### Course Management
 
-Courses can be created and managed by authorized administrators.
+Courses can be created and managed by authorized admins.
 
-The system supports relationships between:
+The system handles the relationships between courses, teachers, and students:
 
-```text
-Course
-  |
-  ├── Teacher
-  |
-  └── Students
-```
+- **Course to Teacher** — a course is assigned to a teacher.
+- **Course to Students** — many students can be enrolled in a course.
 
-This provides the foundation for managing academic activities around individual courses.
+This gives the system a foundation for managing academic activity around each course.
 
 ---
 
 ### Course Enrollment
 
-Administrators can enroll students into courses, creating a structured relationship between students and the courses they take.
+Admins can enroll students into courses, creating a clear relationship between students and the courses they take.
 
 ---
 
 ### Dashboard Analytics
 
-The dashboard provides an overview of institutional data such as:
+The dashboard shows an overview of institutional data such as:
 
-* Total students
-* Total teachers
-* Total courses
-* Enrollment information
+- Total students
+- Total teachers
+- Total courses
+- Enrollment information
 
-**Chart.js** is used to visualize relevant data.
+**Chart.js** handles the visualizations.
 
 ---
 
 ### Email Notification Service
 
-Academix includes a dedicated email service for sending system notifications.
+Academix has a dedicated email service for system notifications.
 
-The email functionality is separated from the controllers through a reusable service layer and uses **Nodemailer** for email delivery.
+The email logic sits in its own service layer instead of inside controllers, and uses **Nodemailer** for delivery.
 
-This allows email-related logic to be maintained independently from the application's core business logic.
+This keeps email-related code separate from the core business logic.
 
 ---
 
 ### Protected Routes
 
-Sensitive API endpoints are protected through authentication and authorization middleware.
+Sensitive API endpoints are protected by authentication and authorization middleware.
 
 The general request flow is:
 
-```text
-Request
-   |
-Authentication Middleware
-   |
-Authorization / Role Check
-   |
-Controller
-   |
-Service
-   |
-Database
-```
+<FlowSteps steps={["Request", "Authentication Middleware", "Authorization / Role Check", "Controller", "Service", "Database"]} />
 
 ---
 
 ### Responsive Interface
 
-The frontend is built with Tailwind CSS and is designed to provide a consistent experience across desktop and smaller screen sizes.
+The frontend is built with Tailwind CSS and works across desktop and smaller screens.
 
-React Hook Form is used for form management, while React Hot Toast provides feedback for user actions.
+React Hook Form handles form management, and React Hot Toast gives feedback on user actions.
 
 ---
 
 ## Technical Architecture
 
-```text
-                    ┌─────────────────────┐
-                    │      React App      │
-                    │ React + Vite        │
-                    │ Tailwind CSS         │
-                    └──────────┬──────────┘
-                               |
-                              Axios
-                               |
-                    ┌──────────▼──────────┐
-                    │    Express API      │
-                    │      REST API       │
-                    └──────────┬──────────┘
-                               |
-                    ┌──────────▼──────────┐
-                    │ Authentication      │
-                    │ & Authorization      │
-                    │ Middleware           │
-                    └──────────┬──────────┘
-                               |
-                    ┌──────────▼──────────┐
-                    │    Controllers      │
-                    └──────────┬──────────┘
-                               |
-                    ┌──────────▼──────────┐
-                    │     Services        │
-                    │ Business Logic      │
-                    │ Email Service       │
-                    └──────────┬──────────┘
-                               |
-                    ┌──────────▼──────────┐
-                    │      Mongoose       │
-                    └──────────┬──────────┘
-                               |
-                    ┌──────────▼──────────┐
-                    │      MongoDB        │
-                    └─────────────────────┘
-```
+Academix splits the frontend and backend. The React app talks to an Express REST API over Axios, and the backend routes each request through authentication, authorization, controllers, services, and finally Mongoose and MongoDB.
+
+### Layer Responsibilities
+
+- **React App** handles UI, routing, forms, charts, and API calls.
+- **Express API** handles the HTTP layer, routes, and request handling.
+- **Auth Middleware** verifies identity and enforces role-based access.
+- **Controllers** handle request/response and hand off to services.
+- **Services** hold business logic and the email service.
+- **Mongoose** handles schemas, validation, relationships, and queries.
+- **MongoDB** is the persistence layer.
+
+<ArchitectureDiagram
+  layers={[
+    { label: "React App", detail: "React + Vite + Tailwind" },
+    { label: "Express API", detail: "REST API" },
+    { label: "Authentication & Authorization Middleware" },
+    { label: "Controllers" },
+    { label: "Services", detail: "Business Logic · Email" },
+    { label: "Mongoose" },
+    { label: "MongoDB" },
+  ]}
+/>
 
 ---
 
@@ -264,35 +243,35 @@ React Hook Form is used for form management, while React Hot Toast provides feed
 
 ### Frontend
 
-* **React 19**
-* **Vite**
-* **Tailwind CSS 4**
-* **React Router 7**
-* **Axios**
-* **React Hook Form**
-* **Chart.js**
-* **React Chartjs 2**
-* **Lucide React**
-* **React Hot Toast**
+- **React 19**
+- **Vite**
+- **Tailwind CSS 4**
+- **React Router 7**
+- **Axios**
+- **React Hook Form**
+- **Chart.js**
+- **React Chartjs 2**
+- **Lucide React**
+- **React Hot Toast**
 
 ### Backend
 
-* **Node.js**
-* **Express.js**
-* **MongoDB**
-* **Mongoose**
-* **JWT**
-* **bcryptjs**
-* **Nodemailer**
-* **dotenv**
-* **cors**
-* **cookie-parser**
+- **Node.js**
+- **Express.js**
+- **MongoDB**
+- **Mongoose**
+- **JWT**
+- **bcryptjs**
+- **Nodemailer**
+- **dotenv**
+- **cors**
+- **cookie-parser**
 
 ### Development
 
-* **pnpm**
-* **ESLint**
-* **Git & GitHub**
+- **pnpm**
+- **ESLint**
+- **Git & GitHub**
 
 ---
 
@@ -300,63 +279,49 @@ React Hook Form is used for form management, while React Hot Toast provides feed
 
 ### JWT-Based Authentication
 
-JWT was chosen to provide stateless authentication between the frontend and REST API.
+I used JWT for stateless authentication between the frontend and the REST API.
 
-Authentication and authorization are handled through middleware so protected routes do not need to duplicate access-control logic.
+Authentication and authorization run through middleware, so protected routes don't duplicate access-control logic.
 
 ---
 
 ### Role-Based Authorization
 
-Instead of treating every authenticated user the same, Academix checks the user's role before allowing access to protected operations.
+Instead of treating every authenticated user the same, Academix checks the user's role before letting them into protected operations.
 
-This creates a clear permission boundary between:
-
-```text
-Admin
-Teacher
-Student
-```
+That gives a clean permission boundary between **Admin**, **Teacher**, and **Student**.
 
 ---
 
 ### Service Layer
 
-Business logic is separated from HTTP-specific controller logic through services.
+Business logic lives in services, separate from HTTP-specific controller logic.
 
-Instead of placing every operation directly inside controllers:
+Instead of stuffing every operation into controllers, requests flow through a clear chain:
 
-```text
-Route
-  ↓
-Controller
-  ↓
-Service
-  ↓
-Model
-```
+<FlowSteps steps={["Route", "Controller", "Service", "Model"]} />
 
-This makes the backend easier to maintain as the number of features grows.
+This keeps the backend easier to maintain as features grow.
 
 ---
 
 ### Dedicated Email Service
 
-Email functionality is isolated into its own service rather than being implemented directly inside individual controllers.
+Email lives in its own service rather than being wired directly into individual controllers.
 
-This allows different parts of the application to reuse the same email infrastructure.
+That way different parts of the app can reuse the same email setup.
 
 ---
 
 ### MongoDB with Mongoose
 
-MongoDB provides the persistence layer while Mongoose handles:
+MongoDB handles persistence, and Mongoose takes care of:
 
-* Schema definitions
-* Data modeling
-* Validation
-* Relationships
-* Database queries
+- Schema definitions
+- Data modeling
+- Validation
+- Relationships
+- Database queries
 
 ---
 
@@ -364,49 +329,55 @@ MongoDB provides the persistence layer while Mongoose handles:
 
 ### Managing Different User Roles
 
-Different users require different permissions and interfaces.
+Different users need different permissions and interfaces.
 
-**Solution:** Authentication and authorization middleware separates identity verification from role-based access control.
+**Solution:** Authentication and authorization middleware splits identity verification from role-based access control.
 
 ---
 
 ### Keeping Controllers Maintainable
 
-As features were added, placing database queries and business logic directly inside controllers would make them increasingly difficult to maintain.
+As features piled up, putting database queries and business logic directly into controllers would have made them harder to maintain over time.
 
-**Solution:** Business logic is moved into service modules, keeping controllers focused on handling requests and responses.
+**Solution:** Business logic moved into service modules, so controllers stay focused on requests and responses.
 
 ---
 
 ### Managing Academic Relationships
 
-Students, teachers, and courses are related to each other, making the data model more complex than independent CRUD resources.
+Students, teachers, and courses are all related, which makes the data model more involved than standalone CRUD resources.
 
-**Solution:** Mongoose relationships are used to connect relevant academic entities and support operations such as course assignments and student enrollment.
+**Solution:** Mongoose relationships connect the academic entities and support things like course assignment and student enrollment.
 
 ---
 
 ### Handling Email Logic
 
-Sending emails directly from controllers would tightly couple notification logic with individual application operations.
+Sending emails from controllers would have tightly coupled notification logic with individual operations.
 
-**Solution:** A dedicated email service handles email delivery through Nodemailer.
+**Solution:** A dedicated email service handles delivery through Nodemailer.
 
 ---
 
 ## Security
 
-Academix implements several basic security measures:
+Academix includes a few basic security measures:
 
-* Password hashing using bcrypt
-* JWT-based authentication
-* Protected API routes
-* Role-based authorization
-* Environment variables for sensitive configuration
-* CORS configuration
-* Server-side request validation
+- Password hashing with bcrypt
+- JWT-based authentication
+- Protected API routes
+- Role-based authorization
+- Environment variables for sensitive config
+- CORS configuration
+- Server-side request validation
 
-Sensitive credentials such as database URLs, JWT secrets, and SMTP credentials are kept outside the source code through environment variables.
+<Callout variant="warning" title="Before production">
+  Enable secure cookies over HTTPS, rotate the JWT secret via environment
+  variables, and rate-limit the auth endpoints to guard against credential
+  stuffing.
+</Callout>
+
+Sensitive values like database URLs, JWT secrets, and SMTP credentials stay outside the source code through environment variables.
 
 ---
 
@@ -414,16 +385,16 @@ Sensitive credentials such as database URLs, JWT secrets, and SMTP credentials a
 
 The result is a working academic management platform that provides:
 
-* Role-based authentication for Admins, Teachers, and Students.
-* Student, teacher, and course management.
-* Course assignment and student enrollment workflows.
-* Dashboard analytics.
-* Protected REST API endpoints.
-* Dedicated email notification services.
-* Responsive web interfaces.
-* Modular backend architecture with controllers, services, middleware, and models.
+- Role-based authentication for Admins, Teachers, and Students
+- Student, teacher, and course management
+- Course assignment and student enrollment workflows
+- Dashboard analytics
+- Protected REST API endpoints
+- Dedicated email notification services
+- Responsive web interfaces
+- Modular backend architecture with controllers, services, middleware, and models
 
-The project also provides a foundation that can be extended with additional academic workflows without replacing the existing architecture.
+It also gives a foundation that can be extended with more academic workflows without replacing the current architecture.
 
 ---
 
@@ -431,38 +402,36 @@ The project also provides a foundation that can be extended with additional acad
 
 ### CRUD Is Only the Starting Point
 
-Building the basic CRUD operations was relatively straightforward. The more interesting engineering problems came from connecting those resources and enforcing who could access or modify them.
+Basic CRUD was the easy part. The more interesting problems came from connecting those resources and enforcing who could access or change them.
 
 ### Authorization Is Different From Authentication
 
-Verifying that a user is logged in is only one part of access control. The application also needs to determine what that authenticated user is allowed to do.
+Checking that a user is logged in is only half of access control. The other half is deciding what that user is allowed to do.
 
 ### Separation of Concerns Matters
 
-Separating controllers, services, middleware, and email functionality makes the backend easier to reason about and extend.
+Splitting controllers, services, middleware, and email logic makes the backend easier to reason about and extend.
 
 ### Data Relationships Shape the Application
 
-Students, teachers, and courses cannot be treated as completely independent resources. Their relationships directly influence both the database design and the user experience.
+Students, teachers, and courses can't be treated as fully independent resources. Their relationships drive both the database design and the user experience.
 
 ### Real Systems Need More Than a UI
 
-Building Academix helped me move beyond implementing interfaces and CRUD operations toward thinking about authentication, authorization, data flow, service boundaries, and maintainability.
+Building Academix pushed me past just building interfaces and CRUD operations into thinking about authentication, authorization, data flow, service boundaries, and maintainability.
 
 ---
 
 ## What I'd Improve
 
-If I continued developing Academix, the next improvements would focus on useful academic workflows rather than adding unnecessary complexity:
+If I kept working on Academix, the next improvements would focus on useful academic workflows rather than adding complexity for the sake of it:
 
-* Add attendance management for individual courses.
-* Add assignment creation and student submissions.
-* Add search, filtering, and pagination to large datasets.
-* Add a secure password-reset flow through the existing email service.
-* Add activity logs for important administrative actions.
-* Improve dashboard analytics as more academic data becomes available.
-* Add automated backend and frontend tests.
+- Add attendance management for individual courses
+- Add assignment creation and student submissions
+- Add search, filtering, and pagination to larger datasets
+- Add a secure password-reset flow through the existing email service
+- Add activity logs for important admin actions
+- Improve dashboard analytics as more academic data shows up
+- Add automated backend and frontend tests
 
-The goal would be to gradually turn Academix from an academic management system into a more complete **learning management platform**, while keeping the existing architecture simple and maintainable.
-
-```
+The goal would be to gradually turn Academix from an academic management system into a fuller **learning management platform**, while keeping the architecture simple and maintainable.

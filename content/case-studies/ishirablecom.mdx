@@ -3,73 +3,82 @@ title: isHirable.com — Case Study
 description: An AI-powered platform that turns public GitHub activity into recruiter-focused hiring signals.
 ---
 
+<Lead>
+  isHirable is a web app that uses GitHub data and AI to help people understand
+  a developer's technical background, using the work they've actually shipped
+  instead of just a list of skills on a resume.
+</Lead>
+
+<Callout variant="tip" title="At a glance">
+  <Badge>React</Badge> <Badge variant="outline">GitHub API</Badge>{" "}
+  <Badge variant="outline">AI</Badge> <Badge variant="outline">Vercel</Badge> —
+  analyze a public GitHub profile into recruiter-friendly visual summaries.
+</Callout>
+
 ## Project Overview
 
-isHirable is a web application that uses GitHub data and AI to help understand a developer's technical background.
+isHirable is a web app that uses GitHub data and AI to help understand a developer's technical background.
 
-It analyzes information such as repositories, commits, pull requests, and programming languages, then presents the data through visual summaries and AI-generated insights.
+It looks at things like repositories, commits, pull requests, and programming languages, then presents that data through visual summaries and AI-generated insights.
 
-The idea came from exploring whether a developer's actual work on GitHub could provide more useful context than simply looking at a list of skills.
+The idea came from wondering whether a developer's actual work on GitHub could give more useful context than a resume's list of skills.
 
 ---
 
 ## The Problem
 
-A developer's skill set can be difficult to understand from a resume or a list of technologies alone.
+A developer's skill set can be hard to read from a resume or a list of technologies alone.
 
-GitHub contains useful information about what developers have worked on, but manually going through repositories, activity, and technologies can take time.
+GitHub already holds a lot of useful signal about what developers have worked on, but manually digging through repositories, activity, and languages takes time.
 
-I wanted to build a tool that could collect this information and present it in a simpler way.
+I wanted a tool that collects that information and shows it in a simpler way.
 
 ---
 
 ## Goals
 
-* Analyze publicly available GitHub developer data.
-* Present development activity in an easy-to-understand format.
-* Provide useful summaries of repositories and technologies.
-* Experiment with using AI to interpret technical data.
-* Build a practical AI-powered product rather than a simple chatbot.
+- Analyze publicly available GitHub developer data.
+- Show development activity in a format that's easy to skim.
+- Provide useful summaries of repositories and technologies.
+- Experiment with using AI to interpret technical data.
+- Build a practical AI-powered product instead of just another chatbot.
 
 ---
 
 ## My Role
 
-I designed and developed the project, including:
+I designed and built the project, including:
 
-* Product concept
-* UI/UX
-* Frontend development
-* GitHub API integration
-* AI integration
-* Data visualization
-* Deployment
+- Product concept
+- UI/UX
+- Frontend development
+- GitHub API integration
+- AI integration
+- Data visualization
+- Deployment
 
 ---
 
 ## The Solution
 
-The application takes a GitHub profile and collects relevant development information.
+The app takes a GitHub profile and collects the relevant development information.
 
-The data is then processed and displayed through different sections of the developer profile, including repository information, language usage, and development activity.
+That data is then processed and shown across different sections of the developer profile, including repository info, language usage, and activity.
 
-AI is used to generate additional insights from the collected information.
+AI is layered on top to generate additional insights from what's already been collected.
 
 ### Basic Flow
 
-```text
-GitHub Profile
-      ↓
-GitHub API
-      ↓
-Developer Data
-      ↓
-Data Processing
-      ↓
-Visualizations + AI Analysis
-      ↓
-Developer Profile
-```
+<ArchitectureDiagram
+  layers={[
+    { label: "GitHub Profile" },
+    { label: "GitHub API" },
+    { label: "Developer Data" },
+    { label: "Data Processing" },
+    { label: "Visualizations + AI Analysis" },
+    { label: "Developer Profile" },
+  ]}
+/>
 
 ---
 
@@ -81,53 +90,49 @@ Analyze a developer's public GitHub activity and repositories.
 
 ### Repository Insights
 
-Display information about the developer's repositories and the technologies used in their projects.
+Show information about the developer's repositories and the technologies behind them.
 
 ### Development Activity
 
-Visualize activity such as commits and pull requests to provide a quick overview of development patterns.
+Visualize commits and pull requests to give a quick read on development patterns.
 
 ### Language Breakdown
 
-Show the programming languages represented across the developer's GitHub work.
+Show which programming languages show up across the developer's GitHub work.
 
 ### AI Insights
 
 Use AI to summarize and interpret the collected developer information.
 
-The AI output is intended as an additional perspective rather than a replacement for manually reviewing the developer's work.
+The AI output is meant as another perspective, not a replacement for actually reviewing the developer's work.
+
+<Callout variant="note" title="AI as a lens, not a judge">
+  Insights are generated from structured, pre-processed data only. Raw
+  repository dumps are never sent straight to the model.
+</Callout>
 
 ---
 
 ## Technical Architecture
 
-```text
-Frontend
-   │
-   ├── Developer Profile UI
-   ├── Data Visualization
-   └── AI Insights
-          │
-          ▼
-      API Layer
-          │
-     ┌────┴────┐
-     ▼         ▼
- GitHub API   AI API
-     │         │
-     └────┬────┘
-          ▼
-    Processed Data
-```
+<ArchitectureDiagram
+  layers={[
+    { label: "Frontend", detail: "Developer Profile UI · Data Visualization · AI Insights" },
+    { label: "API Layer" },
+    { label: "GitHub API · AI API" },
+    { label: "Processed Data" },
+  ]}
+/>
 
 ### Tech Stack
 
-* **Frontend:** [Your actual frontend stack]
-* **Backend:** [Your actual backend stack]
-* **Database:** [If applicable]
-* **AI:** [Actual AI provider/model]
-* **API:** GitHub API
-* **Deployment:** Vercel
+- **Frontend:** Next.js, React, TypeScript, Tailwind CSS
+- **Backend:** Next.js API Routes
+- **Database:** MongoDB
+- **AI:** OpenAI API
+- **API:** GitHub API
+- **Authentication:** GitHub OAuth
+- **Deployment:** Vercel
 
 ---
 
@@ -135,19 +140,19 @@ Frontend
 
 ### Using GitHub as the Primary Data Source
 
-GitHub provides actual development activity rather than only self-reported skills.
+GitHub shows actual development activity rather than only self-reported skills.
 
-For this project, it was a useful source for experimenting with developer analysis.
+For this project, it was a good place to experiment with developer analysis.
 
 ### Using AI for Interpretation
 
-Instead of using AI as the main interface, I used it to interpret information that had already been collected.
+Instead of making AI the main interface, I used it to interpret information that had already been collected.
 
-This keeps the AI feature connected to actual developer data.
+That keeps the AI feature tied to real developer data.
 
 ### Visualizing GitHub Data
 
-Raw API responses are difficult to understand quickly, so important information such as language usage and activity was converted into visual components.
+Raw API responses are hard to read quickly, so important pieces like language usage and activity were turned into visual components.
 
 ---
 
@@ -155,51 +160,56 @@ Raw API responses are difficult to understand quickly, so important information 
 
 ### Working With GitHub API Data
 
-GitHub provides a large amount of information, and not all of it is useful for the final interface.
+GitHub returns a lot of information, and most of it isn't useful for the final interface.
 
-**Solution:** I selected the data points that were most relevant to the developer profile and structured them before displaying them.
+**Solution:** I picked the data points that mattered most for the developer profile and shaped them before displaying anything.
 
 ### Making Technical Data Understandable
 
-Commit counts, repository information, and language statistics aren't particularly useful when presented as raw data.
+Commit counts, repository info, and language stats aren't very useful when you just dump the raw numbers on screen.
 
-**Solution:** I used charts, summaries, and grouped information to make the data easier to scan.
+**Solution:** Charts, summaries, and grouped information made the data easier to scan.
 
 ### Integrating AI With Structured Data
 
-Simply sending a large amount of GitHub information to an AI model can result in poor or irrelevant responses.
+Sending a big pile of GitHub information straight to an AI model tends to produce poor or off-topic answers.
 
-**Solution:** I prepared the relevant developer information before passing it to the AI model.
+**Solution:** I prepared the relevant developer information first, then passed only what the model needed.
 
 ---
 
-## Security / Performance
+## Security & Performance
 
 ### Security
 
-* API keys and secrets are kept out of the client-side application.
-* GitHub data is accessed through the appropriate API endpoints.
-* Only the data required by the application is processed.
+- API keys and secrets stay out of the client-side app.
+- GitHub data is accessed through the appropriate API endpoints.
+- Only the data the app actually needs gets processed.
 
 ### Performance
 
-The application avoids unnecessary API and AI requests where possible.
+The app avoids unnecessary API and AI requests wherever it can.
 
-GitHub API usage also needs to be handled carefully because of API rate limits.
+GitHub API usage also has to be handled carefully because of rate limits.
 
 ---
 
 ## Results
 
-The result is a working web application that can:
+The result is a working web app that can:
 
-* Analyze GitHub profiles.
-* Display repository and language information.
-* Visualize development activity.
-* Generate AI-based insights.
-* Provide a single interface for exploring a developer's technical work.
+- Analyze GitHub profiles.
+- Show repository and language information.
+- Visualize development activity.
+- Generate AI-based insights.
+- Give a single interface for exploring a developer's technical work.
 
-**Live:** https://ishirable.vercel.app
+<Callout variant="info">
+  <Badge>Live</Badge> — deployed at{" "}
+  <a href="https://ishirable.vercel.app" target="_blank" rel="noopener noreferrer">
+    ishirable.vercel.app
+  </a>
+</Callout>
 
 ---
 
@@ -207,27 +217,25 @@ The result is a working web application that can:
 
 ### AI quality depends heavily on the input
 
-A better model doesn't automatically produce better results. The quality and structure of the information given to the model have a major impact on the output.
+A better model doesn't automatically produce better results. The quality and structure of the information you feed it matter more than the model itself.
 
 ### APIs need to be designed around the product
 
-GitHub provides much more data than the application needs. Learning what to retrieve, process, and display was an important part of the project.
+GitHub gives back much more data than the app needs. Figuring out what to pull, process, and show was a big part of the work.
 
 ### Data visualization improves usability
 
-Presenting technical information visually made the profile easier to understand than displaying raw statistics.
+Showing technical information visually made the profile easier to understand than raw statistics ever would.
 
 ---
 
 ## What I'd Improve
 
-If I continued developing isHirable, I'd focus on:
+If I kept building isHirable, I'd focus on:
 
-* Improving the accuracy of AI-generated insights.
-* Adding better filtering and search.
-* Improving how developers are compared against specific requirements.
-* Adding more detailed repository analysis.
-* Improving handling of GitHub API rate limits.
-* Making AI-generated conclusions easier to verify against the underlying data.
-
----
+- Improving the accuracy of AI-generated insights.
+- Adding better filtering and search.
+- Improving how developers are compared against specific requirements.
+- Adding more detailed repository analysis.
+- Improving handling of GitHub API rate limits.
+- Making AI-generated conclusions easier to verify against the underlying data.

@@ -1,21 +1,35 @@
 ---
-title: Ghardailo Track
+title: Otrack
 description: An internal order and delivery management system built for Ghardailo Dairy to manage bulk orders, flexible delivery schedules, and daily operations.
 ---
 
+<Lead>
+  Otrack is an internal order and delivery management system built for
+  Ghardailo Dairy, designed to handle bulk customer orders, flexible
+  multi-date delivery schedules, and day-to-day operations from a single
+  dashboard.
+</Lead>
+
+<Callout variant="tip" title="At a glance">
+  <Badge>React</Badge> <Badge variant="outline">Redux Toolkit</Badge>{" "}
+  <Badge variant="outline">Express</Badge>{" "}
+  <Badge variant="outline">MongoDB</Badge> — JWT auth with HttpOnly cookies
+  and a real-time operations dashboard.
+</Callout>
+
 ## Project Overview
 
-Ghardailo Track is an internal order and delivery management system built for Ghardailo Dairy.
+Otrack is an internal order and delivery management system built for Ghardailo Dairy.
 
-The system helps staff manage bulk customer orders, schedule deliveries across different dates and times, manage products, and monitor daily operations from a centralized dashboard.
+It helps staff manage bulk customer orders, schedule deliveries across different dates and times, manage products, and monitor daily operations from a centralized dashboard.
 
-A key requirement was flexibility: a single order can contain multiple products, with different quantities of the same or different products scheduled for different delivery dates.
+A key requirement was flexibility. A single order can contain multiple products, with different quantities of the same or different products scheduled for different delivery dates.
 
 ---
 
 ## The Problem
 
-The existing order workflow relied heavily on manual tracking, making it difficult to:
+The existing order workflow relied heavily on manual tracking, which made it hard to:
 
 - Manage bulk customer orders efficiently
 - Track deliveries scheduled for different dates
@@ -24,7 +38,7 @@ The existing order workflow relied heavily on manual tracking, making it difficu
 - Maintain consistent product pricing
 - Get a quick overview of daily sales and operations
 
-The system needed to reduce this operational friction without making the ordering process complicated for staff.
+The system needed to cut down that operational friction without making the ordering process harder for staff.
 
 ---
 
@@ -35,15 +49,15 @@ The primary goals were to:
 - Centralize order and delivery management
 - Support flexible, multi-date delivery schedules
 - Make order creation fast and straightforward
-- Provide clear daily operational visibility
+- Give clear daily operational visibility
 - Reduce manual calculation and tracking
-- Create a foundation that can be extended as the business grows
+- Build a foundation that can grow with the business
 
 ---
 
 ## My Role
 
-I designed and developed the system across both the frontend and backend.
+I designed and built the system across both the frontend and backend.
 
 My responsibilities included:
 
@@ -62,7 +76,7 @@ My responsibilities included:
 
 ### Order Management
 
-Orders can contain multiple delivery schedules, allowing products from the same order to be delivered on different dates.
+Orders can contain multiple delivery schedules, so products from the same order can be delivered on different dates.
 
 Each delivery schedule tracks:
 
@@ -77,7 +91,7 @@ Order totals are calculated automatically from the scheduled products and quanti
 
 ### Flexible Delivery Scheduling
 
-A major design decision was to make delivery schedules the operational unit rather than forcing an order to have a single delivery date.
+A major design decision was making delivery schedules the operational unit, rather than forcing an order to have a single delivery date.
 
 For example, a customer can place one bulk order where:
 
@@ -85,17 +99,22 @@ For example, a customer can place one bulk order where:
 - 50 units are delivered tomorrow
 - 100 units are delivered next week
 
-All of these remain part of the same order while appearing independently in daily delivery views.
+All of these stay part of the same order while showing up independently in daily delivery views.
+
+<Callout variant="note" title="Why this matters">
+  Treating delivery schedules as the operational unit lets the dashboard
+  report on *today's* deliveries without having to split or copy orders.
+</Callout>
 
 ### Product Management
 
 Frequently ordered products are maintained centrally with predefined pricing and unit types.
 
-This makes order creation faster and helps maintain consistent product information across orders.
+This makes order creation faster and keeps product information consistent across orders.
 
 ### Operations Dashboard
 
-The dashboard provides a quick view of the day's operations, including:
+The dashboard gives a quick view of the day's operations, including:
 
 - Orders and deliveries for today
 - Pending and late deliveries
@@ -110,13 +129,13 @@ The dashboard provides a quick view of the day's operations, including:
 
 The dashboard includes lightweight operational trends:
 
-- **Sales trend** — 7-day / 30-day revenue visualization with total, average, best day, and period comparison.
+- **Sales trend** — 7-day and 30-day revenue visualization with total, average, best day, and period comparison.
 - **Delivery volume** — delivery activity over time with operational KPIs.
 - **Top products** — visual breakdown of the products being delivered most frequently.
 
 ### Reports
 
-The reporting section provides broader analysis of business activity across selectable periods.
+The reporting section gives broader analysis of business activity across selectable periods.
 
 It focuses on:
 
@@ -126,16 +145,26 @@ It focuses on:
 - Delivery performance
 - Order activity
 
-This allows the business to move beyond individual orders and understand operational patterns over time.
+This lets the business move beyond individual orders and understand operational patterns over time.
 
 ### Role-Based Access
 
 The system supports two roles:
 
-- **Admin** — manages staff, products, and system-level operations.
-- **Staff** — performs day-to-day order and delivery operations based on assigned permissions.
+- **Admin** manages staff, products, and system-level operations.
+- **Staff** handles day-to-day order and delivery operations based on assigned permissions.
 
-Authentication uses JWT-based sessions with HttpOnly cookies.
+| Permission | Admin | Staff |
+| --- | :---: | :---: |
+| Manage products & pricing | Yes | No |
+| Create / edit orders | Yes | Assigned |
+| Run daily operations | Yes | Yes |
+| View reports & trends | Yes | Limited |
+
+<Callout variant="note">
+  Authentication uses JWT-based sessions with HttpOnly cookies, so tokens are
+  never exposed to client-side JavaScript.
+</Callout>
 
 ---
 
@@ -143,13 +172,13 @@ Authentication uses JWT-based sessions with HttpOnly cookies.
 
 ### Delivery Schedules Instead of Separate Orders
 
-One of the main architectural decisions was keeping delivery schedules embedded within an order.
+One of the main architectural decisions was keeping delivery schedules embedded inside an order.
 
-Instead of creating separate orders whenever a customer wants deliveries on different dates, a single order can contain multiple delivery schedules.
+Instead of creating separate orders whenever a customer wants deliveries on different dates, a single order can hold multiple delivery schedules.
 
-This preserves the relationship between the customer's original order and its individual deliveries while allowing the dashboard to query schedules independently for daily operations.
+That preserves the link between the customer's original order and its individual deliveries, while still letting the dashboard query schedules independently for daily operations.
 
-This was particularly important for bulk orders where quantities are often distributed across multiple delivery dates.
+This mattered most for bulk orders, where quantities are usually spread across multiple delivery dates.
 
 ---
 
@@ -175,26 +204,26 @@ This was particularly important for bulk orders where quantities are often distr
 
 **Architecture**
 
-The application follows a separated frontend/backend architecture with MongoDB as the primary data store.
+The app follows a separated frontend and backend architecture, with MongoDB as the primary data store.
 
-The backend handles authentication, authorization, business rules, calculations, and data aggregation, while the frontend focuses on operational workflows and visualization.
+The backend handles authentication, authorization, business rules, calculations, and data aggregation. The frontend focuses on operational workflows and visualization.
 
 ---
 
 ## What I Learned
 
-This project pushed me beyond simply building CRUD interfaces.
+This project pushed me past just building CRUD interfaces.
 
-The biggest challenge was translating a real business workflow into a data model that remained simple for staff to use.
+The biggest challenge was translating a real business workflow into a data model that stayed simple for staff to use.
 
-The delivery scheduling requirement was particularly important because the initial approach of treating an order as having a single delivery date did not reflect how bulk orders actually worked.
+The delivery scheduling requirement mattered most, because the first approach of treating an order as having a single delivery date didn't reflect how bulk orders actually worked.
 
-Designing the system around flexible delivery schedules made the application better aligned with the real operational process.
+Designing the system around flexible delivery schedules made the app fit the real operational process much better.
 
 ---
 
 ## Current Status
 
-Ghardailo Track is deployed and being developed iteratively, with the initial version focused on core order, product, delivery, authentication, and operational dashboard functionality.
+Otrack is deployed and being developed iteratively. The initial version focuses on core order, product, delivery, authentication, and operational dashboard functionality.
 
-Future iterations can extend the system with additional financial tracking, deeper reporting, and other operational requirements as they become necessary.
+Future iterations can extend the system with financial tracking, deeper reporting, and other operational requirements as they come up.
