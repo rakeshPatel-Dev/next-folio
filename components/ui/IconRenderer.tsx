@@ -1,4 +1,4 @@
-import { getIcon } from "@/lib/icon-map"
+import { ICON_MAP } from "@/lib/icon-map"
 
 type Props = {
   name?: string
@@ -8,7 +8,7 @@ type Props = {
 
 /** Renders a known brand/tech icon from the explicit registry (no dynamic pack imports). */
 export default function IconRenderer({ name, className, style }: Props) {
-  const Icon = getIcon(name)
+  const Icon = name ? ICON_MAP[name as keyof typeof ICON_MAP] : null
   if (!Icon) return <span className={className} style={style} aria-hidden />
   return <Icon className={className} style={style} aria-hidden />
 }
