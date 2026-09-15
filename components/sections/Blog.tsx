@@ -21,12 +21,12 @@ export default function BlogSection({
     return null
   }
 
-  return (
-    <section className="grid py-4 gap-8 max-w-app overflow-hidden mx-auto ">
-      <SectionHeading>Latest Blogs</SectionHeading>
+return (
+    <section>
+      <SectionHeading className="mb-8">Latest Blogs</SectionHeading>
 
       {/* Blog rows */}
-      <div className="mt-2 mb-42 ">
+      <div className="mt-10">
         {latestBlogs.map((blog) => (
           <BlogRowCard
             key={blog._id}
@@ -41,7 +41,7 @@ export default function BlogSection({
         ))}
       </div>
 
-      <div className="w-full flex items-center justify-center">
+      <div className="mt-10 flex w-full justify-center">
         <MagneticHover strength={0.4}>
           <CtaButton href="/blog" label="Read More" />
         </MagneticHover>

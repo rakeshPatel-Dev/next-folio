@@ -24,7 +24,7 @@ const blurDataURL =
 const BlogRowCard = React.forwardRef<HTMLDivElement, BlogRowCardProps>(
   ({ title, subtitle, image, blurDataURL: customBlur, category, readingTime, date, link }, ref) => {
     return (
-      <div className="mx-auto w-full max-w-2xl">
+      <div className="w-full">
         <CursorFill
           ref={ref}
           wholeFill
@@ -42,30 +42,27 @@ const BlogRowCard = React.forwardRef<HTMLDivElement, BlogRowCardProps>(
             className="absolute inset-0 z-40 outline-none focus-visible:ring-2 focus-visible:ring-primary"
           />
 
-          {/* Arrow icon — slides from inside out to the corner on hover */}
-
-          <span className="pointer-events-none absolute -right-6 -top-7 z-30  h-20 bg-background w-20 blur-sm  rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-          
+          {/* Arrow icon — tucked to the right edge, slides outward on hover */}
           <ArrowUpRight
             aria-hidden
             className={cn(
-              "pointer-events-none absolute right-2 top-0 z-30 h-4 w-4 text-foreground",
-              "-translate-x-10 translate-y-10 scale-75 opacity-0",
+              "pointer-events-none absolute right-1 top-1/2 z-30 h-4 w-4 -translate-y-1/2 text-foreground",
+              "translate-x-8 scale-75 opacity-0",
               "transition-all duration-300 ease-out",
-              "group-hover:-translate-x-1 group-hover:translate-y-2 group-hover:scale-100 group-hover:opacity-100"
+              "group-hover:translate-x-0 group-hover:scale-100 group-hover:opacity-100"
             )}
           />
 
           {/* Thumbnail + content shifts inward on hover */}
           <div className="relative z-10 flex w-full min-w-0 items-center gap-4 transition-transform duration-300 ease-out group-hover:translate-x-2">
             {/* Cover thumbnail */}
-            <div className="relative w-16 shrink-0 self-stretch overflow-hidden rounded-md">
+            <div className="relative h-12 w-16 shrink-0 overflow-hidden rounded-md sm:h-14 sm:w-20">
               {image ? (
                 <Image
                   src={image}
                   alt={title}
                   fill
-                  sizes="64px"
+                  sizes="80px"
                   placeholder="blur"
                   blurDataURL={customBlur || blurDataURL}
                   className="object-cover"
@@ -78,19 +75,20 @@ const BlogRowCard = React.forwardRef<HTMLDivElement, BlogRowCardProps>(
             </div>
 
             {/* Title + short description + meta */}
-            <div className="min-w-0 w-full ">
+            <div className="min-w-0 flex-1">
               <span className="block truncate font-sans text-lg font-semibold">
                 {title}
               </span>
               <p className="mt-0.5 truncate text-sm text-muted-foreground">
                 {subtitle}
               </p>
-              <p className="mt-0.5 truncate text-right pr-5 text-xs text-muted-foreground">
+              <p className="mt-0.5 truncate text-xs text-muted-foreground">
                 {category} · {readingTime} · {date}
               </p>
             </div>
           </div>
         </CursorFill>
+        <span className="block h-px w-full bg-muted-foreground/70 text-primary" />
       </div>
     )
   }
