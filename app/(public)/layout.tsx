@@ -17,6 +17,9 @@ import { GridPattern } from "@/components/ui/grid-pattern";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { PullCordThemeToggler } from "@/components/ui/pullcord-theme-toggler";
 import RandomQuote from "@/components/sections/RandomQuote";
+import Script from "next/script";
+import { CursorPet } from "@/components/cursor-pet";
+
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -94,19 +97,14 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning data-scroll-behavior="smooth">
       <head>
-        {/* LCP Preload — must match Hero image src (Cloudinary transforms) */}
-        <link
-          rel="preload"
-          as="image"
-          href="https://res.cloudinary.com/dzebbt9j5/image/upload/f_webp,q_auto:good,w_900,c_limit/v1779865854/rakesh_fkagx4.webp"
-          type="image/webp"
-        />
-        <link rel="prefetch" href="/api/lastfm" />
-        <script
+
+        <Script
           defer
           src="https://cloud.umami.is/script.js"
           data-website-id="e42483ec-0e90-4f99-9b3d-2576d579fb19"
         />
+      
+        <link rel="prefetch" href="/api/lastfm" />
       </head>
       <body
         suppressHydrationWarning
@@ -134,11 +132,12 @@ export default function RootLayout({
             </PageTransition>
           </ToastProvider>
           {/* <AppDock /> */}
-          <PullCordThemeToggler/>
+          <PullCordThemeToggler />
           <Footer />
         </ThemeProvider>
         <Analytics />
         <SpeedInsights />
+        <CursorPet />
       </body>
     </html>
   );
