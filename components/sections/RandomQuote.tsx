@@ -44,12 +44,12 @@ function RandomQuoteContent() {
   return (
     <div className="mt-20 flex items-center justify-center">
       <div className="w-full max-w-3xl">
-        <div className="rounded-2xl relative max-h-auto shadow-lg dark:shadow-2xl border py-8 px-8 sm:py-10 sm:px-10">
+        <div className="rounded-2xl relative max-h-auto shadow-lg dark:shadow-2xl border p-4 ">
 
           <div>
             <div className="relative">
               <Quote
-                className="rotate-y-180 text-muted-foreground/50 absolute -top-5 -left-5"
+                className="rotate-y-180 text-muted-foreground/50 absolute top-0 left-0"
                 size={30}
               />
               <div
@@ -59,7 +59,7 @@ function RandomQuoteContent() {
                     : 'opacity-100 translate-y-0 blur-0'
                 }`}
               >
-                <p className="text-xl font-black font-sans text-center leading-relaxed px-8">
+                <p className="text-xl font-black font-sans text-center leading-relaxed px-2">
                   {quote.content}
                 </p>
 
