@@ -99,6 +99,7 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  --status-green: oklch(0.51 0.155 158);
 }
 
 .dark {
@@ -133,6 +134,7 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+  --status-green: oklch(0.78 0.131 154.6);
 }
 
 @layer base {
@@ -163,23 +165,7 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Blog headings clear sticky header when jumped to from TOC */
-.blog-prose :is(h1, h2, h3, h4, h5, h6) {
-  scroll-margin-top: 6rem;
-}
-
-
 /* Hero section styles */
-        .hero-grid::before {
-          content: '';
-          position: absolute;
-          inset: 0;
-          background-image:
-            linear-gradient(to right, hsl(var(--foreground) / 0.04) 1px, transparent 1px),
-            linear-gradient(to bottom, hsl(var(--foreground) / 0.04) 1px, transparent 1px);
-          background-size: clamp(60px, 10vw, 100px) clamp(60px, 10vw, 100px);
-        }
-
         /* Entrance animations */
         .hero-rise {
           opacity: 0;
@@ -285,6 +271,12 @@ html {
     animation: none;
     transform: scaleY(0.45);
   }
+}
+
+/* Live/active status indicator — readable on both light & dark */
+.status-green {
+  color: var(--status-green);
+  background-color: var(--status-green);
 }
 
 /* Brand icon — glass depth badge; knobs via CSS vars from BrandIcon */

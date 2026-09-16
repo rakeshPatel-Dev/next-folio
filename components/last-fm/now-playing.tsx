@@ -115,15 +115,15 @@ export function NowPlaying({ className }: { className?: string }) {
         return (
             <div
                 className={cn(
-                    "inline-flex max-w-full items-center gap-3 rounded-full p-1.5 pr-3 sm:pr-4 animate-pulse bg-muted/50",
+                    "inline-flex max-w-app items-center gap-3 rounded-full p-1.5 pr-3 sm:pr-4 animate-pulse bg-muted/50",
                     className
                 )}
                 aria-hidden="true"
             >
                 <span className="size-9 shrink-0 rounded-full bg-muted" />
                 <div className="flex min-w-0 flex-1 flex-col gap-1.5">
-                    <span className="h-3 w-16 rounded bg-muted" />
-                    <span className="h-3.5 w-32 rounded bg-muted" />
+                    <span className="h-3 w-70 rounded bg-muted" />
+                    <span className="h-3.5 w-60 rounded bg-muted" />
                 </div>
             </div>
         )
@@ -138,14 +138,14 @@ export function NowPlaying({ className }: { className?: string }) {
             rel="noopener noreferrer"
             aria-label={`${statusLabel}: ${track.name} by ${track.artist} on YouTube Music`}
             className={cn(
-                "group/now-playing relative inline-flex max-w-full max-w-3xl items-center gap-3 overflow-visible rounded-full p-1.5 pr-3 text-primary sm:pr-4",
+                "group/now-playing relative inline-flex max-w-3xl items-center gap-3 overflow-visible rounded-full p-1.5 pr-3 text-primary sm:pr-4",
                 className
             )}
         >
             <span className="relative size-9 shrink-0 overflow-visible">
                 {nowPlaying ? <MusicVisualizer /> : null}
                 {track.image ? (
-                    <span className="relative z-[1] block size-full overflow-hidden rounded-full border border-foreground/10">
+                    <span className="relative z-1 block size-full overflow-hidden rounded-full border border-foreground/10">
                         <Image
                             src={track.image}
                             alt=""

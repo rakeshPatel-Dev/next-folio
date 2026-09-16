@@ -1,7 +1,7 @@
 import type { CSSProperties } from "react"
 import { cn } from "@/lib/utils"
 
-const DEFAULT_BARS = 28
+const DEFAULT_BARS = 40
 
 /** Seeded shuffle so SSR + client match, but values look random. */
 function mulberry32(seed: number) {
@@ -45,7 +45,7 @@ export function MusicVisualizer({ className, bars = DEFAULT_BARS }: MusicVisuali
           style={{ transform: `rotate(${(360 / count) * i}deg)` }}
         >
           <span
-            className="music-viz-bar"
+            className="music-viz-bar status-green"
             style={
               {
                 animationDuration: meta.duration,
