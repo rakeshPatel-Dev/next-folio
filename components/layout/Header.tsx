@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { headerData } from "@/config/headerData"
+import { headerData } from "@/data/headerData"
 import { cn } from "@/lib/utils"
 import { AnimatePresence, motion } from "framer-motion"
 import { ArrowUpRight, Home, Menu, X } from "lucide-react"
@@ -11,16 +11,11 @@ import { LetsTalkDialog } from "@/components/ui/lets-talk-dialog"
 import { AnimatedThemeToggler } from "../ui/animated-theme-toggler";
 import { buttonVariants } from "../ui/button";
 
-/**
- * Mobile  → static pill bar. No scroll listener, no blur, no animations.
- * Desktop → original animated pill with scroll-shrink + sliding CTA.
- */
 const Header = () => {
   const pathname = usePathname()
   const [isTalkOpen, setIsTalkOpen] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
-  // Only run on desktop; gate with matchMedia so mobile pays nothing.
   const [isScrolled, setIsScrolled] = useState(false)
   useEffect(() => {
     if (typeof window === "undefined") return
@@ -45,7 +40,6 @@ const Header = () => {
     }
   }, [])
 
-  // Lock body scroll while menu is open
   useEffect(() => {
     if (!isMenuOpen) return
     const prev = document.body.style.overflow
@@ -63,7 +57,6 @@ const Header = () => {
          * ============================================================ */}
         <div className="mx-auto w-full md:hidden">
           <div className="flex items-center justify-between rounded-full border border-foreground/10 bg-background/95 px-3 py-2">
-            {/* Home */}
             <Link
               href="/"
               aria-label="Home"
@@ -76,32 +69,28 @@ const Header = () => {
             </Link>
 
             <div className="flex items-center">
+              <AnimatedThemeToggler
+                className={cn(
+                  buttonVariants({ variant: "ghost", size: "icon" }),
+                  "size-10 rounded-full p-0 md:hidden"
+                )}
+                buttonClassName="size-5"
+              />
 
-            {/* Theme Toggler */}
-            <AnimatedThemeToggler
-              className={cn(
-                buttonVariants({ variant: "ghost", size: "icon" }),
-                "size-10 rounded-full p-0 md:hidden"
-              )}
-              buttonClassName="size-5"
-            />
-
-            {/* Menu toggle */}
-            <button
-              type="button"
-              aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-              aria-expanded={isMenuOpen}
-              onClick={() => setIsMenuOpen((v) => !v)}
-              className="flex h-10 w-10 items-center justify-center rounded-full text-foreground/80 active:bg-foreground/8"
-            >
-              {isMenuOpen ? (
-                <X className="size-5" strokeWidth={2} />
-              ) : (
-                <Menu className="size-5" strokeWidth={2} />
-              )}
+              <button
+                type="button"
+                aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+                aria-expanded={isMenuOpen}
+                onClick={() => setIsMenuOpen((v) => !v)}
+                className="flex h-10 w-10 items-center justify-center rounded-full text-foreground/80 active:bg-foreground/8"
+              >
+                {isMenuOpen ? (
+                  <X className="size-5" strokeWidth={2} />
+                ) : (
+                  <Menu className="size-5" strokeWidth={2} />
+                )}
               </button>
             </div>
-
           </div>
 
           {/* Dropdown */}
@@ -120,17 +109,35 @@ const Header = () => {
                     .filter((d) => d.href !== "/")
                     .map((data) => {
                       const isActive = pathname?.startsWith(data.href)
+                      const linkClasses = cn(
+                        "flex min-h-12 items-center rounded-xl px-4 text-base font-medium",
+                        isActive
+                          ? "bg-foreground/8 text-foreground"
+                          : "text-foreground/70 active:bg-foreground/8"
+                      )
+
+                      if (data.external) {
+                        return (
+                          <a
+                            key={data.href}
+                            href={data.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={() => setIsMenuOpen(false)}
+                            className={cn(linkClasses, "justify-between")}
+                          >
+                            {data.label}
+                            <ArrowUpRight className="size-4 opacity-60" strokeWidth={2} />
+                          </a>
+                        )
+                      }
+
                       return (
                         <Link
                           key={data.href}
                           href={data.href}
                           onClick={() => setIsMenuOpen(false)}
-                          className={cn(
-                            "flex min-h-12 items-center rounded-xl px-4 text-base font-medium",
-                            isActive
-                              ? "bg-foreground/8 text-foreground"
-                              : "text-foreground/70 active:bg-foreground/8"
-                          )}
+                          className={linkClasses}
                         >
                           {data.label}
                         </Link>
@@ -189,38 +196,64 @@ const Header = () => {
                       : pathname?.startsWith(data.href)
                   const isHome = data.href === "/"
 
+                  const sharedClassName = cn(
+                    "group/home relative rounded-full transition-all duration-200 ease-out",
+                    isHome
+                      ? "flex h-8 items-center justify-center"
+                      : "px-3 py-1.5 text-base font-medium",
+                    isActive
+                      ? "text-foreground"
+                      : "px-1.5 pl-2 text-foreground/55 [@media(hover:hover)]:hover:bg-foreground/6 [@media(hover:hover)]:hover:text-foreground active:scale-[0.97]"
+                  )
+
+                  const sharedStyle = {
+                    animation: "fadeIn 0.3s ease forwards",
+                    animationDelay: `${idx * 0.05}s`,
+                    opacity: 0,
+                  }
+
+                  const inner = isHome ? (
+                    <span className="relative flex items-center">
+                      <Home className="size-5 shrink-0 transition-transform duration-300 ease-out group-hover/home:-translate-x-0.5" />
+                      <span className="ml-0 w-0 overflow-hidden whitespace-nowrap text-base font-medium opacity-0 transition-all duration-300 ease-out group-hover/home:ml-2 group-hover/home:w-12 group-hover/home:opacity-100">
+                        <span className="inline-block translate-x-2 transition-transform duration-300 ease-out group-hover/home:translate-x-0">
+                          {data.label}
+                        </span>
+                      </span>
+                    </span>
+                  ) : (
+                    data.label
+                  )
+
+                  // External → plain <a target="_blank">
+                  if (data.external && !isHome) {
+                    return (
+                      <a
+                        key={idx}
+                        href={data.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={data.label}
+                        className={sharedClassName}
+                        style={sharedStyle}
+                      >
+                        <span className="inline-flex items-center gap-1">
+                          {inner}
+                          <ArrowUpRight className="size-3.5 opacity-60" strokeWidth={2} />
+                        </span>
+                      </a>
+                    )
+                  }
+
                   return (
                     <Link
                       key={idx}
                       href={data.href}
                       aria-label={isHome ? "Home" : undefined}
-                      className={cn(
-                        "group/home relative rounded-full transition-all duration-200 ease-out",
-                        isHome
-                          ? "flex h-8 items-center justify-center"
-                          : "px-3 py-1.5 text-base font-medium",
-                        isActive
-                          ? "text-foreground"
-                          : "px-1.5 pl-2 text-foreground/55 [@media(hover:hover)]:hover:bg-foreground/6 [@media(hover:hover)]:hover:text-foreground active:scale-[0.97]"
-                      )}
-                      style={{
-                        animation: "fadeIn 0.3s ease forwards",
-                        animationDelay: `${idx * 0.05}s`,
-                        opacity: 0,
-                      }}
+                      className={sharedClassName}
+                      style={sharedStyle}
                     >
-                      {isHome ? (
-                        <span className="relative flex items-center">
-                          <Home className="size-5 shrink-0 transition-transform duration-300 ease-out group-hover/home:-translate-x-0.5" />
-                          <span className="ml-0 w-0 overflow-hidden whitespace-nowrap text-base font-medium opacity-0 transition-all duration-300 ease-out group-hover/home:ml-2 group-hover/home:w-12 group-hover/home:opacity-100">
-                            <span className="inline-block translate-x-2 transition-transform duration-300 ease-out group-hover/home:translate-x-0">
-                              {data.label}
-                            </span>
-                          </span>
-                        </span>
-                      ) : (
-                        data.label
-                      )}
+                      {inner}
 
                       {isActive && (
                         <motion.span
