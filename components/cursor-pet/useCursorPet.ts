@@ -26,6 +26,11 @@ export type CursorPetConfig = {
   scale: number;
   speed: number;
   reachThreshold: number;
+  /**
+   * Radius in px around the pet. Moving the cursor inside this area does not
+   * make the pet follow — it stays put until the cursor leaves the dead zone.
+   */
+  deadZone: number;
   frameRate: number;
   idleStillMs: number;
   idleTransitionMs: number;
@@ -51,9 +56,14 @@ export type CursorPetConfig = {
 export const CURSOR_PET_DEFAULTS: CursorPetConfig = {
   sprite: "/cursor-pet-Frames.png",
   scale: 1.25,
-  speed: 1,
+  speed: 1.15,
   reachThreshold: 10,
-  frameRate: 8,
+  /**
+   * Radius (px) around the pet where a moving cursor does not make it follow.
+   * The pet only chases once the cursor leaves this area.
+   */
+  deadZone: 50,
+  frameRate: 9,
   idleStillMs: 2000,
   idleTransitionMs: 200,
   idleLoopIntervalMs: 0,
@@ -108,6 +118,7 @@ export function useCursorPet(config: Partial<CursorPetConfig> = {}) {
     scale,
     speed,
     reachThreshold,
+    deadZone,
     frameRate,
     idleStillMs,
     idleTransitionMs,
@@ -306,12 +317,13 @@ export function useCursorPet(config: Partial<CursorPetConfig> = {}) {
           applyDirection((rad * 180) / Math.PI);
         }
       } else if (!s.isDragging && !s.isSleeping && !s.isGoingToSleep) {
-        // Normal cursor-following behaviour.
+        // Normal cursor-following behaviour. The pet only chases once the
+        // cursor leaves the dead zone around it.
         const dx = s.mouseX - s.catX;
         const dy = s.mouseY - s.catY;
         const dist = Math.hypot(dx, dy);
 
-        if (dist > reachThreshold) {
+        if (dist > deadZone) {
           const rad = Math.atan2(dy, dx);
           s.catX += Math.cos(rad) * speed;
           s.catY += Math.sin(rad) * speed;
@@ -369,7 +381,7 @@ export function useCursorPet(config: Partial<CursorPetConfig> = {}) {
           // Normal awake state.
           const dx = s.mouseX - s.catX;
           const dy = s.mouseY - s.catY;
-          const isChasing = Math.hypot(dx, dy) > reachThreshold;
+          const isChasing = Math.hypot(dx, dy) > deadZone;
 
           if (isChasing) {
             const data = SPRITE_DATA[s.direction];
@@ -422,6 +434,7 @@ export function useCursorPet(config: Partial<CursorPetConfig> = {}) {
     scale,
     speed,
     reachThreshold,
+    deadZone,
     frameRate,
     idleStillMs,
     idleTransitionMs,

@@ -92,8 +92,8 @@ export {
                                                    awake/follow ──┘
 ```
 
-- **Chasing**: When mouse moves > `reachThreshold` px away, the cat moves `speed` px/frame toward it, displaying the running animation in one of 8 directions.
-- **Idle**: Within `reachThreshold` of the cursor (or left still after dragging): plays still `(96,96)` → transition `(96,63)` → breathing loop `(64,0)/(64,32)`. Auto-sleeps after `autoSleepAfter` ms idle.
+- **Chasing**: When the mouse moves further than `deadZone` px away from the cat, it moves `speed` px/frame toward it, displaying the running animation in one of 8 directions.
+- **Idle**: While the cursor is inside the `deadZone` (or left still after dragging): plays still `(96,96)` → transition `(96,63)` → breathing loop `(64,0)/(64,32)`. Auto-sleeps after `autoSleepAfter` ms idle.
 - **GoingToSleep**: Triggered by auto-sleep. Cat walks toward `sleepX / sleepY` at normal speed with running animation. If double-clicked or dragged en route, the walk is cancelled.
 - **Sleeping**:
   - If triggered by **double-click**: stays right where it was clicked and enters sleep immediately.
@@ -113,6 +113,7 @@ Configuration values are defined in `CURSOR_PET_DEFAULTS` ([`components/cursor-p
 | `scale` | `1.25` | Render scale multiplier of the sprite. |
 | `speed` | `1` | Movement speed, px per animation frame (linear). |
 | `reachThreshold` | `10` | Distance in px to stop chasing the cursor or sleep target. |
+| `deadZone` | `100` | Radius in px around the pet. Moving the cursor inside this area does **not** make the pet follow — it stays put until the cursor leaves the dead zone. |
 | `frameRate` | `8` | Sprite animation FPS. Drives run frames and idle/sleep breathing loop. |
 | `idleStillMs` | `2000` | Idle & sleep phase 1: duration of sitting still pose. |
 | `idleTransitionMs` | `200` | Idle & sleep phase 2: duration of transition pose. |
