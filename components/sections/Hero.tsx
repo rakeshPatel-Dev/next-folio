@@ -6,11 +6,14 @@ import DirectionTicker from "../ui/direction-ticker"
 import { NowPlaying } from "../last-fm/now-playing"
 import { SectionHeading } from "@/components/sections/section-heading"
 import { heroTech, heroSocial, tickerItems } from "@/data/hero"
+import { Button } from "../ui/button";
 
 export default function HeroData() {
+  const resumeLink = process.env.NEXT_PUBLIC_RESUME_LINK
+
   return (
     <section className="hero-root relative mx-auto flex w-full max-w-app flex-col justify-center overflow-hidden font-sans">
-      <div className="flex flex-col items-start pt-[clamp(60px,8vw,100px)]  text-left">
+      <div className="flex flex-col items-start pt-15 sm:pt-12 md:pt-[clamp(60px,8vw,100px)] text-left">
         <div className="w-full" style={{ animationDelay: "0.05s" }}>
           <HelloAnimation />
           
@@ -20,11 +23,22 @@ export default function HeroData() {
           className="hero-rise w-full"
           style={{ animationDelay: "0.15s" }}
         >
-          <h1 className="mt-5 text-[clamp(1.75rem,3.5vw,2.75rem)] font-semibold leading-[1.2] tracking-tight text-foreground">
+          <h1 className="mt-3 sm:mt-5 text-2xl sm:text-3xl md:text-4xl lg:text-[2.75rem] font-semibold leading-tight sm:leading-[1.2] tracking-tight text-foreground">
             I&apos;m Rakesh Patel, a full-stack developer.
           </h1>
+          {resumeLink && (
+            <Button
+              asChild
+              variant="outline"
+              className="mt-4  inline-block rounded-full border-foreground/20 bg-transparent transition-colors duration-300 hover:border-foreground/40 hover:bg-foreground/5 sm:hidden"
+            >
+              <a href={resumeLink} target="_blank" rel="noopener noreferrer">
+                Resume
+              </a>
+            </Button>
+          )}
 
-          <div className="mt-5 text-justify space-y-3 text-[clamp(1rem,1.6vw,1.25rem)] leading-[1.6] tracking-[-0.02em] text-muted-foreground">
+          <div className="mt-3 sm:mt-5 text-justify space-y-2.5 sm:space-y-3 text-[clamp(0.95rem,1.6vw,1.25rem)] leading-relaxed sm:leading-[1.6] tracking-[-0.02em] text-muted-foreground">
             <p>
               I mess around with{" "}
               {heroTech.map(({ label, Icon, color, colorDark }, i) => (
