@@ -151,6 +151,7 @@ export function NowPlaying({ className }: { className?: string }) {
                             alt=""
                             fill
                             sizes="36px"
+                            priority={true}
                             className="object-cover transition-transform duration-150 group-hover/now-playing:scale-105"
                         />
                     </span>

@@ -216,7 +216,7 @@ export default function BlogPageClient({ initialBlogs }: BlogPageClientProps) {
       ) : (
         // Blog rows
         <div>
-          {filteredBlogs.map((blog) => (
+          {filteredBlogs.map((blog, index) => (
             <BlogRowCard
               key={blog._id}
               title={blog.title}
@@ -226,6 +226,7 @@ export default function BlogPageClient({ initialBlogs }: BlogPageClientProps) {
               readingTime={`${calculateReadTimeFromWordCount(blog.wordCount)} min read`}
               date={formatDate(blog.publishedAt || blog.createdAt)}
               link={`/blog/${blog.slug}`}
+              priority={index === 0}
             />
           ))}
         </div>

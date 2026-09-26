@@ -13,13 +13,14 @@ import GithubIcon from "../ui/github-icon"
 
 interface ProjectCardProps {
   project: ProjectType
+  priority?: boolean
 }
 
 const blurDataURL =
   "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0nNzAwJyBoZWlnaHQ9JzQ3NScgdmlld0JveD0nMCAwIDcwMCA0NzUnIHhtbG5zPSdodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2Zyc+PHJlY3Qgd2lkdGg9JzcwMCcgaGVpZ2h0PSc0NzUnIGZpbGw9JyMyMjInIC8+PC9zdmc+"
 
 const ProjectCard = React.forwardRef<HTMLDivElement, ProjectCardProps>(
-  ({ project }, ref) => {
+  ({ project, priority = false }, ref) => {
     // Determine the favicon / icon source
     const faviconSrc =
       project.liveUrl && project.faviconUrl
@@ -58,6 +59,7 @@ const ProjectCard = React.forwardRef<HTMLDivElement, ProjectCardProps>(
                 sizes="40px"
                 placeholder="blur"
                 blurDataURL={blurDataURL}
+                priority={priority}
                 className="object-cover"
               />
             ) : (

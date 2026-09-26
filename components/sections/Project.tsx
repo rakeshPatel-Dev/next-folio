@@ -22,8 +22,8 @@ export default function HomeProjects({ initialProjects }: HomeProjectsProps) {
       <SectionHeading className="mb-8">Featured Projects</SectionHeading>
 
       <div className="mt-10 grid grid-cols-1  ">
-        {projects.slice(0, 4).map((project) => (
-          <ProjectCard key={project._id} project={project} />
+        {projects.slice(0, 4).map((project, index) => (
+          <ProjectCard key={project._id} project={project} priority={index === 0} />
         ))}
       </div>
 

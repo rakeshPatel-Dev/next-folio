@@ -27,7 +27,7 @@ return (
 
       {/* Blog rows */}
       <div className="mt-10">
-        {latestBlogs.map((blog) => (
+        {latestBlogs.map((blog, index) => (
           <BlogRowCard
             key={blog._id}
             title={blog.title}
@@ -37,6 +37,7 @@ return (
             readingTime={`${calculateReadTimeFromWordCount(blog.wordCount)} min read`}
             date={formatDate(blog.publishedAt || blog.createdAt)}
             link={`/blog/${blog.slug}`}
+            priority={index === 0}
           />
         ))}
       </div>

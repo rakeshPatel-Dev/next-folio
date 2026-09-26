@@ -21,8 +21,8 @@ export default function ProjectsClient({ initialProjects }: ProjectsClientProps)
 
       {/* Projects List */}
       <div className="mt-10 grid grid-cols-1 ">
-        {initialProjects.map((project) => (
-          <ProjectCard key={project._id} project={project} />
+        {initialProjects.map((project, index) => (
+          <ProjectCard key={project._id} project={project} priority={index === 0} />
         ))}
       </div>
     </main>

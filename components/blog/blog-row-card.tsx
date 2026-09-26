@@ -16,13 +16,14 @@ export interface BlogRowCardProps {
   readingTime: string
   date: string
   link: string
+  priority?: boolean
 }
 
 const blurDataURL =
   "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0nNzAwJyBoZWlnaHQ9JzQ3NScgdmlld0JveD0nMCAwIDcwMCA0NzUnIHhtbG5zPSdodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2Zyc+PHJlY3Qgd2lkdGg9JzcwMCcgaGVpZ2h0PSc0NzUnIGZpbGw9JyMyMjInIC8+PC9zdmc+"
 
 const BlogRowCard = React.forwardRef<HTMLDivElement, BlogRowCardProps>(
-  ({ title, subtitle, image, blurDataURL: customBlur, category, readingTime, date, link }, ref) => {
+  ({ title, subtitle, image, blurDataURL: customBlur, category, readingTime, date, link, priority = false }, ref) => {
     return (
       <div className="w-full">
         <CursorFill
@@ -65,6 +66,7 @@ const BlogRowCard = React.forwardRef<HTMLDivElement, BlogRowCardProps>(
                   sizes="80px"
                   placeholder="blur"
                   blurDataURL={customBlur || blurDataURL}
+                  priority={priority}
                   className="object-cover"
                 />
               ) : (

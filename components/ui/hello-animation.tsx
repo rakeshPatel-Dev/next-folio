@@ -18,7 +18,10 @@ const FONT_URL = "/fonts/SpaceGrotesk.ttf"
 let fontReady: Promise<void> | null = null
 function warmFont(url = FONT_URL): Promise<void> {
   if (!fontReady) {
-    fontReady = fetch(url, { cache: "force-cache" })
+    // `mode: "cors"` must match the preload's crossOrigin="anonymous" in the root
+    // layout, otherwise this is a different cache key and the 116 KB TTF is
+    // downloaded twice on every cold load.
+    fontReady = fetch(url, { cache: "force-cache", mode: "cors" })
       .then((res) => {
         if (!res.ok) throw new Error(`Failed to fetch font (${res.status})`)
         return res.arrayBuffer()
@@ -55,7 +58,7 @@ export function HelloAnimation({ className }: { className?: string }) {
   return (
     <div
       className={cn(
-        "w-full max-w-[min(100%,15rem)] text-foreground sm:max-w-[min(100%,22rem)] md:max-w-[min(100%,26rem)] lg:max-w-[min(100%,31rem)]",
+        "w-full max-w-[min(100%,10.5rem)] text-foreground sm:max-w-[min(100%,16rem)] md:max-w-[min(100%,22rem)] lg:max-w-[min(100%,31rem)]",
         className
       )}
       role="img"
