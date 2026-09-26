@@ -1,4 +1,4 @@
-import { getProjectBySlug, getRelatedProjects, getProjects } from '@/lib/projectSource'
+import { getProjectBySlug, getRelatedProjects, getProjects, type ProjectType } from '@/lib/projectSource'
 import { getCaseStudy } from '@/lib/caseStudySource'
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
@@ -16,6 +16,7 @@ import IconRenderer from '@/components/ui/IconRenderer'
 import { getIconColors } from '@/lib/icon-map'
 import { Metadata } from 'next'
 import { canonicalUrl, siteConfig } from '@/lib/site-config'
+import { BreadcrumbJsonLd } from '@/components/sections/BreadcrumbJsonLd'
 
 interface ProjectPageProps {
   params: Promise<{ slug: string }>
@@ -45,6 +46,7 @@ export async function generateMetadata({ params }: ProjectPageProps): Promise<Me
   }
 
   const url = `${siteConfig.url}/projects/${project.slug}`
+  const socialTitle = `${project.title} | ${siteConfig.name}`
 
   return {
     title: project.title,
@@ -52,7 +54,7 @@ export async function generateMetadata({ params }: ProjectPageProps): Promise<Me
     keywords: project.techStack?.map((t) => t.label) ?? [],
     alternates: { canonical: canonicalUrl(`/projects/${project.slug}`) },
     openGraph: {
-      title: project.title,
+      title: socialTitle,
       description: project.shortDescription,
       url,
       type: 'article',
@@ -60,10 +62,55 @@ export async function generateMetadata({ params }: ProjectPageProps): Promise<Me
     },
     twitter: {
       card: 'summary_large_image',
-      title: project.title,
+      title: socialTitle,
       description: project.shortDescription,
       images: [project.image],
     },
+  }
+}
+
+const PROGRAMMING_LANGUAGES = new Set([
+  'TypeScript',
+  'JavaScript',
+  'Python',
+  'Java',
+  'Go',
+  'Rust',
+  'C++',
+  'C#',
+  'PHP',
+  'Ruby',
+  'Swift',
+  'Kotlin',
+])
+
+/** Describe the project itself so it is a first-class entity, not just a page
+ *  inside the sitewide Person/WebSite block. Every field is already in frontmatter. */
+function projectSchema(project: ProjectType) {
+  const canonical = `${siteConfig.url}/projects/${project.slug}`
+  const languages = (project.techStack ?? [])
+    .map((tech) => tech.label)
+    .filter((label) => PROGRAMMING_LANGUAGES.has(label))
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'CreativeWork',
+    '@id': canonical,
+    name: project.title,
+    description: project.shortDescription || project.longDescription,
+    url: project.liveUrl || canonical,
+    author: {
+      '@type': 'Person',
+      name: siteConfig.name,
+      url: siteConfig.url,
+    },
+    ...(project.image ? { image: project.image } : {}),
+    ...(project.createdAt ? { dateCreated: project.createdAt } : {}),
+    ...(project.updatedAt ? { dateModified: project.updatedAt } : {}),
+    ...(project.repoUrl ? { codeRepository: project.repoUrl } : {}),
+    ...(languages.length ? { programmingLanguage: languages } : {}),
+    ...(project.category ? { creativeWorkStatus: project.category } : {}),
+    keywords: (project.techStack ?? []).map((tech) => tech.label).join(', '),
   }
 }
 
@@ -90,7 +137,18 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
   return (
     <article className="min-h-screen">
+      <BreadcrumbJsonLd
+        items={[
+          { name: 'Home', href: '/' },
+          { name: 'Projects', href: '/projects' },
+          { name: project.title, href: `/projects/${project.slug}` },
+        ]}
+      />
       <DynamicIslandTOC selector="article h2, article h3, article h4" />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(projectSchema(project)) }}
+      />
       <div className="mx-auto max-w-3xl">
         {/* Back link */}
         <div className="pt-8 pb-3">

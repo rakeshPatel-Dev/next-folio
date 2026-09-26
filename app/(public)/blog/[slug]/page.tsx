@@ -12,6 +12,7 @@ import { Separator } from '@/components/ui/separator'
 import { DynamicIslandTOC } from '@/components/ui/dynamic-island-toc'
 import { Metadata } from 'next'
 import { canonicalUrl, siteConfig } from '@/lib/site-config'
+import { BreadcrumbJsonLd } from '@/components/sections/BreadcrumbJsonLd'
 
 interface BlogDetailPageProps {
   params: Promise<{
@@ -37,6 +38,7 @@ export async function generateMetadata({ params }: BlogDetailPageProps): Promise
   }
 
   const url = `${siteConfig.url}/blog/${blogMeta.slug}`
+  const socialTitle = `${blogMeta.title} | ${siteConfig.name}`
 
   return {
     title: blogMeta.title,
@@ -46,7 +48,7 @@ export async function generateMetadata({ params }: BlogDetailPageProps): Promise
       canonical: canonicalUrl(`/blog/${blogMeta.slug}`),
     },
     openGraph: {
-      title: blogMeta.title,
+      title: socialTitle,
       description: blogMeta.description,
       url: url,
       images: [
@@ -64,7 +66,7 @@ export async function generateMetadata({ params }: BlogDetailPageProps): Promise
     },
     twitter: {
       card: "summary_large_image",
-      title: blogMeta.title,
+      title: socialTitle,
       description: blogMeta.description,
       images: [blogMeta.coverImage],
     },
@@ -124,6 +126,13 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(blogPostingSchema) }}
+      />
+      <BreadcrumbJsonLd
+        items={[
+          { name: "Home", href: "/" },
+          { name: "Blog", href: "/blog" },
+          { name: blogMeta.title, href: `/blog/${blogMeta.slug}` },
+        ]}
       />
 
       {/* Back Button */}
