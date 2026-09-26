@@ -1,17 +1,27 @@
 import { getProjects } from '@/lib/projectSource'
 import ProjectsClient from '@/components/projects/ProjectsClient'
+import { BreadcrumbJsonLd } from '@/components/sections/BreadcrumbJsonLd'
 
 export const metadata = {
   title: 'Projects',
-  description: 'Discover a collection of my past and ongoing projects.',
+  description:
+    'Five production web apps built with React, Next.js, and TypeScript — from multi-tenant SaaS with role-based access to AI-native features, plus case studies.',
 }
 
 export default function ProjectPage() {
   const projects = getProjects()
 
   return (
-    <ProjectsClient
-      initialProjects={projects}
+    <>
+      <BreadcrumbJsonLd
+        items={[
+          { name: 'Home', href: '/' },
+          { name: 'Projects', href: '/projects' },
+        ]}
+      />
+      <ProjectsClient
+        initialProjects={projects}
     />
+    </>
   )
 }

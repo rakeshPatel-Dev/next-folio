@@ -1,5 +1,6 @@
 import { getPublishedBlogPosts } from "@/lib/blogSource"
 import BlogPageClient from "@/components/blog/BlogPageClient"
+import { BreadcrumbJsonLd } from "@/components/sections/BreadcrumbJsonLd"
 import { Metadata } from "next"
 
 export const metadata: Metadata = {
@@ -24,5 +25,15 @@ export default function BlogPage() {
   }))
 
   // Pass to client component for filtering
-  return <BlogPageClient initialBlogs={blogs} />
+  return (
+    <>
+      <BreadcrumbJsonLd
+        items={[
+          { name: "Home", href: "/" },
+          { name: "Blog", href: "/blog" },
+        ]}
+      />
+      <BlogPageClient initialBlogs={blogs} />
+    </>
+  )
 }

@@ -104,7 +104,18 @@ export default function RootLayout({
           data-website-id="e42483ec-0e90-4f99-9b3d-2576d579fb19"
         />
       
+        <link
+          rel="preload"
+          href="/fonts/SpaceGrotesk.ttf"
+          as="font"
+          type="font/ttf"
+          crossOrigin="anonymous"
+        />
         <link rel="prefetch" href="/api/lastfm" />
+        {/* Raw link, not metadata: `alternates` is shallow-merged, so a
+            metadata-based entry would be dropped by every page that sets
+            its own canonical. This applies site-wide. */}
+        <link rel="alternate" type="text/plain" href="/llms.txt" />
       </head>
       <body
         suppressHydrationWarning

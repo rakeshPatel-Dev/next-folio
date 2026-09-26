@@ -8,16 +8,22 @@ import { Metadata } from 'next'
 import { canonicalUrl, siteConfig } from '@/lib/site-config'
 
 export const metadata: Metadata = {
-  title: "Rakesh Patel | Portfolio | Full Stack Developer",
-  description: "Explore the portfolio of Rakesh Patel, a Full Stack Developer specializing in React, Next.js, and MERN. Showcasing modern web experiences, technical blogs, and creative projects.",
-  keywords: ["Rakesh Patel", "Frontend Developer", "Full Stack Developer",
-    "React Developer", "Next.js Portfolio", "Web Developer Nepal"],
+  title: "Rakesh Patel | Full-Stack Engineer | AI-Native Product Development & SaaS",
+  description: "Full-stack engineer in Kathmandu, Nepal, building AI-native products and multi-tenant SaaS systems with React, Next.js, TypeScript, and Node.js.",
+  keywords: ["Rakesh Patel developer", "Rakesh Patel portfolio", "Rakesh Patel Nepal",
+    "Rakesh Patel Kathmandu", "Full-stack engineer Nepal", "Full-Stack Engineer",
+    "React developer Kathmandu", "Next.js developer Nepal", "TypeScript developer",
+    "MERN stack developer", "Full-stack developer Nepal",
+    "AI-native product development", "LLM application development",
+    "GenAI developer Nepal", "AI product engineer Nepal", "agentic development",
+    "SaaS developer Nepal", "SaaS engineer Kathmandu",
+    "multi-tenant SaaS architecture"],
   alternates: {
     canonical: canonicalUrl("/"),
   },
   openGraph: {
-    title: "Rakesh Patel | Portfolio | Full Stack Developer",
-    description: "Explore the portfolio of Rakesh Patel, a Full Stack Developer specializing in React, Next.js, and MERN. Showcasing modern web experiences, technical blogs, and creative projects.",
+    title: "Rakesh Patel | Full-Stack Engineer | AI-Native Product Development & SaaS",
+    description: "Full-stack engineer in Kathmandu, Nepal, building AI-native products and multi-tenant SaaS systems with React, Next.js, TypeScript, and Node.js.",
     url: siteConfig.url,
     siteName: "Rakesh Patel Portfolio",
     images: [
@@ -28,13 +34,13 @@ export const metadata: Metadata = {
         alt: "Rakesh Patel Portfolio",
       },
     ],
-    locale: "en_US",
+    locale: "en_NP",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Rakesh Patel | Portfolio | Full Stack Developer",
-    description: "Explore the portfolio of Rakesh Patel, a Full Stack Developer specializing in React, Next.js, and MERN.",
+    title: "Rakesh Patel | Full-Stack Engineer | AI-Native Product Development & SaaS",
+    description: "Full-stack engineer in Kathmandu, Nepal, building AI-native products and multi-tenant SaaS systems with React, Next.js, TypeScript, and Node.js.",
     images: [siteConfig.ogImage],
     creator: siteConfig.links.twitter.split("/").pop(),
   },

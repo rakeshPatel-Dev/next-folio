@@ -2,17 +2,13 @@ import type { Metadata } from "next"
 import { canonicalUrl, siteConfig } from "@/lib/site-config"
 
 export const metadata: Metadata = {
-  title: {
-    default: "Blogs",
-    template: "%s | Blogs",
-  },
   description:
     "Articles on web development, software engineering, and real-world learning.",
   alternates: {
     canonical: canonicalUrl("/blog"),
   },
   openGraph: {
-    title: "Blogs | Rakesh Patel",
+    title: "Blog | Rakesh Patel",
     description:
       "Articles on web development, software engineering, and real-world learning.",
     url: `${siteConfig.url}/blog`,
@@ -28,7 +24,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Blogs | Rakesh Patel",
+    title: "Blog | Rakesh Patel",
     description:
       "Articles on web development, software engineering, and real-world learning.",
     images: [siteConfig.ogImage],

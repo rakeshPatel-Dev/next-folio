@@ -2,10 +2,6 @@ import type { Metadata } from "next"
 import { canonicalUrl, siteConfig } from "@/lib/site-config"
 
 export const metadata: Metadata = {
-  title: {
-    default: "Projects",
-    template: "%s | Projects",
-  },
   description:
     "A curated list of real-world projects with technologies, challenges, and outcomes.",
   alternates: {
