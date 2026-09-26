@@ -1,0 +1,583 @@
+---
+title: Ledg - Smart Spend
+description: A personal finance application for tracking income, expenses, lending, borrowing, and spending insights across multiple financial spaces.
+---
+
+<Lead>
+  Ledg is a full-stack personal finance application designed to make everyday
+  money tracking faster and more meaningful. It helps users manage income and
+  expenses, organize transactions across different spaces, track lending and
+  borrowing separately, and understand their spending through server-side
+  analytics and insights.
+</Lead>
+
+<Callout variant="tip" title="At a glance">
+  <Badge>React</Badge> <Badge variant="outline">TypeScript</Badge>{" "}
+  <Badge variant="outline">Redux Toolkit</Badge>{" "}
+  <Badge variant="outline">Express</Badge>{" "}
+  <Badge variant="outline">MongoDB</Badge>{" "}
+  <Badge variant="outline">Better Auth</Badge>{" "}
+  <Badge variant="outline">Tailwind CSS</Badge> — Secure authentication,
+  server-side financial analytics, optimistic updates, and multi-space
+  financial organization.
+</Callout>
+
+## Project Overview
+
+Ledg is a personal finance application built around a simple idea: tracking
+money should not require users to fight through a complicated finance
+interface.
+
+The application allows users to record income and expenses, organize their
+financial activity into different spaces, monitor spending patterns, and keep
+lending and borrowing separate from normal income and expense calculations.
+
+Spaces can represent different contexts such as:
+
+- Personal
+- Family
+- Trip
+- Business
+
+This allows users to keep different financial contexts organized without
+requiring completely separate accounts or applications.
+
+---
+
+## The Problem
+
+Many personal finance applications become difficult to use because recording
+a simple transaction requires too many steps, while the analytics often focus
+on displaying numbers rather than helping users understand them.
+
+Ledg was designed around several practical problems:
+
+- Recording everyday transactions should be quick
+- Different financial contexts should remain separated
+- Lending and borrowing should not be treated as normal spending
+- Users should be able to understand where their money is going
+- Financial summaries should be calculated efficiently on the server
+- The interface should remain simple despite supporting multiple financial
+  workflows
+
+The goal was to build something that could remain simple for everyday use
+while still having a solid technical foundation underneath.
+
+---
+
+## Goals
+
+The primary goals were to:
+
+- Make transaction tracking quick and straightforward
+- Organize finances through flexible spaces
+- Separate lending and borrowing from normal spending
+- Provide useful financial analytics
+- Keep calculations on the server where appropriate
+- Build a secure authentication system
+- Keep the data model lean and avoid unnecessary abstractions
+- Create a foundation for future voice-based transaction entry and AI-powered
+  financial analysis
+
+---
+
+## My Role
+
+I designed and built Ledg across both the frontend and backend.
+
+My responsibilities included:
+
+- Product and application architecture
+- Database and domain modeling
+- REST API design and implementation
+- Authentication and authorization
+- Transaction and space workflows
+- Financial analytics and aggregation
+- Dashboard architecture
+- Responsive UI implementation
+- Optimistic state updates
+- Validation and error handling
+- Email verification infrastructure
+- Deployment and production configuration
+
+---
+
+## Core Features
+
+### Authentication & Account Management
+
+Ledg uses Better Auth for authentication and session management.
+
+Users can:
+
+- Create an account with email and password
+- Sign in with email and password
+- Sign in with Google
+- Verify their email address
+- Request another verification email
+- Manage their profile
+- Update their email
+- Delete their account
+
+Sessions are handled through secure cookies, with protected routes on both
+the frontend and backend.
+
+<Callout variant="note">
+  Authentication is handled through Better Auth rather than maintaining a
+  separate application-level user authentication system.
+</Callout>
+
+---
+
+### Financial Spaces
+
+Spaces provide a way to organize transactions according to their context.
+
+A user can create spaces such as:
+
+- Personal finances
+- Family expenses
+- A specific trip
+- Business finances
+
+Each space has its own transactions while still contributing to the user's
+overall financial overview.
+
+Spaces support:
+
+- Create
+- Edit
+- Delete
+- Type selection
+- Custom icon and color
+- Transaction filtering
+
+A default Personal space is created for the normal day-to-day workflow.
+
+The application currently limits users to a maximum of 10 spaces.
+
+---
+
+### Transaction Management
+
+Transactions are the core financial record in Ledg.
+
+Users can record:
+
+- Income
+- Expenses
+
+Each transaction can contain:
+
+- Amount
+- Category
+- Note
+- Date
+- Tags
+- Payment method
+- Space
+
+Transactions support server-side filtering and pagination rather than
+requiring the client to load an entire transaction history.
+
+Supported payment methods include:
+
+- Cash
+- Card
+- Bank Transfer
+- Wallet
+
+The transaction interface is designed around quick entry, with optimistic UI
+updates used where appropriate to make common actions feel immediate.
+
+---
+
+### Lending & Borrowing
+
+Lending and borrowing are treated separately from normal income and expense
+tracking.
+
+This distinction is important because giving someone money is not the same
+as spending money, and receiving a repayment is not the same as earning
+income.
+
+Ledg's dues model is designed around the actual movement of money while
+keeping the financial meaning of the event separate.
+
+A lending or borrowing record can track:
+
+- Person
+- Amount
+- Date
+- Optional due date
+- Settled amount
+- Status
+- Related transaction information
+
+This allows the application to represent outstanding money without
+distorting spending and income analytics.
+
+<Callout variant="note" title="Why this matters">
+  A loan should not automatically appear as an expense, and a repayment
+  should not automatically appear as income. Keeping the dues domain separate
+  makes financial analytics more accurate.
+</Callout>
+
+---
+
+## Dashboard
+
+The dashboard provides a high-level view of the user's finances across all
+spaces.
+
+It includes:
+
+- Current balance
+- Monthly income
+- Monthly spending
+- Category breakdown
+- Income category breakdown
+- Payment method breakdown
+- Recent transactions
+- Transaction count
+- Smart financial insight
+
+The dashboard is powered by a dedicated summary endpoint rather than
+requiring the client to independently fetch and aggregate every space's
+transactions.
+
+---
+
+## Analytics & Insights
+
+Ledg includes a dedicated analytics section for understanding financial
+activity over different periods.
+
+Supported periods include:
+
+- Today
+- This month
+- Last 3 months
+- This year
+- All time
+- Custom date range
+
+Analytics include:
+
+- Current income
+- Current spending
+- Previous-period comparison
+- Income changes
+- Spending changes
+- Savings rate
+- Category breakdown
+- Income category breakdown
+- Payment method breakdown
+- Recurring transaction detection
+- Automatically generated insights
+
+The analytics system uses MongoDB aggregation pipelines to perform financial
+calculations on the server.
+
+This keeps large-scale calculations away from the client and allows the
+frontend to receive structured analytical results instead of raw transaction
+data.
+
+---
+
+## Performance Architecture
+
+One of the more important engineering problems in Ledg was the dashboard
+data flow.
+
+An early approach required fetching transactions separately for each space
+and then aggregating the results on the client.
+
+That created an unnecessary request pattern:
+
+1. Authenticate the user
+2. Fetch spaces
+3. Fetch transactions for each space
+4. Transfer unnecessary transaction data
+5. Aggregate the data in the browser
+
+This effectively created an N+1 request pattern for the dashboard.
+
+The architecture was changed to use server-side aggregation and a dedicated
+dashboard summary endpoint.
+
+Instead of returning large collections of transactions, the API returns only
+the information required by the dashboard.
+
+This reduces:
+
+- Number of network requests
+- Amount of transferred data
+- Client-side computation
+- Dashboard rendering work
+
+Redux Toolkit Query is then used for caching and request lifecycle
+management on the client.
+
+<Callout variant="note" title="Architecture principle">
+  Fixing the API shape and query strategy comes before adding another caching
+  layer. Redis is not used simply to compensate for inefficient queries or
+  unnecessary API requests.
+</Callout>
+
+---
+
+## Data Architecture
+
+Ledg intentionally keeps its application data model relatively small.
+
+Better Auth handles authentication-related data, while Ledg focuses on the
+financial domain.
+
+The main application concepts are:
+
+- Spaces
+- Transactions
+- Dues / debt records
+
+The application does not introduce separate models for concepts that can be
+represented directly by transactions.
+
+For example, categories and payment methods are represented as controlled
+values rather than requiring additional database collections.
+
+This keeps the data model easier to reason about while leaving room for
+future expansion if user-defined categories or more complex financial
+accounts become necessary.
+
+---
+
+## Validation & API Design
+
+The frontend and backend communicate through REST APIs.
+
+Shared Zod schemas are used for validation and type-safe data contracts.
+
+The backend includes:
+
+- Request validation
+- Authentication middleware
+- Authorization checks
+- Custom error hierarchy
+- Global error handling
+- Rate limiting
+- Security headers
+- CORS configuration
+- Environment validation
+- Health checks
+
+MongoDB connections are also reused appropriately for the deployment
+environment instead of creating unnecessary database connections for every
+request.
+
+---
+
+## UI & Interaction Design
+
+Ledg follows an iOS-inspired interface with a focus on simple interactions
+and clear financial information.
+
+The application supports:
+
+- Light and dark themes
+- Responsive layouts
+- Bottom navigation
+- Floating transaction action
+- Sheets for transaction entry
+- Segmented controls
+- Date pickers
+- Skeleton loading states
+- Empty states
+- Optimistic interactions
+- Reduced-motion preferences
+
+The interface is intentionally minimal so that the financial information
+remains the primary focus.
+
+---
+
+## Email & Verification
+
+Email verification is handled through Resend.
+
+The authentication flow includes a branded verification email and allows
+users to request another verification message when necessary.
+
+The system also handles the verification state before allowing access to
+features that require a verified account.
+
+---
+
+## Technical Implementation
+
+**Frontend**
+
+- React
+- TypeScript
+- Tailwind CSS
+- Redux Toolkit
+- RTK Query
+- Zod
+- Recharts
+- Responsive UI
+
+**Backend**
+
+- Node.js
+- Express.js
+- MongoDB
+- REST APIs
+- Better Auth
+- Zod validation
+- Pino logging
+
+**Infrastructure**
+
+- Resend
+- Vercel
+- PNPM workspace
+- MongoDB
+
+**Architecture**
+
+The application follows a separated frontend and backend architecture inside
+a PNPM monorepo.
+
+The frontend is responsible for user interaction, presentation, and client
+state management.
+
+The backend handles authentication, authorization, financial business rules,
+validation, database operations, and aggregation.
+
+Shared schemas, types, enums, and constants are kept in a shared package so
+the client and server can use the same contracts.
+
+---
+
+## Key Design Decisions
+
+### 1. Spaces Instead of Separate Financial Accounts
+
+The goal was to let users organize financial contexts without introducing
+unnecessary account-management complexity.
+
+A user can create Personal, Family, Trip, or Business spaces while still
+having one identity and one application.
+
+### 2. Server-Side Financial Aggregation
+
+Financial calculations are performed through MongoDB aggregation pipelines
+rather than downloading large transaction sets and calculating everything in
+the browser.
+
+This makes the API more useful for dashboards and analytics while reducing
+client-side work.
+
+### 3. Dues as a Separate Domain
+
+Lending and borrowing are not treated as ordinary income or expenses.
+
+Separating the dues domain prevents loans and repayments from distorting
+spending and income statistics.
+
+### 4. Lean Data Model
+
+Ledg avoids creating database models simply because a concept exists in the
+UI.
+
+Categories and payment methods are controlled values, while authentication
+data remains under Better Auth.
+
+This keeps the application's own database focused on the actual financial
+domain.
+
+### 5. RTK Query for Server State
+
+Redux Toolkit Query handles API caching, request lifecycle management, and
+client-side synchronization.
+
+This avoids manually managing loading, caching, invalidation, and optimistic
+updates across every feature.
+
+---
+
+## What I Learned
+
+Ledg taught me that a finance application is less about displaying numbers
+and more about deciding what those numbers actually mean.
+
+One of the most important decisions was separating lending and borrowing from
+income and expenses. Treating every movement of money as either an expense or
+income would produce misleading analytics.
+
+I also learned the importance of designing API responses around the actual
+screen consuming them.
+
+The dashboard initially had a data-fetching pattern that pushed too much
+work to the client. Moving aggregation to the backend made the architecture
+cleaner and created a much better foundation for analytics.
+
+Another important lesson was avoiding unnecessary abstractions. A finance
+application can quickly accumulate models for accounts, categories,
+payment methods, and other concepts. Ledg deliberately keeps those concepts
+simple until the product actually needs more complexity.
+
+---
+
+## Future Direction
+
+Ledg is being designed with several future capabilities in mind.
+
+### Voice Transaction Entry
+
+The planned voice workflow allows users to say something such as:
+
+> "I bought a samosa for 300."
+
+The system can extract structured transaction information and pass it through
+the same validation and transaction APIs used by the normal interface.
+
+The AI layer would interpret the input, while the existing application API
+would remain responsible for validation and database changes.
+
+### AI Financial Analysis
+
+A future AI layer can analyze deterministic financial data and provide
+higher-level observations such as:
+
+- Spending increases
+- Category changes
+- Frequent small purchases
+- Recurring spending patterns
+- Month-end spending behavior
+- Changes in savings rate
+
+The intention is for AI to interpret financial data rather than replace the
+underlying calculations.
+
+---
+
+## Current Status
+
+Ledg is an actively developed personal finance application.
+
+The current version focuses on:
+
+- Authentication
+- Financial spaces
+- Income and expense tracking
+- Dashboard summaries
+- Financial analytics
+- Lending and borrowing architecture
+- Secure API design
+- Optimistic interactions
+- Responsive UI
+
+Voice-based transaction entry and deeper AI-powered financial analysis are
+planned extensions rather than features being presented as currently
+implemented.
