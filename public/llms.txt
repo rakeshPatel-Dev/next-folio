@@ -1,0 +1,47 @@
+# Rakesh Patel
+
+> Full-Stack Engineer working in AI-native product development and SaaS engineering, based in Kathmandu, Nepal. Ships production web applications with React, Next.js, TypeScript, and Node.js — building both LLM-backed features and multi-tenant SaaS systems with authentication, role-based access, and subscription tiers. This file indexes the site's core pages, projects, and articles for LLM consumption.
+
+Rakesh Patel is a Nepal-based full-stack engineer working across two connected disciplines: AI-native product development and SaaS engineering. His AI practice covers LLM-backed product features, analysis pipelines, agentic development workflows, and interfaces designed around model output. His SaaS practice covers the architecture that recurring-revenue products require — authentication, role-based access control, multi-tenant data modeling, dashboards, quotas, and usage tiers. Most of his shipped work sits at the intersection: SaaS products with AI-powered features, and AI tooling delivered as a hosted product. Work spans recruitment SaaS, developer tools, FinTech, EdTech, and fleet operations, with several projects published as in-depth case studies covering architecture, tradeoffs, and outcomes. His writing covers agentic AI development, LLM tooling, and MERN architecture.
+
+## Core Pages
+
+- [Home](https://rakeshpatel.me/): Overview, expertise areas, featured work, and tech stack.
+- [Projects](https://rakeshpatel.me/projects): Index of all selected projects with summaries and tech stacks.
+- [Blog](https://rakeshpatel.me/blog): Articles on agentic AI development, LLM tooling, MERN architecture, and engineering practice.
+- [Contact](https://rakeshpatel.me/contact): Contact form and ways to reach Rakesh Patel.
+
+## Projects
+
+- [Ishirable.com](https://rakeshpatel.me/projects/ishirablecom): AI-powered platform that analyzes public GitHub activity and converts it into recruiter-focused hiring signals with clear improvement insights. LLM analysis pipeline over third-party data.
+- [SnapHost](https://rakeshpatel.me/projects/snaphost): Instant file hosting that turns an image or PDF into a clean, shareable link in seconds, with no account required. Anonymous uploads auto-expire after 24 hours; registered users get custom URLs and a management dashboard.
+- [Ledg - Smart Spend](https://rakeshpatel.me/projects/ledg-smart-spend): Personal finance app for tracking income, expenses, lending, and borrowing across multiple financial spaces, with server-side aggregation for spending analytics.
+- [Academix](https://rakeshpatel.me/projects/academix): Academic management system for tracking enrolled students, courses, and teachers assigned to each course, with role-based dashboards.
+- [Otrack](https://rakeshpatel.me/projects/otrack): Order tracking system for creating orders for multiple clients in bulk across different date periods, with delivery scheduling.
+
+## Blog
+
+- [AI-First Development and Agentic Workflows](https://rakeshpatel.me/blog/ai-first-development-and-agentic-workflows): How AI agents reshape the software development lifecycle, from prompt-driven scaffolding to multi-agent systems.
+- [I Let AI Build My React App](https://rakeshpatel.me/blog/ai-built-my-react-app): What worked, what failed, and what still required manual coding when AI agents built a React app.
+- [The God of AI in 2026 - Why Anthropic Is So Hard to Ignore](https://rakeshpatel.me/blog/the-god-of-ai-in-2026-why-anthropic-is-so-hard-to-ignore): Analysis of Anthropic's position in coding, reasoning, and agentic workflows.
+- [The market dominance of MERN in 2026](https://rakeshpatel.me/blog/the-market-dominance-of-mern-in-2026): Why the MERN stack remains dominant through its unified JavaScript stack and cloud readiness.
+- [Imposter Syndrome Reflections](https://rakeshpatel.me/blog/imposter-syndrome-reflections): Personal exploration of imposter syndrome and coping strategies for building supportive communities.
+
+## Case Studies
+
+In-depth engineering write-ups covering architecture, challenges, solutions, and results.
+
+- [Ishirable.com Case Study](https://rakeshpatel.me/projects/ishirablecom): How public GitHub activity is turned into recruiter-focused hiring signals.
+- [SnapHost Case Study](https://rakeshpatel.me/projects/snaphost): System design for the upload-to-link pipeline, including signed uploads, rate limiting, and quota enforcement.
+- [Ledg - Smart Spend Case Study](https://rakeshpatel.me/projects/ledg-smart-spend): Modeling multi-space personal finance, lending versus borrowing, and server-side spending aggregation.
+- [Academix Case Study](https://rakeshpatel.me/projects/academix): Architectural breakdown of the academic management system.
+- [Otrack Case Study](https://rakeshpatel.me/projects/otrack): System design for the order and delivery management platform.
+
+## Optional
+
+- [GitHub](https://github.com/rakeshpatel-dev): Source code and open repositories.
+- [LinkedIn](https://linkedin.com/in/1o1rakesh): Professional profile and work history.
+- [X (Twitter)](https://x.com/1o1rakesh): Posts on development and technology.
+- [Instagram](https://instagram.com/1o1rakesh): Personal and work-in-progress content.
+- [Facebook](https://facebook.com/1o1rakesh): Social profile.
+- [Email](mailto:dev@rakeshpatel.me): Direct contact address.
