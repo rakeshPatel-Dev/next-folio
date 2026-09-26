@@ -1,0 +1,236 @@
+---
+title: SnapHost
+description: An instant file hosting platform that turns an image or PDF into a clean, shareable link in seconds — no account required.
+---
+
+<Lead>
+  SnapHost is a full-stack file sharing platform built around one goal: upload to link in under five
+  seconds. Anyone can drop an image or PDF and get a public link immediately, with anonymous uploads
+  that auto-expire after 24 hours. Registered users unlock a personal dashboard, username-based
+  custom URLs, flexible expiration, and a management view for renaming, re-sharing, and deleting
+  files.
+</Lead>
+
+<Callout variant="tip" title="At a glance">
+  <Badge>Next.js 16</Badge> <Badge variant="outline">React 19</Badge>{' '}
+  <Badge variant="outline">TypeScript</Badge> <Badge variant="outline">Tailwind CSS 4</Badge>{' '}
+  <Badge variant="outline">Supabase</Badge> <Badge variant="outline">PostgreSQL</Badge>{' '}
+  <Badge variant="outline">Redux Toolkit</Badge> <Badge variant="outline">RTK Query</Badge>{' '}
+  <Badge variant="outline">Upstash Redis</Badge> <Badge variant="outline">QStash</Badge>{' '}
+  <Badge variant="outline">Framer Motion</Badge> <Badge variant="outline">Sentry</Badge>
+</Callout>
+
+## Project Overview
+
+SnapHost solves a simple problem: you need to share a file with someone quickly, but you don't want to go through the friction of signing into Google Drive, Dropbox, or WeTransfer.
+
+**The flow is dead simple:**
+
+1. Go to snaphost.dev
+2. Drag a file onto the page (or click to select one)
+3. Instantly get a short link to share with anyone
+4. Done.
+
+The person receiving the link can view the file in their browser and download it — no account required.
+
+**Target users:**
+
+- Casual users sharing screenshots, photos, or documents
+- Designers and developers sharing work-in-progress with colleagues
+- Anyone who needs to send a file once without cloud storage setup
+
+## The Problem
+
+Existing file sharing tools suffer from friction:
+
+- **Account gatekeeping** — Drive, Dropbox, WeTransfer all require sign-in
+- **Folder/tree mental model** — Overkill for a single file share
+- **Link rot** — Long, guessable URLs or expiring links with no control
+- **No anonymous tier** — Can't share without identity
+- **Preview gaps** — PDFs often download instead of rendering inline
+- **No ownership model** — Can't manage or delete your own uploads later
+
+The core tension: _instant_ sharing vs. _accountable_ sharing. Most tools pick one side.
+
+## Goals
+
+The primary goals were to:
+
+- Upload → link in under 5 seconds (excluding network transfer)
+- Zero-friction anonymous uploads with auto-expiry
+- Registered users get a personal dashboard without mandatory sign-up
+- Custom, memorable URLs for authenticated users (`/username/slug`)
+- Flexible per-link expiration (1 day, 7 days, 30 days, never)
+- Server-authoritative validation — never trust the client
+- Observable, production-ready: tracing, rate limits, quotas, cleanup jobs
+- Keep the codebase maintainable with feature-slice architecture and enforced boundaries
+
+## My Role
+
+I designed and built the full stack:
+
+- Application architecture and database schema (Supabase Postgres + RLS)
+- Next.js App Router API layer (route handlers per domain)
+- Storage layer (Supabase Storage with immutable object naming)
+- Authentication (Supabase Auth: email/password, Google, GitHub)
+- Client state (Redux Toolkit + RTK Query with typed contracts)
+- UI system (Tailwind 4, shadcn/ui, Radix, Framer Motion)
+- Abuse protection (Upstash Redis rate limits, DB quota triggers, QStash cron cleanup)
+- Observability (Sentry across client/server/edge, Vercel Analytics)
+- Deployment (Vercel, Supabase, Upstash, QStash)
+
+## Core Features
+
+### Instant Anonymous Upload
+
+Drop an image (PNG, JPG, JPEG, WebP) or PDF up to 10 MB. Get a non-guessable 12-character link at `snaphost.dev/f/<fileId>`. The file is stored, metadata saved, link returned — all in one request.
+
+Anonymous links auto-expire after 24 hours. No account, no email, no password.
+
+### Registered Accounts & Dashboard
+
+Users can sign up (email/password, Google, GitHub) to unlock:
+
+- **Personal dashboard** — view all active links, search, filter
+- **Custom URLs** — `snaphost.dev/<username>/<slug>` instead of random IDs
+- **Flexible expiration** — pick 1 day, 7 days, 30 days, or never per file
+- **File management** — rename, copy link, delete, set expiration
+- **Higher limits** — free tier: 3 active links; starter: 5; pro: unlimited
+
+### File Preview
+
+- **Images** render inline with responsive sizing
+- **PDFs** open in an embedded viewer (`react-pdf`) with page navigation, zoom, and download
+- Both types show filename, size, type, creation date, and a direct download button
+
+### Content Replacement (Registered Users)
+
+Registered users can replace the contents of any file they own. The public URL and slug stay the same; a new immutable storage object is created with a random revision token. The database switches atomically via optimistic concurrency (`content_revision` column). The old object is cleaned up after the switch succeeds. Anonymous uploads explicitly excluded.
+
+### Abuse Protection & Lifecycle
+
+- **Rate limits**: per-account daily upload cap + IP burst protection (Upstash Redis sliding window)
+- **Storage quota**: global 5 GiB enforced by a Postgres trigger on `files.size` delta
+- **Expiry cleanup**: signed QStash cron (every 6 hours) deletes expired Storage objects then their rows — never orphans
+- **Validation**: server-authoritative MIME sniff from binary signatures; filenames sanitized; extensions derived from verified type; storage paths server-generated
+
+## Key Design Decisions
+
+### Immutable Storage Objects
+
+Every upload (initial or replacement) creates a new Supabase Storage object with a unique key:
+
+```
+uploads/<file-record-uuid>/<sanitized-stem>-<random-token>.<verified-ext>
+```
+
+No in-place overwrite. This avoids cache conflicts (1-year Cache-Control), makes failure recovery safe, and lets the database be the single source of truth for "which revision is live."
+
+### Modulo-Bias-Free File IDs
+
+Public file IDs use a custom base64 encoding with rejection sampling to eliminate modulo bias. 12 characters (~2^72 combinations) — not guessable, not sequential.
+
+### Feature-Slice Architecture with ESLint Boundaries
+
+The codebase is organized by feature (`features/auth`, `features/upload`, `features/profile`, `features/landing`, `features/layout`) with strict ESLint `boundaries` rules preventing cross-slice imports except through defined public APIs (`index.ts` barrels). Shared code lives in `lib/`, `components/`, `state/`, `data/`.
+
+### Optimistic Concurrency for Replacements
+
+The `files` table has a `content_revision INTEGER NOT NULL DEFAULT 1` column with a `CHECK (content_revision > 0)` constraint. Replacement reads the current revision and updates only if it still matches. Concurrent replacements produce one success + one `409 Conflict`. The loser deletes its uploaded object.
+
+### Anonymous vs. Registered Separation at the Route Level
+
+Anonymous and registered uploads use completely separate route groups and API handlers:
+
+- `(anonymous)/anon/files/*` — no auth, 24h expiry, no dashboard, no replacement
+- `(account)/me/files/*` — requires Supabase bearer token, ownership checks, full management
+
+This keeps authorization logic explicit and prevents accidental permission leaks.
+
+## Technical Implementation
+
+### Frontend
+
+- **Framework**: Next.js 16 App Router, React 19, TypeScript
+- **Styling**: Tailwind CSS 4, shadcn/ui, Radix UI primitives
+- **Animation**: Framer Motion (choreographed showcase scenes, micro-interactions)
+- **State**: Redux Toolkit + RTK Query (cache invalidation, typed hooks, no optimistic UI for replacements)
+- **Forms**: React Hook Form + Zod (validation schemas shared with server)
+- **Icons**: Lucide React
+
+### Backend (Next.js Route Handlers)
+
+| Domain            | Routes                                  | Responsibility                                                           |
+| ----------------- | --------------------------------------- | ------------------------------------------------------------------------ |
+| Uploads           | `POST /api/upload`                      | Anonymous + registered multipart handling, validation, storage, metadata |
+| Public files      | `GET /api/files/[fileId]`               | Metadata + signed download URL for public preview                        |
+| Account files     | `GET/POST/PATCH/DELETE /api/me/files/*` | Dashboard CRUD, replacement, quotas, ownership                           |
+| Anonymous session | `GET/POST /api/anon/files/*`            | Anonymous link listing, upload without auth                              |
+| Identity          | `GET /api/username/availability`        | Real-time username check for custom URLs                                 |
+| Internal          | `POST /api/jobs/cleanup-expired`        | QStash-signed cron: delete expired objects + rows                        |
+
+### Database (Supabase Postgres)
+
+Key tables:
+
+- `users` — profile, username, tier, timestamps
+- `anon_sessions` — cookie-bound anonymous upload tracking with link limit
+- `files` — unified metadata for all uploads; `upload_type` distinguishes anonymous vs registered; `content_revision` for replacement concurrency; `slug` for custom URLs; RLS policies per upload type
+- `app_storage_quota` — single-row global quota tracker updated by triggers
+
+Triggers enforce:
+
+- Global storage quota (5 GiB) on `files.size` delta
+- Anonymous session link limit (3 active links per session)
+- `updated_at` maintenance
+
+### Infrastructure
+
+- **Hosting**: Vercel (Next.js)
+- **Database & Storage**: Supabase (Postgres + S3-compatible Storage)
+- **Rate limiting**: Upstash Redis (REST API, edge-compatible)
+- **Scheduled jobs**: Upstash QStash (signed HTTPS callbacks)
+- **Error tracking**: Sentry (client, server, edge runtimes; tracing; release health)
+- **Analytics**: Vercel Analytics (+ optional Umami)
+
+## What I Learned
+
+This project forced me to confront the tension between _speed to first link_ and _long-term ownership_.
+
+**Validation is a trust boundary.** Browser-provided `File.type` and filenames are lies. The only safe path: read bytes, sniff signature, derive MIME, derive extension, sanitize name, generate path. Every upload hits this pipeline — anonymous and registered.
+
+**Immutability simplifies ops.** By never overwriting storage objects, I avoided cache invalidation bugs, made rollback trivial (just don't switch the DB pointer), and got a free audit trail. The cost is a cleanup job — worth it.
+
+**Rate limits need two layers.** Account-level daily caps prevent abuse by signed-in users. IP-level burst protection (sliding window) stops anonymous floods. Both backed by Redis — fast, atomic, works at the edge.
+
+**Feature slices pay off.** Enforcing boundaries with ESLint meant I could refactor the upload pipeline, add replacements, and swap the landing showcase without touching auth or profile code. The mental model stays local.
+
+**Signed crons are underrated.** QStash signs every callback. The cleanup route verifies the signature before deleting anything. No shared secrets in the URL, no IP allowlists, works from any scheduler.
+
+## Current Status
+
+SnapHost is live at **https://snaphost.dev** with the full feature set:
+
+- Anonymous uploads + 24h auto-expiry
+- Email/password + OAuth accounts
+- Dashboard with custom URLs, flexible expiry, file management
+- Tiered limits (Free / Starter / Pro)
+- Replacement for registered users
+- Signed cleanup cron running in production
+- Sentry monitoring, Vercel Analytics
+
+**Roadmap:**
+
+- Password-protected links
+- Upload analytics / view counts
+- Custom domains
+- API & CLI for developers
+- Browser extension
+- Mobile app
+
+---
+
+<Callout variant="note" title="Links">
+  <strong>Live:</strong> https://snaphost.dev{'\n'}
+  <strong>Source:</strong> https://github.com/rakeshpatel-dev/snaphost
+</Callout>
