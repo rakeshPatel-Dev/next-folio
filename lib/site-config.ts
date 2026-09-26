@@ -1,9 +1,8 @@
 export const siteConfig = {
   // Core identity
   name: "Rakesh Patel",
-  title: "Rakesh Patel | Full-Stack Developer from Kathmandu, Nepal",
   description:
-    "Rakesh Patel is a full-stack developer based in Kathmandu, Nepal, specializing in building scalable web applications using React, Next.js, TypeScript, Node.js, and modern web technologies. Explore projects, case studies, and development insights.",
+    "Full-stack engineer in Kathmandu, Nepal, building AI-native products and multi-tenant SaaS systems with React, Next.js, TypeScript, and Node.js.",
 
   // URLs
   url:
@@ -13,7 +12,6 @@ export const siteConfig = {
 
   // Branding
   ogImage: "https://rakeshpatel.me/og-image.png",
-  favicon: "/favicon.ico",
   logo: {
     light: "/images/rakesh-light.png",
     dark: "/images/rakesh-dark.png",
@@ -61,62 +59,21 @@ export const siteConfig = {
     "Rakesh Patel Nepal",
     "Rakesh Patel Kathmandu",
     "Rakesh Patel Kathmandu Nepal",
-    "Rakesh Patel Full-Stack Developer",
+    "Rakesh Patel Full-Stack Engineer",
+    "AI-native product development",
+    "LLM application development",
+    "GenAI developer Nepal",
+    "AI engineer Kathmandu",
+    "AI product engineer Nepal",
+    "agentic development",
+    "SaaS developer Nepal",
+    "SaaS engineer Kathmandu",
+    "SaaS full-stack developer",
+    "multi-tenant SaaS architecture",
   ],
 
-  // Navigation (helps sitemap + structure later)
-  nav: [
-    { name: "Home", href: "/" },
-    { name: "Projects", href: "/projects" },
-    { name: "Blog", href: "/blog" },
-    { name: "Contact", href: "/contact" },
-  ],
-
-  // Dynamic SEO defaults (for pages)
-  seo: {
-    titleTemplate: "%s | Rakesh Patel",
-    defaultTitle: "Rakesh Patel | Full-Stack Developer",
-    description:
-      "Full-stack developer building modern, scalable, and high-performance web applications using React, Next.js, and TypeScript.",
-  },
-
-  // Open Graph defaults
-  openGraph: {
-    type: "website",
-    locale: "en_US",
-    url: "https://rakeshpatel.me",
-    siteName: "Rakesh Patel Portfolio",
-    images: [
-      {
-        url: "https://rakeshpatel.me/og-image.png", // same as ogImage above
-        width: 1200,
-        height: 630,
-        alt: "Rakesh Patel Portfolio",
-      },
-    ],
-  },
-
-  // Twitter metadata
-  twitter: {
-    handle: "@1o1rakesh",
-    cardType: "summary_large_image",
-  },
-
-  // Schema (for structured data)
-  schema: {
-    type: "Person",
-    name: "Rakesh Patel",
-    url: "https://rakeshpatel.me",
-    sameAs: [
-      "https://github.com/rakeshpatel-dev",
-      "https://x.com/1o1rakesh",
-      "https://linkedin.com/in/1o1rakesh",
-      "https://instagram.com/1o1rakesh",
-      "https://facebook.com/1o1rakesh",
-    ],
-    jobTitle: "Full-Stack Developer",
-    location: "Kathmandu, Nepal",
-  },
+  // Schema lives in components/sections/JsonLd.tsx, which is what actually renders.
+  // Nav lives in data/headerData.ts, which is what the Header renders.
 };
 
 // Canonical URL helper. Omitted outside production so that on localhost
