@@ -12,6 +12,9 @@ function FooterCopy() {
   )
 }
 
+const machineLink =
+  "rounded transition-colors duration-150 ease-out hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/20"
+
 const Footer = () => {
   const [showInspirations, setShowInspirations] = useState(false)
 
@@ -26,6 +29,18 @@ const Footer = () => {
         <Compass className="size-3.5 transition-transform duration-200 ease-out group-hover:rotate-45" />
         Inspirations
       </button>
+      <nav
+        aria-label="Machine-readable site files"
+        className="mt-2 flex items-center gap-2 text-xs text-muted-foreground"
+      >
+        <a href="/sitemap.xml" className={machineLink}>
+          sitemap.xml
+        </a>
+        <span aria-hidden="true">&middot;</span>
+        <a href="/llms.txt" className={machineLink}>
+          llms.txt
+        </a>
+      </nav>
       <InspirationsDialog
         open={showInspirations}
         onClose={() => setShowInspirations(false)}

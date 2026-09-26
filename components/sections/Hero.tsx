@@ -24,7 +24,8 @@ export default function HeroData() {
           style={{ animationDelay: "0.15s" }}
         >
           <h1 className="mt-3 sm:mt-5 text-2xl sm:text-3xl md:text-4xl lg:text-[2.75rem] font-semibold leading-tight sm:leading-[1.2] tracking-tight text-foreground">
-            I&apos;m Rakesh Patel, a full-stack developer.
+            I&apos;m Rakesh Patel, a full-stack engineer building AI-native products
+            and SaaS systems.
           </h1>
           {resumeLink && (
             <Button
