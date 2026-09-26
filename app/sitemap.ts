@@ -9,6 +9,14 @@ function safeLastModified(value?: string): Date {
   return Number.isNaN(date.getTime()) ? new Date() : date
 }
 
+function latest(values: (string | undefined)[]): Date | undefined {
+  const stamps = values
+    .map((value) => new Date(value ?? "").getTime())
+    .filter((time) => !Number.isNaN(time))
+  if (stamps.length === 0) return undefined
+  return new Date(Math.max(...stamps))
+}
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = siteConfig.url;
 
@@ -26,32 +34,34 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const blogUrls = blogs.map((blog) => ({
     url: `${baseUrl}/blog/${blog.slug}`,
     lastModified: safeLastModified(blog.updatedAt),
-    changeFrequency: "weekly" as const,
+    changeFrequency: "monthly" as const,
     priority: 0.6,
   }));
 
-  const staticUrls = [
+  const projectDates = projects.map((project) => project.updatedAt);
+  const blogDates = blogs.map((blog) => blog.updatedAt);
+
+  const staticUrls: MetadataRoute.Sitemap = [
     {
       url: baseUrl,
-      lastModified: new Date(),
-      changeFrequency: "daily" as const,
+      lastModified: latest([...projectDates, ...blogDates]),
+      changeFrequency: "weekly" as const,
       priority: 1,
     },
     {
       url: `${baseUrl}/projects`,
-      lastModified: new Date(),
+      lastModified: latest(projectDates),
       changeFrequency: "weekly" as const,
       priority: 0.8,
     },
     {
       url: `${baseUrl}/blog`,
-      lastModified: new Date(),
+      lastModified: latest(blogDates),
       changeFrequency: "weekly" as const,
       priority: 0.8,
     },
     {
       url: `${baseUrl}/contact`,
-      lastModified: new Date(),
       changeFrequency: "monthly" as const,
       priority: 0.5,
     },
