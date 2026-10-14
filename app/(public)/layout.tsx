@@ -19,6 +19,7 @@ import { PullCordThemeToggler } from "@/components/ui/pullcord-theme-toggler";
 import RandomQuote from "@/components/sections/RandomQuote";
 import Script from "next/script";
 import { CursorPet } from "@/components/cursor-pet";
+import { TerminalExperience } from "@/components/terminal";
 
 
 const spaceGrotesk = Space_Grotesk({
@@ -149,6 +150,7 @@ export default function RootLayout({
         <Analytics />
         <SpeedInsights />
         <CursorPet />
+        <TerminalExperience />
       </body>
     </html>
   );
