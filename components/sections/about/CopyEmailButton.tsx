@@ -23,13 +23,16 @@ export function CopyEmailButton({ email }: { email: string }) {
         <button
           type="button"
           onClick={copyEmail}
-          className="group relative flex items-center gap-3 overflow-hidden rounded-full bg-foreground px-5 py-2.5 font-sans text-sm font-medium cursor-pointer text-background transition-all duration-300 hover:scale-[1.02] active:scale-[0.96]"
+          className="group relative flex cursor-pointer items-center gap-3 overflow-hidden rounded-full bg-foreground px-5 py-2.5 font-sans text-sm font-medium text-background transition-all duration-300 hover:scale-[1.02] active:scale-[0.96]"
         >
-          <Mail size={14} className="shrink-0 transition-transform duration-300 group-hover:scale-110" />
+          <Mail
+            size={14}
+            className="shrink-0 transition-transform duration-300 group-hover:scale-110"
+          />
           <span>{email}</span>
         </button>
       </TooltipTrigger>
-      <TooltipContent className="border-border bg-popover text-popover-foreground text-sm tracking-wide">
+      <TooltipContent className="border-border bg-popover text-sm tracking-wide text-popover-foreground">
         Click to copy
       </TooltipContent>
     </Tooltip>

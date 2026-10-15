@@ -2,8 +2,7 @@ import type { Metadata } from "next"
 import { canonicalUrl, siteConfig } from "@/lib/site-config"
 
 export const metadata: Metadata = {
-  description:
-    "A curated list of real-world projects with technologies, challenges, and outcomes.",
+  description: "A curated list of real-world projects with technologies, challenges, and outcomes.",
   alternates: {
     canonical: canonicalUrl("/projects"),
   },
@@ -31,10 +30,6 @@ export const metadata: Metadata = {
   },
 }
 
-export default function ProjectsLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function ProjectsLayout({ children }: { children: React.ReactNode }) {
   return children
 }

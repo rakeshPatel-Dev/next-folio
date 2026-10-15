@@ -60,15 +60,13 @@ export default function BlogPageClient({ initialBlogs }: BlogPageClientProps) {
           blog.title.toLowerCase().includes(query) ||
           blog.description.toLowerCase().includes(query) ||
           blog.tags?.some((tag) => tag.toLowerCase().includes(query)) ||
-          blog.author.name.toLowerCase().includes(query)
+          blog.author.name.toLowerCase().includes(query),
       )
     }
 
     // Tags filter
     if (selectedTags.length > 0) {
-      filtered = filtered.filter((blog) =>
-        selectedTags.every((tag) => blog.tags?.includes(tag))
-      )
+      filtered = filtered.filter((blog) => selectedTags.every((tag) => blog.tags?.includes(tag)))
     }
 
     // Sort by date (newest first)
@@ -84,30 +82,27 @@ export default function BlogPageClient({ initialBlogs }: BlogPageClientProps) {
     setSelectedTags([])
   }
 
-  const activeFiltersCount =
-    (searchQuery ? 1 : 0) +
-    selectedTags.length
+  const activeFiltersCount = (searchQuery ? 1 : 0) + selectedTags.length
 
   const toggleTag = (tag: string) => {
-    setSelectedTags((prev) =>
-      prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]
-    )
+    setSelectedTags((prev) => (prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]))
   }
 
   return (
-    <main className="py-6 ">
+    <main className="py-6">
       {/* Header */}
-      <div className="text-center mt-5 mb-8">
-        <h1 className="text-4xl md:text-5xl font-bold">Blog</h1>
-        <p className="text-muted-foreground max-w-2xl mx-auto mt-2">
-          Explore my latest blog posts, where I share insights, experiences, and tutorials on technology, development, and innovation.
+      <div className="mt-5 mb-8 text-center">
+        <h1 className="text-4xl font-bold md:text-5xl">Blog</h1>
+        <p className="mx-auto mt-2 max-w-2xl text-muted-foreground">
+          Explore my latest blog posts, where I share insights, experiences, and tutorials on
+          technology, development, and innovation.
         </p>
       </div>
 
       {/* Filters */}
       <div className="mb-8 space-y-4">
         {/* Search and Filter Row */}
-        <div className="flex flex-col sm:flex-row gap-4">
+        <div className="flex flex-col gap-4 sm:flex-row">
           {/* Search */}
           <div className="flex-1">
             <Input
@@ -123,13 +118,10 @@ export default function BlogPageClient({ initialBlogs }: BlogPageClientProps) {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" className="relative">
-                <Filter className="h-4 w-4 mr-2" />
+                <Filter className="mr-2 h-4 w-4" />
                 Filters
                 {activeFiltersCount > 0 && (
-                  <Badge
-                    variant="secondary"
-                    className="ml-2 rounded-full px-2 py-0.5 text-xs"
-                  >
+                  <Badge variant="secondary" className="ml-2 rounded-full px-2 py-0.5 text-xs">
                     {activeFiltersCount}
                   </Badge>
                 )}
@@ -138,11 +130,9 @@ export default function BlogPageClient({ initialBlogs }: BlogPageClientProps) {
             <DropdownMenuContent align="end" className="w-64">
               {/* Tags Filter */}
               <DropdownMenuLabel>Tags</DropdownMenuLabel>
-              <div className="px-2 py-1.5 max-h-64 overflow-y-auto space-y-1">
+              <div className="max-h-64 space-y-1 overflow-y-auto px-2 py-1.5">
                 {availableTags.length === 0 ? (
-                  <p className="text-sm text-muted-foreground px-2 py-1">
-                    No tags available
-                  </p>
+                  <p className="px-2 py-1 text-sm text-muted-foreground">No tags available</p>
                 ) : (
                   availableTags.map((tag) => (
                     <DropdownMenuCheckboxItem
@@ -160,12 +150,8 @@ export default function BlogPageClient({ initialBlogs }: BlogPageClientProps) {
 
           {/* Clear Filters */}
           {activeFiltersCount > 0 && (
-            <Button
-              variant="ghost"
-              onClick={clearFilters}
-              className="text-muted-foreground"
-            >
-              <X className="h-4 w-4 mr-2" />
+            <Button variant="ghost" onClick={clearFilters} className="text-muted-foreground">
+              <X className="mr-2 h-4 w-4" />
               Clear
             </Button>
           )}
@@ -190,10 +176,7 @@ export default function BlogPageClient({ initialBlogs }: BlogPageClientProps) {
             {selectedTags.map((tag) => (
               <Badge key={tag} variant="secondary" className="gap-1">
                 {tag}
-                <X
-                  className="h-3 w-3 cursor-pointer"
-                  onClick={() => toggleTag(tag)}
-                />
+                <X className="h-3 w-3 cursor-pointer" onClick={() => toggleTag(tag)} />
               </Badge>
             ))}
           </div>
@@ -201,18 +184,14 @@ export default function BlogPageClient({ initialBlogs }: BlogPageClientProps) {
 
         {/* Results Count */}
         <div className="text-sm text-muted-foreground">
-          {filteredBlogs.length}{" "}
-          {filteredBlogs.length === 1 ? "post" : "posts"} found
+          {filteredBlogs.length} {filteredBlogs.length === 1 ? "post" : "posts"} found
           {activeFiltersCount > 0 && ` (${initialBlogs.length} total)`}
         </div>
       </div>
 
       {/* Content */}
       {filteredBlogs.length === 0 ? (
-        <EmptyState
-          hasFilters={activeFiltersCount > 0}
-          onClearFilters={clearFilters}
-        />
+        <EmptyState hasFilters={activeFiltersCount > 0} onClearFilters={clearFilters} />
       ) : (
         // Blog rows
         <div>
@@ -244,7 +223,7 @@ function EmptyState({
   onClearFilters: () => void
 }) {
   return (
-    <div className="text-center py-20">
+    <div className="py-20 text-center">
       <div className="mb-4">
         <svg
           className="mx-auto h-12 w-12 text-muted-foreground"
@@ -260,10 +239,10 @@ function EmptyState({
           />
         </svg>
       </div>
-      <h3 className="text-lg font-semibold mb-2">
+      <h3 className="mb-2 text-lg font-semibold">
         {hasFilters ? "No posts match your filters" : "No blog posts yet"}
       </h3>
-      <p className="text-muted-foreground mb-4">
+      <p className="mb-4 text-muted-foreground">
         {hasFilters
           ? "Try adjusting your search or filters"
           : "Check back soon for insights and tutorials!"}

@@ -47,11 +47,7 @@ const CursorFill = React.forwardRef<HTMLDivElement, CursorFillProps>(
       else if (ref) ref.current = node
     }
 
-    const setOverlay = (
-      origin: "top" | "bottom",
-      progress: number,
-      animate = false
-    ) => {
+    const setOverlay = (origin: "top" | "bottom", progress: number, animate = false) => {
       overlayRef.current?.style &&
         (overlayRef.current.style.transition = animate
           ? "transform 800ms cubic-bezier(0.22, 1, 0.36, 1)"
@@ -77,8 +73,7 @@ const CursorFill = React.forwardRef<HTMLDivElement, CursorFillProps>(
       const rect = card.getBoundingClientRect()
       lastY.current = e.clientY
       // Fill starts from the side the pointer entered from and stays fixed all hover.
-      const origin: "top" | "bottom" =
-        e.clientY <= rect.top + rect.height / 2 ? "top" : "bottom"
+      const origin: "top" | "bottom" = e.clientY <= rect.top + rect.height / 2 ? "top" : "bottom"
       originRef.current = origin
       if (wholeFill) {
         setOverlay(origin, 1, true)
@@ -146,13 +141,13 @@ const CursorFill = React.forwardRef<HTMLDivElement, CursorFillProps>(
           className={cn(
             "pointer-events-none absolute inset-0 will-change-transform",
             invert ? "z-20 bg-white mix-blend-difference" : "z-0 bg-current",
-            overlayClassName
+            overlayClassName,
           )}
         />
         {children}
       </div>
     )
-  }
+  },
 )
 
 CursorFill.displayName = "CursorFill"

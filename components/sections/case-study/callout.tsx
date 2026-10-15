@@ -43,30 +43,15 @@ interface CalloutProps {
   className?: string
 }
 
-export function Callout({
-  variant = "info",
-  title,
-  children,
-  className,
-}: CalloutProps) {
+export function Callout({ variant = "info", title, children, className }: CalloutProps) {
   const { label, icon: Icon, classes, iconColor } = calloutStyles[variant]
 
   return (
-    <div
-      className={cn(
-        "not-prose my-6 flex gap-3 rounded-lg border p-4",
-        classes,
-        className
-      )}
-    >
+    <div className={cn("not-prose my-6 flex gap-3 rounded-lg border p-4", classes, className)}>
       <Icon className={cn("mt-0.5 h-5 w-5 shrink-0", iconColor)} />
       <div className="min-w-0 space-y-1">
-        <p className="text-sm font-semibold">
-          {title ?? label}
-        </p>
-        <div className="text-sm leading-relaxed text-muted-foreground">
-          {children}
-        </div>
+        <p className="text-sm font-semibold">{title ?? label}</p>
+        <div className="text-sm leading-relaxed text-muted-foreground">{children}</div>
       </div>
     </div>
   )

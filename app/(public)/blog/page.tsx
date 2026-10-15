@@ -4,8 +4,9 @@ import { BreadcrumbJsonLd } from "@/components/sections/BreadcrumbJsonLd"
 import { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: 'Blog',
-  description: 'Insights, tutorials, and thoughts on full-stack development, AI, and software engineering.',
+  title: "Blog",
+  description:
+    "Insights, tutorials, and thoughts on full-stack development, AI, and software engineering.",
 }
 
 export default function BlogPage() {

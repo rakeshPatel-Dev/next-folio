@@ -1,12 +1,31 @@
-import { Facebook, Github, Instagram, Linkedin } from "lucide-react";
+import { Facebook, Github, Instagram, Linkedin } from "lucide-react"
 
 export const socialLinks = [
-  { label: "GitHub", href: "https://github.com/rakeshpatel-dev", Icon: Github, image: "/brands/github.png" },
-  { label: "Instagram", href: "https://instagram.com/1o1rakesh", Icon: Instagram, image: "/brands/insta.png" },
-  { label: "LinkedIn", href: "https://linkedin.com/in/1o1rakesh", Icon: Linkedin, image: "/brands/linkedin.png" },
-  { label: "Facebook", href: "https://facebook.com/1o1rakesh", Icon: Facebook, image: "/brands/facebook.png" },
+  {
+    label: "GitHub",
+    href: "https://github.com/rakeshpatel-dev",
+    Icon: Github,
+    image: "/brands/github.png",
+  },
+  {
+    label: "Instagram",
+    href: "https://instagram.com/1o1rakesh",
+    Icon: Instagram,
+    image: "/brands/insta.png",
+  },
+  {
+    label: "LinkedIn",
+    href: "https://linkedin.com/in/1o1rakesh",
+    Icon: Linkedin,
+    image: "/brands/linkedin.png",
+  },
+  {
+    label: "Facebook",
+    href: "https://facebook.com/1o1rakesh",
+    Icon: Facebook,
+    image: "/brands/facebook.png",
+  },
 ]
-
 
 export const expertiseItems = [
   {

@@ -1,9 +1,9 @@
-import { canonicalUrl } from "@/lib/site-config";
+import { canonicalUrl } from "@/lib/site-config"
 
 export type Crumb = {
-  name: string;
-  href: string;
-};
+  name: string
+  href: string
+}
 
 /**
  * BreadcrumbList structured data. Google uses this to render a readable trail in
@@ -20,12 +20,12 @@ export function BreadcrumbJsonLd({ items }: { items: Crumb[] }) {
       name: item.name,
       item: canonicalUrl(item.href),
     })),
-  };
+  }
 
   return (
     <script
       type="application/ld+json"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
     />
-  );
+  )
 }

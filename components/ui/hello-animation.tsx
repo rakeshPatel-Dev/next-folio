@@ -59,7 +59,7 @@ export function HelloAnimation({ className }: { className?: string }) {
     <div
       className={cn(
         "w-full max-w-[min(100%,10.5rem)] text-foreground sm:max-w-[min(100%,16rem)] md:max-w-[min(100%,22rem)] lg:max-w-[min(100%,31rem)]",
-        className
+        className,
       )}
       role="img"
       aria-label="Hello,"

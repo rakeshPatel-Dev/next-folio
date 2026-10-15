@@ -5,9 +5,7 @@ export const siteConfig = {
     "Full-stack engineer in Kathmandu, Nepal, building AI-native products and multi-tenant SaaS systems with React, Next.js, TypeScript, and Node.js.",
 
   // URLs
-  url:
-    process.env.NEXT_PUBLIC_APP_URL ||
-    "https://rakeshpatel.me",
+  url: process.env.NEXT_PUBLIC_APP_URL || "https://rakeshpatel.me",
   basePath: "/",
 
   // Branding
@@ -74,7 +72,7 @@ export const siteConfig = {
 
   // Schema lives in components/sections/JsonLd.tsx, which is what actually renders.
   // Nav lives in data/headerData.ts, which is what the Header renders.
-};
+}
 
 // Canonical URL helper. Omitted outside production so that on localhost
 // (e.g. during `npm run dev`) Utterances builds its OAuth redirect_uri from

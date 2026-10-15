@@ -28,8 +28,15 @@ function CircleProgress({ percentage }: { percentage: number }) {
   const offset = circumference - (percentage / 100) * circumference
 
   return (
-    <svg width={size} height={size} className="-rotate-90 shrink-0">
-      <circle cx={size / 2} cy={size / 2} r={radius} fill="none" stroke="var(--muted)" strokeWidth={strokeWidth} />
+    <svg width={size} height={size} className="shrink-0 -rotate-90">
+      <circle
+        cx={size / 2}
+        cy={size / 2}
+        r={radius}
+        fill="none"
+        stroke="var(--muted)"
+        strokeWidth={strokeWidth}
+      />
       <motion.circle
         cx={size / 2}
         cy={size / 2}
@@ -211,7 +218,10 @@ export function DynamicIslandTOC({
               filter: isExpanded ? "blur(4px)" : "blur(0px)",
             }}
             transition={{ ...islandTransition, delay: isExpanded ? 0 : 0.1 }}
-            className={cn("absolute inset-0 flex items-center gap-4 px-4 sm:px-5", isExpanded && "pointer-events-none")}
+            className={cn(
+              "absolute inset-0 flex items-center gap-4 px-4 sm:px-5",
+              isExpanded && "pointer-events-none",
+            )}
           >
             <div className="h-2 w-2 shrink-0 rounded-full bg-foreground" />
 
@@ -223,7 +233,7 @@ export function DynamicIslandTOC({
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -15 }}
                   transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-                  className="block w-full overflow-hidden text-ellipsis whitespace-nowrap text-sm font-medium text-foreground"
+                  className="block w-full overflow-hidden text-sm font-medium text-ellipsis whitespace-nowrap text-foreground"
                 >
                   {activeHeading?.text || "Contents"}
                 </motion.span>
@@ -243,7 +253,7 @@ export function DynamicIslandTOC({
             transition={{ ...islandTransition, delay: isExpanded ? 0.1 : 0 }}
             className={cn("absolute inset-0 flex flex-col", !isExpanded && "pointer-events-none")}
           >
-            <div className="flex shrink-0 items-center justify-between px-6 pb-3 pt-5">
+            <div className="flex shrink-0 items-center justify-between px-6 pt-5 pb-3">
               <span className="text-[11px] font-semibold tracking-[0.08em] text-muted-foreground">
                 TABLE OF CONTENTS
               </span>
@@ -258,7 +268,7 @@ export function DynamicIslandTOC({
               </button>
             </div>
 
-            <div className="flex-1 overflow-y-auto overscroll-contain px-3 pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            <div className="flex-1 [scrollbar-width:none] overflow-y-auto overscroll-contain px-3 pb-4 [&::-webkit-scrollbar]:hidden">
               <div className="flex flex-col gap-0.5">
                 {headings.map((h) => {
                   const isActive = activeId === h.id
@@ -305,6 +315,6 @@ export function DynamicIslandTOC({
         </motion.div>
       </motion.div>
     </>,
-    document.body
+    document.body,
   )
 }

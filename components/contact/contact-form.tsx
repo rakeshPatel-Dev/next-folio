@@ -13,8 +13,8 @@ const FIELD_CLASS = cn(
   "shadow-[inset_0_1px_2px_rgba(0,0,0,0.04)]",
   "placeholder:text-muted-foreground/60",
   "transition-shadow duration-200 ease-out",
-  "focus-visible:ring-1 focus-visible:ring-foreground/20 focus-visible:border-foreground/20",
-  "focus-visible:shadow-[inset_0_1px_2px_rgba(0,0,0,0.04),0_0_0_4px_rgba(0,0,0,0.03)]"
+  "focus-visible:border-foreground/20 focus-visible:ring-1 focus-visible:ring-foreground/20",
+  "focus-visible:shadow-[inset_0_1px_2px_rgba(0,0,0,0.04),0_0_0_4px_rgba(0,0,0,0.03)]",
 )
 
 export function ContactForm() {
@@ -107,7 +107,7 @@ export function ContactForm() {
           "hover:shadow-[0_1px_2px_rgba(0,0,0,0.1),0_8px_20px_-4px_rgba(0,0,0,0.22),inset_0_1px_0_rgba(255,255,255,0.2)]",
           "hover:-translate-y-px",
           "active:translate-y-0 active:shadow-[0_1px_2px_rgba(0,0,0,0.08),inset_0_1px_0_rgba(255,255,255,0.15)]",
-          "disabled:opacity-70 disabled:hover:translate-y-0"
+          "disabled:opacity-70 disabled:hover:translate-y-0",
         )}
       >
         <span className="relative z-10 flex items-center gap-2">

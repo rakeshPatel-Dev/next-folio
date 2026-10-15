@@ -8,8 +8,8 @@ import { cn } from "@/lib/utils"
 import { AnimatePresence, motion } from "framer-motion"
 import { ArrowUpRight, Home, Menu, X } from "lucide-react"
 import { LetsTalkDialog } from "@/components/ui/lets-talk-dialog"
-import { AnimatedThemeToggler } from "../ui/animated-theme-toggler";
-import { buttonVariants } from "../ui/button";
+import { AnimatedThemeToggler } from "../ui/animated-theme-toggler"
+import { buttonVariants } from "../ui/button"
 
 const Header = () => {
   const pathname = usePathname()
@@ -28,10 +28,9 @@ const Header = () => {
       "position:absolute;top:20px;left:0;width:1px;height:1px;pointer-events:none;visibility:hidden;"
     document.body.prepend(sentinel)
 
-    const io = new IntersectionObserver(
-      ([entry]) => setIsScrolled(!entry.isIntersecting),
-      { threshold: 0 }
-    )
+    const io = new IntersectionObserver(([entry]) => setIsScrolled(!entry.isIntersecting), {
+      threshold: 0,
+    })
     io.observe(sentinel)
 
     return () => {
@@ -51,7 +50,7 @@ const Header = () => {
 
   return (
     <>
-      <header className="font-sans fixed inset-x-0 top-5 z-50 px-3 md:top-8 md:px-0">
+      <header className="fixed inset-x-0 top-5 z-50 px-3 font-sans md:top-8 md:px-0">
         {/* ============================================================
          * MOBILE — static, flat, no effects
          * ============================================================ */}
@@ -72,7 +71,7 @@ const Header = () => {
               <AnimatedThemeToggler
                 className={cn(
                   buttonVariants({ variant: "ghost", size: "icon" }),
-                  "size-10 rounded-full p-0 md:hidden"
+                  "size-10 rounded-full p-0 md:hidden",
                 )}
                 buttonClassName="size-5"
               />
@@ -113,7 +112,7 @@ const Header = () => {
                         "flex min-h-12 items-center rounded-xl px-4 text-base font-medium",
                         isActive
                           ? "bg-foreground/8 text-foreground"
-                          : "text-foreground/70 active:bg-foreground/8"
+                          : "text-foreground/70 active:bg-foreground/8",
                       )
 
                       if (data.external) {
@@ -169,7 +168,7 @@ const Header = () => {
             <div
               className={cn(
                 "pointer-events-none absolute -inset-x-6 -inset-y-2 rounded-full bg-foreground/5 blur-2xl transition-opacity duration-500",
-                isScrolled ? "opacity-100" : "opacity-0"
+                isScrolled ? "opacity-100" : "opacity-0",
               )}
               aria-hidden
             />
@@ -180,20 +179,18 @@ const Header = () => {
                 "transition-[background-color,border-color,box-shadow,padding] duration-300",
                 isScrolled
                   ? [
-                    "gap-3",
-                    "border-foreground/10 bg-background/70 py-1.5 pl-4 pr-1.5 dark:border-white/12 dark:bg-background/60",
-                    "shadow-[0_1px_2px_rgba(0,0,0,0.04),0_4px_12px_-2px_rgba(0,0,0,0.08),0_12px_32px_-8px_rgba(0,0,0,0.12)]",
-                    "ring-1 ring-inset ring-white/40 dark:ring-white/5",
-                  ].join(" ")
-                  : "gap-0 border-transparent bg-transparent px-0 py-3"
+                      "gap-3",
+                      "border-foreground/10 bg-background/70 py-1.5 pr-1.5 pl-4 dark:border-white/12 dark:bg-background/60",
+                      "shadow-[0_1px_2px_rgba(0,0,0,0.04),0_4px_12px_-2px_rgba(0,0,0,0.08),0_12px_32px_-8px_rgba(0,0,0,0.12)]",
+                      "ring-1 ring-white/40 ring-inset dark:ring-white/5",
+                    ].join(" ")
+                  : "gap-0 border-transparent bg-transparent px-0 py-3",
               )}
             >
               <nav className="flex items-center gap-0.5 md:gap-2">
                 {headerData.map((data, idx) => {
                   const isActive =
-                    data.href === "/"
-                      ? pathname === "/"
-                      : pathname?.startsWith(data.href)
+                    data.href === "/" ? pathname === "/" : pathname?.startsWith(data.href)
                   const isHome = data.href === "/"
 
                   const sharedClassName = cn(
@@ -203,7 +200,7 @@ const Header = () => {
                       : "px-3 py-1.5 text-base font-medium",
                     isActive
                       ? "text-foreground"
-                      : "px-1.5 pl-2 text-foreground/55 [@media(hover:hover)]:hover:bg-foreground/6 [@media(hover:hover)]:hover:text-foreground active:scale-[0.97]"
+                      : "px-1.5 pl-2 text-foreground/55 active:scale-[0.97] [@media(hover:hover)]:hover:bg-foreground/6 [@media(hover:hover)]:hover:text-foreground",
                   )
 
                   const sharedStyle = {
@@ -215,7 +212,7 @@ const Header = () => {
                   const inner = isHome ? (
                     <span className="relative flex items-center">
                       <Home className="size-5 shrink-0 transition-transform duration-300 ease-out group-hover/home:-translate-x-0.5" />
-                      <span className="ml-0 w-0 overflow-hidden whitespace-nowrap text-base font-medium opacity-0 transition-all duration-300 ease-out group-hover/home:ml-2 group-hover/home:w-12 group-hover/home:opacity-100">
+                      <span className="ml-0 w-0 overflow-hidden text-base font-medium whitespace-nowrap opacity-0 transition-all duration-300 ease-out group-hover/home:ml-2 group-hover/home:w-12 group-hover/home:opacity-100">
                         <span className="inline-block translate-x-2 transition-transform duration-300 ease-out group-hover/home:translate-x-0">
                           {data.label}
                         </span>
@@ -260,7 +257,7 @@ const Header = () => {
                           layoutId="nav-underline"
                           className={cn(
                             "absolute bottom-0.5 left-1/2 h-0.5 -translate-x-1/2 rounded-full bg-foreground/80",
-                            isHome ? "w-3" : "w-4"
+                            isHome ? "w-3" : "w-4",
                           )}
                           transition={{
                             type: "spring",
@@ -287,12 +284,12 @@ const Header = () => {
                       type="button"
                       onClick={() => setIsTalkOpen(true)}
                       className={cn(
-                        "group/cta relative mr-1 inline-flex items-center whitespace-nowrap rounded-full",
+                        "group/cta relative mr-1 inline-flex items-center rounded-full whitespace-nowrap",
                         "bg-foreground px-4 py-1.5 dark:bg-white",
                         "text-sm font-semibold text-background dark:text-black",
                         "shadow-[0_1px_2px_rgba(0,0,0,0.1),0_4px_10px_-2px_rgba(0,0,0,0.15)]",
                         "transition-[box-shadow,transform] duration-200 active:scale-[0.98]",
-                        "[@media(hover:hover)]:hover:shadow-[0_1px_2px_rgba(0,0,0,0.12),0_6px_16px_-2px_rgba(0,0,0,0.2)]"
+                        "[@media(hover:hover)]:hover:shadow-[0_1px_2px_rgba(0,0,0,0.12),0_6px_16px_-2px_rgba(0,0,0,0.2)]",
                       )}
                     >
                       <span

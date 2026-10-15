@@ -6,7 +6,7 @@ import { InspirationsDialog } from "@/components/ui/inspirations-dialog"
 
 function FooterCopy() {
   return (
-    <p className="font-sans text-sm text-muted-foreground text-center pt-4">
+    <p className="pt-4 text-center font-sans text-sm text-muted-foreground">
       &copy; {new Date().getFullYear()} Rakesh Patel · Built with Next.js & Tailwind
     </p>
   )
@@ -19,12 +19,12 @@ const Footer = () => {
   const [showInspirations, setShowInspirations] = useState(false)
 
   return (
-    <footer className="w-full mt-10 max-w-app px-app mb-20 mx-auto py-8 border-t border-black/10 dark:border-white/10 flex flex-col items-center justify-center gap-1">
+    <footer className="mx-auto mt-10 mb-20 flex w-full max-w-app flex-col items-center justify-center gap-1 border-t border-black/10 px-app py-8 dark:border-white/10">
       <FooterCopy />
       <button
         type="button"
         onClick={() => setShowInspirations(true)}
-        className="group inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm text-muted-foreground transition-colors duration-150 ease-out hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/20 active:bg-foreground/5"
+        className="group inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm text-muted-foreground transition-colors duration-150 ease-out hover:text-foreground focus-visible:ring-2 focus-visible:ring-foreground/20 focus-visible:outline-none active:bg-foreground/5"
       >
         <Compass className="size-3.5 transition-transform duration-200 ease-out group-hover:rotate-45" />
         Inspirations
@@ -41,10 +41,7 @@ const Footer = () => {
           llms.txt
         </a>
       </nav>
-      <InspirationsDialog
-        open={showInspirations}
-        onClose={() => setShowInspirations(false)}
-      />
+      <InspirationsDialog open={showInspirations} onClose={() => setShowInspirations(false)} />
     </footer>
   )
 }

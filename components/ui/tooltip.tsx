@@ -19,9 +19,7 @@ function TooltipProvider({
   )
 }
 
-function Tooltip({
-  ...props
-}: React.ComponentProps<typeof TooltipPrimitive.Root>) {
+function Tooltip({ ...props }: React.ComponentProps<typeof TooltipPrimitive.Root>) {
   return (
     <TooltipProvider>
       <TooltipPrimitive.Root data-slot="tooltip" {...props} />
@@ -29,9 +27,7 @@ function Tooltip({
   )
 }
 
-function TooltipTrigger({
-  ...props
-}: React.ComponentProps<typeof TooltipPrimitive.Trigger>) {
+function TooltipTrigger({ ...props }: React.ComponentProps<typeof TooltipPrimitive.Trigger>) {
   return <TooltipPrimitive.Trigger data-slot="tooltip-trigger" {...props} />
 }
 
@@ -59,13 +55,13 @@ function TooltipContent({
           gooey
             ? "border-none bg-transparent p-0 shadow-none outline-none"
             : [
-                "bg-foreground text-background rounded-md px-3 py-1.5 text-xs text-balance",
+                "rounded-md bg-foreground px-3 py-1.5 text-xs text-balance text-background",
                 "animate-in fade-in-0 zoom-in-95",
                 "data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95",
                 "data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2",
                 "data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
               ],
-          className
+          className,
         )}
         {...props}
       >
@@ -93,7 +89,7 @@ function TooltipContent({
             }}
             className={cn(
               "rounded-full bg-foreground px-3 py-1.5 text-xs font-medium text-balance text-background",
-              "shadow-[0_8px_24px_-6px_rgba(0,0,0,0.35),0_2px_6px_-2px_rgba(0,0,0,0.2)]"
+              "shadow-[0_8px_24px_-6px_rgba(0,0,0,0.35),0_2px_6px_-2px_rgba(0,0,0,0.2)]",
             )}
           >
             {children}
@@ -104,9 +100,7 @@ function TooltipContent({
         <TooltipPrimitive.Arrow
           className={cn(
             "z-50 size-2.5 translate-y-[calc(-50%_-_2px)] rotate-45 rounded-[2px]",
-            gooey
-              ? "fill-foreground"
-              : "bg-foreground fill-foreground"
+            gooey ? "fill-foreground" : "bg-foreground fill-foreground",
           )}
         />
       </TooltipPrimitive.Content>

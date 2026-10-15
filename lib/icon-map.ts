@@ -102,42 +102,124 @@ const ICON_COLORS: Record<
 > = {
   FaCss3: { color: "#1572b6", colorDark: "#1b7fd8", labelWidth: "group-hover/expand:w-[5ch]" },
   FaHtml5: { color: "#d84924", colorDark: "#e34c26", labelWidth: "group-hover/expand:w-[6ch]" },
-  FaJs: { color: "#c9a200", colorDark: "#f7df1e", iconColor: "#1f2937", labelWidth: "group-hover/expand:w-[10ch]" },
+  FaJs: {
+    color: "#c9a200",
+    colorDark: "#f7df1e",
+    iconColor: "#1f2937",
+    labelWidth: "group-hover/expand:w-[10ch]",
+  },
   FaNodeJs: { color: "#2f6b2f", colorDark: "#3c8c3c", labelWidth: "group-hover/expand:w-[8ch]" },
   FaReact: { color: "#087ea4", colorDark: "#0b8ec0", labelWidth: "group-hover/expand:w-[7ch]" },
-  SiBetterauth: { color: "#18181b", colorDark: "#3f3f46", labelWidth: "group-hover/expand:w-[11ch]" },
+  SiBetterauth: {
+    color: "#18181b",
+    colorDark: "#3f3f46",
+    labelWidth: "group-hover/expand:w-[11ch]",
+  },
   SiExpress: { color: "#1a1a1a", colorDark: "#424242", labelWidth: "group-hover/expand:w-[7ch]" },
   SiFirebase: { color: "#e07b00", colorDark: "#ff9d2e", labelWidth: "group-hover/expand:w-[8ch]" },
   SiFramer: { color: "#0055ff", colorDark: "#3d7bff", labelWidth: "group-hover/expand:w-[13ch]" },
   SiGit: { color: "#e04c2f", colorDark: "#f1502f", labelWidth: "group-hover/expand:w-[3ch]" },
-  SiJavascript: { color: "#c9a200", colorDark: "#f7df1e", iconColor: "#1f2937", labelWidth: "group-hover/expand:w-[10ch]" },
+  SiJavascript: {
+    color: "#c9a200",
+    colorDark: "#f7df1e",
+    iconColor: "#1f2937",
+    labelWidth: "group-hover/expand:w-[10ch]",
+  },
   SiMongodb: { color: "#3f9142", colorDark: "#47a248", labelWidth: "group-hover/expand:w-[8ch]" },
   SiMongoose: { color: "#8f1239", colorDark: "#a0123e", labelWidth: "group-hover/expand:w-[8ch]" },
   SiNextdotjs: { color: "#0d1117", colorDark: "#2f363d", labelWidth: "group-hover/expand:w-[7ch]" },
   SiOpenai: { color: "#0f0f0f", colorDark: "#3a3a3a", labelWidth: "group-hover/expand:w-[11ch]" },
-  SiPnpm: { color: "#e08b1c", colorDark: "#f69220", iconColor: "#1f2937", labelWidth: "group-hover/expand:w-[5ch]" },
-  SiPostgresql: { color: "#4169e1", colorDark: "#6495ed", labelWidth: "group-hover/expand:w-[10ch]" },
-  SiReactrouter: { color: "#b8004d", colorDark: "#d81b60", labelWidth: "group-hover/expand:w-[12ch]" },
+  SiPnpm: {
+    color: "#e08b1c",
+    colorDark: "#f69220",
+    iconColor: "#1f2937",
+    labelWidth: "group-hover/expand:w-[5ch]",
+  },
+  SiPostgresql: {
+    color: "#4169e1",
+    colorDark: "#6495ed",
+    labelWidth: "group-hover/expand:w-[10ch]",
+  },
+  SiReactrouter: {
+    color: "#b8004d",
+    colorDark: "#d81b60",
+    labelWidth: "group-hover/expand:w-[12ch]",
+  },
   SiRedux: { color: "#5e3a9c", colorDark: "#764abc", labelWidth: "group-hover/expand:w-[5ch]" },
   SiResend: { color: "#000000", colorDark: "#3a3a3a", labelWidth: "group-hover/expand:w-[6ch]" },
   SiShadcnui: { color: "#0d1117", colorDark: "#3f3f46", labelWidth: "group-hover/expand:w-[8ch]" },
   SiSentry: { color: "#362d59", colorDark: "#5b4d8a", labelWidth: "group-hover/expand:w-[6ch]" },
-  SiSupabase: { color: "#3fcf8e", colorDark: "#1c7c56", iconColor: "#0b2b1f", labelWidth: "group-hover/expand:w-[8ch]" },
-  SiTailwindcss: { color: "#0284c7", colorDark: "#0ea5e9", labelWidth: "group-hover/expand:w-[11ch]" },
-  SiTypescript: { color: "#235a97", colorDark: "#3178c6", labelWidth: "group-hover/expand:w-[10ch]" },
+  SiSupabase: {
+    color: "#3fcf8e",
+    colorDark: "#1c7c56",
+    iconColor: "#0b2b1f",
+    labelWidth: "group-hover/expand:w-[8ch]",
+  },
+  SiTailwindcss: {
+    color: "#0284c7",
+    colorDark: "#0ea5e9",
+    labelWidth: "group-hover/expand:w-[11ch]",
+  },
+  SiTypescript: {
+    color: "#235a97",
+    colorDark: "#3178c6",
+    labelWidth: "group-hover/expand:w-[10ch]",
+  },
   SiVercel: { color: "#000000", colorDark: "#3a3a3a", labelWidth: "group-hover/expand:w-[6ch]" },
   SiZod: { color: "#3e67b1", colorDark: "#5b8ad4", labelWidth: "group-hover/expand:w-[3ch]" },
   BiImage: { color: "#4b5563", colorDark: "#6b7280", labelWidth: "group-hover/expand:w-[12ch]" },
-  BiLogoJavascript: { color: "#c9a200", colorDark: "#f7df1e", iconColor: "#1f2937", labelWidth: "group-hover/expand:w-[10ch]" },
-  BiLogoMongodb: { color: "#3f9142", colorDark: "#47a248", labelWidth: "group-hover/expand:w-[8ch]" },
-  BiLogoTailwindCss: { color: "#0284c7", colorDark: "#0ea5e9", labelWidth: "group-hover/expand:w-[11ch]" },
-  BiLogoTypescript: { color: "#235a97", colorDark: "#3178c6", labelWidth: "group-hover/expand:w-[10ch]" },
-  AiFillGithub: { color: "#0d1117", colorDark: "#161b22", labelWidth: "group-hover/expand:w-[10ch]" },
-  AiOutlineYoutube: { color: "#c7071a", colorDark: "#ff0000", labelWidth: "group-hover/expand:w-[11ch]" },
-  RiReactjsFill: { color: "#087ea4", colorDark: "#0b8ec0", labelWidth: "group-hover/expand:w-[7ch]" },
-  RiTailwindCssFill: { color: "#0284c7", colorDark: "#0ea5e9", labelWidth: "group-hover/expand:w-[11ch]" },
-  IoLogoJavascript: { color: "#c9a200", colorDark: "#f7df1e", iconColor: "#1f2937", labelWidth: "group-hover/expand:w-[10ch]" },
-  TbBrandNextjs: { color: "#0d1117", colorDark: "#2f363d", labelWidth: "group-hover/expand:w-[7ch]" },
+  BiLogoJavascript: {
+    color: "#c9a200",
+    colorDark: "#f7df1e",
+    iconColor: "#1f2937",
+    labelWidth: "group-hover/expand:w-[10ch]",
+  },
+  BiLogoMongodb: {
+    color: "#3f9142",
+    colorDark: "#47a248",
+    labelWidth: "group-hover/expand:w-[8ch]",
+  },
+  BiLogoTailwindCss: {
+    color: "#0284c7",
+    colorDark: "#0ea5e9",
+    labelWidth: "group-hover/expand:w-[11ch]",
+  },
+  BiLogoTypescript: {
+    color: "#235a97",
+    colorDark: "#3178c6",
+    labelWidth: "group-hover/expand:w-[10ch]",
+  },
+  AiFillGithub: {
+    color: "#0d1117",
+    colorDark: "#161b22",
+    labelWidth: "group-hover/expand:w-[10ch]",
+  },
+  AiOutlineYoutube: {
+    color: "#c7071a",
+    colorDark: "#ff0000",
+    labelWidth: "group-hover/expand:w-[11ch]",
+  },
+  RiReactjsFill: {
+    color: "#087ea4",
+    colorDark: "#0b8ec0",
+    labelWidth: "group-hover/expand:w-[7ch]",
+  },
+  RiTailwindCssFill: {
+    color: "#0284c7",
+    colorDark: "#0ea5e9",
+    labelWidth: "group-hover/expand:w-[11ch]",
+  },
+  IoLogoJavascript: {
+    color: "#c9a200",
+    colorDark: "#f7df1e",
+    iconColor: "#1f2937",
+    labelWidth: "group-hover/expand:w-[10ch]",
+  },
+  TbBrandNextjs: {
+    color: "#0d1117",
+    colorDark: "#2f363d",
+    labelWidth: "group-hover/expand:w-[7ch]",
+  },
 }
 
 export function getIconColors(name?: string): {
@@ -147,5 +229,9 @@ export function getIconColors(name?: string): {
   labelWidth?: string
 } {
   if (name && ICON_COLORS[name]) return ICON_COLORS[name]
-  return { color: "var(--foreground)", colorDark: "var(--foreground)", iconColor: "var(--background)" }
+  return {
+    color: "var(--foreground)",
+    colorDark: "var(--foreground)",
+    iconColor: "var(--background)",
+  }
 }

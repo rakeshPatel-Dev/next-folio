@@ -1,4 +1,4 @@
-import { siteConfig } from "@/lib/site-config";
+import { siteConfig } from "@/lib/site-config"
 
 export function JsonLd() {
   const personSchema = {
@@ -36,7 +36,7 @@ export function JsonLd() {
       addressRegion: "Bagmati",
       addressCountry: "Nepal",
     },
-  };
+  }
 
   const websiteSchema = {
     "@context": "https://schema.org",
@@ -48,7 +48,7 @@ export function JsonLd() {
       "@type": "Person",
       name: siteConfig.name,
     },
-  };
+  }
 
   return (
     <>
@@ -61,5 +61,5 @@ export function JsonLd() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
       />
     </>
-  );
+  )
 }

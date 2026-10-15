@@ -1,7 +1,7 @@
-"use client";
+"use client"
 
-import { TerminalFab } from "./TerminalFab";
+import { TerminalFab } from "./TerminalFab"
 
 export function TerminalExperience() {
-  return <TerminalFab />;
+  return <TerminalFab />
 }

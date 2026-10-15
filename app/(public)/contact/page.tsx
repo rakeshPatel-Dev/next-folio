@@ -15,8 +15,8 @@ const Page = () => {
           Let&apos;s work together.
         </h1>
         <p className="text-base leading-relaxed text-muted-foreground">
-          For collaborations, freelance work, or just to say hello —
-          I&apos;ll get back to you within 48 hours.
+          For collaborations, freelance work, or just to say hello — I&apos;ll get back to you
+          within 48 hours.
         </p>
       </div>
 

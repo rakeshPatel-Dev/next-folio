@@ -11,6 +11,6 @@ export function useIsMounted() {
   return useSyncExternalStore(
     () => () => {},
     () => true,
-    () => false
+    () => false,
   )
 }

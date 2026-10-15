@@ -87,14 +87,12 @@ export function BrandIcon({
       data-slot="brand-icon"
       style={style}
       className={cn(
-        "brand-icon relative inline-flex shrink-0 items-center justify-center isolate",
+        "brand-icon relative isolate inline-flex shrink-0 items-center justify-center",
         "text-[var(--brand-icon-fg)]",
-        className
+        className,
       )}
     >
-      <span className="relative z-10 inline-flex items-center justify-center">
-        {icon}
-      </span>
+      <span className="relative z-10 inline-flex items-center justify-center">{icon}</span>
     </span>
   )
 }

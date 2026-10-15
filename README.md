@@ -10,6 +10,7 @@ This project emphasizes **clear architecture, content-driven pages, and delibera
 This portfolio is designed to showcase projects as **case studies**, not thumbnails.
 
 Key goals:
+
 - Strong SEO through server-rendered pages
 - Minimal client-side JavaScript
 - Clean separation of content, layout, and motion
@@ -33,9 +34,11 @@ This is not a template or tutorial project.
 ## Architecture Principles
 
 ### Server Components by Default
+
 All pages and components are server-rendered unless browser-only behavior is required.
 
 Client components are limited to:
+
 - animations
 - forms
 - interactive UI logic
@@ -45,6 +48,7 @@ This keeps the JavaScript payload small and avoids hydration issues.
 ---
 
 ### Content-Driven Routing
+
 Projects and blog posts are generated from MDX content and mapped to dynamic routes:
 
 ```
@@ -53,6 +57,7 @@ Projects and blog posts are generated from MDX content and mapped to dynamic rou
 ```
 
 This enables:
+
 - scalable content addition
 - dynamic metadata generation
 - strong SEO without duplication
@@ -60,7 +65,9 @@ This enables:
 ---
 
 ### Motion Is Isolated
+
 Animations:
+
 - wrap content instead of owning it
 - live in dedicated motion components
 - are always client-only
@@ -130,6 +137,7 @@ app/page.tsx
 ## Fonts & Optimization
 
 This project uses `next/font` to load the **Geist** font family with:
+
 - zero layout shift
 - no external font requests
 - optimized performance by default
@@ -139,6 +147,7 @@ This project uses `next/font` to load the **Geist** font family with:
 ## Deployment
 
 The recommended deployment platform is **Vercel**, which provides native support for:
+
 - Server Components
 - App Router features
 - automatic performance optimizations
@@ -164,6 +173,7 @@ This portfolio exists to answer one question:
 ## Final Note
 
 This repository values:
+
 - clarity over cleverness
 - decisions over decoration
 - depth over trends

@@ -9,10 +9,7 @@ interface BlogSectionProps {
   showCount?: number
 }
 
-export default function BlogSection({
-  showCount = 3,
-}: BlogSectionProps) {
-
+export default function BlogSection({ showCount = 3 }: BlogSectionProps) {
   // Fetch latest blogs from static MDX
   const latestBlogs = getLatestBlogs(showCount)
 
@@ -21,7 +18,7 @@ export default function BlogSection({
     return null
   }
 
-return (
+  return (
     <section>
       <SectionHeading className="mb-8">Latest Blogs</SectionHeading>
 

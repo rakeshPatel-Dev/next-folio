@@ -6,36 +6,30 @@ import DirectionTicker from "../ui/direction-ticker"
 import { NowPlaying } from "../last-fm/now-playing"
 import { SectionHeading } from "@/components/sections/section-heading"
 import { heroTech, heroSocial, tickerItems } from "@/data/hero"
-import { Button } from "../ui/button";
+import { Button } from "../ui/button"
 
 export default function HeroData() {
   const resumeLink = process.env.NEXT_PUBLIC_RESUME_LINK
 
   return (
     <section className="hero-root relative mx-auto flex w-full max-w-app flex-col justify-center overflow-hidden font-sans">
-      <div className="flex flex-col items-start pt-15 sm:pt-12 md:pt-[clamp(60px,8vw,100px)] text-left">
+      <div className="flex flex-col items-start pt-15 text-left sm:pt-12 md:pt-[clamp(60px,8vw,100px)]">
         <div className="w-full" style={{ animationDelay: "0.05s" }}>
           <HelloAnimation />
-          
         </div>
 
-        <div
-          className="hero-rise w-full"
-          style={{ animationDelay: "0.15s" }}
-        >
-          <h1 className="mt-3 sm:mt-5 text-2xl sm:text-3xl md:text-4xl lg:text-[2.75rem] font-semibold leading-tight sm:leading-[1.2] tracking-tight text-foreground">
+        <div className="hero-rise w-full" style={{ animationDelay: "0.15s" }}>
+          <h1 className="mt-3 text-2xl leading-tight font-semibold tracking-tight text-foreground sm:mt-5 sm:text-3xl sm:leading-[1.2] md:text-4xl lg:text-[2.75rem]">
             I&apos;m Rakesh Patel,
-            <span className="inline-block text-xl sm:text-2xl md:text-3xl lg:text-[1.75rem] font-normal leading-tight sm:leading-[1.2] tracking-tight text-muted-foreground">
-              a full-stack developer
-            building AI-native products
-            and SaaS systems.
+            <span className="inline-block text-xl leading-tight font-normal tracking-tight text-muted-foreground sm:text-2xl sm:leading-[1.2] md:text-3xl lg:text-[1.75rem]">
+              a full-stack developer building AI-native products and SaaS systems.
             </span>
           </h1>
           {resumeLink && (
             <Button
               asChild
               variant="outline"
-              className="mt-4  inline-block rounded-full border-foreground/20 bg-transparent transition-colors duration-300 hover:border-foreground/40 hover:bg-foreground/5 sm:hidden"
+              className="mt-4 inline-block rounded-full border-foreground/20 bg-transparent transition-colors duration-300 hover:border-foreground/40 hover:bg-foreground/5 sm:hidden"
             >
               <a href={resumeLink} target="_blank" rel="noopener noreferrer">
                 Resume
@@ -43,7 +37,7 @@ export default function HeroData() {
             </Button>
           )}
 
-          <div className="mt-3 sm:mt-5 text-justify space-y-2.5 sm:space-y-3 text-[clamp(0.95rem,1.6vw,1.25rem)] leading-relaxed sm:leading-[1.6] tracking-[-0.02em] text-muted-foreground">
+          <div className="mt-3 space-y-2.5 text-justify text-[clamp(0.95rem,1.6vw,1.25rem)] leading-relaxed tracking-[-0.02em] text-muted-foreground sm:mt-5 sm:space-y-3 sm:leading-[1.6]">
             <p>
               I mess around with{" "}
               {heroTech.map(({ label, Icon, color, colorDark }, i) => (
@@ -59,23 +53,20 @@ export default function HeroData() {
                     className="mx-0.5"
                   />
                 </span>
-              ))}
-              {" "}and whatever else I need to get something working. I like taking an
-              idea and just seeing where I can take it.
+              ))}{" "}
+              and whatever else I need to get something working. I like taking an idea and just
+              seeing where I can take it.
             </p>
 
             <p>
-              Most of what I learn comes from building random stuff, breaking it, fixing it,
-              and doing it again. Sometimes it turns into something useful. Sometimes it doesn&apos;t.
+              Most of what I learn comes from building random stuff, breaking it, fixing it, and
+              doing it again. Sometimes it turns into something useful. Sometimes it doesn&apos;t.
               That&apos;s pretty much how I like to work.
             </p>
           </div>
         </div>
 
-        <div
-          className="hero-rise mt-6 space-y-3"
-          style={{ animationDelay: "0.6s" }}
-        >
+        <div className="hero-rise mt-6 space-y-3" style={{ animationDelay: "0.6s" }}>
           <NowPlaying />
         </div>
 
@@ -111,7 +102,7 @@ export default function HeroData() {
       />
 
       <div
-        className="hero-fade relative z-10 mt-auto overflow-hidden  bg-background/50 px-6 backdrop-blur-[1px]"
+        className="hero-fade relative z-10 mt-auto overflow-hidden bg-background/50 px-6 backdrop-blur-[1px]"
         style={{ animationDelay: "0.9s" }}
         aria-hidden="true"
       >

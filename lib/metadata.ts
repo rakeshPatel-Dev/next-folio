@@ -1,18 +1,16 @@
 // lib/metadata.ts
-import type { Metadata } from "next";
-import { siteConfig } from "@/lib/site-config";
+import type { Metadata } from "next"
+import { siteConfig } from "@/lib/site-config"
 
 export const PUBLIC_CONTACT_METADATA: Metadata = {
   title: "Contact",
-  description:
-    "Get in touch for collaboration, freelance work, or professional inquiries.",
+  description: "Get in touch for collaboration, freelance work, or professional inquiries.",
   alternates: {
     canonical: `${siteConfig.url}/contact`,
   },
   openGraph: {
     title: "Contact | Rakesh Patel",
-    description:
-      "Get in touch for collaboration, freelance work, or professional inquiries.",
+    description: "Get in touch for collaboration, freelance work, or professional inquiries.",
     url: `${siteConfig.url}/contact`,
     type: "website",
     images: [
@@ -27,8 +25,7 @@ export const PUBLIC_CONTACT_METADATA: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Contact | Rakesh Patel",
-    description:
-      "Get in touch for collaboration, freelance work, or professional inquiries.",
+    description: "Get in touch for collaboration, freelance work, or professional inquiries.",
     images: [siteConfig.ogImage],
   },
 }

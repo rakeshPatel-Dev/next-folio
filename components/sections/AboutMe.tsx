@@ -1,7 +1,4 @@
-import {
-  MapPin,
-  FileScan,
-} from "lucide-react"
+import { MapPin, FileScan } from "lucide-react"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 import { skills } from "@/data/skills"
 import SectionLabel from "./about/SectionLabel"
@@ -20,23 +17,25 @@ export function AboutMe() {
   return (
     <AboutMeEffects>
       <div className="cards-wrapper relative flex flex-col gap-[10vh] pb-[10vh]">
-
         {/* ── CARD 1: Philosophy ──────────────────────────────────────── */}
-        <div className="stacked-card sticky bg-card top-[10vh] transform-gpu origin-top flex flex-col justify-center rounded-[2.5rem]  p-8 sm:p-12 md:p-16 border border-border shadow-[0_-10px_40px_-20px_rgba(0,0,0,0.5)] overflow-hidden min-h-[75vh]">
-          <div aria-hidden className="pointer-events-none absolute -right-4 md:-right-2 top-8 select-none font-sans text-[clamp(120px,20vw,240px)] font-extralight leading-none tracking-[-0.04em] text-muted">
+        <div className="stacked-card sticky top-[10vh] flex min-h-[75vh] origin-top transform-gpu flex-col justify-center overflow-hidden rounded-[2.5rem] border border-border bg-card p-8 shadow-[0_-10px_40px_-20px_rgba(0,0,0,0.5)] sm:p-12 md:p-16">
+          <div
+            aria-hidden
+            className="pointer-events-none absolute top-8 -right-4 font-sans text-[clamp(120px,20vw,240px)] leading-none font-extralight tracking-[-0.04em] text-muted select-none md:-right-2"
+          >
             01
           </div>
 
           <SectionLabel number="01" title="Philosophy" />
 
-          <p className="philosophy-text relative max-w-4xl font-sans text-[clamp(16px,3vw,32px)] font-extralight leading-[1.35] tracking-[-0.015em] text-foreground mt-8 md:mt-12">
-            I craft precise, performant user interfaces at the intersection of
-            design and engineering. I care deeply about the details —{" "}
-            <span className="text-foreground/95">animation curves, layout rhythm,</span>{" "}
-            and the kind of polish that makes a digital product feel inevitable.
+          <p className="philosophy-text relative mt-8 max-w-4xl font-sans text-[clamp(16px,3vw,32px)] leading-[1.35] font-extralight tracking-[-0.015em] text-foreground md:mt-12">
+            I craft precise, performant user interfaces at the intersection of design and
+            engineering. I care deeply about the details —{" "}
+            <span className="text-foreground/95">animation curves, layout rhythm,</span> and the
+            kind of polish that makes a digital product feel inevitable.
           </p>
 
-          <div className="relative mt-auto pt-16 flex flex-col gap-5 sm:flex-row sm:items-center sm:gap-12">
+          <div className="relative mt-auto flex flex-col gap-5 pt-16 sm:flex-row sm:items-center sm:gap-12">
             <div className="flex items-center gap-3 font-sans text-sm font-light text-foreground">
               <MapPin size={13} className="shrink-0" />
               Kathmandu, Nepal
@@ -51,13 +50,16 @@ export function AboutMe() {
                     href={resumeLink}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group relative flex items-center gap-3 overflow-hidden rounded-full bg-foreground px-5 py-2.5 font-sans text-sm font-medium cursor-pointer text-background transition-all duration-300 hover:scale-[1.02] active:scale-[0.96]"
+                    className="group relative flex cursor-pointer items-center gap-3 overflow-hidden rounded-full bg-foreground px-5 py-2.5 font-sans text-sm font-medium text-background transition-all duration-300 hover:scale-[1.02] active:scale-[0.96]"
                   >
-                    <FileScan size={14} className="shrink-0 transition-transform duration-300 group-hover:scale-110" />
+                    <FileScan
+                      size={14}
+                      className="shrink-0 transition-transform duration-300 group-hover:scale-110"
+                    />
                     <span>Resume</span>
                   </a>
                 </TooltipTrigger>
-                <TooltipContent className="border-border bg-popover text-popover-foreground text-xs tracking-wide">
+                <TooltipContent className="border-border bg-popover text-xs tracking-wide text-popover-foreground">
                   Click to view
                 </TooltipContent>
               </Tooltip>
@@ -66,16 +68,19 @@ export function AboutMe() {
         </div>
 
         {/* ── CARD 2: Expertise ─────────────────────────────────────── */}
-        <div className="stacked-card sticky bg-card top-[13vh] transform-gpu origin-top flex flex-col justify-center rounded-[2.5rem]  p-8 sm:p-12 md:p-16 border border-border shadow-[0_-10px_40px_-20px_rgba(0,0,0,0.5)] overflow-hidden min-h-[75vh]">
-          <div aria-hidden className="pointer-events-none absolute -right-4 md:-right-6 top-8 select-none font-sans text-[clamp(120px,20vw,240px)] font-extralight leading-none tracking-[-0.04em] text-muted">
+        <div className="stacked-card sticky top-[13vh] flex min-h-[75vh] origin-top transform-gpu flex-col justify-center overflow-hidden rounded-[2.5rem] border border-border bg-card p-8 shadow-[0_-10px_40px_-20px_rgba(0,0,0,0.5)] sm:p-12 md:p-16">
+          <div
+            aria-hidden
+            className="pointer-events-none absolute top-8 -right-4 font-sans text-[clamp(120px,20vw,240px)] leading-none font-extralight tracking-[-0.04em] text-muted select-none md:-right-6"
+          >
             02
           </div>
 
           <SectionLabel number="02" title="Expertise" />
 
-          <div className="relative grid grid-cols-1 gap-0 sm:grid-cols-2 lg:grid-cols-4 mt-8 md:mt-12">
+          <div className="relative mt-8 grid grid-cols-1 gap-0 sm:grid-cols-2 md:mt-12 lg:grid-cols-4">
             {expertiseItems.map((item, i) => (
-              <div key={item.title} className="expertise-row px-0 sm:px-4 first:pl-0 last:pr-0">
+              <div key={item.title} className="expertise-row px-0 first:pl-0 last:pr-0 sm:px-4">
                 <ExpertiseCard {...item} index={i} />
               </div>
             ))}
@@ -83,15 +88,18 @@ export function AboutMe() {
         </div>
 
         {/* ── CARD 3: Stack + Connect ──────────────────────────────────── */}
-        <div className="stacked-card sticky bg-card top-[16vh] transform-gpu origin-top flex flex-col justify-center rounded-[2.5rem]  p-8 sm:p-12 md:p-16 border border-border shadow-[0_-10px_40px_-20px_rgba(0,0,0,0.5)] overflow-hidden min-h-[75vh]">
-          <div aria-hidden className="pointer-events-none absolute -right-4 md:-right-6 top-8 select-none font-sans text-[clamp(120px,20vw,240px)] font-extralight leading-none tracking-[-0.04em] text-muted">
+        <div className="stacked-card sticky top-[16vh] flex min-h-[75vh] origin-top transform-gpu flex-col justify-center overflow-hidden rounded-[2.5rem] border border-border bg-card p-8 shadow-[0_-10px_40px_-20px_rgba(0,0,0,0.5)] sm:p-12 md:p-16">
+          <div
+            aria-hidden
+            className="pointer-events-none absolute top-8 -right-4 font-sans text-[clamp(120px,20vw,240px)] leading-none font-extralight tracking-[-0.04em] text-muted select-none md:-right-6"
+          >
             03
           </div>
 
-          <div className="relative grid grid-cols-1 gap-20 lg:grid-cols-[1fr_auto] lg:gap-32 w-full mt-8 md:mt-12">
+          <div className="relative mt-8 grid w-full grid-cols-1 gap-20 md:mt-12 lg:grid-cols-[1fr_auto] lg:gap-32">
             <div>
               <SectionLabel number="03" title="Tech Stack" />
-              <div className="skills-wrap flex flex-wrap gap-2.5 mt-8 md:mt-12">
+              <div className="skills-wrap mt-8 flex flex-wrap gap-2.5 md:mt-12">
                 {skills.map((skill, i) => (
                   <SkillPill key={skill.name} {...skill} index={i} />
                 ))}
@@ -104,7 +112,6 @@ export function AboutMe() {
             </div>
           </div>
         </div>
-
       </div>
     </AboutMeEffects>
   )

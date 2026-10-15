@@ -49,16 +49,17 @@ per frame toward the target, tunable with the `speed` config.
 
 ## Files
 
-| File | Role |
-| --- | --- |
+| File                                    | Role                                                                                                                                                                                                                  |
+| --------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `components/cursor-pet/useCursorPet.ts` | **Logic & Config.** Holds `CURSOR_PET_DEFAULTS`, config resolution, all state in `useRef`, window/element event listeners, `requestAnimationFrame` loop, sleep state machine, and DOM style updates. Renders nothing. |
-| `components/cursor-pet/CursorPet.tsx` | **UI.** Two-div structure (drag hit box + sprite container) that wires the refs returned by `useCursorPet`. |
-| `components/cursor-pet/index.ts` | Barrel export: re-exports `CursorPet`, `useCursorPet`, `CURSOR_PET_DEFAULTS`, `SHEET`, `CursorPetConfig`. |
-| `app/(public)/layout.tsx` | Mounts `<CursorPet />` globally with default configuration. |
-| `public/cursor-pet-Frames.png` | Deployed sprite sheet (256x128), copied from `cursor-pet/frames/Frames.png`. |
-| `cursor-pet/codes.js` | Original browser extension source kept for reference. |
+| `components/cursor-pet/CursorPet.tsx`   | **UI.** Two-div structure (drag hit box + sprite container) that wires the refs returned by `useCursorPet`.                                                                                                           |
+| `components/cursor-pet/index.ts`        | Barrel export: re-exports `CursorPet`, `useCursorPet`, `CURSOR_PET_DEFAULTS`, `SHEET`, `CursorPetConfig`.                                                                                                             |
+| `app/(public)/layout.tsx`               | Mounts `<CursorPet />` globally with default configuration.                                                                                                                                                           |
+| `public/cursor-pet-Frames.png`          | Deployed sprite sheet (256x128), copied from `cursor-pet/frames/Frames.png`.                                                                                                                                          |
+| `cursor-pet/codes.js`                   | Original browser extension source kept for reference.                                                                                                                                                                 |
 
 The API surface (`index.ts`) is:
+
 ```ts
 export { CursorPet } from "./CursorPet";
 export {
@@ -107,24 +108,24 @@ export {
 
 Configuration values are defined in `CURSOR_PET_DEFAULTS` ([`components/cursor-pet/useCursorPet.ts`](file:///home/patel/Projects/next-folio/components/cursor-pet/useCursorPet.ts#L51-L70)). All properties can also be optionally overridden via props on `<CursorPet {...props} />`.
 
-| Prop | Default | Meaning |
-| --- | --- | --- |
-| `sprite` | `"/cursor-pet-Frames.png"` | Sprite sheet image path. |
-| `scale` | `1.25` | Render scale multiplier of the sprite. |
-| `speed` | `1` | Movement speed, px per animation frame (linear). |
-| `reachThreshold` | `10` | Distance in px to stop chasing the cursor or sleep target. |
-| `deadZone` | `100` | Radius in px around the pet. Moving the cursor inside this area does **not** make the pet follow — it stays put until the cursor leaves the dead zone. |
-| `frameRate` | `8` | Sprite animation FPS. Drives run frames and idle/sleep breathing loop. |
-| `idleStillMs` | `2000` | Idle & sleep phase 1: duration of sitting still pose. |
-| `idleTransitionMs` | `200` | Idle & sleep phase 2: duration of transition pose. |
-| `idleLoopIntervalMs` | `0` | Idle & sleep phase 3: breathing toggle interval (`0` derives from `frameRate`). |
-| `autoSleepAfter` | `10000` | ms of sitting idle before walking to sleep. |
-| `sleepDuration` | `10000` | ms spent sleeping before auto-waking. |
-| `sleepOpacity` | `1` | Opacity while sleeping. |
-| `sleepScale` | `1` | Scale multiplier while sleeping. |
-| `hitSize` | `80` | Size of the drag hit-box in px (invisible area). |
-| `sleepX` | `null` | X coordinate (px from left) for auto-sleep target. `null` → `window.innerWidth - hitSize`. |
-| `sleepY` | `null` | Y coordinate (px from top) for auto-sleep target. `null` → `window.innerHeight - hitSize`. |
+| Prop                 | Default                    | Meaning                                                                                                                                                |
+| -------------------- | -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `sprite`             | `"/cursor-pet-Frames.png"` | Sprite sheet image path.                                                                                                                               |
+| `scale`              | `1.25`                     | Render scale multiplier of the sprite.                                                                                                                 |
+| `speed`              | `1`                        | Movement speed, px per animation frame (linear).                                                                                                       |
+| `reachThreshold`     | `10`                       | Distance in px to stop chasing the cursor or sleep target.                                                                                             |
+| `deadZone`           | `100`                      | Radius in px around the pet. Moving the cursor inside this area does **not** make the pet follow — it stays put until the cursor leaves the dead zone. |
+| `frameRate`          | `8`                        | Sprite animation FPS. Drives run frames and idle/sleep breathing loop.                                                                                 |
+| `idleStillMs`        | `2000`                     | Idle & sleep phase 1: duration of sitting still pose.                                                                                                  |
+| `idleTransitionMs`   | `200`                      | Idle & sleep phase 2: duration of transition pose.                                                                                                     |
+| `idleLoopIntervalMs` | `0`                        | Idle & sleep phase 3: breathing toggle interval (`0` derives from `frameRate`).                                                                        |
+| `autoSleepAfter`     | `10000`                    | ms of sitting idle before walking to sleep.                                                                                                            |
+| `sleepDuration`      | `10000`                    | ms spent sleeping before auto-waking.                                                                                                                  |
+| `sleepOpacity`       | `1`                        | Opacity while sleeping.                                                                                                                                |
+| `sleepScale`         | `1`                        | Scale multiplier while sleeping.                                                                                                                       |
+| `hitSize`            | `80`                       | Size of the drag hit-box in px (invisible area).                                                                                                       |
+| `sleepX`             | `null`                     | X coordinate (px from left) for auto-sleep target. `null` → `window.innerWidth - hitSize`.                                                             |
+| `sleepY`             | `null`                     | Y coordinate (px from top) for auto-sleep target. `null` → `window.innerHeight - hitSize`.                                                             |
 
 ## Sprite Sheet
 

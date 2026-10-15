@@ -1,22 +1,27 @@
-import { getProjectBySlug, getRelatedProjects, getProjects, type ProjectType } from '@/lib/projectSource'
-import { getCaseStudy } from '@/lib/caseStudySource'
-import { notFound } from 'next/navigation'
-import Image from 'next/image'
-import Link from 'next/link'
-import { ArrowLeft, Dot, ExternalLink, Github } from 'lucide-react'
-import { CtaButton } from '@/components/ui/cta-button'
-import { ExpandIcon } from '@/components/ui/expand-icon'
-import { DynamicIslandTOC } from '@/components/ui/dynamic-island-toc'
-import { ProjectCard } from '@/components/projects/project-card'
-import { FlowSteps } from '@/components/sections/case-study/flow-steps'
-import { ArchitectureDiagram } from '@/components/sections/case-study/architecture-diagram'
-import { Callout } from '@/components/sections/case-study/callout'
-import { Badge } from '@/components/ui/badge'
-import IconRenderer from '@/components/ui/IconRenderer'
-import { getIconColors } from '@/lib/icon-map'
-import { Metadata } from 'next'
-import { canonicalUrl, siteConfig } from '@/lib/site-config'
-import { BreadcrumbJsonLd } from '@/components/sections/BreadcrumbJsonLd'
+import {
+  getProjectBySlug,
+  getRelatedProjects,
+  getProjects,
+  type ProjectType,
+} from "@/lib/projectSource"
+import { getCaseStudy } from "@/lib/caseStudySource"
+import { notFound } from "next/navigation"
+import Image from "next/image"
+import Link from "next/link"
+import { ArrowLeft, Dot, ExternalLink, Github } from "lucide-react"
+import { CtaButton } from "@/components/ui/cta-button"
+import { ExpandIcon } from "@/components/ui/expand-icon"
+import { DynamicIslandTOC } from "@/components/ui/dynamic-island-toc"
+import { ProjectCard } from "@/components/projects/project-card"
+import { FlowSteps } from "@/components/sections/case-study/flow-steps"
+import { ArchitectureDiagram } from "@/components/sections/case-study/architecture-diagram"
+import { Callout } from "@/components/sections/case-study/callout"
+import { Badge } from "@/components/ui/badge"
+import IconRenderer from "@/components/ui/IconRenderer"
+import { getIconColors } from "@/lib/icon-map"
+import { Metadata } from "next"
+import { canonicalUrl, siteConfig } from "@/lib/site-config"
+import { BreadcrumbJsonLd } from "@/components/sections/BreadcrumbJsonLd"
 
 interface ProjectPageProps {
   params: Promise<{ slug: string }>
@@ -24,9 +29,7 @@ interface ProjectPageProps {
 
 function Lead({ children }: { children: React.ReactNode }) {
   return (
-    <div className="text-lg text-muted-foreground leading-relaxed not-prose mb-6">
-      {children}
-    </div>
+    <div className="not-prose mb-6 text-lg leading-relaxed text-muted-foreground">{children}</div>
   )
 }
 
@@ -42,7 +45,7 @@ export async function generateMetadata({ params }: ProjectPageProps): Promise<Me
   const project = getProjectBySlug(slug)
 
   if (!project) {
-    return { title: 'Project Not Found' }
+    return { title: "Project Not Found" }
   }
 
   const url = `${siteConfig.url}/projects/${project.slug}`
@@ -57,11 +60,11 @@ export async function generateMetadata({ params }: ProjectPageProps): Promise<Me
       title: socialTitle,
       description: project.shortDescription,
       url,
-      type: 'article',
+      type: "article",
       images: [{ url: project.image, width: 1200, height: 630, alt: project.title }],
     },
     twitter: {
-      card: 'summary_large_image',
+      card: "summary_large_image",
       title: socialTitle,
       description: project.shortDescription,
       images: [project.image],
@@ -70,18 +73,18 @@ export async function generateMetadata({ params }: ProjectPageProps): Promise<Me
 }
 
 const PROGRAMMING_LANGUAGES = new Set([
-  'TypeScript',
-  'JavaScript',
-  'Python',
-  'Java',
-  'Go',
-  'Rust',
-  'C++',
-  'C#',
-  'PHP',
-  'Ruby',
-  'Swift',
-  'Kotlin',
+  "TypeScript",
+  "JavaScript",
+  "Python",
+  "Java",
+  "Go",
+  "Rust",
+  "C++",
+  "C#",
+  "PHP",
+  "Ruby",
+  "Swift",
+  "Kotlin",
 ])
 
 /** Describe the project itself so it is a first-class entity, not just a page
@@ -93,14 +96,14 @@ function projectSchema(project: ProjectType) {
     .filter((label) => PROGRAMMING_LANGUAGES.has(label))
 
   return {
-    '@context': 'https://schema.org',
-    '@type': 'CreativeWork',
-    '@id': canonical,
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    "@id": canonical,
     name: project.title,
     description: project.shortDescription || project.longDescription,
     url: project.liveUrl || canonical,
     author: {
-      '@type': 'Person',
+      "@type": "Person",
       name: siteConfig.name,
       url: siteConfig.url,
     },
@@ -110,7 +113,7 @@ function projectSchema(project: ProjectType) {
     ...(project.repoUrl ? { codeRepository: project.repoUrl } : {}),
     ...(languages.length ? { programmingLanguage: languages } : {}),
     ...(project.category ? { creativeWorkStatus: project.category } : {}),
-    keywords: (project.techStack ?? []).map((tech) => tech.label).join(', '),
+    keywords: (project.techStack ?? []).map((tech) => tech.label).join(", "),
   }
 }
 
@@ -119,7 +122,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
   const project = getProjectBySlug(slug)
 
-  if (!project || project.status === 'paused') {
+  if (!project || project.status === "paused") {
     notFound()
   }
 
@@ -129,18 +132,18 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
   // Build the spec row items — only render what exists
   const specs = [
-    project.role && { label: 'Role', value: project.role },
-    project.timeline && { label: 'Timeline', value: project.timeline },
-    project.year && { label: 'Year', value: project.year },
-    project.category && { label: 'Category', value: project.category },
+    project.role && { label: "Role", value: project.role },
+    project.timeline && { label: "Timeline", value: project.timeline },
+    project.year && { label: "Year", value: project.year },
+    project.category && { label: "Category", value: project.category },
   ].filter(Boolean) as { label: string; value: string }[]
 
   return (
     <article className="min-h-screen">
       <BreadcrumbJsonLd
         items={[
-          { name: 'Home', href: '/' },
-          { name: 'Projects', href: '/projects' },
+          { name: "Home", href: "/" },
+          { name: "Projects", href: "/projects" },
           { name: project.title, href: `/projects/${project.slug}` },
         ]}
       />
@@ -154,7 +157,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         <div className="pt-8 pb-3">
           <Link
             href="/projects"
-            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+            className="inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
           >
             <ArrowLeft className="h-3.5 w-3.5" />
             Back to Projects
@@ -163,32 +166,35 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
         {/* Header */}
         <header className="pb-8">
-         
-
-          <h1 className="text-4xl md:text-5xl font-semibold tracking-tight mb-4 text-balance">
+          <h1 className="mb-4 text-4xl font-semibold tracking-tight text-balance md:text-5xl">
             {project.title}
           </h1>
 
           {/* Meta row */}
-          <div className="flex flex-wrap items-center text-sm text-muted-foreground mb-4">
+          <div className="mb-4 flex flex-wrap items-center text-sm text-muted-foreground">
             {project.status && (
               <span className="inline-flex items-center gap-1.5 rounded-full border border-border/60 bg-muted/40 px-2.5 py-0.5 text-xs font-medium capitalize">
                 <span
-                  className={`h-1.5 w-1.5 rounded-full ${project.status === 'completed' || project.status === 'active'
-                    ? 'bg-emerald-500'
-                    : project.status === 'in-progress' || project.status === 'building'
-                      ? 'bg-amber-500'
-                      : 'bg-muted-foreground'
-                    }`}
+                  className={`h-1.5 w-1.5 rounded-full ${
+                    project.status === "completed" || project.status === "active"
+                      ? "bg-emerald-500"
+                      : project.status === "in-progress" || project.status === "building"
+                        ? "bg-amber-500"
+                        : "bg-muted-foreground"
+                  }`}
                 />
                 {project.status}
               </span>
             )}
-            {project.year && <span><Dot className="text-muted-foreground"/> {project.year}</span>}
+            {project.year && (
+              <span>
+                <Dot className="text-muted-foreground" /> {project.year}
+              </span>
+            )}
             {project.createdAt && (
               <>
                 <span>
-                  <Dot className="text-muted-foreground inline" />{" "}
+                  <Dot className="inline text-muted-foreground" />{" "}
                   {new Date(project.createdAt).toLocaleDateString(undefined, {
                     month: "short",
                     day: "numeric",
@@ -199,28 +205,26 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
             )}
             {project.category && (
               <>
-                <span> <Dot className="text-muted-foreground inline"/> {project.category}</span>
+                <span>
+                  {" "}
+                  <Dot className="inline text-muted-foreground" /> {project.category}
+                </span>
               </>
             )}
           </div>
 
-          <p className="text-lg text-muted-foreground leading-relaxed mb-8">
+          <p className="mb-8 text-lg leading-relaxed text-muted-foreground">
             {project.shortDescription}
           </p>
 
           <div className="flex flex-wrap gap-3">
             {project.liveUrl && (
-              <CtaButton
-                href={project.liveUrl}
-                external
-                label="View Live"
-                icon={ExternalLink}
-              />
+              <CtaButton href={project.liveUrl} external label="View Live" icon={ExternalLink} />
             )}
             {(project.repoUrl || project.githubUrl) && (
               <CtaButton
                 variant="outline"
-                href={project.repoUrl || project.githubUrl || '#'}
+                href={project.repoUrl || project.githubUrl || "#"}
                 external
                 label="Source Code"
                 icon={Github}
@@ -230,7 +234,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         </header>
 
         {/* Hero image — contained card */}
-        <div className="relative aspect-video w-full overflow-hidden rounded-xl border border-border/60 bg-muted mb-10">
+        <div className="relative mb-10 aspect-video w-full overflow-hidden rounded-xl border border-border/60 bg-muted">
           <Image
             src={project.image}
             alt={project.title}
@@ -243,10 +247,10 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
         {/* Spec row */}
         {specs.length > 0 && (
-          <dl className="grid grid-cols-2 sm:grid-cols-4 gap-x-6 gap-y-6 py-6 border-y border-border/60 mb-10">
+          <dl className="mb-10 grid grid-cols-2 gap-x-6 gap-y-6 border-y border-border/60 py-6 sm:grid-cols-4">
             {specs.map((spec) => (
               <div key={spec.label}>
-                <dt className="text-xs font-medium uppercase tracking-wider text-muted-foreground mb-1.5">
+                <dt className="mb-1.5 text-xs font-medium tracking-wider text-muted-foreground uppercase">
                   {spec.label}
                 </dt>
                 <dd className="text-sm text-foreground">{spec.value}</dd>
@@ -258,9 +262,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         {/* Tech stack chips */}
         {project.techStack && project.techStack.length > 0 && (
           <section className="mb-10">
-            <h2 className="text-2xl font-semibold tracking-tight mb-4">
-              Tech Stack
-            </h2>
+            <h2 className="mb-4 text-2xl font-semibold tracking-tight">Tech Stack</h2>
             <div className="flex flex-wrap gap-2">
               {project.techStack.map((tech) => {
                 const colors = getIconColors(tech.icon)
@@ -274,9 +276,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                     iconSize={19}
                     labelWidthClass={colors.labelWidth}
                     labelClassName="text-[15px]"
-                    brandIconProps={
-                      colors.iconColor ? { iconColor: colors.iconColor } : undefined
-                    }
+                    brandIconProps={colors.iconColor ? { iconColor: colors.iconColor } : undefined}
                     icon={<IconRenderer name={tech.icon} />}
                   />
                 )
@@ -287,30 +287,26 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
         {/* Case Study — the depth lives here */}
         {CaseStudyContent && (
-          <section className="mt-12 pt-8 border-t border-border/60">
-            <h2 className="text-2xl font-semibold tracking-tight mb-6">
-              Case Study
-            </h2>
-            <div className="prose prose-neutral dark:prose-invert max-w-none prose-headings:tracking-tight prose-headings:font-semibold prose-p:leading-relaxed prose-p:text-muted-foreground">
+          <section className="mt-12 border-t border-border/60 pt-8">
+            <h2 className="mb-6 text-2xl font-semibold tracking-tight">Case Study</h2>
+            <div className="prose-neutral dark:prose-invert prose max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-p:leading-relaxed prose-p:text-muted-foreground">
               <CaseStudyContent
-              components={{
-                Lead,
-                FlowSteps,
-                ArchitectureDiagram,
-                Callout,
-                Badge,
-              }}
-            />
+                components={{
+                  Lead,
+                  FlowSteps,
+                  ArchitectureDiagram,
+                  Callout,
+                  Badge,
+                }}
+              />
             </div>
           </section>
         )}
 
         {/* Related Projects */}
         {relatedProjects.length > 0 && (
-          <section className="mt-12 py-10 border-t border-border/60">
-            <h2 className="text-2xl font-semibold tracking-tight mb-8">
-              Related Projects
-            </h2>
+          <section className="mt-12 border-t border-border/60 py-10">
+            <h2 className="mb-8 text-2xl font-semibold tracking-tight">Related Projects</h2>
             <div className="grid grid-cols-1">
               {relatedProjects.map((related) => (
                 <ProjectCard key={related._id} project={related} />

@@ -37,10 +37,7 @@ type DashedUnderlineConfig = {
   y?: number
 }
 
-export type DashedUnderlineProps = Omit<
-  SVGProps<SVGSVGElement>,
-  "width" | "height" | "viewBox"
-> &
+export type DashedUnderlineProps = Omit<SVGProps<SVGSVGElement>, "width" | "height" | "viewBox"> &
   DashedUnderlineConfig & {
     /** Accessible label; omit for decorative (default) */
     title?: string
@@ -67,7 +64,7 @@ export function DashedUnderline({
       fill="none"
       aria-hidden={title ? undefined : true}
       role={title ? "img" : undefined}
-      className={cn("shrink-0 max-w-full text-foreground/25", className)}
+      className={cn("max-w-full shrink-0 text-foreground/25", className)}
       {...props}
     >
       {title ? <title>{title}</title> : null}

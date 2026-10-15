@@ -9,21 +9,21 @@ import { cn } from "@/lib/utils"
 ───────────────────────────────────────────────────────────────────────────── */
 
 type RevealVariant =
-  | "fadeUp"      // floats up while fading in          → hero text, headings
-  | "fadeIn"      // pure opacity                        → images, cards
-  | "slideLeft"   // enters from the right               → timeline items
-  | "slideRight"  // enters from the left                → alternate timeline
-  | "scale"       // scales up from 96%                  → cards, pills
-  | "blur"        // blurs in                            → backgrounds, overlays
+  | "fadeUp" // floats up while fading in          → hero text, headings
+  | "fadeIn" // pure opacity                        → images, cards
+  | "slideLeft" // enters from the right               → timeline items
+  | "slideRight" // enters from the left                → alternate timeline
+  | "scale" // scales up from 96%                  → cards, pills
+  | "blur" // blurs in                            → backgrounds, overlays
 
 interface RevealProps {
   children: React.ReactNode
   variant?: RevealVariant
-  delay?: number          // seconds
-  duration?: number       // seconds
+  delay?: number // seconds
+  duration?: number // seconds
   className?: string
-  once?: boolean          // only animate once (default: true)
-  amount?: number         // 0–1, how much must be in view to trigger
+  once?: boolean // only animate once (default: true)
+  amount?: number // 0–1, how much must be in view to trigger
 }
 
 /* ─────────────────────────────────────────────────────────────────────────────
@@ -61,11 +61,15 @@ export function Reveal({
   return (
     <div
       ref={ref}
-      className={cn("transition-all duration-700", className, isVisible ? visibleClass : hiddenClass)}
+      className={cn(
+        "transition-all duration-700",
+        className,
+        isVisible ? visibleClass : hiddenClass,
+      )}
       style={{
         transitionDuration: `${duration}s`,
         transitionDelay: `${delay}s`,
-        transitionTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1)"
+        transitionTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1)",
       }}
     >
       {children}
@@ -116,34 +120,35 @@ export function Stagger({
   const visibleClass = "translate-y-0 translate-x-0 scale-100 blur-[0px] opacity-100"
 
   return (
-    <div
-      ref={ref}
-      className={cn(className)}
-    >
-      {Array.isArray(children)
-        ? children.map((child, i) => (
+    <div ref={ref} className={cn(className)}>
+      {Array.isArray(children) ? (
+        children.map((child, i) => (
           <div
             key={i}
-            className={cn("transition-all duration-700 inline-block", isVisible ? visibleClass : hiddenClass)}
+            className={cn(
+              "inline-block transition-all duration-700",
+              isVisible ? visibleClass : hiddenClass,
+            )}
             style={{
               transitionDuration: `${duration}s`,
               transitionDelay: `${i * staggerDelay}s`,
-              transitionTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1)"
+              transitionTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1)",
             }}
           >
             {child}
           </div>
         ))
-        : <div
+      ) : (
+        <div
           className={cn("transition-all duration-700", isVisible ? visibleClass : hiddenClass)}
           style={{
             transitionDuration: `${duration}s`,
-            transitionTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1)"
+            transitionTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1)",
           }}
         >
           {children}
         </div>
-      }
+      )}
     </div>
   )
 }
@@ -159,7 +164,7 @@ export function Stagger({
 
 interface MagneticHoverProps {
   children: React.ReactNode
-  strength?: number   // 0.2–0.5 feels natural
+  strength?: number // 0.2–0.5 feels natural
   className?: string
 }
 
@@ -210,7 +215,7 @@ export function MagneticHover({ children, strength = 0.3, className }: MagneticH
 
 interface TiltProps {
   children: React.ReactNode
-  maxAngle?: number   // degrees, 6–12 is subtle
+  maxAngle?: number // degrees, 6–12 is subtle
   className?: string
   glare?: boolean
 }
@@ -222,8 +227,14 @@ export function Tilt({ children, maxAngle = 8, className, glare = true }: TiltPr
   const glareX = useMotionValue(50)
   const glareY = useMotionValue(50)
 
-  const rotateX = useSpring(useTransform(y, [-0.5, 0.5], [maxAngle, -maxAngle]), { stiffness: 300, damping: 30 })
-  const rotateY = useSpring(useTransform(x, [-0.5, 0.5], [-maxAngle, maxAngle]), { stiffness: 300, damping: 30 })
+  const rotateX = useSpring(useTransform(y, [-0.5, 0.5], [maxAngle, -maxAngle]), {
+    stiffness: 300,
+    damping: 30,
+  })
+  const rotateY = useSpring(useTransform(x, [-0.5, 0.5], [-maxAngle, maxAngle]), {
+    stiffness: 300,
+    damping: 30,
+  })
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!ref.current) return
@@ -246,7 +257,7 @@ export function Tilt({ children, maxAngle = 8, className, glare = true }: TiltPr
   const glareBackground = useTransform(
     [glareX, glareY],
     ([gx, gy]) =>
-      `radial-gradient(circle at ${gx}% ${gy}%, rgba(255,255,255,0.08) 0%, transparent 70%)`
+      `radial-gradient(circle at ${gx}% ${gy}%, rgba(255,255,255,0.08) 0%, transparent 70%)`,
   )
 
   return (
@@ -278,7 +289,7 @@ export function Tilt({ children, maxAngle = 8, className, glare = true }: TiltPr
 
 export function useReveal<T extends HTMLElement = HTMLElement>(
   threshold: number = 0.15,
-  once = true
+  once = true,
 ) {
   const ref = useRef<T>(null)
   const [isVisible, setIsVisible] = useState(false)
@@ -295,7 +306,7 @@ export function useReveal<T extends HTMLElement = HTMLElement>(
           setIsVisible(false)
         }
       },
-      { threshold }
+      { threshold },
     )
     observer.observe(el)
     return () => observer.disconnect()

@@ -8,11 +8,36 @@ export const experiences = [
     website: "https://letslearn.asia/",
     facebook: "https://www.facebook.com/letslearn.asia",
     tech: [
-      { name: "React.js", icon: "FaReact", color: "#087ea4", labelWidth: "group-hover/expand:w-[6ch]" },
-      { name: "Next.js", icon: "SiNextdotjs", color: "#0d1117", labelWidth: "group-hover/expand:w-[6ch]" },
-      { name: "TypeScript", icon: "SiTypescript", color: "#235a97", labelWidth: "group-hover/expand:w-[9ch]" },
-      { name: "Redux", icon: "SiRedux", color: "#5a3890", labelWidth: "group-hover/expand:w-[5ch]" },
-      { name: "Tailwind CSS", icon: "SiTailwindcss", color: "#0e7490", labelWidth: "group-hover/expand:w-[9ch]" },
+      {
+        name: "React.js",
+        icon: "FaReact",
+        color: "#087ea4",
+        labelWidth: "group-hover/expand:w-[6ch]",
+      },
+      {
+        name: "Next.js",
+        icon: "SiNextdotjs",
+        color: "#0d1117",
+        labelWidth: "group-hover/expand:w-[6ch]",
+      },
+      {
+        name: "TypeScript",
+        icon: "SiTypescript",
+        color: "#235a97",
+        labelWidth: "group-hover/expand:w-[9ch]",
+      },
+      {
+        name: "Redux",
+        icon: "SiRedux",
+        color: "#5a3890",
+        labelWidth: "group-hover/expand:w-[5ch]",
+      },
+      {
+        name: "Tailwind CSS",
+        icon: "SiTailwindcss",
+        color: "#0e7490",
+        labelWidth: "group-hover/expand:w-[9ch]",
+      },
       { name: "Git", icon: "SiGit", color: "#c43d26", labelWidth: "group-hover/expand:w-[3ch]" },
     ],
     objectives: [
@@ -33,10 +58,25 @@ export const experiences = [
     website: "https://ghardailodairy.vercel.app/",
     facebook: "https://www.facebook.com/ghardailodairy",
     tech: [
-      { name: "HTML5", icon: "FaHtml5", color: "#b83d1c", labelWidth: "group-hover/expand:w-[6ch]" },
+      {
+        name: "HTML5",
+        icon: "FaHtml5",
+        color: "#b83d1c",
+        labelWidth: "group-hover/expand:w-[6ch]",
+      },
       { name: "CSS3", icon: "FaCss3", color: "#0f5a91", labelWidth: "group-hover/expand:w-[4ch]" },
-      { name: "JavaScript", icon: "FaJs", color: "#c4a80f", labelWidth: "group-hover/expand:w-[8ch]" },
-      { name: "React.js", icon: "FaReact", color: "#087ea4", labelWidth: "group-hover/expand:w-[6ch]" },
+      {
+        name: "JavaScript",
+        icon: "FaJs",
+        color: "#c4a80f",
+        labelWidth: "group-hover/expand:w-[8ch]",
+      },
+      {
+        name: "React.js",
+        icon: "FaReact",
+        color: "#087ea4",
+        labelWidth: "group-hover/expand:w-[6ch]",
+      },
     ],
     objectives: [
       "Built and maintained the official dairy website using HTML, CSS, and JavaScript.",
@@ -46,4 +86,4 @@ export const experiences = [
       "Simplified digital workflows for farmers and staff.",
     ],
   },
-];
+]

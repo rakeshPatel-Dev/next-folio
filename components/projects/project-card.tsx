@@ -29,98 +29,97 @@ const ProjectCard = React.forwardRef<HTMLDivElement, ProjectCardProps>(
 
     return (
       <>
+        <CursorFill
+          ref={ref}
+          wholeFill
+          invert
+          className={cn(
+            "group relative flex items-center gap-4 py-4 transition-all duration-200",
+            "hover:shadow-md",
+            "focus-within:outline-none",
+          )}
+        >
+          {/* Whole-card link to project details */}
+          <Link
+            href={`/projects/${project.slug}`}
+            aria-label={`${project.title} — details`}
+            className="absolute inset-0 z-40 outline-none focus-visible:ring-2 focus-visible:ring-primary"
+          />
 
-      <CursorFill
-        ref={ref}
-        wholeFill
-        invert
-        className={cn(
-          "group relative flex items-center gap-4  py-4  transition-all duration-200",
-          "hover:shadow-md ",
-          "focus-within:outline-none"
-        )}
-      >
-        {/* Whole-card link to project details */}
-        <Link
-          href={`/projects/${project.slug}`}
-          aria-label={`${project.title} — details`}
-          className="absolute inset-0 z-40 outline-none focus-visible:ring-2 focus-visible:ring-primary"
-        />
+          {/* Favicon + title row shifts inward on hover, action icons stay put */}
+          <div className="relative z-10 flex w-full min-w-0 items-center gap-4 transition-transform duration-300 ease-out group-hover:translate-x-2">
+            {/* Favicon / Thumbnail */}
+            <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-md">
+              {faviconSrc ? (
+                <Image
+                  src={faviconSrc}
+                  alt={project.title}
+                  fill
+                  sizes="40px"
+                  placeholder="blur"
+                  blurDataURL={blurDataURL}
+                  priority={priority}
+                  className="object-cover"
+                />
+              ) : (
+                <div className="flex h-full w-full items-center justify-center text-muted-foreground">
+                  <Code className="h-5 w-5" />
+                </div>
+              )}
+            </div>
 
-        {/* Favicon + title row shifts inward on hover, action icons stay put */}
-        <div className="relative z-10 flex w-full min-w-0 items-center gap-4 transition-transform duration-300 ease-out group-hover:translate-x-2">
-          {/* Favicon / Thumbnail */}
-          <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-md">
-            {faviconSrc ? (
-              <Image
-                src={faviconSrc}
-                alt={project.title}
-                fill
-                sizes="40px"
-                placeholder="blur"
-                blurDataURL={blurDataURL}
-                priority={priority}
-                className="object-cover"
-              />
-            ) : (
-              <div className="flex h-full w-full items-center justify-center text-muted-foreground">
-                <Code className="h-5 w-5" />
-              </div>
+            {/* Main content: title + short description */}
+            <div className="min-w-0 flex-1">
+              <span className="block truncate font-sans text-xl font-semibold">
+                {project.title}
+              </span>
+              <p className="mt-0.5 truncate text-sm text-muted-foreground">
+                {project.shortDescription}
+              </p>
+            </div>
+          </div>
+
+          {/* Action links: live & source (pinned) */}
+          <div className="relative z-50 flex shrink-0 items-center gap-2">
+            {project.liveUrl && (
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <a
+                    href={project.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Live website"
+                    className="inline-flex rounded-full p-2 text-muted-foreground transition-colors duration-300 hover:bg-muted hover:text-foreground"
+                  >
+                    <WorldIcon size={18} />
+                  </a>
+                </TooltipTrigger>
+                <TooltipContent gooey>Live Website</TooltipContent>
+              </Tooltip>
+            )}
+
+            {project.repoUrl && (
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <a
+                    href={project.repoUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Source code"
+                    className="inline-flex rounded-full p-2 text-muted-foreground transition-colors duration-300 hover:bg-muted hover:text-foreground"
+                  >
+                    <GithubIcon size={18} />
+                  </a>
+                </TooltipTrigger>
+                <TooltipContent gooey>Source Code</TooltipContent>
+              </Tooltip>
             )}
           </div>
-
-          {/* Main content: title + short description */}
-          <div className="min-w-0 flex-1">
-            <span className="block truncate font-sans text-xl font-semibold">
-              {project.title}
-            </span>
-            <p className="mt-0.5 truncate text-sm text-muted-foreground">
-              {project.shortDescription}
-            </p>
-          </div>
-        </div>
-
-        {/* Action links: live & source (pinned) */}
-        <div className="relative z-50 flex shrink-0 items-center gap-2">
-          {project.liveUrl && (
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <a
-                  href={project.liveUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Live website"
-                  className="inline-flex rounded-full p-2 text-muted-foreground transition-colors duration-300 hover:bg-muted hover:text-foreground"
-                >
-                  <WorldIcon size={18} />
-                </a>
-              </TooltipTrigger>
-              <TooltipContent gooey>Live Website</TooltipContent>
-            </Tooltip>
-          )}
-
-          {project.repoUrl && (
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <a
-                  href={project.repoUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Source code"
-                  className="inline-flex rounded-full p-2 text-muted-foreground transition-colors duration-300 hover:bg-muted hover:text-foreground"
-                >
-                  <GithubIcon size={18} />
-                </a>
-              </TooltipTrigger>
-              <TooltipContent gooey>Source Code</TooltipContent>
-            </Tooltip>
-          )}
-        </div>
         </CursorFill>
-        <span className="h-px w-full bg-muted-foreground/70 text-primary"/>
+        <span className="h-px w-full bg-muted-foreground/70 text-primary" />
       </>
     )
-  }
+  },
 )
 
 ProjectCard.displayName = "ProjectCard"

@@ -1,31 +1,30 @@
-"use client";
+"use client"
 
-import Link from "next/link";
-import { Dock, DockIcon } from "@/components/ui/dock";
-import { Separator } from "@/components/ui/separator";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { buttonVariants } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import { PullCordThemeToggler } from "@/components/ui/pullcord-theme-toggler";
-import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
+import Link from "next/link"
+import { Dock, DockIcon } from "@/components/ui/dock"
+import { Separator } from "@/components/ui/separator"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
+import { buttonVariants } from "@/components/ui/button"
+import { cn } from "@/lib/utils"
+import { PullCordThemeToggler } from "@/components/ui/pullcord-theme-toggler"
+import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler"
 
-import { Github, Linkedin, Mail } from "lucide-react";
+import { Github, Linkedin, Mail } from "lucide-react"
 
 const socialDock = [
   { label: "GitHub", icon: Github, href: "https://github.com/rakeshpatel-dev" },
   { label: "LinkedIn", icon: Linkedin, href: "https://linkedin.com/in/1o1rakesh" },
   { label: "Email", icon: Mail, href: "mailto:dev@rakeshpatel.me" },
-];
+]
 
 export function AppDock() {
   return (
     <>
-      <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50">
+      <div className="fixed bottom-6 left-1/2 z-50 -translate-x-1/2">
         <TooltipProvider delayDuration={80}>
           <Dock direction="middle">
-
             {socialDock.map((item, i) => {
-              const Icon = item.icon;
+              const Icon = item.icon
               return (
                 <DockIcon key={i}>
                   <Tooltip>
@@ -37,7 +36,7 @@ export function AppDock() {
                         rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined}
                         className={cn(
                           buttonVariants({ variant: "ghost", size: "icon" }),
-                          "size-12 rounded-full"
+                          "size-12 rounded-full",
                         )}
                       >
                         <Icon className="size-5" />
@@ -46,11 +45,10 @@ export function AppDock() {
                     <TooltipContent>{item.label}</TooltipContent>
                   </Tooltip>
                 </DockIcon>
-              );
-            })} {/* Divider */}
-            
-            <Separator orientation="vertical" className="h-8 md:hidden bg-neutral-500/50" />
-
+              )
+            })}{" "}
+            {/* Divider */}
+            <Separator orientation="vertical" className="h-8 bg-neutral-500/50 md:hidden" />
             {/* Theme toggle (mobile only, pullcord shows at md+) */}
             <DockIcon className="md:hidden">
               <Tooltip>
@@ -58,14 +56,13 @@ export function AppDock() {
                   <AnimatedThemeToggler
                     className={cn(
                       buttonVariants({ variant: "ghost", size: "icon" }),
-                      "size-12 cursor-pointer rounded-full"
+                      "size-12 cursor-pointer rounded-full",
                     )}
                   />
                 </TooltipTrigger>
                 <TooltipContent>Theme</TooltipContent>
               </Tooltip>
             </DockIcon>
-
           </Dock>
         </TooltipProvider>
       </div>
@@ -74,5 +71,5 @@ export function AppDock() {
       {/* Theme toggle (md and up) */}
       <PullCordThemeToggler />
     </>
-  );
+  )
 }

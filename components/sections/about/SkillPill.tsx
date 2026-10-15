@@ -27,18 +27,18 @@ const iconSizeMap = {
   lg: "w-6 h-6",
 }
 
-export default function SkillPill({ 
-  name, 
-  Icon, 
+export default function SkillPill({
+  name,
+  Icon,
   color = "#64748b",
   index = 0,
   size = "md",
   interactive = false,
   className,
-  onClick
+  onClick,
 }: SkillProps) {
   const isInteractive = interactive || !!onClick
-  
+
   return (
     <Tooltip.Provider delayDuration={150} skipDelayDuration={100}>
       <Tooltip.Root>
@@ -55,7 +55,7 @@ export default function SkillPill({
               isInteractive && "cursor-pointer hover:border-foreground/20 hover:bg-muted/80",
               // Stagger animation (if index provided)
               index !== undefined && "animate-in fade-in-0 zoom-in-95",
-              className
+              className,
             )}
             style={{ animationDelay: `${index * 30}ms` }}
             onClick={onClick}
@@ -73,10 +73,10 @@ export default function SkillPill({
               name={Icon}
               style={{ color }}
               className={cn(
-                "transition-all duration-300 opacity-35",
+                "opacity-35 transition-all duration-300",
                 iconSizeMap[size],
-                "group-hover:opacity-95 group-hover:scale-105",
-                isInteractive && "group-hover:opacity-100"
+                "group-hover:scale-105 group-hover:opacity-95",
+                isInteractive && "group-hover:opacity-100",
               )}
             />
           </div>
@@ -86,13 +86,13 @@ export default function SkillPill({
             className={cn(
               "z-50 overflow-hidden rounded-md border border-border",
               "bg-popover px-3 py-1.5 text-[11px] font-medium",
-              "text-popover-foreground tracking-wide shadow-md",
+              "tracking-wide text-popover-foreground shadow-md",
               "animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out",
               "data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95",
               "data-[side=bottom]:slide-in-from-top-2",
               "data-[side=left]:slide-in-from-right-2",
               "data-[side=right]:slide-in-from-left-2",
-              "data-[side=top]:slide-in-from-bottom-2"
+              "data-[side=top]:slide-in-from-bottom-2",
             )}
             sideOffset={5}
             avoidCollisions

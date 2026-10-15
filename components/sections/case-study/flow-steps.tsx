@@ -10,12 +10,7 @@ interface FlowStepsProps {
 
 export function FlowSteps({ steps, className }: FlowStepsProps) {
   return (
-    <div
-      className={cn(
-        "not-prose flex flex-wrap items-center gap-2 py-4",
-        className
-      )}
-    >
+    <div className={cn("not-prose flex flex-wrap items-center gap-2 py-4", className)}>
       {steps.map((step, i) => (
         <span key={i} className="flex items-center gap-2">
           <span className="inline-flex items-center rounded-full border border-border/60 bg-muted/40 px-3 py-1.5 text-sm font-medium text-foreground">

@@ -1,13 +1,9 @@
-"use client";
+"use client"
 
-import {
-  useCursorPet,
-  SHEET,
-  type CursorPetConfig,
-} from "./useCursorPet";
+import { useCursorPet, SHEET, type CursorPetConfig } from "./useCursorPet"
 
 export function CursorPet(props: Partial<CursorPetConfig>) {
-  const { outerRef, spriteRef, config } = useCursorPet(props);
+  const { outerRef, spriteRef, config } = useCursorPet(props)
 
   return (
     <div
@@ -39,5 +35,5 @@ export function CursorPet(props: Partial<CursorPetConfig>) {
         }}
       />
     </div>
-  );
+  )
 }

@@ -12,8 +12,7 @@ const expandIconConfig = {
   size: 36,
   iconSize: 18,
   labelWidthClass: "group-hover/expand:w-[4.75rem]",
-  labelTextClass:
-    "text-[13px] font-medium leading-none tracking-tight text-primary",
+  labelTextClass: "text-[13px] font-medium leading-none tracking-tight text-primary",
   openDurationMs: 200,
   closeDelayMs: 180,
 } as const
@@ -63,7 +62,7 @@ export function ExpandIcon({
         "relative inline-flex shrink-0 items-center",
         grouped && "group/expand",
         "hover:z-10",
-        className
+        className,
       )}
       style={
         grouped
@@ -92,7 +91,7 @@ export function ExpandIcon({
           "delay-[180ms] group-hover/expand:delay-0",
           "group-hover/expand:ml-2 group-hover/expand:opacity-100",
           labelWidthClass,
-          labelClassName
+          labelClassName,
         )}
         style={{
           transitionTimingFunction: "cubic-bezier(0.18, 0.89, 0.32, 1.27)",
@@ -101,8 +100,8 @@ export function ExpandIcon({
         <span
           className={cn(
             "inline-block translate-x-2",
-            "transition-transform duration-200 delay-[180ms] group-hover/expand:delay-0",
-            "group-hover/expand:translate-x-0"
+            "transition-transform delay-[180ms] duration-200 group-hover/expand:delay-0",
+            "group-hover/expand:translate-x-0",
           )}
           style={{
             transitionTimingFunction: "cubic-bezier(0.18, 0.89, 0.32, 1.27)",

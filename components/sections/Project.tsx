@@ -1,9 +1,9 @@
-import { ProjectCard } from '@/components/projects/project-card'
-import { ArrowRight } from 'lucide-react'
-import { MagneticHover } from '../motion/Reveal'
-import { SectionHeading } from '@/components/sections/section-heading'
-import { CtaButton } from '@/components/ui/cta-button'
-import type { ProjectType } from '@/lib/projectSource'
+import { ProjectCard } from "@/components/projects/project-card"
+import { ArrowRight } from "lucide-react"
+import { MagneticHover } from "../motion/Reveal"
+import { SectionHeading } from "@/components/sections/section-heading"
+import { CtaButton } from "@/components/ui/cta-button"
+import type { ProjectType } from "@/lib/projectSource"
 
 interface HomeProjectsProps {
   initialProjects: ProjectType[]
@@ -21,7 +21,7 @@ export default function HomeProjects({ initialProjects }: HomeProjectsProps) {
     <div>
       <SectionHeading className="mb-8">Featured Projects</SectionHeading>
 
-      <div className="mt-10 grid grid-cols-1  ">
+      <div className="mt-10 grid grid-cols-1">
         {projects.slice(0, 4).map((project, index) => (
           <ProjectCard key={project._id} project={project} priority={index === 0} />
         ))}

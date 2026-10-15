@@ -64,7 +64,7 @@ export function AboutMeEffects({ children }: { children: React.ReactNode }) {
                   scrub: false,
                   toggleActions: "play none none reverse",
                 },
-              }
+              },
             )
           }
 
@@ -82,7 +82,7 @@ export function AboutMeEffects({ children }: { children: React.ReactNode }) {
                   start: "top 90%",
                   toggleActions: "play none none reverse",
                 },
-              }
+              },
             )
           })
         }, sectionRef)
@@ -95,7 +95,7 @@ export function AboutMeEffects({ children }: { children: React.ReactNode }) {
         observer.disconnect()
         init()
       },
-      { rootMargin: "200px 0px" }
+      { rootMargin: "200px 0px" },
     )
     observer.observe(el)
 

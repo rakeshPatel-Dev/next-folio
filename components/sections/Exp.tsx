@@ -6,7 +6,7 @@ import { SectionHeading } from "@/components/sections/section-heading"
 /** Server Component — heading is static; ExpList is the interactive island. */
 export default function Exp() {
   return (
-    <section className="mx-auto mb-16 mt-10 max-w-app sm:mb-20 sm:mt-12">
+    <section className="mx-auto mt-10 mb-16 max-w-app sm:mt-12 sm:mb-20">
       <Reveal variant="fadeUp">
         <div className="mb-4 flex items-center gap-3">
           <SectionHeading>Experience</SectionHeading>

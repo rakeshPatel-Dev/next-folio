@@ -1,38 +1,37 @@
-import type { CSSProperties } from "react";
-import type { Metadata } from "next";
-import { Space_Grotesk, Fira_Code } from "next/font/google";
-import "../globals.css";
-import Header from "@/components/layout/Header";
-import Footer from "@/components/layout/Footer";
+import type { CSSProperties } from "react"
+import type { Metadata } from "next"
+import { Space_Grotesk, Fira_Code } from "next/font/google"
+import "../globals.css"
+import Header from "@/components/layout/Header"
+import Footer from "@/components/layout/Footer"
 // import { AppDock } from "@/components/sections/GlobalDock";
-import { canonicalUrl, siteConfig } from "@/lib/site-config";
+import { canonicalUrl, siteConfig } from "@/lib/site-config"
 import { RootProvider } from "fumadocs-ui/provider/next"
-import { PageTransition } from "@/components/motion/PageTransition";
-import { ToastProvider } from "@/components/zenblocks/toast";
-import { Analytics } from "@vercel/analytics/next";
-import { SpeedInsights } from "@vercel/speed-insights/next";
-import { JsonLd } from "@/components/sections/JsonLd";
-import { Noise } from "@/components/ui/noise";
-import { GridPattern } from "@/components/ui/grid-pattern";
-import { ThemeProvider } from "@/components/providers/theme-provider";
-import { PullCordThemeToggler } from "@/components/ui/pullcord-theme-toggler";
-import RandomQuote from "@/components/sections/RandomQuote";
-import Script from "next/script";
-import { CursorPet } from "@/components/cursor-pet";
-import { TerminalExperience } from "@/components/terminal";
-
+import { PageTransition } from "@/components/motion/PageTransition"
+import { ToastProvider } from "@/components/zenblocks/toast"
+import { Analytics } from "@vercel/analytics/next"
+import { SpeedInsights } from "@vercel/speed-insights/next"
+import { JsonLd } from "@/components/sections/JsonLd"
+import { Noise } from "@/components/ui/noise"
+import { GridPattern } from "@/components/ui/grid-pattern"
+import { ThemeProvider } from "@/components/providers/theme-provider"
+import { PullCordThemeToggler } from "@/components/ui/pullcord-theme-toggler"
+import RandomQuote from "@/components/sections/RandomQuote"
+import Script from "next/script"
+import { CursorPet } from "@/components/cursor-pet"
+import { TerminalExperience } from "@/components/terminal"
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
   variable: "--font-space-grotesk",
-  display: 'swap',
-});
+  display: "swap",
+})
 
 const firaCode = Fira_Code({
   subsets: ["latin"],
   variable: "--font-fira-code",
-  display: 'swap',
-});
+  display: "swap",
+})
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
@@ -87,24 +86,18 @@ export const metadata: Metadata = {
   verification: {
     google: siteConfig.googleVerification,
   },
-};
+}
 
-
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning data-scroll-behavior="smooth">
       <head>
-
         <Script
           defer
           src="https://cloud.umami.is/script.js"
           data-website-id="e42483ec-0e90-4f99-9b3d-2576d579fb19"
         />
-      
+
         <link
           rel="preload"
           href="/fonts/SpaceGrotesk.ttf"
@@ -120,7 +113,7 @@ export default function RootLayout({
       </head>
       <body
         suppressHydrationWarning
-        className={`${spaceGrotesk.variable} ${firaCode.variable} antialiased pt-15 sm:pt-16`}
+        className={`${spaceGrotesk.variable} ${firaCode.variable} pt-15 antialiased sm:pt-16`}
         style={
           {
             "--app-max-width": siteConfig.layout.maxWidth,
@@ -129,7 +122,12 @@ export default function RootLayout({
         }
       >
         <JsonLd />
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem={true} storageKey="theme">
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem={true}
+          storageKey="theme"
+        >
           <Noise />
           <GridPattern />
           <Header />
@@ -153,5 +151,5 @@ export default function RootLayout({
         <TerminalExperience />
       </body>
     </html>
-  );
+  )
 }

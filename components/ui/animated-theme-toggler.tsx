@@ -11,88 +11,85 @@ interface AnimatedThemeTogglerProps extends React.ComponentPropsWithoutRef<"butt
   buttonClassName?: string
 }
 
-export const AnimatedThemeToggler = forwardRef<HTMLButtonElement, AnimatedThemeTogglerProps>(function AnimatedThemeToggler(
-  {
-    className,
-    duration = 400,
-    buttonClassName,
-    ...props
-  },
-  forwardedRef
-) {
-  const { resolvedTheme, setTheme } = useTheme()
-  const buttonRef = useRef<HTMLButtonElement>(null)
-  const mounted = useIsMounted()
+export const AnimatedThemeToggler = forwardRef<HTMLButtonElement, AnimatedThemeTogglerProps>(
+  function AnimatedThemeToggler(
+    { className, duration = 400, buttonClassName, ...props },
+    forwardedRef,
+  ) {
+    const { resolvedTheme, setTheme } = useTheme()
+    const buttonRef = useRef<HTMLButtonElement>(null)
+    const mounted = useIsMounted()
 
-  // Only read theme after mount so SSR + first client paint match (Moon placeholder).
-  const isDark = mounted && resolvedTheme === "dark"
+    // Only read theme after mount so SSR + first client paint match (Moon placeholder).
+    const isDark = mounted && resolvedTheme === "dark"
 
-  const setButtonRef = useCallback(
-    (node: HTMLButtonElement | null) => {
-      buttonRef.current = node
+    const setButtonRef = useCallback(
+      (node: HTMLButtonElement | null) => {
+        buttonRef.current = node
 
-      if (typeof forwardedRef === "function") {
-        forwardedRef(node)
+        if (typeof forwardedRef === "function") {
+          forwardedRef(node)
+          return
+        }
+
+        if (forwardedRef) {
+          forwardedRef.current = node
+        }
+      },
+      [forwardedRef],
+    )
+
+    const toggleTheme = useCallback(async () => {
+      if (!buttonRef.current) return
+
+      const nextTheme = isDark ? "light" : "dark"
+      if (typeof document.startViewTransition !== "function") {
+        setTheme(nextTheme)
         return
       }
 
-      if (forwardedRef) {
-        forwardedRef.current = node
-      }
-    },
-    [forwardedRef]
-  )
-
-  const toggleTheme = useCallback(async () => {
-    if (!buttonRef.current) return
-
-    const nextTheme = isDark ? "light" : "dark"
-    if (typeof document.startViewTransition !== "function") {
-      setTheme(nextTheme)
-      return
-    }
-
-    const transition = document.startViewTransition(() => {
-      flushSync(() => {
-        setTheme(nextTheme)
+      const transition = document.startViewTransition(() => {
+        flushSync(() => {
+          setTheme(nextTheme)
+        })
       })
-    })
 
-    await transition.ready
+      await transition.ready
 
-    const { top, left, width, height } =
-      buttonRef.current.getBoundingClientRect()
-    const x = left + width / 2
-    const y = top + height / 2
-    const maxRadius = Math.hypot(
-      Math.max(left, window.innerWidth - left),
-      Math.max(top, window.innerHeight - top)
+      const { top, left, width, height } = buttonRef.current.getBoundingClientRect()
+      const x = left + width / 2
+      const y = top + height / 2
+      const maxRadius = Math.hypot(
+        Math.max(left, window.innerWidth - left),
+        Math.max(top, window.innerHeight - top),
+      )
+      document.documentElement.animate(
+        {
+          clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${maxRadius}px at ${x}px ${y}px)`],
+        },
+        {
+          duration,
+          easing: "ease-in-out",
+          pseudoElement: "::view-transition-new(root)",
+        },
+      )
+    }, [duration, isDark, setTheme])
+
+    return (
+      <button
+        ref={setButtonRef}
+        {...props}
+        onClick={toggleTheme}
+        type="button"
+        aria-label="Toggle theme"
+        className={cn(className)}
+      >
+        {isDark ? (
+          <Sun className={cn(buttonClassName)} />
+        ) : (
+          <Moon className={cn(buttonClassName)} />
+        )}
+      </button>
     )
-    document.documentElement.animate(
-      {
-        clipPath: [
-          `circle(0px at ${x}px ${y}px)`,
-          `circle(${maxRadius}px at ${x}px ${y}px)`,
-        ],
-      },
-      {
-        duration,
-        easing: "ease-in-out",
-        pseudoElement: "::view-transition-new(root)",
-      }
-    )
-  }, [duration, isDark, setTheme])
-
-  return (
-    <button
-      ref={setButtonRef}
-      {...props}
-      onClick={toggleTheme}
-      type="button"
-      aria-label="Toggle theme"
-      className={cn(className)}
-    >
-      {isDark ? <Sun className={cn(buttonClassName)} /> : <Moon className={cn(buttonClassName)} />}
-    </button>
-  )
-})
+  },
+)

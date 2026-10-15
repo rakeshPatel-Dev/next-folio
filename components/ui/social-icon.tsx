@@ -53,7 +53,7 @@ export function SocialIcon({
         "delay-[180ms] hover:z-10 hover:delay-0",
         "hover:border-foreground/16 hover:bg-background/80 hover:pr-3",
         "active:scale-[0.97]",
-        className
+        className,
       )}
       style={{
         transitionTimingFunction: "cubic-bezier(0.18, 0.89, 0.32, 1.27)",

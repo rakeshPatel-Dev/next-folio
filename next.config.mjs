@@ -1,4 +1,4 @@
-import { createMDX } from 'fumadocs-mdx/next';
+import { createMDX } from "fumadocs-mdx/next"
 
 const cspHeader = `
     default-src 'self';
@@ -15,38 +15,38 @@ const cspHeader = `
     frame-ancestors 'none';
     block-all-mixed-content;
     upgrade-insecure-requests;
-`;
+`
 
 const securityHeaders = [
   {
-    key: 'Content-Security-Policy',
-    value: cspHeader.replace(/\s{2,}/g, ' ').trim(),
+    key: "Content-Security-Policy",
+    value: cspHeader.replace(/\s{2,}/g, " ").trim(),
   },
   {
-    key: 'X-Frame-Options',
-    value: 'DENY',
+    key: "X-Frame-Options",
+    value: "DENY",
   },
   {
-    key: 'X-Content-Type-Options',
-    value: 'nosniff',
+    key: "X-Content-Type-Options",
+    value: "nosniff",
   },
   {
-    key: 'Referrer-Policy',
-    value: 'strict-origin-when-cross-origin',
+    key: "Referrer-Policy",
+    value: "strict-origin-when-cross-origin",
   },
   {
-    key: 'Permissions-Policy',
-    value: 'camera=(), microphone=(), geolocation=()',
+    key: "Permissions-Policy",
+    value: "camera=(), microphone=(), geolocation=()",
   },
   {
-    key: 'X-DNS-Prefetch-Control',
-    value: 'on',
+    key: "X-DNS-Prefetch-Control",
+    value: "on",
   },
   {
-    key: 'Strict-Transport-Security',
-    value: 'max-age=31536000; includeSubDomains; preload',
+    key: "Strict-Transport-Security",
+    value: "max-age=31536000; includeSubDomains; preload",
   },
-];
+]
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -59,49 +59,49 @@ const nextConfig = {
   async headers() {
     return [
       {
-        source: '/(.*)',
+        source: "/(.*)",
         headers: securityHeaders,
       },
-    ];
+    ]
   },
   images: {
     dangerouslyAllowSVG: true,
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'res.cloudinary.com',
-        pathname: '/**',
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+        pathname: "/**",
       },
       {
-        protocol: 'https',
-        hostname: '**.freetls.fastly.net',
-        pathname: '/**',
+        protocol: "https",
+        hostname: "**.freetls.fastly.net",
+        pathname: "/**",
       },
       {
-        protocol: 'https',
-        hostname: '**.last.fm',
-        pathname: '/**',
+        protocol: "https",
+        hostname: "**.last.fm",
+        pathname: "/**",
       },
       {
-        protocol: 'https',
-        hostname: '**.vercel.app',
-        pathname: '/**',
+        protocol: "https",
+        hostname: "**.vercel.app",
+        pathname: "/**",
       },
       {
-        protocol: 'https',
-        hostname: '**.rakeshpatel.me',
-        pathname: '/**',
+        protocol: "https",
+        hostname: "**.rakeshpatel.me",
+        pathname: "/**",
       },
       {
-        protocol: 'https',
-        hostname: 'snaphost.dev',
-        pathname: '/**',
+        protocol: "https",
+        hostname: "snaphost.dev",
+        pathname: "/**",
       },
       {
-        protocol: 'https',
-        hostname: 'www.google.com',
-        pathname: '/s2/**',
+        protocol: "https",
+        hostname: "www.google.com",
+        pathname: "/s2/**",
       },
     ],
   },
@@ -109,10 +109,10 @@ const nextConfig = {
     cpus: 2,
     optimizePackageImports: ["lucide-react"],
   },
-};
+}
 
 const withMDX = createMDX({
-  configPath: 'source.config.ts',
-});
+  configPath: "source.config.ts",
+})
 
-export default withMDX(nextConfig);
+export default withMDX(nextConfig)

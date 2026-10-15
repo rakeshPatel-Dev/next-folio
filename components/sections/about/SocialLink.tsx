@@ -7,7 +7,19 @@ import Image from "next/image"
 import { ArrowUpRight } from "lucide-react"
 import { MagneticHover } from "../../motion/Reveal"
 
-export default function SocialLink({ label, href, Icon, index, image }: { label: string; href: string; Icon: LucideIcon; index: number; image: string }) {
+export default function SocialLink({
+  label,
+  href,
+  Icon,
+  index,
+  image,
+}: {
+  label: string
+  href: string
+  Icon: LucideIcon
+  index: number
+  image: string
+}) {
   const [isHovered, setIsHovered] = useState(false)
   const x = useMotionValue(0)
   const y = useMotionValue(0)
@@ -28,7 +40,7 @@ export default function SocialLink({ label, href, Icon, index, image }: { label:
   return (
     <>
       <motion.div
-        className="pointer-events-none fixed left-0 top-0 z-[9999] hidden md:block overflow-hidden rounded-2xl h-[220px] w-[300px] shadow-2xl border border-border"
+        className="pointer-events-none fixed top-0 left-0 z-[9999] hidden h-[220px] w-[300px] overflow-hidden rounded-2xl border border-border shadow-2xl md:block"
         style={{
           x: mouseXSpring,
           y: mouseYSpring,
@@ -46,13 +58,7 @@ export default function SocialLink({ label, href, Icon, index, image }: { label:
           scale: { duration: 0.4, ease: [0.34, 1.56, 0.64, 1] },
         }}
       >
-        <Image
-          src={image}
-          fill
-          sizes="300px"
-          alt={label}
-          className="object-cover"
-        />
+        <Image src={image} fill sizes="300px" alt={label} className="object-cover" />
       </motion.div>
 
       <MagneticHover strength={0.15}>
@@ -70,10 +76,18 @@ export default function SocialLink({ label, href, Icon, index, image }: { label:
           className="group flex w-full items-center justify-between border-b border-border py-4 transition-colors duration-300 hover:border-foreground/14"
         >
           <div className="flex items-center gap-4">
-            <Icon size={14} className="text-muted-foreground transition-colors duration-300 group-hover:text-foreground/65" />
-            <span className="font-sans text-sm font-light tracking-[0.04em] text-muted-foreground transition-colors duration-300 group-hover:text-foreground/80">{label}</span>
+            <Icon
+              size={14}
+              className="text-muted-foreground transition-colors duration-300 group-hover:text-foreground/65"
+            />
+            <span className="font-sans text-sm font-light tracking-[0.04em] text-muted-foreground transition-colors duration-300 group-hover:text-foreground/80">
+              {label}
+            </span>
           </div>
-          <ArrowUpRight size={13} className="text-muted-foreground transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-foreground/50" />
+          <ArrowUpRight
+            size={13}
+            className="text-muted-foreground transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-foreground/50"
+          />
         </motion.a>
       </MagneticHover>
     </>

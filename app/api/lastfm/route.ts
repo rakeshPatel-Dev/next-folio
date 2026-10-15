@@ -37,7 +37,7 @@ export async function GET() {
         headers: {
           "Cache-Control": "public, s-maxage=30, stale-while-revalidate=60",
         },
-      }
+      },
     )
   }
 
@@ -50,22 +50,16 @@ export async function GET() {
   })
 
   try {
-    const response = await fetch(
-      `https://ws.audioscrobbler.com/2.0/?${params.toString()}`,
-      {
-        next: { revalidate: CACHE_SECONDS },
-        headers: {
-          Accept: "application/json",
-          "User-Agent": "RakeshPatelPortfolio/1.0 (+https://rakeshpatel.me)",
-        },
-      }
-    )
+    const response = await fetch(`https://ws.audioscrobbler.com/2.0/?${params.toString()}`, {
+      next: { revalidate: CACHE_SECONDS },
+      headers: {
+        Accept: "application/json",
+        "User-Agent": "RakeshPatelPortfolio/1.0 (+https://rakeshpatel.me)",
+      },
+    })
 
     if (!response.ok) {
-      return NextResponse.json(
-        { track: null, error: "Last.fm request failed" },
-        { status: 502 }
-      )
+      return NextResponse.json({ track: null, error: "Last.fm request failed" }, { status: 502 })
     }
 
     const data = (await response.json()) as {
@@ -77,7 +71,7 @@ export async function GET() {
     if (data.error) {
       return NextResponse.json(
         { track: null, error: data.message || "Last.fm API error" },
-        { status: 502 }
+        { status: 502 },
       )
     }
 
@@ -91,7 +85,7 @@ export async function GET() {
           headers: {
             "Cache-Control": `public, s-maxage=${CACHE_SECONDS}, stale-while-revalidate=${CACHE_SECONDS * 2}`,
           },
-        }
+        },
       )
     }
 
@@ -111,14 +105,14 @@ export async function GET() {
         headers: {
           "Cache-Control": `public, s-maxage=${CACHE_SECONDS}, stale-while-revalidate=${CACHE_SECONDS * 2}`,
         },
-      }
+      },
     )
   } catch (error) {
     console.error("Last.fm error:", error instanceof Error ? error.message : error)
 
     return NextResponse.json(
       { track: null, error: "Unable to connect to Last.fm" },
-      { status: 502 }
+      { status: 502 },
     )
   }
 }

@@ -36,7 +36,7 @@ export function LetsTalkDialog({ open, onClose }: LetsTalkDialogProps) {
     "border border-border",
     "transition-colors duration-150 ease-out",
     "hover:bg-foreground/[0.07] active:bg-foreground/[0.09]",
-    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/20"
+    "focus-visible:ring-2 focus-visible:ring-foreground/20 focus-visible:outline-none",
   )
 
   const iconWrapClass =
@@ -71,18 +71,14 @@ export function LetsTalkDialog({ open, onClose }: LetsTalkDialogProps) {
               type="button"
               aria-label="Close dialog"
               onClick={onClose}
-              className="absolute right-4 top-4 rounded-full bg-foreground/6 p-1.5 text-muted-foreground transition-colors duration-150 hover:bg-foreground/10 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/20"
+              className="absolute top-4 right-4 rounded-full bg-foreground/6 p-1.5 text-muted-foreground transition-colors duration-150 hover:bg-foreground/10 hover:text-foreground focus-visible:ring-2 focus-visible:ring-foreground/20 focus-visible:outline-none"
             >
               <XIcon className="size-4" />
             </button>
 
-            <div className="mb-5 mt-1 px-1">
-              <h2 className="text-xl font-semibold tracking-tight">
-                Let&apos;s Talk
-              </h2>
-              <p className="mt-1 text-sm text-muted-foreground">
-                How would you like to connect?
-              </p>
+            <div className="mt-1 mb-5 px-1">
+              <h2 className="text-xl font-semibold tracking-tight">Let&apos;s Talk</h2>
+              <p className="mt-1 text-sm text-muted-foreground">How would you like to connect?</p>
             </div>
 
             <div className="space-y-2">
@@ -90,9 +86,7 @@ export function LetsTalkDialog({ open, onClose }: LetsTalkDialogProps) {
                 <span className={iconWrapClass}>
                   <MessageSquare className="size-4.5 text-foreground" />
                 </span>
-                <span className="flex-1 text-sm font-medium">
-                  Message via Contact Form
-                </span>
+                <span className="flex-1 text-sm font-medium">Message via Contact Form</span>
                 <ArrowUpRight className={arrowClass} strokeWidth={2.5} />
               </Link>
 
@@ -107,9 +101,7 @@ export function LetsTalkDialog({ open, onClose }: LetsTalkDialogProps) {
                   <span className={iconWrapClass}>
                     <CalendarClock className="size-4.5 text-foreground" />
                   </span>
-                  <span className="flex-1 text-sm font-medium">
-                    Call on Cal.com
-                  </span>
+                  <span className="flex-1 text-sm font-medium">Call on Cal.com</span>
                   <ArrowUpRight className={arrowClass} strokeWidth={2.5} />
                 </a>
               )}

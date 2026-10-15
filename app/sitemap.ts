@@ -1,7 +1,7 @@
-import { MetadataRoute } from "next";
-import { siteConfig } from "@/lib/site-config";
-import { getProjects } from "@/lib/projectSource";
-import { getPublishedBlogPosts } from "@/lib/blogSource";
+import { MetadataRoute } from "next"
+import { siteConfig } from "@/lib/site-config"
+import { getProjects } from "@/lib/projectSource"
+import { getPublishedBlogPosts } from "@/lib/blogSource"
 
 function safeLastModified(value?: string): Date {
   if (!value) return new Date()
@@ -18,28 +18,28 @@ function latest(values: (string | undefined)[]): Date | undefined {
 }
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = siteConfig.url;
+  const baseUrl = siteConfig.url
 
   // Fetch dynamic routes from static content
-  const projects = getProjects();
-  const blogs = getPublishedBlogPosts();
+  const projects = getProjects()
+  const blogs = getPublishedBlogPosts()
 
   const projectUrls = projects.map((project) => ({
     url: `${baseUrl}/projects/${project.slug}`,
     lastModified: safeLastModified(project.updatedAt),
     changeFrequency: "monthly" as const,
     priority: 0.7,
-  }));
+  }))
 
   const blogUrls = blogs.map((blog) => ({
     url: `${baseUrl}/blog/${blog.slug}`,
     lastModified: safeLastModified(blog.updatedAt),
     changeFrequency: "monthly" as const,
     priority: 0.6,
-  }));
+  }))
 
-  const projectDates = projects.map((project) => project.updatedAt);
-  const blogDates = blogs.map((blog) => blog.updatedAt);
+  const projectDates = projects.map((project) => project.updatedAt)
+  const blogDates = blogs.map((blog) => blog.updatedAt)
 
   const staticUrls: MetadataRoute.Sitemap = [
     {
@@ -65,7 +65,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly" as const,
       priority: 0.5,
     },
-  ];
+  ]
 
-  return [...staticUrls, ...projectUrls, ...blogUrls];
+  return [...staticUrls, ...projectUrls, ...blogUrls]
 }

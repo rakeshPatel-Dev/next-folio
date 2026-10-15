@@ -32,23 +32,23 @@ export function CtaButton({
   className,
 }: CtaButtonProps) {
   const classes = cn(
-    "group/cta relative inline-flex items-center whitespace-nowrap rounded-full",
+    "group/cta relative inline-flex items-center rounded-full whitespace-nowrap",
     variant === "default"
       ? cn(
           "bg-foreground px-6 py-3 dark:bg-white",
           "text-base font-semibold text-background dark:text-black",
           "shadow-[0_1px_2px_rgba(0,0,0,0.1),0_4px_10px_-2px_rgba(0,0,0,0.15)]",
-          "[@media(hover:hover)]:hover:shadow-[0_1px_2px_rgba(0,0,0,0.12),0_6px_16px_-2px_rgba(0,0,0,0.2)]"
+          "[@media(hover:hover)]:hover:shadow-[0_1px_2px_rgba(0,0,0,0.12),0_6px_16px_-2px_rgba(0,0,0,0.2)]",
         )
       : cn(
           "border border-foreground/25 bg-transparent px-6 py-3",
           "text-base font-semibold text-foreground",
           "shadow-none",
-          "[@media(hover:hover)]:hover:border-foreground/50"
+          "[@media(hover:hover)]:hover:border-foreground/50",
         ),
     "transition-[box-shadow,border-color,transform] duration-200 active:scale-[0.98]",
     "duration-300",
-    className
+    className,
   )
 
   const content = (
@@ -78,9 +78,7 @@ export function CtaButton({
       <Link
         href={href}
         className={classes}
-        {...(external
-          ? { target: "_blank", rel: "noopener noreferrer" }
-          : {})}
+        {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
       >
         {content}
       </Link>

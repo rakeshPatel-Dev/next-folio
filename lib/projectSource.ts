@@ -1,4 +1,4 @@
-import { projects } from '@/.source/server'
+import { projects } from "@/.source/server"
 
 type ProjectDoc = {
   slug?: string
@@ -75,24 +75,26 @@ export type ProjectType = {
 /** Get slug from a doc (filename without .mdx is the canonical slug) */
 function getDocSlug(doc: { info?: { path?: string }; slug?: string; title?: string }): string {
   if (doc.slug) return doc.slug
-  if (doc.info?.path) return doc.info.path.replace(/\.mdx$/i, '')
-  return (doc.title ?? '')
-    .toLowerCase()
-    .replace(/\s+/g, '-')
-    .replace(/[^a-z0-9-]/g, '') || 'unknown'
+  if (doc.info?.path) return doc.info.path.replace(/\.mdx$/i, "")
+  return (
+    (doc.title ?? "")
+      .toLowerCase()
+      .replace(/\s+/g, "-")
+      .replace(/[^a-z0-9-]/g, "") || "unknown"
+  )
 }
 
 function serializeProject(doc: ProjectDoc): ProjectType {
   return {
     _id: doc.slug || getDocSlug(doc),
-    title: doc.title ?? '',
-    shortDescription: doc.shortDescription ?? '',
+    title: doc.title ?? "",
+    shortDescription: doc.shortDescription ?? "",
     longDescription: doc.longDescription ?? undefined,
-    image: doc.image ?? '',
-    imagePublicId: doc.imagePublicId ?? '',
+    image: doc.image ?? "",
+    imagePublicId: doc.imagePublicId ?? "",
     slug: doc.slug || getDocSlug(doc),
-    type: doc.type ?? '',
-    status: doc.status ?? '',
+    type: doc.type ?? "",
+    status: doc.status ?? "",
     role: doc.role,
     timeline: doc.timeline,
     category: doc.category,
@@ -104,7 +106,7 @@ function serializeProject(doc: ProjectDoc): ProjectType {
       : [],
     technologies: doc.technologies,
     liveUrl: doc.liveUrl,
-    faviconUrl: doc.faviconUrl || (doc.liveUrl ? '/favicon.svg' : undefined),
+    faviconUrl: doc.faviconUrl || (doc.liveUrl ? "/favicon.svg" : undefined),
     repoUrl: doc.repoUrl,
     githubUrl: doc.githubUrl,
     videoUrl: doc.videoUrl,
@@ -113,8 +115,8 @@ function serializeProject(doc: ProjectDoc): ProjectType {
     clientLocation: doc.clientLocation,
     clientIndustry: doc.clientIndustry,
     isClientPublic: !!doc.isClientPublic,
-    createdAt: doc.createdAt ?? '',
-    updatedAt: doc.updatedAt ?? '',
+    createdAt: doc.createdAt ?? "",
+    updatedAt: doc.updatedAt ?? "",
   }
 }
 
@@ -125,11 +127,8 @@ export function getAllProjectDocs() {
 /** Public projects: excludes paused, sorted newest first */
 export function getProjects(): ProjectType[] {
   return getAllProjectDocs()
-    .filter((doc) => doc.status !== 'paused')
-    .sort(
-      (a, b) =>
-        new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime()
-    )
+    .filter((doc) => doc.status !== "paused")
+    .sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime())
     .map(serializeProject)
 }
 
@@ -155,9 +154,7 @@ export function getRelatedProjects(currentSlug: string, limit: number = 3): Proj
 
   const remaining = all
     .filter((p) => p.slug !== currentSlug && !related.some((r) => r.slug === p.slug))
-    .sort(
-      (a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime()
-    )
+    .sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime())
 
   return [...related, ...remaining].slice(0, limit)
 }

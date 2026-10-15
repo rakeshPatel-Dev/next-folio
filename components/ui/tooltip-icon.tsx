@@ -2,11 +2,7 @@
 
 import type { ReactNode } from "react"
 import { BrandIcon, type BrandIconProps } from "@/components/ui/brand-icon"
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip"
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 import { cn } from "@/lib/utils"
 
 export type TooltipIconProps = {
@@ -40,10 +36,7 @@ export function TooltipIcon({
   className,
   brandIconProps,
 }: TooltipIconProps) {
-  const badgeClass = cn(
-    "inline-flex shrink-0 translate-y-[-0.1em] align-middle",
-    className
-  )
+  const badgeClass = cn("inline-flex shrink-0 translate-y-[-0.1em] align-middle", className)
   const badge = (
     <BrandIcon
       color={color}
@@ -69,12 +62,7 @@ export function TooltipIcon({
             {badge}
           </a>
         ) : onClick ? (
-          <button
-            type="button"
-            onClick={onClick}
-            aria-label={label}
-            className={badgeClass}
-          >
+          <button type="button" onClick={onClick} aria-label={label} className={badgeClass}>
             {badge}
           </button>
         ) : (

@@ -8,4 +8,4 @@ export const skills = [
   { name: "Express.js", Icon: "SiExpress", color: "#ffffff" },
   { name: "MongoDB", Icon: "SiMongodb", color: "#47A248" },
   { name: "Firebase", Icon: "SiFirebase", color: "#FFCA28" },
-];
+]

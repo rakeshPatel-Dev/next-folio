@@ -1,4 +1,4 @@
-import type { SVGProps } from "react";
+import type { SVGProps } from "react"
 
 export type IconEasing =
   | "linear"
@@ -11,7 +11,7 @@ export type IconEasing =
   | "backIn"
   | "backOut"
   | "backInOut"
-  | "anticipate";
+  | "anticipate"
 
 export interface AnimatedIconProps extends Omit<
   SVGProps<SVGSVGElement>,
@@ -30,16 +30,16 @@ export interface AnimatedIconProps extends Omit<
   | "values"
 > {
   /** Icon size in pixels or CSS string */
-  size?: number | string;
+  size?: number | string
   /** Icon color (defaults to currentColor) */
-  color?: string;
+  color?: string
   /** SVG stroke width */
-  strokeWidth?: number;
+  strokeWidth?: number
   /** Additional CSS classes */
-  className?: string;
+  className?: string
 }
 
 export interface AnimatedIconHandle {
-  startAnimation: () => void;
-  stopAnimation: () => void;
+  startAnimation: () => void
+  stopAnimation: () => void
 }
