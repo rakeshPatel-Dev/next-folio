@@ -64,8 +64,10 @@ export function HelloAnimation({ className }: { className?: string }) {
       role="img"
       aria-label="Hello,"
     >
-      {ready && (
-        <div className="w-full overflow-hidden" style={{ aspectRatio: `${GLYPH_ASPECT} / 1` }}>
+      {/* Always reserve the glyph-band height (aspect-ratio box) so the
+          h1 / content below never shifts when the SVG mounts after font warm. */}
+      <div className="w-full overflow-hidden" style={{ aspectRatio: `${GLYPH_ASPECT} / 1` }}>
+        {ready && (
           <div style={{ marginTop: `${-GLYPH_TOP * 100}%` }}>
             <AnimatedSVGText
               fontUrl={FONT_URL}
@@ -82,8 +84,8 @@ export function HelloAnimation({ className }: { className?: string }) {
               pathDecimalPlaces={6}
             />
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   )
 }
