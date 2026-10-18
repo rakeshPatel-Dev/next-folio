@@ -2,6 +2,7 @@ import type { SVGProps } from "react"
 import type { ComponentType } from "react"
 import {
   FaCss3,
+  FaFigma,
   FaHtml5,
   FaJs,
   FaNodeJs,
@@ -15,6 +16,7 @@ import {
   SiMongodb,
   SiMongoose,
   SiNextdotjs,
+  SiOpencode,
   SiOpenai,
   SiPnpm,
   SiPostgresql,
@@ -49,6 +51,7 @@ type IconComponent = ComponentType<SVGProps<SVGSVGElement>>
  */
 export const ICON_MAP = {
   FaCss3,
+  FaFigma,
   FaHtml5,
   FaJs,
   FaNodeJs,
@@ -62,6 +65,7 @@ export const ICON_MAP = {
   SiMongodb,
   SiMongoose,
   SiNextdotjs,
+  SiOpencode,
   SiOpenai,
   SiPnpm,
   SiPostgresql,
@@ -101,6 +105,7 @@ const ICON_COLORS: Record<
   { color: string; colorDark?: string; iconColor?: string; labelWidth?: string }
 > = {
   FaCss3: { color: "#1572b6", colorDark: "#1b7fd8", labelWidth: "group-hover/expand:w-[5ch]" },
+  FaFigma: { color: "#8b3ffb", colorDark: "#a259ff", labelWidth: "group-hover/expand:w-[5ch]" },
   FaHtml5: { color: "#d84924", colorDark: "#e34c26", labelWidth: "group-hover/expand:w-[6ch]" },
   FaJs: {
     color: "#c9a200",
@@ -128,6 +133,11 @@ const ICON_COLORS: Record<
   SiMongodb: { color: "#3f9142", colorDark: "#47a248", labelWidth: "group-hover/expand:w-[8ch]" },
   SiMongoose: { color: "#8f1239", colorDark: "#a0123e", labelWidth: "group-hover/expand:w-[8ch]" },
   SiNextdotjs: { color: "#0d1117", colorDark: "#2f363d", labelWidth: "group-hover/expand:w-[7ch]" },
+  SiOpencode: {
+    color: "#18181b",
+    colorDark: "#3f3f46",
+    labelWidth: "group-hover/expand:w-[8ch]",
+  },
   SiOpenai: { color: "#0f0f0f", colorDark: "#3a3a3a", labelWidth: "group-hover/expand:w-[11ch]" },
   SiPnpm: {
     color: "#e08b1c",
