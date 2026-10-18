@@ -2,11 +2,37 @@ import { TooltipIcon } from "../ui/tooltip-icon"
 import { SocialIcon } from "../ui/social-icon"
 import { HelloAnimation } from "../ui/hello-animation"
 import { DashedUnderline } from "../ui/dashed-underline"
-import DirectionTicker from "../ui/direction-ticker"
+import { ToolDock, ToolDockTile } from "../ui/tool-dock"
+import IconRenderer from "../ui/IconRenderer"
 import { NowPlaying } from "../last-fm/now-playing"
 import { SectionHeading } from "@/components/sections/section-heading"
-import { heroTech, heroSocial, tickerItems } from "@/data/hero"
+import { heroTech, heroSocial, techTiles } from "@/data/hero"
+import { getIconColors } from "@/lib/icon-map"
 import { Button } from "../ui/button"
+import type { CSSProperties } from "react"
+
+/** Brand-filled app-icon tiles for the dock under the hero. */
+const dockItems = techTiles.map(({ label, Icon }) => {
+  const { color, colorDark, iconColor } = getIconColors(Icon)
+
+  return {
+    label,
+    icon: (
+      <ToolDockTile
+        className="tool-tile-brand"
+        style={
+          {
+            "--tile-brand-light": color,
+            "--tile-brand-dark": colorDark ?? color,
+            "--tile-fg": iconColor ?? "#ffffff",
+          } as CSSProperties
+        }
+      >
+        <IconRenderer name={Icon} className="size-[52%]" />
+      </ToolDockTile>
+    ),
+  }
+})
 
 export default function HeroData() {
   const resumeLink = process.env.NEXT_PUBLIC_RESUME_LINK
@@ -101,12 +127,8 @@ export default function HeroData() {
         className="hero-rise mt-5 border-primary"
       />
 
-      <div
-        className="hero-fade relative z-10 mt-auto overflow-hidden bg-background/50 px-6 backdrop-blur-[1px]"
-        style={{ animationDelay: "0.9s" }}
-        aria-hidden="true"
-      >
-        <DirectionTicker items={tickerItems} duration={8} />
+      <div className="hero-fade relative z-10 mt-auto py-4" style={{ animationDelay: "0.9s" }}>
+        <ToolDock items={dockItems} size={56} label="Tech stack" />
       </div>
 
       <style>{`

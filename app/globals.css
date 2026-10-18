@@ -294,6 +294,26 @@ html {
   background-color: var(--status-green);
 }
 
+/* ── Brand fill for ToolDock tiles (see components/ui/tool-dock.tsx) ─── */
+.tool-tile-brand {
+  --_tile: var(--tile-brand-light, #64748b);
+  background-color: var(--_tile);
+  background-image: linear-gradient(
+    155deg,
+    color-mix(in oklab, var(--_tile) 93%, white 7%),
+    color-mix(in oklab, var(--_tile) 79%, black 21%)
+  );
+  color: var(--tile-fg, #ffffff);
+}
+
+.dark .tool-tile-brand {
+  --_tile: var(--tile-brand-dark, var(--tile-brand-light, #64748b));
+}
+
+.tool-tile-brand svg {
+  filter: drop-shadow(0 1px 1px rgb(0 0 0 / 22%));
+}
+
 /* Brand icon — glass depth badge; knobs via CSS vars from BrandIcon */
 .brand-icon {
   --_brand: var(--brand-icon-color);

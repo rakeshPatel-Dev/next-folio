@@ -72,13 +72,25 @@ export const heroSocial = [
   },
 ] as const
 
-export const tickerItems: string[] = [
-  "React",
-  "Next.js",
-  "Node.js",
-  "TypeScript",
-  "MongoDB",
-  "Firebase",
-  "Express.js",
-  "REST APIs",
-]
+/** App-icon tiles under the hero — the dock swells around the pointer. */
+export const techTiles = [
+  // Frontend
+  { label: "React", Icon: "FaReact" },
+  { label: "Next.js", Icon: "SiNextdotjs" },
+  { label: "TypeScript", Icon: "SiTypescript" },
+  { label: "JavaScript", Icon: "SiJavascript" },
+  { label: "Tailwind CSS", Icon: "SiTailwindcss" },
+  { label: "Redux Toolkit", Icon: "SiRedux" },
+
+  // Backend
+  { label: "Node.js", Icon: "FaNodeJs" },
+  { label: "Express.js", Icon: "SiExpress" },
+  { label: "MongoDB", Icon: "SiMongodb" },
+  { label: "PostgreSQL", Icon: "SiPostgresql" },
+  { label: "Supabase", Icon: "SiSupabase" },
+
+  // Tools
+  { label: "Figma", Icon: "FaFigma" },
+  { label: "Vercel", Icon: "SiVercel" },
+  { label: "OpenCode", Icon: "SiOpencode" },
+] as const
