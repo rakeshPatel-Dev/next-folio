@@ -128,7 +128,10 @@ export default function HeroData() {
       />
 
       <div className="hero-fade relative z-10 mt-auto py-4" style={{ animationDelay: "0.9s" }}>
-        <ToolDock items={dockItems} size={56} label="Tech stack" />
+        <h2 className="mb-1 text-center font-sans text-xs tracking-[0.28em] text-muted-foreground uppercase">
+          Tech I work with
+        </h2>
+        <ToolDock items={dockItems} size={56} label="Tech I work with" />
       </div>
 
       <style>{`
