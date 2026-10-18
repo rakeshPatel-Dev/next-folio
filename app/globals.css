@@ -169,6 +169,67 @@ html {
   scroll-behavior: smooth;
 }
 
+/* About panels expand toward the pointer on fine-pointer layouts. The
+   default state remains balanced, so the section still reads well at rest. */
+.about-panels {
+  display: flex;
+  gap: 0.75rem;
+  align-items: stretch;
+}
+
+.about-panel {
+  display: flex;
+  position: relative;
+  min-width: 0;
+  height: 22rem;
+  flex: 1 1 0%;
+  flex-direction: column;
+  transition:
+    flex-grow 500ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 300ms ease,
+    box-shadow 300ms ease;
+}
+
+.about-panel-wide {
+  height: 18rem;
+  margin-top: 0.75rem;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .about-panels:has(.about-panel:nth-child(1):hover) .about-panel:nth-child(1),
+  .about-panels:has(.about-panel:nth-child(2):hover) .about-panel:nth-child(2),
+  .about-panels:has(.about-panel:nth-child(3):hover) .about-panel:nth-child(3) {
+    flex-grow: 1.15;
+    border-color: color-mix(in oklab, var(--foreground) 35%, var(--border));
+    box-shadow: 0 18px 45px -28px rgb(0 0 0 / 35%);
+  }
+
+  .about-panels:has(.about-panel:nth-child(1):hover) .about-panel:not(:nth-child(1)),
+  .about-panels:has(.about-panel:nth-child(2):hover) .about-panel:not(:nth-child(2)),
+  .about-panels:has(.about-panel:nth-child(3):hover) .about-panel:not(:nth-child(3)) {
+    flex-grow: 0.925;
+  }
+}
+
+@media (max-width: 767px) {
+  .about-panels {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .about-panel-wide {
+    margin-top: 1rem;
+  }
+
+  .about-panel {
+    height: auto;
+  }
+
+  .about-panel-wide {
+    height: auto;
+  }
+}
+
 /* Hero section styles */
 /* Entrance animations */
 .hero-rise {

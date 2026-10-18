@@ -103,6 +103,11 @@ const nextConfig = {
         hostname: "www.google.com",
         pathname: "/s2/**",
       },
+      {
+        protocol: "https",
+        hostname: "www.thiings.co",
+        pathname: "/_next/image",
+      },
     ],
   },
   experimental: {

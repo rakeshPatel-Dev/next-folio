@@ -45,9 +45,9 @@ export default function HeroData() {
         </div>
 
         <div className="hero-rise w-full" style={{ animationDelay: "0.15s" }}>
-          <h1 className="mt-3 text-2xl leading-tight font-semibold tracking-tight text-foreground sm:mt-5 sm:text-3xl sm:leading-[1.2] md:text-4xl lg:text-[2.75rem]">
+          <h1 className="mt-3 max-w-3xl text-[clamp(2.2rem,6vw,3.5rem)] leading-[1.05] font-semibold tracking-[-0.045em] text-foreground sm:mt-5">
             I&apos;m Rakesh Patel,
-            <span className="inline-block text-xl leading-tight font-normal tracking-tight text-muted-foreground sm:text-2xl sm:leading-[1.2] md:text-3xl lg:text-[1.75rem]">
+            <span className="mt-2 block max-w-2xl text-[clamp(1.35rem,3vw,2rem)] leading-[1.2] font-normal tracking-[-0.03em] text-muted-foreground">
               a full-stack developer building AI-native products and SaaS systems.
             </span>
           </h1>
@@ -63,7 +63,7 @@ export default function HeroData() {
             </Button>
           )}
 
-          <div className="mt-3 space-y-2.5 text-justify text-[clamp(0.95rem,1.6vw,1.25rem)] leading-relaxed tracking-[-0.02em] text-muted-foreground sm:mt-5 sm:space-y-3 sm:leading-[1.6]">
+          <div className="mt-5 max-w-2xl space-y-3 text-base leading-7 tracking-[-0.01em] text-muted-foreground sm:mt-6 sm:text-lg sm:leading-8">
             <p>
               I mess around with{" "}
               {heroTech.map(({ label, Icon, color, colorDark }, i) => (
@@ -103,7 +103,7 @@ export default function HeroData() {
         />
 
         <div className="hero-rise mt-8 space-y-3" style={{ animationDelay: "0.5s" }}>
-          <SectionHeading>Find me on</SectionHeading>
+          <SectionHeading className="text-lg sm:text-xl">Find me on</SectionHeading>
 
           <div className="flex flex-wrap items-center gap-2">
             {heroSocial.map(({ label, href, Icon, color, colorDark, labelWidthClass }) => (
@@ -127,10 +127,11 @@ export default function HeroData() {
         className="hero-rise mt-5 border-primary"
       />
 
-      <div className="hero-fade relative z-10 mt-auto py-4" style={{ animationDelay: "0.9s" }}>
-        <h2 className="mb-1 text-center font-sans text-xs tracking-[0.28em] text-muted-foreground uppercase">
-          Tech I work with
-        </h2>
+      <div
+        className="hero-fade relative z-10 mt-auto hidden py-4 sm:block"
+        style={{ animationDelay: "0.9s" }}
+      >
+        <SectionHeading className="mb-2 text-lg sm:text-xl">Tech I work with</SectionHeading>
         <ToolDock items={dockItems} size={56} label="Tech I work with" />
       </div>
 

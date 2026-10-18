@@ -27,24 +27,6 @@ export function AboutMeEffects({ children }: { children: React.ReactNode }) {
         if (cancelled || !sectionRef.current) return
 
         ctx = gsap.context(() => {
-          const cards = gsap.utils.toArray<HTMLElement>(".stacked-card")
-
-          cards.forEach((card, index) => {
-            if (index === cards.length - 1) return
-
-            gsap.to(card, {
-              scale: 0.94,
-              opacity: 0.5,
-              ease: "none",
-              scrollTrigger: {
-                trigger: cards[index + 1],
-                start: "top bottom",
-                end: "top top",
-                scrub: true,
-              },
-            })
-          })
-
           const philosophy = sectionRef.current?.querySelector<HTMLElement>(".philosophy-text")
           if (philosophy) {
             const split = new SplitText(philosophy, { type: "words" })
