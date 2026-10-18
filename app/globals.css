@@ -314,6 +314,69 @@ html {
   filter: drop-shadow(0 1px 1px rgb(0 0 0 / 22%));
 }
 
+/* ── Skill playground chips — brand-tinted pill you can drag and throw ── */
+.skill-chip {
+  --_chip: var(--chip-brand-light, #64748b);
+  border-color: color-mix(in oklab, var(--_chip) 34%, transparent);
+  background: linear-gradient(
+    to bottom,
+    color-mix(in oklab, var(--_chip) 15%, var(--card)),
+    color-mix(in oklab, var(--_chip) 7%, var(--card))
+  );
+  box-shadow:
+    0 1px 2px color-mix(in oklab, var(--_chip) 20%, transparent),
+    0 8px 20px -12px color-mix(in oklab, var(--_chip) 55%, transparent);
+  transition:
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.dark .skill-chip {
+  --_chip: var(--chip-brand-dark, var(--chip-brand-light, #64748b));
+  background: linear-gradient(
+    to bottom,
+    color-mix(in oklab, var(--_chip) 26%, var(--card)),
+    color-mix(in oklab, var(--_chip) 14%, var(--card))
+  );
+  box-shadow:
+    0 1px 2px rgb(0 0 0 / 40%),
+    0 10px 24px -12px color-mix(in oklab, var(--_chip) 60%, transparent);
+}
+
+.skill-chip:hover,
+.skill-chip[data-dragging="true"] {
+  border-color: color-mix(in oklab, var(--_chip) 62%, transparent);
+  box-shadow:
+    0 2px 4px color-mix(in oklab, var(--_chip) 26%, transparent),
+    0 16px 34px -14px color-mix(in oklab, var(--_chip) 72%, transparent);
+}
+
+/* Idle drift — paused mid-drag so a thrown chip tracks the cursor cleanly */
+.skill-float {
+  animation: skill-float 6s ease-in-out infinite;
+  will-change: transform;
+}
+
+.skill-chip[data-dragging="true"] .skill-float {
+  animation-play-state: paused;
+}
+
+@keyframes skill-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skill-float {
+    animation: none;
+  }
+}
+
 /* Brand icon — glass depth badge; knobs via CSS vars from BrandIcon */
 .brand-icon {
   --_brand: var(--brand-icon-color);

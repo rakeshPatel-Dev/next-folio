@@ -2,7 +2,7 @@ import { MapPin, FileScan } from "lucide-react"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 import { skills } from "@/data/skills"
 import SectionLabel from "./about/SectionLabel"
-import SkillPill from "./about/SkillPill"
+import SkillPlayground from "./about/SkillPlayground"
 import ExpertiseCard from "./about/ExpertiseCard"
 import { SocialLinks } from "./about/SocialLinks"
 import { expertiseItems } from "@/data/About"
@@ -99,11 +99,7 @@ export function AboutMe() {
           <div className="relative mt-8 grid w-full grid-cols-1 gap-20 md:mt-12 lg:grid-cols-[1fr_auto] lg:gap-32">
             <div>
               <SectionLabel number="03" title="Tech Stack" />
-              <div className="skills-wrap mt-8 flex flex-wrap gap-2.5 md:mt-12">
-                {skills.map((skill, i) => (
-                  <SkillPill key={skill.name} {...skill} index={i} />
-                ))}
-              </div>
+              <SkillPlayground skills={skills} className="mt-8 md:mt-12" />
             </div>
 
             <div className="min-w-65">
