@@ -103,7 +103,7 @@ export default function HeroData() {
         />
 
         <div className="hero-rise mt-8 space-y-3" style={{ animationDelay: "0.5s" }}>
-          <SectionHeading className="text-lg sm:text-xl">Find me on</SectionHeading>
+          <SectionHeading className="text-lg sm:text-xl">Say hello on</SectionHeading>
 
           <div className="flex flex-wrap items-center gap-2">
             {heroSocial.map(({ label, href, Icon, color, colorDark, labelWidthClass }) => (
@@ -131,8 +131,8 @@ export default function HeroData() {
         className="hero-fade relative z-10 mt-auto hidden py-4 sm:block"
         style={{ animationDelay: "0.9s" }}
       >
-        <SectionHeading className="mb-2 text-lg sm:text-xl">Tech I work with</SectionHeading>
-        <ToolDock items={dockItems} size={56} label="Tech I work with" />
+        <SectionHeading className="mb-2 text-lg sm:text-xl">Tools I reach for</SectionHeading>
+        <ToolDock items={dockItems} size={56} label="Tools I reach for" />
       </div>
 
       <style>{`

@@ -20,7 +20,7 @@ export default function BlogSection({ showCount = 3 }: BlogSectionProps) {
 
   return (
     <section>
-      <SectionHeading className="mb-8">Latest Blogs</SectionHeading>
+      <SectionHeading className="mb-8">Things I&apos;ve written</SectionHeading>
 
       {/* Blog rows */}
       <div className="mt-10">

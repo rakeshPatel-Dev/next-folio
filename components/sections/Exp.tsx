@@ -9,7 +9,7 @@ export default function Exp() {
     <section className="mx-auto mt-10 mb-16 max-w-app sm:mt-12 sm:mb-20">
       <Reveal variant="fadeUp">
         <div className="mb-4 flex items-center gap-3">
-          <SectionHeading>Experience</SectionHeading>
+          <SectionHeading>Where I&apos;ve been</SectionHeading>
         </div>
       </Reveal>
 

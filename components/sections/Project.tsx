@@ -19,7 +19,7 @@ export default function HomeProjects({ initialProjects }: HomeProjectsProps) {
 
   return (
     <div>
-      <SectionHeading className="mb-6">Featured Projects</SectionHeading>
+      <SectionHeading className="mb-6">Stuff I&apos;ve shipped</SectionHeading>
 
       <div className="mt-6 grid grid-cols-1 sm:mt-8">
         {projects.slice(0, 4).map((project, index) => (
