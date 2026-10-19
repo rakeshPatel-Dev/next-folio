@@ -1,15 +1,12 @@
 "use client"
 
-import Image from "next/image"
-import { motion, useReducedMotion } from "motion/react"
+import { motion } from "motion/react"
 import { ArrowUpRight, SquareTerminal } from "lucide-react"
 
 const SHELL_URL = "https://shell.rakeshpatel.me"
 
 export function TerminalFab() {
-  const reduceMotion = useReducedMotion()
-
-  // Shared entrance: both the image and the pill drop in together.
+  // Shared entrance: the pill drops in.
   const entrance = {
     initial: { opacity: 0, y: -32 },
     animate: { opacity: 1, y: 0 },
@@ -18,29 +15,6 @@ export function TerminalFab() {
 
   return (
     <motion.div {...entrance} className="fixed right-5 bottom-5 z-[80] flex flex-col items-center">
-      {/* Image sits directly on top of the button, centered */}
-      <motion.div
-        aria-hidden="true"
-        animate={
-          reduceMotion
-            ? undefined
-            : {
-                // "dance": dip, wobble, settle — then rest for 2.5s, repeat
-                y: [0, 6, -4, 3, -2, 0],
-                rotate: [0, -6, 5, -4, 3, 0],
-              }
-        }
-        transition={{
-          duration: 1.1,
-          repeat: reduceMotion ? 0 : Infinity,
-          repeatDelay: 2.5,
-          ease: "easeInOut",
-        }}
-        className="-mb-2 w-20 origin-bottom sm:w-32"
-      >
-        <Image src="/terminal.png" alt="" width={192} height={192} priority />
-      </motion.div>
-
       <motion.a
         href={SHELL_URL}
         target="_blank"
