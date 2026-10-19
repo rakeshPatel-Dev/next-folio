@@ -1,9 +1,15 @@
 "use client"
 
 import { useCursorPet, SHEET, type CursorPetConfig } from "./useCursorPet"
+import { useCursorPetSettings } from "./CursorPetSettingsContext"
 
-export function CursorPet(props: Partial<CursorPetConfig>) {
-  const { outerRef, spriteRef, config } = useCursorPet(props)
+export function CursorPet(props: Partial<CursorPetConfig> = {}) {
+  const { settings } = useCursorPetSettings()
+  const { enabled, ...settingsConfig } = settings
+  // Hooks must run unconditionally, so resolve config before the early return.
+  const { outerRef, spriteRef, config } = useCursorPet({ ...settingsConfig, ...props }, enabled)
+
+  if (!enabled) return null
 
   return (
     <div

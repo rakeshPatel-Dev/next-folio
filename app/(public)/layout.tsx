@@ -18,7 +18,11 @@ import { ThemeProvider } from "@/components/providers/theme-provider"
 import { PullCordThemeToggler } from "@/components/ui/pullcord-theme-toggler"
 import RandomQuote from "@/components/sections/RandomQuote"
 import Script from "next/script"
-import { CursorPet } from "@/components/cursor-pet"
+import {
+  CursorPet,
+  CursorPetSettingsPanel,
+  CursorPetSettingsProvider,
+} from "@/components/cursor-pet"
 import { TerminalExperience } from "@/components/terminal"
 
 const spaceGrotesk = Space_Grotesk({
@@ -147,7 +151,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </ThemeProvider>
         <Analytics />
         <SpeedInsights />
-        <CursorPet />
+        <CursorPetSettingsProvider>
+          <CursorPet />
+          <CursorPetSettingsPanel />
+        </CursorPetSettingsProvider>
         <TerminalExperience />
       </body>
     </html>
