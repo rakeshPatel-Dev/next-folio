@@ -127,8 +127,19 @@ export const CURSOR_PET_DEFAULTS: CursorPetConfig = {
   sleepY: null,
 }
 
-export function useCursorPet(config: Partial<CursorPetConfig> = {}) {
+export function useCursorPet(config: Partial<CursorPetConfig> = {}, enabled = true) {
   const cfg = { ...CURSOR_PET_DEFAULTS, ...config }
+
+  /**
+   * Latest config, read by the animation loop every frame. Keeping it in a ref
+   * means tweaking a setting (e.g. dragging the sleep-duration slider) does not
+   * tear down the effect, which would reset the pet to the centre of the
+   * viewport.
+   */
+  const cfgRef = useRef(cfg)
+  useEffect(() => {
+    cfgRef.current = cfg
+  })
 
   const outerRef = useRef<HTMLDivElement>(null)
   const spriteRef = useRef<HTMLDivElement>(null)
@@ -161,26 +172,10 @@ export function useCursorPet(config: Partial<CursorPetConfig> = {}) {
     reachTime: 0,
   })
 
-  const {
-    sprite,
-    scale,
-    speed,
-    reachThreshold,
-    deadZone,
-    frameRate,
-    idleStillMs,
-    idleTransitionMs,
-    idleLoopIntervalMs,
-    autoSleepAfter,
-    sleepDuration,
-    sleepOpacity,
-    sleepScale,
-    hitSize,
-    sleepX,
-    sleepY,
-  } = cfg
+  const { sprite } = cfg
 
   useEffect(() => {
+    if (!enabled) return
     if (typeof window === "undefined") return
     const outer = outerRef.current
     const spriteEl = spriteRef.current
@@ -198,18 +193,24 @@ export function useCursorPet(config: Partial<CursorPetConfig> = {}) {
     s.mouseY = window.innerHeight / 2
     s.catX = s.mouseX
     s.catY = s.mouseY
+    // Reset transient state so toggling the pet back on starts clean.
+    s.isDragging = false
+    s.isSleeping = false
+    s.isGoingToSleep = false
+    s.isIdle = false
 
     spriteEl.style.backgroundImage = `url("${sprite}")`
-    const frameTick = 1000 / frameRate
-    const idleLoopMs = idleLoopIntervalMs > 0 ? idleLoopIntervalMs : frameTick
 
     let sleepTimer: ReturnType<typeof setTimeout> | null = null
 
     /** Resolve the auto-sleep walk target. Falls back to bottom-right corner. */
-    const getSleepTarget = () => ({
-      tx: sleepX ?? window.innerWidth - hitSize,
-      ty: sleepY ?? window.innerHeight - hitSize,
-    })
+    const getSleepTarget = () => {
+      const { sleepX, sleepY, hitSize } = cfgRef.current
+      return {
+        tx: sleepX ?? window.innerWidth - hitSize,
+        ty: sleepY ?? window.innerHeight - hitSize,
+      }
+    }
 
     /** Restore to active state, following cursor. */
     const wake = () => {
@@ -233,6 +234,7 @@ export function useCursorPet(config: Partial<CursorPetConfig> = {}) {
      * after sleepDuration ms.
      */
     const startSleeping = () => {
+      const { sleepOpacity, sleepScale, sleepDuration } = cfgRef.current
       s.isGoingToSleep = false
       s.isSleeping = true
       s.isIdle = false
@@ -347,6 +349,21 @@ export function useCursorPet(config: Partial<CursorPetConfig> = {}) {
 
     const update = (timestamp: number) => {
       raf = requestAnimationFrame(update)
+
+      const {
+        speed,
+        reachThreshold,
+        deadZone,
+        autoSleepAfter,
+        idleStillMs,
+        idleTransitionMs,
+        idleLoopIntervalMs,
+        frameRate,
+        scale,
+        hitSize,
+      } = cfgRef.current
+      const frameTick = 1000 / frameRate
+      const idleLoopMs = idleLoopIntervalMs > 0 ? idleLoopIntervalMs : frameTick
 
       // ── MOVEMENT ──────────────────────────────────────────────────────────
 
@@ -477,24 +494,7 @@ export function useCursorPet(config: Partial<CursorPetConfig> = {}) {
       cancelAnimationFrame(raf)
       if (sleepTimer) clearTimeout(sleepTimer)
     }
-  }, [
-    sprite,
-    scale,
-    speed,
-    reachThreshold,
-    deadZone,
-    frameRate,
-    idleStillMs,
-    idleTransitionMs,
-    idleLoopIntervalMs,
-    autoSleepAfter,
-    sleepDuration,
-    sleepOpacity,
-    sleepScale,
-    hitSize,
-    sleepX,
-    sleepY,
-  ])
+  }, [sprite, enabled])
 
   return { outerRef, spriteRef, config: cfg }
 }
