@@ -13,7 +13,7 @@ export default function ProjectsClient({ initialProjects }: ProjectsClientProps)
     <main className="mx-auto max-w-app py-6">
       {/* Header */}
       <div className="mt-5">
-        <SectionHeading as="h1">Projects</SectionHeading>
+        <SectionHeading as="h1">Stuff I&apos;ve shipped</SectionHeading>
         <p className="mt-2 text-muted-foreground">
           Discover a collection of my past and ongoing projects, showcasing my expertise in software
           development, design, and problem-solving.
