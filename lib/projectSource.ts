@@ -1,4 +1,5 @@
 import { projects } from "@/.source/server"
+import { projectOrder } from "@/data/projectOrder"
 
 type ProjectDoc = {
   slug?: string
@@ -124,12 +125,28 @@ export function getAllProjectDocs() {
   return (Array.isArray(projects) ? projects : []) as ProjectDoc[]
 }
 
-/** Public projects: excludes paused, sorted newest first */
+/** Rank lookup built once from `data/projectOrder.ts`. Entries may be slugs or titles. */
+const orderRank = new Map(projectOrder.map((entry, index) => [entry.trim().toLowerCase(), index]))
+
+/** Listed projects keep the config order; anything else sorts last, newest first. */
+function rankOf(project: Pick<ProjectType, "slug" | "title">) {
+  return (
+    orderRank.get(project.slug.trim().toLowerCase()) ??
+    orderRank.get(project.title.trim().toLowerCase()) ??
+    Number.MAX_SAFE_INTEGER
+  )
+}
+
+/** Public projects, ordered by `data/projectOrder.ts`. */
 export function getProjects(): ProjectType[] {
   return getAllProjectDocs()
     .filter((doc) => doc.status !== "paused")
-    .sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime())
     .map(serializeProject)
+    .sort(
+      (a, b) =>
+        rankOf(a) - rankOf(b) ||
+        new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime(),
+    )
 }
 
 export function getProjectSlugs(): string[] {
