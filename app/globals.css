@@ -169,12 +169,13 @@ html {
   scroll-behavior: smooth;
 }
 
-/* About panels expand toward the pointer on fine-pointer layouts. The
-   default state remains balanced, so the section still reads well at rest. */
+/* About panels: the card under the pointer widens on fine-pointer screens while
+   its neighbour gives up the width. */
 .about-panels {
   display: flex;
   gap: 0.75rem;
   align-items: stretch;
+  container-type: inline-size;
 }
 
 .about-panel {
@@ -184,10 +185,7 @@ html {
   height: 22rem;
   flex: 1 1 0%;
   flex-direction: column;
-  transition:
-    flex-grow 500ms cubic-bezier(0.22, 1, 0.36, 1),
-    border-color 300ms ease,
-    box-shadow 300ms ease;
+  transition: flex-grow 500ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .about-panel-wide {
@@ -195,18 +193,18 @@ html {
   margin-top: 0.75rem;
 }
 
-@media (hover: hover) and (pointer: fine) {
-  .about-panels:has(.about-panel:nth-child(1):hover) .about-panel:nth-child(1),
-  .about-panels:has(.about-panel:nth-child(2):hover) .about-panel:nth-child(2),
-  .about-panels:has(.about-panel:nth-child(3):hover) .about-panel:nth-child(3) {
-    flex-grow: 1.15;
-    border-color: color-mix(in oklab, var(--foreground) 35%, var(--border));
-    box-shadow: 0 18px 45px -28px rgb(0 0 0 / 35%);
+@media (min-width: 768px) and (hover: hover) and (pointer: fine) {
+  /* The copy is pinned to the column width it holds when a card is narrowed, so
+     growing / shrinking the cards never changes a line break. */
+  .about-panels > .about-panel :is(h3, p) {
+    max-width: calc(44.5cqw - 4.5rem);
   }
 
-  .about-panels:has(.about-panel:nth-child(1):hover) .about-panel:not(:nth-child(1)),
-  .about-panels:has(.about-panel:nth-child(2):hover) .about-panel:not(:nth-child(2)),
-  .about-panels:has(.about-panel:nth-child(3):hover) .about-panel:not(:nth-child(3)) {
+  .about-panels:has(> .about-panel:hover) > .about-panel:hover {
+    flex-grow: 1.15;
+  }
+
+  .about-panels:has(> .about-panel:hover) > .about-panel:not(:hover) {
     flex-grow: 0.925;
   }
 }
