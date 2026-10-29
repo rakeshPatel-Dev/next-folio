@@ -2,12 +2,12 @@ import { createMDX } from "fumadocs-mdx/next"
 
 const cspHeader = `
     default-src 'self';
-    script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cloud.umami.is https://va.vercel-scripts.com;
+    script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cloud.umami.is https://va.vercel-scripts.com https://utteranc.es;
     style-src 'self' 'unsafe-inline';
     img-src 'self' blob: data: https:;
     font-src 'self' data: https:;
     connect-src 'self' https://cloud.umami.is https://api-gateway.umami.dev https://*.vercel-insights.com https://*.vercel-scripts.com https://ws.audioscrobbler.com;
-    frame-src 'self' https://www.youtube.com https://www.youtube-nocookie.com https://*.loom.com;
+    frame-src 'self' https://www.youtube.com https://www.youtube-nocookie.com https://*.loom.com https://utteranc.es;
     media-src 'self' https:;
     object-src 'none';
     base-uri 'self';
