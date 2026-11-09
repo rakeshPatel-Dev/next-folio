@@ -1,5 +1,65 @@
 export const experiences = [
   {
+    company: "Leafclutch Technologies",
+    role: "FullStack Dev Intern",
+    location: "Remote (Nepal)",
+    period: "Nov 2026 – Present",
+    isWorking: true,
+    website: "https://leafclutch.com.np/",
+    tech: [
+      {
+        name: "Next.js",
+        icon: "SiNextdotjs",
+        color: "#0d1117",
+        labelWidth: "group-hover/expand:w-[6ch]",
+      },
+      {
+        name: "React.js",
+        icon: "FaReact",
+        color: "#087ea4",
+        labelWidth: "group-hover/expand:w-[6ch]",
+      },
+      {
+        name: "TypeScript",
+        icon: "SiTypescript",
+        color: "#235a97",
+        labelWidth: "group-hover/expand:w-[9ch]",
+      },
+      {
+        name: "Node.js",
+        icon: "FaNodeJs",
+        color: "#43853d",
+        labelWidth: "group-hover/expand:w-[6ch]",
+      },
+      {
+        name: "Express.js",
+        icon: "SiExpress",
+        color: "#777777",
+        labelWidth: "group-hover/expand:w-[9ch]",
+      },
+      {
+        name: "PostgreSQL",
+        icon: "SiPostgresql",
+        color: "#336791",
+        labelWidth: "group-hover/expand:w-[10ch]",
+      },
+      {
+        name: "Git",
+        icon: "SiGit",
+        color: "#c43d26",
+        labelWidth: "group-hover/expand:w-[3ch]",
+      },
+    ],
+    objectives: [
+      "Developing and maintaining responsive, scalable, and user-friendly web applications across frontend and backend systems.",
+      "Designing and integrating REST APIs, databases, and server-side functionalities.",
+      "Collaborating with designers, developers, and project teams to implement features and improve application functionality.",
+      "Writing clean, maintainable, and optimized code while following modern development practices.",
+      "Contributing to application testing, debugging, performance improvements, and deployment workflows.",
+    ],
+  },
+
+  {
     company: "LetsLearn Asia",
     role: "Frontend Developer Intern",
     location: "Kathmandu, Nepal (Hybrid)",
@@ -38,7 +98,12 @@ export const experiences = [
         color: "#0e7490",
         labelWidth: "group-hover/expand:w-[9ch]",
       },
-      { name: "Git", icon: "SiGit", color: "#c43d26", labelWidth: "group-hover/expand:w-[3ch]" },
+      {
+        name: "Git",
+        icon: "SiGit",
+        color: "#c43d26",
+        labelWidth: "group-hover/expand:w-[3ch]",
+      },
     ],
     objectives: [
       "Developing frontend interfaces for real-world and international projects using React.js and Next.js.",
@@ -51,7 +116,7 @@ export const experiences = [
 
   {
     company: "Ghardailo Dugdh Dairy Co.",
-    role: "Frontend Developer Intern",
+    role: "Web Developer",
     location: "Rautahat, Nepal",
     period: "May 2025 – Nov 2025",
     isWorking: false,
@@ -64,7 +129,12 @@ export const experiences = [
         color: "#b83d1c",
         labelWidth: "group-hover/expand:w-[6ch]",
       },
-      { name: "CSS3", icon: "FaCss3", color: "#0f5a91", labelWidth: "group-hover/expand:w-[4ch]" },
+      {
+        name: "CSS3",
+        icon: "FaCss3",
+        color: "#0f5a91",
+        labelWidth: "group-hover/expand:w-[4ch]",
+      },
       {
         name: "JavaScript",
         icon: "FaJs",
@@ -77,13 +147,19 @@ export const experiences = [
         color: "#087ea4",
         labelWidth: "group-hover/expand:w-[6ch]",
       },
+      {
+        name: "Supabase",
+        icon: "SiSupabase",
+        color: "#3ecf8e",
+        labelWidth: "group-hover/expand:w-[8ch]",
+      },
     ],
     objectives: [
-      "Built and maintained the official dairy website using HTML, CSS, and JavaScript.",
-      "Improved UI responsiveness for mobile users in remote areas.",
-      "Designed clean layouts and smooth navigation for better UX.",
-      "Collaborated with management to update product information.",
-      "Simplified digital workflows for farmers and staff.",
+      "Developed and maintained the official dairy website to establish the business's online presence.",
+      "Built responsive interfaces to make product and business information accessible across devices.",
+      "Integrated Supabase for dynamic website content and administrative content management.",
+      "Worked with management to maintain accurate product information and business updates.",
+      "Improved website usability and simplified the process of managing digital content.",
     ],
   },
-]
+];

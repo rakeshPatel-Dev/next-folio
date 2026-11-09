@@ -65,7 +65,8 @@ export default function HeroData() {
 
           <div className="mt-5 max-w-2xl space-y-3 text-base leading-7 tracking-[-0.01em] text-muted-foreground sm:mt-6 sm:text-lg sm:leading-8">
             <p>
-              I mess around with{" "}
+              I build websites and applications that help people bring their ideas to life
+              and make their work easier. I work with technologies like{" "}
               {heroTech.map(({ label, Icon, color, colorDark }, i) => (
                 <span key={label}>
                   {i > 0 && <span className="text-muted-foreground">, </span>}
@@ -80,14 +81,14 @@ export default function HeroData() {
                   />
                 </span>
               ))}{" "}
-              and whatever else I need to get something working. I like taking an idea and just
-              seeing where I can take it.
+              and others, depending on what a project needs.
             </p>
 
             <p>
-              Most of what I learn comes from building random stuff, breaking it, fixing it, and
-              doing it again. Sometimes it turns into something useful. Sometimes it doesn&apos;t.
-              That&apos;s pretty much how I like to work.
+              I enjoy being involved throughout the process, from understanding an idea
+              to building it and working through the details. Most of my experience comes
+              from making things myself, learning from mistakes, and finding better ways
+              to do the work.
             </p>
           </div>
         </div>
