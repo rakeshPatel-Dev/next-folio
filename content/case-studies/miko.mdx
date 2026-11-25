@@ -1,0 +1,37 @@
+---
+title: "Miko"
+description: "A tiny, playful bookmark companion Chrome extension that saves the good stuff from the internet with one shortcut."
+---
+
+<Lead>
+  Miko is a tiny, playful bookmark companion for Chrome. It stays out of the way
+  until you find something worth keeping, then saves the page in a single click
+  or with `Alt + Shift + S` and makes sure you can find it again later.
+</Lead>
+
+<Callout variant="tip" title="At a glance">
+  <Badge>React</Badge> <Badge variant="outline">TypeScript</Badge>{" "}
+  <Badge variant="outline">WXT</Badge>{" "}
+  <Badge variant="outline">IndexedDB</Badge> — local-first, no backend, no
+  account.
+</Callout>
+
+**Save now. Find later. No friction.**
+
+## What it does
+
+- Saves the active page with its title, URL, domain, favicon, and timestamp.
+- Groups saved links by Today, Yesterday, This week, and Earlier, so there are no folders to manage.
+- Searches titles, URLs, and domains instantly as you type.
+- Detects duplicates and points you to the link you already saved.
+- Supports inline title editing, one-click delete, and a quick remove shortcut that can be undone from the page.
+- Adds a context menu action that toggles between saving and removing the current page.
+- Lets you customise the toast messages shown after saving or removing a link.
+
+## Local first, always
+
+Miko has no backend and no account system. Bookmarks live in IndexedDB inside the extension, settings live in `chrome.storage.local`, and nothing is sent to a server. That keeps the extension fast, private, and usable offline.
+
+## Under the hood
+
+Miko is built with WXT, React, TypeScript, and Tailwind CSS. A background service worker handles keyboard commands, context menus, and badge feedback, while the popup is a compact 420 × 540 interface with date-grouped bookmark pages. Storage is wrapped behind a small repository layer so the data model can evolve without leaking browser APIs into React components.

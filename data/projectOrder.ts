@@ -12,6 +12,7 @@
  * To hide a project entirely, set `status: "paused"` in its .mdx frontmatter.
  */
 export const projectOrder: string[] = [
+  "miko", // Miko
   "snaphost", // SnapHost - Instant File Sharing
   "ledg-smart-spend", // Ledg - Smart Spend
   "otrack", // Otrack
