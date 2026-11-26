@@ -8,8 +8,7 @@ const workPrinciples = [
     description:
       "I would rather spend an hour understanding what people are stuck on than a day polishing the wrong screen.",
     gradient: "orange" as const,
-    imageUrl:
-      "https://www.thiings.co/_next/image?url=https%3A%2F%2Flftz25oez4aqbxpq.public.blob.vercel-storage.com%2Fimage-CVv0qK2DYZbOAQP2LboVFgQGt0UMfB.png&w=320&q=75",
+    imageUrl: "/images/about/working-note-01.png",
   },
   {
     badgeText: "WORKING NOTE 02",
@@ -18,8 +17,7 @@ const workPrinciples = [
     description:
       "The useful details are usually small: the empty state, the loading edge, and the button that makes the next step obvious.",
     gradient: "gray" as const,
-    imageUrl:
-      "https://www.thiings.co/_next/image?url=https%3A%2F%2Flftz25oez4aqbxpq.public.blob.vercel-storage.com%2Fimage-5i9EDsbgEZk9k7NBeKt3ImNXkx0F66.png&w=320&q=75",
+    imageUrl: "/images/about/working-note-02.png",
   },
   {
     badgeText: "WORKING NOTE 03",
@@ -28,8 +26,7 @@ const workPrinciples = [
     description:
       "I learn fastest with something in my hands. I build a rough version, use it, break it, and keep the parts that hold up.",
     gradient: "purple" as const,
-    imageUrl:
-      "https://www.thiings.co/_next/image?url=https%3A%2F%2Flftz25oez4aqbxpq.public.blob.vercel-storage.com%2Fimage-5WJZLkaCfLUnCYpgNz89tPx5C4KYgJ.png&w=320&q=75",
+    imageUrl: "/images/about/working-note-03.png",
   },
 ]
 
